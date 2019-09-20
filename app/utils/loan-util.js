@@ -108,7 +108,7 @@ function getLoanSections(loan) {
     case LOAN_STATUS.APPROVED:
       return ["initiation:date", "collateral", "term", "annualInterest", "marginCall", "liquidation", "nextInterest", "maturity"];
     case LOAN_STATUS.PENDING:
-      return ["initiation:date", "estimated:collateral", "term", "annualInterest", "marginCall", "liquidation", "firstInterest", "maturity"];
+      return ["initiation:date", "estimated:collateral", "term", "annualInterest", "marginCall", "liquidation", "firstInterest"];
     case LOAN_STATUS.COMPLETED:
       return ["completion:date", "initiation:date", "unlocked:collateral", "term", "annualInterest"];
     case LOAN_STATUS.CANCELED:

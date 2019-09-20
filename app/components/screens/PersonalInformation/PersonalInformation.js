@@ -70,7 +70,7 @@ class PersonalInformation extends Component {
 
     if (response.success) {
       actions.getProfileInfo()
-      actions.showMessage("success", "You have successfully submitted ssn number");
+      actions.showMessage("success", "You have successfully submitted SSN number");
     }
     this.setState({ updatingTaxInfo: false });
   };
@@ -129,7 +129,7 @@ class PersonalInformation extends Component {
             }
           </View>
         }
-
+      
 
         <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4}
           text={"PROFILE DETAILS"} />
