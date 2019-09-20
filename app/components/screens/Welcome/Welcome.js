@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import CodePush from 'react-native-code-push';
 import { bindActionCreators } from "redux";
 import * as appActions from '../../../redux/actions';
 
@@ -11,6 +10,7 @@ import WelcomeStyle from "./Welcome.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
+import appUtil from '../../../utils/app-util';
 // import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 // import STYLES from '../../../constants/STYLES';
 
@@ -31,13 +31,12 @@ class Welcome extends Component {
   })
 
   state = {
-    codePushVersion: { label: "", version: "" }
+    revisionId: ""
   }
 
-  componentDidMount() {
-    CodePush.getUpdateMetadata().then((metadata) =>{
-      this.setState({codePushVersion:{label: metadata.label, version: metadata.appVersion, description: metadata.description}});
-    });
+  async componentDidMount() {
+    const appVersion = await appUtil.getRevisionId()
+    this.setState({ revisionId: appVersion.revisionId });
   }
 
 
@@ -49,8 +48,7 @@ class Welcome extends Component {
     const style = WelcomeStyle();
     const { actions } = this.props
     
-    const { codePushVersion } = this.state
-    const revisionId = `${codePushVersion.version}@${codePushVersion.label}`
+    const { revisionId } = this.state
     return (
       <RegularLayout fabType="hide">
         <View style={style.wrapper}>

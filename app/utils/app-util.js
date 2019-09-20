@@ -6,6 +6,7 @@ import { Image, Platform } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import twitter from "react-native-simple-twitter";
 import appsFlyer from "react-native-appsflyer";
+import CodePush from "react-native-code-push";
 
 import Constants from "../../constants";
 import {
@@ -36,7 +37,8 @@ export default {
   pollBackendStatus,
   cacheImages,
   cacheFonts,
-  recursiveMap
+  recursiveMap,
+  getRevisionId
 };
 
 /**
@@ -171,4 +173,26 @@ function recursiveMap(children, fn) {
 
     return fn(newChild);
   });
+}
+
+let metadata
+
+/**
+ * Get the current app verision from CodePush
+ */
+async function getRevisionId() {
+  if(!metadata) {
+    metadata = await CodePush.getUpdateMetadata();
+  }
+
+  const codePushVersion = {
+      label: metadata.label,
+      version: metadata.appVersion,
+      description: metadata.description
+  };
+
+  return {
+    codePushVersion,
+    revisionId: `${codePushVersion.version}@${codePushVersion.label}`
+  };
 }

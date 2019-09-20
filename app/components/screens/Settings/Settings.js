@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native'
 import { bindActionCreators } from "redux";
-import CodePush from 'react-native-code-push';
 // import Constants from 'expo-constants';
 
 import * as appActions from "../../../redux/actions";
@@ -14,6 +13,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import CelText from '../../atoms/CelText/CelText';
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { hasPassedKYC } from "../../../utils/user-util";
+import appUtil from '../../../utils/app-util';
 
 
 @connect(
@@ -40,22 +40,21 @@ class Settings extends Component {
   });
 
   state = {
-    codePushVersion: { label: "", version: "" }
+    revisionId: ""
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const {actions} = this.props;
     actions.getUserAppSettings()
-    CodePush.getUpdateMetadata().then((metadata) =>{
-      this.setState({codePushVersion:{label: metadata.label, version: metadata.appVersion, description: metadata.description}});
-    });
+    
+    const appVersion = await appUtil.getRevisionId()
+    this.setState({ revisionId: appVersion.revisionId });
   }
 
   renderContent = () => {
     const { actions } = this.props;
 
-    const { codePushVersion } = this.state
-    const revisionId = `${codePushVersion.version}@${codePushVersion.label}`
+    const { revisionId } = this.state
     return (
       <View>
         <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>

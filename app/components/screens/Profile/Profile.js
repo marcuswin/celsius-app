@@ -4,7 +4,6 @@ import React, { Component } from "react";
 // import Constants from 'expo-constants';
 import { Image as RNImage, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
-import CodePush from "react-native-code-push";
 import * as appActions from "../../../redux/actions";
 
 import CelText from "../../atoms/CelText/CelText";
@@ -17,6 +16,7 @@ import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendMod
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import CelButton from "../../atoms/CelButton/CelButton";
 import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
+import appUtil from "../../../utils/app-util";
 
 @connect(
   state => ({
@@ -44,17 +44,17 @@ class Profile extends Component {
     super(props);
     this.state = {
       updatingTaxInfo: false,
-      codePushVersion: { label: "", version: "" }
+      revisionId: ""
     };
   }
 
-  componentDidMount() {
+ async componentDidMount() {
     const { user, actions } = this.props;
     actions.profileTaxpayerInfo();
     this.initForm(user);
-    CodePush.getUpdateMetadata().then((metadata) =>{
-      this.setState({codePushVersion:{label: metadata.label, version: metadata.appVersion, description: metadata.description}});
-    });
+
+    const appVersion = await appUtil.getRevisionId()
+    this.setState({ revisionId: appVersion.revisionId });
   }
 
   componentDidUpdate(prevProps) {
@@ -88,9 +88,8 @@ class Profile extends Component {
 
   render() {
     const { profilePicture, user, actions } = this.props;
-    
-    const { codePushVersion } = this.state
-    const revisionId = `${codePushVersion.version}@${codePushVersion.label}`
+    const { revisionId } = this.state
+
     return (
       <RegularLayout>
         <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>

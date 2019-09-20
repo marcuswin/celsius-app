@@ -1,8 +1,8 @@
 import axios from 'axios/index'
-import CodePush from 'react-native-code-push';
 import Constants from '../../constants';
 import store from '../redux/store'
 import API_URL from '../services/api-url'
+import appUtil from './app-util';
 
 const { ENV } = Constants.extra
 
@@ -69,12 +69,11 @@ function errorValidation(error) {
 
 let revisionId
 
-function err(e, isFatal = false) {
+async function err(e, isFatal = false) {
   if (errorValidation(e.message)) {
     if(!revisionId) {
-      CodePush.getUpdateMetadata().then((metadata) =>{
-        revisionId = `${metadata.appVersion}@${metadata.label}`
-      });
+      const appVersion = await appUtil.getRevisionId()
+      revisionId = appVersion.revisionId
     }
 
     const state = store.getState()
