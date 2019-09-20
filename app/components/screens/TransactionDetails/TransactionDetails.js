@@ -194,7 +194,7 @@ class TransactionDetails extends Component {
       case "margin:call:card":
         return <MarginCallCard key={sectionType} />;
       case "change:payment:card":
-        return <ChangePaymentCard key={sectionType} heading="You would have saved XX% if you paid your interest in CEL." text="Change payment" navigateTo={actions.navigateTo} />;
+        return <ChangePaymentCard key={sectionType} heading="You would have saved XX% if you paid your interest in CEL." text="Change payment" navigateTo={actions.navigateTo} loan={transaction.loan_data}/>;
       case 'info:box':
         return <SsnInfo key={sectionType} navigateTo={actions.navigateTo} />
       default:

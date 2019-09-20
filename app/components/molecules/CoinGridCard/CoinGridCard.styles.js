@@ -10,7 +10,7 @@ const base = {
     flex: 1
   },
   text: {
-    color: "#737A82"
+    color: "#FFFF",
   },
   // },
   // interest: {

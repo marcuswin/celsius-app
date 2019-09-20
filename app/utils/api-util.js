@@ -4,6 +4,7 @@ import r from 'jsrsasign'
 import { Platform } from 'react-native'
 import { Base64 } from 'js-base64'
 import DeviceInfo from 'react-native-device-info';
+import CodePush from 'react-native-code-push';
 
 import logger from './logger-util'
 import Constants from '../../constants'
@@ -21,6 +22,7 @@ const {
 let token
 let deviceModel
 let osVersion
+let revisionId
 
 export default {
   initInterceptors, // TODO split into multiple methods
@@ -55,6 +57,13 @@ function initInterceptors () {
         deviceModel = DeviceInfo.getModel()
         osVersion = DeviceInfo.getSystemVersion()
       }
+
+      if(!revisionId) {
+        CodePush.getUpdateMetadata().then((metadata) =>{
+          revisionId = `${metadata.appVersion}@${metadata.label}`
+        });
+      }
+
       const geolocation = store.getState().app.geolocation
 
       if (geolocation) {
@@ -70,7 +79,7 @@ function initInterceptors () {
           ...newRequest.headers,
           installationId: Constants.installationId,
           os: Platform.OS,
-          buildVersion: Constants.revisionId,
+          buildVersion: revisionId,
           deviceYearClass: Constants.deviceYearClass,
           deviceModel,
           osVersion

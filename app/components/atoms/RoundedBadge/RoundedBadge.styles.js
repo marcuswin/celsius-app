@@ -14,13 +14,17 @@ const base = {
 const themed = {
   light: {
     container: {
-      backgroundColor: STYLES.COLORS.WHITE
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+      borderWidth: 0.5,
+      borderColor: STYLES.COLORS.MEDIUM_GRAY3
     }
   },
 
   dark: {
     container: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER     
+      backgroundColor: STYLES.COLORS.BLUE_GRAY,
+      borderWidth: 0.5,
+      borderColor: STYLES.COLORS.MEDIUM_GRAY3
     }
   },
 

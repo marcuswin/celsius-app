@@ -1,5 +1,6 @@
-import { LOAN_STATUS, LOAN_TYPES } from "../constants/DATA";
+import { LOAN_PAYMENT_TYPES, LOAN_STATUS, LOAN_TYPES } from "../constants/DATA";
 import STYLES from "../constants/STYLES";
+import logger from "./logger-util";
 import formatter from "./formatter";
 import store from "../redux/store";
 
@@ -27,10 +28,22 @@ function mapLoan(loan) {
   newLoan.uiProps = getLoanStatusDetails(loan);
   newLoan.uiSections = getLoanSections(loan);
   newLoan.amortization_table = flagPaidPayments(loan);
-
-  newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) !== 0
-  newLoan.hasInterestPaymentFinished = Number(newLoan.total_interest_paid) === Number(newLoan.total_interest)
   newLoan.margin_call = mapMarginCall(newLoan.margin_call)
+
+  if (newLoan.id) {
+    // NOTE should probably be removed or updated once BE is done
+    newLoan.total_interest = getTotalInterest(newLoan);
+    newLoan.total_interest_paid = getInterestPaid(newLoan);
+    newLoan.hasInterestPaymentFinished = isInterestPaid(newLoan) && !!Number(newLoan.total_interest_paid)
+    newLoan.isPrincipalPaid = isPrincipalPaid(newLoan)
+
+    newLoan.max_possible_prepayment_period = getMaxPossiblePrepaymentPeriod(newLoan)
+    newLoan.maxPossiblePrepaymentPeriod = getMaxPossiblePrepaymentPeriod(newLoan)
+    newLoan.canPrepayInterest = [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && newLoan.maxPossiblePrepaymentPeriod >= 6
+  }
+
+
+  logger.log({ newLoan })
 
   return newLoan
 }
@@ -95,7 +108,7 @@ function getLoanSections(loan) {
     case LOAN_STATUS.APPROVED:
       return ["initiation:date", "collateral", "term", "annualInterest", "marginCall", "liquidation", "nextInterest", "maturity"];
     case LOAN_STATUS.PENDING:
-      return ["initiation:date", "estimated:collateral", "term", "annualInterest", "marginCall", "liquidation", "firstInterest", "maturity"];
+      return ["initiation:date", "estimated:collateral", "term", "annualInterest", "marginCall", "liquidation", "firstInterest"];
     case LOAN_STATUS.COMPLETED:
       return ["completion:date", "initiation:date", "unlocked:collateral", "term", "annualInterest"];
     case LOAN_STATUS.CANCELED:
@@ -112,10 +125,66 @@ function flagPaidPayments(loan) {
 
   const amortizationTable = loan.amortization_table.map(p => ({
     ...p,
-    isPaid: Number(p.amountToPay) === Number(p.amountPaid),
+    amountPaid: p.status === 'PAID' ? p.amountToPay : 0,
+    isPaid: p.status === 'PAID',
   }))
 
   return amortizationTable
+}
+
+function isInterestPaid(loan) {
+  let areAllPaymentsMade = !!loan.amortization_table.length
+  loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    .forEach(row => {
+      areAllPaymentsMade = areAllPaymentsMade && row.isPaid
+    })
+
+  return areAllPaymentsMade
+}
+
+function getTotalInterest(loan) {
+  let totalInterest = 0
+  loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    .forEach(row => {
+      totalInterest += Number(row.amountToPay)
+    })
+
+  return totalInterest.toFixed(2)
+}
+
+
+function getInterestPaid(loan) {
+  let interestPaid = 0
+  loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    .forEach(row => {
+      interestPaid += Number(row.amountPaid)
+    })
+
+  return interestPaid.toFixed(2)
+}
+
+function getMaxPossiblePrepaymentPeriod(loan) {
+  const numOfInterestPayments = loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    .length
+
+  const numOfPaidInterestPayments = loan.amortization_table
+    .filter(row => (row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST && row.isPaid))
+    .length
+
+  const paymentsLeft = numOfInterestPayments - numOfPaidInterestPayments
+
+  return paymentsLeft > 12 ? 12 : paymentsLeft
+}
+
+function isPrincipalPaid(loan) {
+  const principalPayment = loan.amortization_table
+    .find(row => row.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK)
+
+  return principalPayment.isPaid
 }
 
 export default loanUtil

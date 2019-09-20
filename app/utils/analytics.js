@@ -6,13 +6,17 @@ import appsFlyer from "react-native-appsflyer";
 import Constants from '../../constants'
 import store from '../redux/store'
 import { getSecureStoreKey } from './expo-storage'
+import appUtil from './app-util';
 
-// Todo(sb): OTA updates
-// const { revisionId, version, extra } = Constants.manifest;
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra
-const revisionId = ''
-const version = '3.0'
 const advertisingId = store.getState().app.advertisingId
+
+let revisionId = ''
+let version = ''
+appUtil.getRevisionId().then((metadata) =>{
+  version = metadata.codePushVersion.version
+  revisionId = metadata.codePushVersion.label
+});
 
 const appInfo = {
   revisionId,

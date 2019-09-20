@@ -7,6 +7,7 @@ import * as appActions from "../../../redux/actions";
 import CelTabsStyle from "./CelTabs.styles";
 import CelText from "../../atoms/CelText/CelText";
 import STYLES from "../../../constants/STYLES";
+import {heightPercentageToDP} from "../../../utils/styles-util";
 
 
 @connect(
@@ -59,7 +60,7 @@ class CelTabs extends Component {
               key={tab.label}
             >
               <TouchableOpacity
-                style={{ alignItems: "center" }}
+                style={{ alignItems: "center", marginBottom: heightPercentageToDP("1.5%") }}
                 onPress={() => this.setActiveTab(tab.label)}
               >
                 <CelText

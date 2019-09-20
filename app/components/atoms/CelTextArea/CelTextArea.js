@@ -13,7 +13,7 @@ const CelTextArea = (props) => {
     <View>
       <View style={style}>
         <CelInputText
-          style={{ height: props.numberOfLines * 23 }}
+          style={{ height: props.numberOfLines * 28 }}
           {...props}
           multiline
         />
@@ -21,7 +21,7 @@ const CelTextArea = (props) => {
       {props.emojis && (
         <View>
           <Separator color='#737A82' />
-          <View style={{ height: 50, paddingVertical: 30, paaddingHorizontal: 20 }}>
+          <View style={{ height: 50, paddingVertical: 20, paaddingHorizontal: 20 }}>
             <Text> EMOJI </Text>
           </View>
         </View>

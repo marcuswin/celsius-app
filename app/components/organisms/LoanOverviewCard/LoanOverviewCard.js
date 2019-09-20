@@ -12,7 +12,7 @@ import Icon from "../../atoms/Icon/Icon";
 import formatter from "../../../utils/formatter";
 import { getMargins, widthPercentageToDP } from "../../../utils/styles-util";
 import { LOAN_STATUS } from "../../../constants/DATA";
-import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
+import { LOAN_PAYMENT_REASONS, MODALS } from "../../../constants/UI";
 import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
 import STYLES from "../../../constants/STYLES";
 import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
@@ -58,29 +58,27 @@ class LoanOverviewCard extends Component {
     actions.lockMarginCollateral(loan.margin_call.id, marginCallData);
   };
 
-  cancelLoan = async () => {
+  openCancelModal = () => {
     const {actions, loan} = this.props;
-    this.setState({
-      isLoading: true
-    });
-    await actions.cancelLoan(loan.id);
-    await actions.getAllLoans();
-    this.setState({
-      isLoading: false
-    })
+    actions.updateFormField('loanId', loan.id);
+    actions.openModal(MODALS.LOAN_CANCEL_MODAL);
   }
 
   payInterest = async () => {
     const { actions, loan } = this.props
     this.setState({ isLoading: true });
-    await actions.payMonthlyInterest(loan.id)
+    await actions.navigateTo('VerifyProfile', {
+      onSuccess: () => actions.payMonthlyInterest(loan.id),
+    })
     this.setState({ isLoading: false });
   }
 
   payPrincipal = async () => {
     const { actions, loan } = this.props
     this.setState({ isLoading: true });
-    await actions.payPrincipal(loan.id)
+    await actions.navigateTo('VerifyProfile', {
+      onSuccess: () => actions.payPrincipal(loan.id),
+    })
     this.setState({ isLoading: false });
   }
 
@@ -230,7 +228,7 @@ class LoanOverviewCard extends Component {
 
             {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
                 <CelButton
-                  onPress={() => navigateTo("LoanSettings", { id: loan.id })}
+                  onPress={() => navigateTo('VerifyProfile', { onSuccess: () => navigateTo("LoanSettings", { id: loan.id }) })}
                   basic
                   textSize={"H6"}
                 >
@@ -239,7 +237,7 @@ class LoanOverviewCard extends Component {
             )}
           </View>
 
-          { loan.status === LOAN_STATUS.ACTIVE && loan.hasInterestPaymentFinished &&
+          { loan.hasInterestPaymentFinished && !loan.isPrincipalPaid &&
             <View>
               <Separator size={2} margin={"0 0 0 0"}/>
               <CelButton
@@ -253,7 +251,7 @@ class LoanOverviewCard extends Component {
               </CelButton>
             </View>
           }
-          { loan.status === LOAN_STATUS.ACTIVE && !loan.hasInterestPaymentFinished &&
+          { loan.can_pay_interest &&
             <View>
               <Separator size={2} margin={"0 0 0 0"}/>
               <CelButton
@@ -271,15 +269,14 @@ class LoanOverviewCard extends Component {
         {loan.status === LOAN_STATUS.PENDING && (
           <CelButton
             margin="15 0 15 0"
-            onPress={this.cancelLoan}
+            onPress={this.openCancelModal}
             color="red"
-            loading={isLoading}
           >
             Cancel loan
           </CelButton>
         )}
 
-        {[LOAN_STATUS.APPROVED, LOAN_STATUS.ACTIVE].includes(loan.status) && (
+        { loan.canPrepayInterest && (
           <Card close>
             <CelText weight="500">
               Did you know you can prepay loan interest?
@@ -303,7 +300,7 @@ class LoanOverviewCard extends Component {
           </Card>
         )}
 
-        {loan.status === LOAN_STATUS.ACTIVE && previousPayments && !!previousPayments.length && (
+        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && previousPayments && !!previousPayments.length && (
           <View>
             <CelText>Payment History</CelText>
 
@@ -323,10 +320,13 @@ class LoanOverviewCard extends Component {
           </View>
         )}
 
-        {loan.status === LOAN_STATUS.ACTIVE && !loan.hasInterestPaymentFinished && (
+        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) &&
+          (!loan.hasInterestPaymentFinished || !loan.isPrincipalPaid) && (
           <View>
             <Separator margin="10 0 10 0"/>
-            <CelButton onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}>
+            <CelButton
+              onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}
+            >
               Upcoming Payments
             </CelButton>
           </View>

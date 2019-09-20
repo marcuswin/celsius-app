@@ -140,15 +140,13 @@ class SocialSecurityNumber extends Component {
             </View>
             <View style={style.nationalID}>
               <CelInput
-                margin="0 0 30 0"
+                margin="20 0 20 0"
                 type="text"
                 field="national_id"
                 placeholder="E-National ID Number (optional)"
                 value={user.national_id ? user.national_id : formData.national_id}
                 error={formErrors.national_id}
                 disabled={!!user.national_id}
-                multiline
-                numberOfLines={2}
               />
             </View>
             <View style={{ flexWrap: 'wrap', alignContent: 'center', justifyContent: 'center', paddingBottom: 20 }}>

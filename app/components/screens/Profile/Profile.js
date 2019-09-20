@@ -16,10 +16,7 @@ import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendMod
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import CelButton from "../../atoms/CelButton/CelButton";
 import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
-
-// Todo(sb): OTA updates
-// const { revisionId } = Constants.manifest;
-const version = ''
+import appUtil from "../../../utils/app-util";
 
 @connect(
   state => ({
@@ -46,14 +43,18 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      updatingTaxInfo: false
+      updatingTaxInfo: false,
+      revisionId: ""
     };
   }
 
-  componentDidMount() {
+ async componentDidMount() {
     const { user, actions } = this.props;
     actions.profileTaxpayerInfo();
     this.initForm(user);
+
+    const appVersion = await appUtil.getRevisionId()
+    this.setState({ revisionId: appVersion.revisionId });
   }
 
   componentDidUpdate(prevProps) {
@@ -87,6 +88,8 @@ class Profile extends Component {
 
   render() {
     const { profilePicture, user, actions } = this.props;
+    const { revisionId } = this.state
+
     return (
       <RegularLayout>
         <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
@@ -139,7 +142,7 @@ class Profile extends Component {
           See Terms of use
         </CelButton>
         <CelText margin="20 0 0 0" weight="light" align='center' type="H7">
-          Celsius App version: {version}
+          Celsius App version: {revisionId}
         </CelText>
 
         <ReferralSendModal />
