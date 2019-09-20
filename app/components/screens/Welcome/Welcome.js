@@ -10,12 +10,9 @@ import WelcomeStyle from "./Welcome.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
+import appUtil from '../../../utils/app-util';
 // import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 // import STYLES from '../../../constants/STYLES';
-
-// Todo(sb): OTA updates
-// const { revisionId } = Constants.manifest;
-const revisionId = ''
 
 @connect(
   state => ({
@@ -33,14 +30,25 @@ class Welcome extends Component {
     transparent: true
   })
 
+  state = {
+    revisionId: ""
+  }
+
+  async componentDidMount() {
+    const appVersion = await appUtil.getRevisionId()
+    this.setState({ revisionId: appVersion.revisionId });
+  }
+
+
   onPressLogin = () => {
     const { actions } = this.props
     actions.navigateTo('Login')
   }
-
   render() {
-      const style = WelcomeStyle();
+    const style = WelcomeStyle();
     const { actions } = this.props
+    
+    const { revisionId } = this.state
     return (
       <RegularLayout fabType="hide">
         <View style={style.wrapper}>
