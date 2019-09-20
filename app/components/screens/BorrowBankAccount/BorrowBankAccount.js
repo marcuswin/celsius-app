@@ -86,7 +86,7 @@ class BorrowBankAccount extends Component {
 
     this.setState({ isLoading: true });
     await actions.linkBankAccount(bankAccountInfo);
-    actions.navigateTo('LoanTermsOfUse')
+    actions.navigateTo('ConfirmYourLoan')
     this.setState({ isLoading: false });
   };
 

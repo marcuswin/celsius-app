@@ -74,17 +74,6 @@ class ConfirmYourLoan extends Component {
     )
   }
 
-  requestButtonHandle = async () => {
-    const { actions } = this.props;
-    this.setState({
-      isLoading: true
-    })
-    await actions.applyForALoan()
-    this.setState({
-      isLoading: false
-    })
-  }
-
   renderBankInfo = () => {
     const { formData } = this.props
     if( formData.loanType === LOAN_TYPES.USD_LOAN ) {
@@ -154,7 +143,7 @@ class ConfirmYourLoan extends Component {
   }
 
   render() {
-    const { loan } = this.props;
+    const { loan, actions } = this.props;
     const {isLoading} = this.state;
     const style = ConfirmYourLoanStyle();
 
@@ -162,7 +151,7 @@ class ConfirmYourLoan extends Component {
 
     return (
       <View flex={1}>
-        <HeadingProgressBar steps={6} currentStep={6} />
+        <HeadingProgressBar steps={6} currentStep={5} />
         <RegularLayout
           fabType={'hide'}
         >
@@ -309,7 +298,7 @@ class ConfirmYourLoan extends Component {
                 </Card>
             </Card>
 
-            <CelButton loading={isLoading} onPress={ this.requestButtonHandle } margin="22 0 0 0">Request loan</CelButton>
+            <CelButton loading={isLoading} onPress={ () => actions.navigateTo('LoanTermsOfUse') } margin="22 0 0 0">Continue</CelButton>
           </View>
         </RegularLayout>
       </View>

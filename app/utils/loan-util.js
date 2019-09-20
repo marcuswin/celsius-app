@@ -39,7 +39,7 @@ function mapLoan(loan) {
 
     newLoan.max_possible_prepayment_period = getMaxPossiblePrepaymentPeriod(newLoan)
     newLoan.maxPossiblePrepaymentPeriod = getMaxPossiblePrepaymentPeriod(newLoan)
-    newLoan.canPrepayInterest = [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && newLoan.maxPossiblePrepaymentPeriod >= 6
+    newLoan.canPrepayInterest = [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && newLoan.can_pay_interest && newLoan.maxPossiblePrepaymentPeriod >= 6
   }
 
 

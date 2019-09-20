@@ -86,13 +86,13 @@ class LoanSettings extends Component {
       loading: false
     });
 
-    const msg = !isAutomaticInterestPaymentEnabled ? `Successfully set automatic interest payment` : `Successfully set manual interest payment`;
+    const msg = !isAutomaticInterestPaymentEnabled ? `Automatic Interest Payments Enabled.` : `Manual Interest Payments Enabled.`;
     actions.showMessage("success", msg);
   };
 
   render() {
     const { navigation, actions, loanSettings } = this.props;
-    const { loading } = this.state;
+    const { loading, isAutomaticInterestPaymentEnabled } = this.state;
     const Switcher = this.rightSwitch;
     const id = navigation.getParam("id");
 
@@ -109,6 +109,20 @@ class LoanSettings extends Component {
           < IconButton margin={"20 0 0 0"} right={loading ? <Spinner size={30}/> : <Switcher/>} hideIconRight>
             Automatic Interest Payment
           </IconButton>
+
+          { !isAutomaticInterestPaymentEnabled ?
+            <Card color={STYLES.COLORS.ORANGE}>
+              <CelText
+                weight='300'
+                alignItems='center'
+                color='#FFFFFF'
+              >
+                You must manually complete your monthly interest payments.
+              </CelText>
+            </Card>
+            : null
+          }
+
           <IconButton
             margin={"20 0 0 0"}
             onPress={() => actions.navigateTo("ChoosePaymentMethod", { reason: LOAN_PAYMENT_REASONS.INTEREST, id })}
