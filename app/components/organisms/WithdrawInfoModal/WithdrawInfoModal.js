@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { Animated, View, ScrollView} from "react-native";
+import { Animated, View, ScrollView } from "react-native";
 
 
 import formatter from "../../../utils/formatter";
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
 import WithdrawInfoModalStyle from "./WithdrawInfoModal.styles";
+import CelButton from '../../atoms/CelButton/CelButton';
+import CelText from '../../atoms/CelText/CelText';
+import STYLES from '../../../constants/STYLES';
 // import { widthPercentageToDP } from '../../../utils/styles-util';
 // import STYLES from '../../../constants/STYLES';
 
@@ -115,101 +118,6 @@ class WithdrawInfoModal extends Component {
     }
   }
 
-  // transitionAnimation = (index) => ({
-  //   transform: [
-  //     { perspective: 800 },
-  //     {
-  //       scale: this.state.xOffset.interpolate({
-  //         inputRange: [
-  //           (index - 1) * cardWidth,
-  //           index * cardWidth,
-  //           (index + 1) * cardWidth
-  //         ],
-  //         outputRange: [0.9, 1, 0.9],
-  //         extrapolate: "clamp"
-  //       })
-  //     }
-  //   ]
-  // });
-
-  // renderDots() {
-  //   const { steps } = this.state
-
-  //   const position = Animated.divide(this.state.xOffset, width);
-
-  //   return (
-  //     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-  //       {steps.map((_, i) => {
-  //         const opacity = position.interpolate({
-  //           inputRange: [i - 0.50000000001, i - 0.5, i, i + 0.5, i + 0.50000000001],
-  //           outputRange: [0.3, 1, 1, 1, 0.3],
-  //           extrapolate: 'clamp'
-  //         })
-  //         return (
-  //           <Animated.View
-  //             key={i + 1}
-  //             style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
-  //           />
-  //         );
-  //       })
-  //       }
-
-  //     </View>
-  //   );
-  // }
-
-  // renderStep() {
-  //   const { steps, xOffset } = this.state;
-  //   const { type } = this.props
-  //   const styles = WithdrawInfoModalStyle();
-  //   // const ButtonStyle = this.buttonColor;
-
-  //   const three = steps.slice(1, 4)
-
-  //   return (
-  //     <View>
-  //       <ScrollView>
-  //         <Animated.ScrollView
-  //           style={{ flexGrow: 1, }}
-  //           scrollEventThrottle={16}
-  //           onScroll={Animated.event(
-  //             [{ nativeEvent: { contentOffset: { x: xOffset } } }],
-  //             { useNativeDriver: true },
-
-  //           )}
-  //           onScrollEndDrag={this.scroll}
-  //           horizontal
-  //           pagingEnabled
-  //           showsHorizontalScrollIndicator
-  //         >
-  //           {type ?
-  //             steps.map((step, index) => (
-  //               <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
-  //                 <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
-  //                 <CelText type='H4' style={styles.description}>{step.description}</CelText>
-  //               </Animated.View>
-  //             )
-  //             )
-  //             :
-  //             three.map((step, index) => (
-  //               <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
-  //                 <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
-  //                 <CelText type='H4' style={styles.description}>{step.description}</CelText>
-  //               </Animated.View>
-  //             ))
-  //           }
-  //         </Animated.ScrollView>
-  //         <View style={styles.button}>
-  //           {/* <ButtonStyle /> */}
-  //           <TouchableOpacity style={{ marginTop: 10 }} onPress={this.closeModalHandler}>
-  //             <CelText> Skip </CelText>
-  //           </TouchableOpacity>
-  //         </View>
-  //       </ScrollView>
-  //     </View>
-  //   )
-  // }
-
   renderImage() {
     const { steps, xOffset } = this.state;
     const styles = WithdrawInfoModalStyle();
@@ -241,23 +149,40 @@ class WithdrawInfoModal extends Component {
 
   }
 
+  renderButton = () => {
+    const style = WithdrawInfoModalStyle();
+
+    const normalButton = [style.modalButton]
+    // normalButton.push(styles.whiteButton)
+    return (
+      <View >
+        <CelButton style={normalButton} onPress={this.closeModalHandler}>
+          <CelText color={STYLES.COLORS.WHITE} type={'H4'}>Continue</CelText>
+        </CelButton>
+        {/* <CelButton ghost style={normalButton}>Next tip </CelButton>} */}
+      </View >
+    )
+  }
+
   render() {
     const { steps } = this.state
     const { type } = this.props
+    let arr = []
+
+    if (type !== "CEL") {
+      arr = steps.slice(1, 4)
+    } else { arr = steps }
 
     return (
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
-        // picture={this.renderImage()}
+        // picture={}
+        // circlePicture
         onClose={this.closeModalHandler}
-        // content={true}
-        modalInfo={steps}
+        modalInfo={arr}
         type={type}
       >
-        <View style={{ paddingTop: 20 }}>
-          {/* {this.renderDots()} */}
-          {/* {this.renderStep()} */}
-        </View>
+      {this.renderButton()}
       </CelModal>
     );
   }

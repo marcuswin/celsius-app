@@ -30,7 +30,6 @@ import CelText from '../../atoms/CelText/CelText'
 import CelInput from '../../atoms/CelInput/CelInput'
 import Message from '../../molecules/Message/Message'
 import STYLES from '../../../constants/STYLES';
-import CelButton from '../../atoms/CelButton/CelButton';
 
 const cardWidth = widthPercentageToDP("70%");
 const { width } = Dimensions.get('window');
@@ -117,9 +116,10 @@ class CelModal extends Component {
   });
 
   renderImage = () => {
-    const { picture, pictureCircle, modalInfo } = this.props
+    const { picture, pictureCircle } = this.props
     const style = CelModalStyle()
-    // console.log(!!modalInfo)
+
+    // const pic = modalInfo.map(step => step.image)
 
     if (!picture) return null;
     if (pictureCircle) return (
@@ -127,11 +127,18 @@ class CelModal extends Component {
         <Image source={picture} style={style.modalImageCircle} resizeMode='contain' />
       </View>
     )
-    if (!modalInfo) return (
+    // if (!!modalInfo) return (
+    //   <View style={style.imageWrapper} >
+    //     <Image source={modalInfo.map(step => step.image)} resizeMode='contain' />
+    //   </View >
+    // )
+
+    return (
       <View style={style.imageWrapper}>
-        <Image source={modalInfo.map((step) => step.image)} style={style.modalImage} resizeMode='contain' />
+        <Image source={picture} style={style.modalImage} resizeMode='contain' />
       </View>
     )
+
   }
 
   renderDots() {
@@ -140,7 +147,7 @@ class CelModal extends Component {
     const position = Animated.divide(this.state.xOffset, width);
 
     return (
-      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: 35 }}>
         {modalInfo.map((_, i) => {
           const opacity = position.interpolate({
             inputRange: [i - 0.50000000001, i - 0.5, i, i + 0.5, i + 0.50000000001],
@@ -160,56 +167,14 @@ class CelModal extends Component {
     );
   }
 
-  renderButton = () => {
-    const style = CelModalStyle()
-
-    const normalButton = [style.modalButton]
-    // normalButton.push(styles.whiteButton)
-    return (
-      <View >
-        <CelButton style={normalButton} onPress={this.closeModalHandler}><CelText>Continue</CelText></CelButton>
-        {/* <CelButton ghost style={normalButton}>Next tip </CelButton>} */}
-      </View >
-    )
-
-  }
 
 
-  // renderModalImage() {
-  //   const { xOffset } = this.state;
-  //   const { modalInfo } = this.props;
-  //   const style = CelModalStyle()
-
-
-  //   return (
-  //     <ScrollView>
-
-  //       {modalInfo.map((step, index) => (
-
-  //         console.log(step.image)
-  //       )
-  //       )}
-  //     </ScrollView>
-  //   )
-
-  // }
 
   renderModalContent() {
     const { xOffset } = this.state;
-    const { type, modalInfo } = this.props
+    const { modalInfo } = this.props
     const style = CelModalStyle()
     // const ButtonStyle = this.buttonColor;
-
-    // if (type !== "CEL") {
-    //   return done = modalInfo.slice(1, 4)
-    //     console.log('done.slice', done.slice(1, 4))
-    // }
-    // else {
-
-    //   return done = modalInfo
-    //     // console.log(done)
-    // }
-
 
     return (
       <View>
@@ -227,7 +192,7 @@ class CelModal extends Component {
             pagingEnabled
             showsHorizontalScrollIndicator={false}
           >
-            {type !== 'CEL' && modalInfo.map((step, index) => (
+            {modalInfo.map((step, index) => (
               <Animated.View style={[style.screen, this.transitionAnimation(index)]}>
                 <CelText type='H2' weight='bold' style={style.title}>{step.title}</CelText>
                 <CelText type='H4' style={style.description}>{step.description}</CelText>
@@ -284,14 +249,13 @@ class CelModal extends Component {
         transparent
         onRequestClose={() => actions.closeModal()}
         visible={openedModal === name}
-      // modalInfo={modalInfo}
+        modalInfo={modalInfo}
       >
         <Message />
 
         <View style={[style.wrapper, size]}>
           <View style={style.modal}>
             {this.renderImage()}
-            {/* {this.renderModalImage()} */}
             {shouldRenderCloseButton ? (
               <TouchableOpacity
                 style={style.closeBtn}
@@ -327,9 +291,8 @@ class CelModal extends Component {
                   contentContainerStyle={{ flexGrow: 1 }}
                 >
                   {modalInfo.length > 1 && this.renderDots()}
-                  {/* {childrenWithProps} */}
-                  {this.renderModalContent()}
-                  {this.renderButton()}
+                  {!!modalInfo && this.renderModalContent()}
+                  {childrenWithProps}
 
                 </ScrollView>
               )}

@@ -76,17 +76,18 @@ const base = {
   },
   screen: {
     width: 300,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     borderRadius: 25,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    paddingTop: 20
   },
   title: {
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
-    paddingTop: 10,
+    // paddingTop: 10,
     color: STYLES.COLORS.DARK_GRAY
 
 },
@@ -95,10 +96,9 @@ const base = {
     alignItems: 'center',
     justifyContent: 'center',
     color: '#737A82',
-    paddingBottom: 10,
   },
   modalButton: {
-    marginTop: 20,
+    marginTop: 0,
     backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
 },
 };
