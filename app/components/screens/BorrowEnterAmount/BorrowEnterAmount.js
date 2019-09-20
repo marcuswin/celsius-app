@@ -144,7 +144,7 @@ class BorrowEnterAmount extends Component {
 
   renderCoinIcon = () => {
     const { appSettings, formData } = this.props
-    if (formData.coin === 'USD') return null
+    if (formData.coin === 'USD') return <CelText type={"H1"} weight={"300"} style={{opacity: 0.6}}>$</CelText>
     return (
       <Icon
         name={`Icon${formData.coin}`}
@@ -166,7 +166,7 @@ class BorrowEnterAmount extends Component {
     const styles = BorrowEnterAmountStyle()
 
     const predifinedAmount = [
-      { label: `$${minimumLoanAmount} min`, value: 'min' },
+      { label: `${minimumLoanAmount} min`, value: 'min' },
       {
         label: `${formatter.floor10(formData.maxAmount, 0)} max`,
         value: 'max'
@@ -184,8 +184,8 @@ class BorrowEnterAmount extends Component {
             { ...getPadding('20 20 100 20') }
           ]}
         >
-          <View style={{ paddingTop: 10, alignItems: 'center' }}>
-            <CelText align='center' type='H4' margin='30 0 60 0'>
+          <View style={{ alignItems: 'center' }}>
+            <CelText align='center' type='H4' weight={"300"} margin='0 0 60 0'>
               How much would you like to borrow?
             </CelText>
 

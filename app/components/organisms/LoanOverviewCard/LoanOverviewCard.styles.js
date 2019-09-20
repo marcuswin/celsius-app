@@ -33,7 +33,7 @@ const base = {
     padding: 12
   },
   progress: {
-    alignItems: 'center'
+    justifyContent: 'center',
   }
 };
 
