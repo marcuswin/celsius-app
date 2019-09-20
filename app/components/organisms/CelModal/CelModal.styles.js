@@ -76,25 +76,24 @@ const base = {
   },
   screen: {
     width: 300,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     borderRadius: 25,
     backgroundColor: "white",
-    paddingTop: 20
   },
   title: {
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
-    // paddingTop: 10,
+    paddingTop: 30,
     color: STYLES.COLORS.DARK_GRAY
 
 },
   description: {
     textAlign: 'center',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     color: '#737A82',
   },
   modalButton: {

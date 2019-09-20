@@ -119,20 +119,12 @@ class CelModal extends Component {
     const { picture, pictureCircle } = this.props
     const style = CelModalStyle()
 
-    // const pic = modalInfo.map(step => step.image)
-
     if (!picture) return null;
     if (pictureCircle) return (
       <View style={style.imageWrapperCircle}>
         <Image source={picture} style={style.modalImageCircle} resizeMode='contain' />
       </View>
     )
-    // if (!!modalInfo) return (
-    //   <View style={style.imageWrapper} >
-    //     <Image source={modalInfo.map(step => step.image)} resizeMode='contain' />
-    //   </View >
-    // )
-
     return (
       <View style={style.imageWrapper}>
         <Image source={picture} style={style.modalImage} resizeMode='contain' />
@@ -141,16 +133,54 @@ class CelModal extends Component {
 
   }
 
+
+  renderModalContent() {
+    const { xOffset } = this.state;
+    const { modalInfo } = this.props
+    const style = CelModalStyle()
+
+
+    return (
+      <View>
+        <ScrollView>
+          <Animated.ScrollView
+            style={{ flexGrow: 1 }}
+            scrollEventThrottle={16}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: xOffset } } }],
+              { useNativeDriver: true },
+
+            )}
+            onScrollEndDrag={this.scroll}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+          >
+            {modalInfo.map((step, index) => (
+              <Animated.View key={index} style={[style.screen, this.transitionAnimation(index)]}>
+                <CelText type='H2' weight='bold' style={style.title}>{step.title}</CelText>
+                <CelText type='H4' style={style.description}>{step.description}</CelText>
+              </Animated.View>
+            )
+            )
+            }
+          </Animated.ScrollView>
+
+        </ScrollView>
+      </View>
+    )
+  }
+
   renderDots() {
     const { modalInfo } = this.props
 
     const position = Animated.divide(this.state.xOffset, width);
 
     return (
-      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: 35 }}>
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: 40 }}>
         {modalInfo.map((_, i) => {
           const opacity = position.interpolate({
-            inputRange: [i - 0.50000000001, i - 0.5, i, i + 0.5, i + 0.50000000001],
+            inputRange: [i - 1, i - 0.90001, i, i + 0.0003, i + 0.3],
             outputRange: [0.3, 1, 1, 1, 0.3],
             extrapolate: 'clamp'
           })
@@ -167,52 +197,6 @@ class CelModal extends Component {
     );
   }
 
-
-
-
-  renderModalContent() {
-    const { xOffset } = this.state;
-    const { modalInfo } = this.props
-    const style = CelModalStyle()
-    // const ButtonStyle = this.buttonColor;
-
-    return (
-      <View>
-        <ScrollView>
-          <Animated.ScrollView
-            style={{ flexGrow: 1, }}
-            scrollEventThrottle={16}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { x: xOffset } } }],
-              { useNativeDriver: true },
-
-            )}
-            onScrollEndDrag={this.scroll}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-          >
-            {modalInfo.map((step, index) => (
-              <Animated.View style={[style.screen, this.transitionAnimation(index)]}>
-                <CelText type='H2' weight='bold' style={style.title}>{step.title}</CelText>
-                <CelText type='H4' style={style.description}>{step.description}</CelText>
-              </Animated.View>
-            )
-            )
-            }
-          </Animated.ScrollView>
-          <View style={style.button}>
-            {/* <ButtonStyle /> */}
-            <TouchableOpacity style={{ marginTop: 10 }} onPress={this.closeModalHandler}>
-              <CelText> Skip </CelText>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </View>
-    )
-  }
-
-
   render() {
     const {
       openedModal,
@@ -227,7 +211,7 @@ class CelModal extends Component {
       noScroll,
       onClose,
       padding,
-      modalInfo
+      modalInfo,
     } = this.props
     const style = CelModalStyle()
     const paddingStyle = padding ? getPadding(padding) : {}
@@ -306,7 +290,7 @@ class CelModal extends Component {
             />
           </BlurView>
         </View>
-      </Modal>
+      </Modal >
     )
   }
 }

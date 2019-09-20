@@ -6,14 +6,9 @@ import { bindActionCreators } from "redux";
 
 
 import * as appActions from "../../../redux/actions";
-// import DepositInfoModalStyle from "./DepositInfoModal.styles";
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
-// import { widthPercentageToDP } from '../../../utils/styles-util';
-// import STYLES from '../../../constants/STYLES';
-
-// const cardWidth = widthPercentageToDP("70%");
-// const { width } = Dimensions.get('window');
+import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
@@ -93,6 +88,7 @@ class DepositInfoModal extends Component {
             image: { uri: coinName.image_url },
             title: `Only deposit EOS (EOS) to this wallet`,
             description: "Sending any other digital asset to this specific address, will result in permanent loss.",
+
           },
           {
             image: { uri: coinName.image_url },
@@ -128,9 +124,12 @@ class DepositInfoModal extends Component {
       steps,
     };
   }
+  closeModalHandler = () => {
+    const { closeModal } = this.props
+    closeModal()
+  }
 
   render() {
-    // const style = DepositInfoModalStyle();
     const { steps, currentStep } = this.state;
 
     return (
@@ -139,7 +138,15 @@ class DepositInfoModal extends Component {
         picture={steps[currentStep].image}
         pictureCircle
         modalInfo={steps}
-      />
+      >
+
+        <CelButton
+          margin={"20 0 20 0"}
+          onPress={this.closeModalHandler}
+        >
+          Continue
+        </CelButton>
+      </CelModal>
     );
   }
 }

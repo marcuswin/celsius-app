@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { Animated, View, ScrollView } from "react-native";
+import { Animated } from "react-native";
 
 
 import formatter from "../../../utils/formatter";
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
-import WithdrawInfoModalStyle from "./WithdrawInfoModal.styles";
 import CelButton from '../../atoms/CelButton/CelButton';
-import CelText from '../../atoms/CelText/CelText';
-import STYLES from '../../../constants/STYLES';
-// import { widthPercentageToDP } from '../../../utils/styles-util';
-// import STYLES from '../../../constants/STYLES';
-
-// const cardWidth = widthPercentageToDP("70%");
-// const { width } = Dimensions.get('window');
 
 class WithdrawInfoModal extends Component {
   static propTypes = {
@@ -59,109 +51,9 @@ class WithdrawInfoModal extends Component {
     };
   }
 
-
-  scroll = () => {
-    this.continue()
-    // this.buttonColor()
-
-  }
-
-  continue = () => {
-    const { currentStep } = this.state
-    const { toggleKeypad, type } = this.props
-
-    if (type) {
-      if (currentStep === 4) {
-        if (toggleKeypad) toggleKeypad();
-      } else {
-        this.setState({ currentStep: currentStep + 1 })
-      }
-    } else if (currentStep === 3) {
-      if (toggleKeypad) toggleKeypad();
-    } else {
-      this.setState({ currentStep: currentStep + 1 })
-    }
-
-  }
   closeModalHandler = () => {
     const { closeModal } = this.props
     closeModal()
-    this.setState({ currentStep: 1 })
-  }
-
-  buttonColor = () => {
-    const styles = WithdrawInfoModalStyle();
-    const { currentStep } = this.state;
-    const { type } = this.props;
-
-    const normalButton = [styles.modalButton]
-    if (type) {
-      if (currentStep !== 4) {
-        normalButton.push(styles.whiteButton)
-        //   }
-        //   return (
-        //     <View >
-        //       {currentStep === 4 ? <CelButton style={normalButton} onPress={this.closeModalHandler}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
-        //     </View >
-        //   )
-        // }
-        // if (currentStep !== 3) {
-        //   normalButton.push(styles.whiteButton)
-        // }
-        // return (
-        //   <View >
-        //     {step[index] ? <CelButton style={normalButton} onPress={this.closeModalHandler}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
-        //   </View >
-        // )
-
-      }
-    }
-  }
-
-  renderImage() {
-    const { steps, xOffset } = this.state;
-    const styles = WithdrawInfoModalStyle();
-
-    return (
-      <ScrollView>
-        <Animated.ScrollView
-          style={{ flexGrow: 1, }}
-          scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: xOffset } } }],
-            { useNativeDriver: true },
-
-          )}
-          onScrollEndDrag={this.scroll}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator
-        >
-          {steps.forEach((step, index) => (
-            <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
-              {step.image}
-            </Animated.View>
-          )
-          )}
-        </Animated.ScrollView>
-      </ScrollView>
-    )
-
-  }
-
-  renderButton = () => {
-    const style = WithdrawInfoModalStyle();
-
-    const normalButton = [style.modalButton]
-    // normalButton.push(styles.whiteButton)
-    return (
-      <View >
-        <CelButton style={normalButton} onPress={this.closeModalHandler}>
-          <CelText color={STYLES.COLORS.WHITE} type={'H4'}>Continue</CelText>
-        </CelButton>
-        {/* <CelButton ghost style={normalButton}>Next tip </CelButton>} */}
-      </View >
-    )
   }
 
   render() {
@@ -173,16 +65,20 @@ class WithdrawInfoModal extends Component {
       arr = steps.slice(1, 4)
     } else { arr = steps }
 
+    const image = steps.map(a => a.image).reduce(a => a)
+
     return (
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
-        // picture={}
-        // circlePicture
+        picture={image}
+        circlePicture
         onClose={this.closeModalHandler}
         modalInfo={arr}
         type={type}
       >
-      {this.renderButton()}
+        <CelButton margin={'20 0 20 0'} onPress={this.closeModalHandler}>
+          Continue
+        </CelButton>
       </CelModal>
     );
   }
