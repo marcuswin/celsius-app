@@ -2,17 +2,21 @@ import * as Segment from 'expo-analytics-segment'
 import { Platform } from 'react-native'
 import j from 'jsrsasign'
 import appsFlyer from "react-native-appsflyer";
+import CodePush from 'react-native-code-push';
 
 import Constants from '../../constants'
 import store from '../redux/store'
 import { getSecureStoreKey } from './expo-storage'
 
-// Todo(sb): OTA updates
-// const { revisionId, version, extra } = Constants.manifest;
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra
-const revisionId = ''
-const version = '3.0'
+let revisionId = ''
+let version = ''
 const advertisingId = store.getState().app.advertisingId
+
+CodePush.getUpdateMetadata().then((metadata) =>{
+  version = metadata.appVersion
+  revisionId = metadata.label
+});
 
 const appInfo = {
   revisionId,

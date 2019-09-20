@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import CodePush from 'react-native-code-push';
 import { bindActionCreators } from "redux";
 import * as appActions from '../../../redux/actions';
 
@@ -12,10 +13,6 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
 // import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 // import STYLES from '../../../constants/STYLES';
-
-// Todo(sb): OTA updates
-// const { revisionId } = Constants.manifest;
-const revisionId = ''
 
 @connect(
   state => ({
@@ -33,14 +30,27 @@ class Welcome extends Component {
     transparent: true
   })
 
+  state = {
+    codePushVersion: { label: "", version: "" }
+  }
+
+  componentDidMount() {
+    CodePush.getUpdateMetadata().then((metadata) =>{
+      this.setState({codePushVersion:{label: metadata.label, version: metadata.appVersion, description: metadata.description}});
+    });
+  }
+
+
   onPressLogin = () => {
     const { actions } = this.props
     actions.navigateTo('Login')
   }
-
   render() {
-      const style = WelcomeStyle();
+    const style = WelcomeStyle();
     const { actions } = this.props
+    
+    const { codePushVersion } = this.state
+    const revisionId = `${codePushVersion.version}@${codePushVersion.label}`
     return (
       <RegularLayout fabType="hide">
         <View style={style.wrapper}>

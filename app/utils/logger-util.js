@@ -1,4 +1,5 @@
 import axios from 'axios/index'
+import CodePush from 'react-native-code-push';
 import Constants from '../../constants';
 import store from '../redux/store'
 import API_URL from '../services/api-url'
@@ -66,11 +67,15 @@ function errorValidation(error) {
   return true;
 }
 
+let revisionId
+
 function err(e, isFatal = false) {
   if (errorValidation(e.message)) {
-    // Todo(sb): OTA updates
-    // const { revisionId } = Constants.manifest
-    const revisionId = ''
+    if(!revisionId) {
+      CodePush.getUpdateMetadata().then((metadata) =>{
+        revisionId = `${metadata.appVersion}@${metadata.label}`
+      });
+    }
 
     const state = store.getState()
 

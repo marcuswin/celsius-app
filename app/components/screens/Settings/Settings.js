@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native'
 import { bindActionCreators } from "redux";
+import CodePush from 'react-native-code-push';
 // import Constants from 'expo-constants';
 
 import * as appActions from "../../../redux/actions";
@@ -14,9 +15,6 @@ import CelText from '../../atoms/CelText/CelText';
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { hasPassedKYC } from "../../../utils/user-util";
 
-// Todo(sb): OTA updates
-// const { revisionId } = Constants.manifest;
-const revisionId = ''
 
 @connect(
   (state) => ({
@@ -41,14 +39,23 @@ class Settings extends Component {
     right: "logout"
   });
 
+  state = {
+    codePushVersion: { label: "", version: "" }
+  }
+
   componentDidMount() {
     const {actions} = this.props;
     actions.getUserAppSettings()
+    CodePush.getUpdateMetadata().then((metadata) =>{
+      this.setState({codePushVersion:{label: metadata.label, version: metadata.appVersion, description: metadata.description}});
+    });
   }
 
   renderContent = () => {
     const { actions } = this.props;
 
+    const { codePushVersion } = this.state
+    const revisionId = `${codePushVersion.version}@${codePushVersion.label}`
     return (
       <View>
         <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>

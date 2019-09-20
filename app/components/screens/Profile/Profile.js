@@ -4,6 +4,7 @@ import React, { Component } from "react";
 // import Constants from 'expo-constants';
 import { Image as RNImage, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
+import CodePush from "react-native-code-push";
 import * as appActions from "../../../redux/actions";
 
 import CelText from "../../atoms/CelText/CelText";
@@ -16,10 +17,6 @@ import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendMod
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import CelButton from "../../atoms/CelButton/CelButton";
 import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
-
-// Todo(sb): OTA updates
-// const { revisionId } = Constants.manifest;
-const version = ''
 
 @connect(
   state => ({
@@ -46,7 +43,8 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      updatingTaxInfo: false
+      updatingTaxInfo: false,
+      codePushVersion: { label: "", version: "" }
     };
   }
 
@@ -54,6 +52,9 @@ class Profile extends Component {
     const { user, actions } = this.props;
     actions.profileTaxpayerInfo();
     this.initForm(user);
+    CodePush.getUpdateMetadata().then((metadata) =>{
+      this.setState({codePushVersion:{label: metadata.label, version: metadata.appVersion, description: metadata.description}});
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -87,6 +88,9 @@ class Profile extends Component {
 
   render() {
     const { profilePicture, user, actions } = this.props;
+    
+    const { codePushVersion } = this.state
+    const revisionId = `${codePushVersion.version}@${codePushVersion.label}`
     return (
       <RegularLayout>
         <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
@@ -139,7 +143,7 @@ class Profile extends Component {
           See Terms of use
         </CelButton>
         <CelText margin="20 0 0 0" weight="light" align='center' type="H7">
-          Celsius App version: {version}
+          Celsius App version: {revisionId}
         </CelText>
 
         <ReferralSendModal />
