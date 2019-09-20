@@ -72,7 +72,7 @@ class LoanTermsOfUse extends Component {
   continue = () => {
     const { actions } = this.props
     actions.navigateTo('VerifyProfile', {
-      onSuccess: () => actions.navigateTo('ConfirmYourLoan')
+      onSuccess: () => actions.applyForALoan()
     })
   }
 
@@ -171,7 +171,7 @@ class LoanTermsOfUse extends Component {
             style={styles.requestButton}
             disabled={!formData.acceptLoanTermsOfUse}
           >
-            Confirm loan
+            Request loan
           </CelButton>
         </View>
       </RegularLayout>

@@ -49,7 +49,7 @@ class BorrowLoanTerm extends Component {
       return (
         <CelButton
           margin="50 0 30 0"
-          onPress={() => actions.navigateTo('LoanTermsOfUse')}
+          onPress={() => actions.navigateTo('ConfirmYourLoan')}
           iconRight="IconArrowRight"
         >
           Continue
