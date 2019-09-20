@@ -29,10 +29,10 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 30 }}>
     <View style={{ flex: 1, alignItems: 'center' }}>
       <CelText weight='700' type='H2' align="center" margin={"80 0 30 0"} >
-        CelPay with Friends!
+        CelPay Your Way!
     </CelText>
       <CelText weight='300' margin="0 0 10 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
-        Add your contacts or connect your Facebook or Twitter to transfer crypto between you and your friends.
+        Import your contacts to transfer crypto quickly and easily between friends.
       </CelText>
       <CelText weight='300' margin="0 0 40 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H6" align="center">
         *Only friends with the Celsius app will appear in your contacts list.
@@ -99,7 +99,7 @@ class CelPayChooseFriend extends Component {
     }
     const hasFriends = this.hasFriends()
     navigation.setParams({
-      title: permission && hasFriends ? "Choose a friend" : "No friends?",
+      title: permission && hasFriends ? "Choose a friend" : "Import Contacts",
       right: permission && hasFriends ? "search" : "profile"
     })
 
@@ -118,7 +118,7 @@ class CelPayChooseFriend extends Component {
     if (nextProps.contacts && nextProps.contacts.friendsWithApp && nextProps.contacts.friendsWithApp.length > 0) {
       const permission = await hasPermission(Permissions.CONTACTS);
       navigation.setParams({
-        title: permission ? "Choose a friend" : "No friends?",
+        title: permission ? "Choose a friend" : "Import Contacts",
         right: permission ? "search" : "profile"
       })
     }
@@ -161,7 +161,7 @@ class CelPayChooseFriend extends Component {
     }
 
     navigation.setParams({
-      title: permission && this.props.contacts.length > 0 ? "Choose a friend" : "No friends?",
+      title: permission && this.props.contacts.length > 0 ? "Choose a friend" : "Import Contacts",
       right: permission && this.props.contacts.length > 0 ? "search" : "profile"
     })
     this.setState({
