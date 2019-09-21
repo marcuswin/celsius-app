@@ -138,6 +138,7 @@ class DepositInfoModal extends Component {
         picture={steps[currentStep].image}
         pictureCircle
         modalInfo={steps}
+        modalType={'deposit'}
       >
 
         <CelButton

@@ -66,7 +66,7 @@ const base = {
     justifyContent: "center",
     alignItems: "center",
     zIndex: 10,
-    top: -heightPercentageToDP("8%"),
+    top: -heightPercentageToDP("7.5%"),
     left: widthPercentageToDP("31.5%"),
     ...STYLES.SHADOW_STYLES
   },
@@ -75,9 +75,10 @@ const base = {
     height: widthPercentageToDP("12%")
   },
   screen: {
-    width: 300,
+    width: widthPercentageToDP("80%"),
     justifyContent: "flex-start",
     alignItems: "center",
+    alignContent: 'flex-start',
     borderRadius: 25,
     backgroundColor: "white",
   },
@@ -89,17 +90,38 @@ const base = {
     paddingTop: 30,
     color: STYLES.COLORS.DARK_GRAY
 
-},
+  },
   description: {
     textAlign: 'center',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     color: '#737A82',
   },
   modalButton: {
     marginTop: 0,
     backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
-},
+  },
+  dots: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: heightPercentageToDP('3%')
+  },
+  dotsWithdraw: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: heightPercentageToDP('8%')
+  },
+  dotsDeposit: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: heightPercentageToDP("5%")
+  }
 };
 
 const themed = {

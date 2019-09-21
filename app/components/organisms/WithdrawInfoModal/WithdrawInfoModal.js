@@ -74,7 +74,7 @@ class WithdrawInfoModal extends Component {
         circlePicture
         onClose={this.closeModalHandler}
         modalInfo={arr}
-        type={type}
+        modalType={'withdraw'}
       >
         <CelButton margin={'20 0 20 0'} onPress={this.closeModalHandler}>
           Continue

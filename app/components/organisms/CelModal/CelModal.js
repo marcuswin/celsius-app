@@ -61,7 +61,7 @@ class CelModal extends Component {
     content: PropTypes.instanceOf(Array),
     index: PropTypes.number,
     modalInfo: PropTypes.instanceOf(Array),
-    type: PropTypes.string,
+    modalType: PropTypes.string,
   }
   static defaultProps = {
     shouldRenderCloseButton: true,
@@ -139,7 +139,6 @@ class CelModal extends Component {
     const { modalInfo } = this.props
     const style = CelModalStyle()
 
-
     return (
       <View>
         <ScrollView>
@@ -165,22 +164,22 @@ class CelModal extends Component {
             )
             }
           </Animated.ScrollView>
-
         </ScrollView>
       </View>
     )
   }
 
   renderDots() {
-    const { modalInfo } = this.props
+    const { modalInfo, modalType } = this.props
+    const style = CelModalStyle()
 
     const position = Animated.divide(this.state.xOffset, width);
 
     return (
-      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: 40 }}>
+      <View style={modalType === 'withdraw' ? style.dotsWithdraw : style.dotsDeposit}>
         {modalInfo.map((_, i) => {
           const opacity = position.interpolate({
-            inputRange: [i - 1, i - 0.90001, i, i + 0.0003, i + 0.3],
+            inputRange: [i - 1, i - 0.9, i, i + 0.3, i + 0.30000001],
             outputRange: [0.3, 1, 1, 1, 0.3],
             extrapolate: 'clamp'
           })
@@ -271,7 +270,7 @@ class CelModal extends Component {
             ) : (
                 <ScrollView
                   style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('5%') }, paddingStyle]}
-                  showsVerticalScrollIndicator
+                  showsVerticalScrollIndicator={false}
                   contentContainerStyle={{ flexGrow: 1 }}
                 >
                   {modalInfo.length > 1 && this.renderDots()}
