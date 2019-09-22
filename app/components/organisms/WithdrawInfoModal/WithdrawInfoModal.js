@@ -59,21 +59,18 @@ class WithdrawInfoModal extends Component {
   render() {
     const { steps } = this.state
     const { type } = this.props
-    let arr = []
+    let array = []
 
     if (type !== "CEL") {
-      arr = steps.slice(1, 4)
-    } else { arr = steps }
+      array = steps.slice(1, 4)
+    } else { array = steps }
 
-    const image = steps.map(a => a.image).reduce(a => a)
 
     return (
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
-        picture={image}
-        circlePicture
         onClose={this.closeModalHandler}
-        modalInfo={arr}
+        modalInfo={array}
         modalType={'withdraw'}
       >
         <CelButton margin={'20 0 20 0'} onPress={this.closeModalHandler}>

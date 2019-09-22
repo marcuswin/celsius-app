@@ -116,10 +116,14 @@ class CelModal extends Component {
   });
 
   renderImage = () => {
-    const { picture, pictureCircle } = this.props
+    const { picture, pictureCircle, modalInfo } = this.props
     const style = CelModalStyle()
 
-    if (!picture) return null;
+    if (!picture) return (
+      <View style={{ zIndex: 10}}>
+        {modalInfo && this.renderMultiStepPicture()}
+      </View>
+    )
     if (pictureCircle) return (
       <View style={style.imageWrapperCircle}>
         <Image source={picture} style={style.modalImageCircle} resizeMode='contain' />
@@ -169,6 +173,37 @@ class CelModal extends Component {
     )
   }
 
+  renderMultiStepPicture() {
+    const { modalInfo } = this.props
+
+    const position = Animated.divide(this.state.xOffset, width);
+
+    return (
+      modalInfo.map((step, index) => {
+        const opacity = position.interpolate({
+          inputRange: [index - 0.5000000001, index - 0.5, index, index + 0.5, index + 0.50000001],
+          outputRange: [0, 1, 1, 1, 0],
+          extrapolate: 'clamp'
+        })
+        return (
+          <Animated.Image
+            style={{
+              opacity,
+              height: 150,
+              width: 150,
+              position: "absolute",
+              zIndex: 10,
+              top: -heightPercentageToDP("20%") / 4,
+              left: widthPercentageToDP('50%') / 2
+            }}
+            source={step.image} resizeMode="cover" width={150} height={150}
+          />
+        )
+      })
+    )
+
+  }
+
   renderDots() {
     const { modalInfo, modalType } = this.props
     const style = CelModalStyle()
@@ -211,21 +246,22 @@ class CelModal extends Component {
       onClose,
       padding,
       modalInfo,
+      modalType
     } = this.props
     const style = CelModalStyle()
     const paddingStyle = padding ? getPadding(padding) : {}
     // const tintColor = this.getTintColor();
 
-    const size = picture
-      ? { paddingVertical: heightPercentageToDP('18%') }
-      : { paddingVertical: heightPercentageToDP('5%') }
+    let size
+    if (picture) size = { paddingVertical: heightPercentageToDP('18%') }
+    else if (!picture && modalType === 'withdraw') size = { paddingVertical: heightPercentageToDP('18%') }
+    else size = { paddingVertical: heightPercentageToDP('5%') }
 
     const childrenWithProps = addThemeToComponents(
       children,
       [CelText.displayName, CelInput.displayName],
       THEMES.LIGHT
     )
-
     return (
       <Modal
         animationType='fade'
@@ -239,6 +275,7 @@ class CelModal extends Component {
         <View style={[style.wrapper, size]}>
           <View style={style.modal}>
             {this.renderImage()}
+
             {shouldRenderCloseButton ? (
               <TouchableOpacity
                 style={style.closeBtn}

@@ -113,7 +113,7 @@ const base = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: heightPercentageToDP('8%')
+    paddingTop: heightPercentageToDP('14%')
   },
   dotsDeposit: {
     flex: 1,
@@ -121,7 +121,7 @@ const base = {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: heightPercentageToDP("5%")
-  }
+  },
 };
 
 const themed = {
