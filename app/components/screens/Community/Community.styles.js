@@ -5,10 +5,19 @@ const base = {
   container: {
     flex: 1
   },
-  text: { marginTop: heightPercentageToDP("1.25%") },
-  secondText: { marginTop: heightPercentageToDP("0.5%") },
-  amountsView: { justifyContent: "space-around" },
-  amountsCard: { marginTop: heightPercentageToDP("2%") },
+  text: {
+    marginTop: heightPercentageToDP("1.25%") },
+
+  secondText: {
+    marginTop: heightPercentageToDP("0.5%")
+  },
+  amountsView: {
+    flex: 1,
+    justifyContent: "space-around"
+  },
+  amountsCard: {
+    marginTop: heightPercentageToDP("2%")
+  },
   image: {
     alignItems: "center",
   },
@@ -40,7 +49,11 @@ const base = {
     height: widthPercentageToDP("20.4%"),
     overflow: "hidden"
   },
-  graphMargin: {marginTop: heightPercentageToDP("5%")}
+  graphMargin: {
+    marginTop: heightPercentageToDP("5%"),
+    marginRight: widthPercentageToDP('10%'),
+    marginLeft: widthPercentageToDP('10%')
+  }
 };
 
 

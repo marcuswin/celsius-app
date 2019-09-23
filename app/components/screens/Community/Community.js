@@ -12,7 +12,6 @@ import CelText from "../../atoms/CelText/CelText";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
 import CommunityStyle from "./Community.styles";
-import PerformanceGraph from "../../graphs/PerformanceGraph/PerformanceGraph";
 import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
 
 @connect(
@@ -38,7 +37,7 @@ class Community extends Component {
   });
 
   render() {
-    const { communityStats, celStats, ethStats, btcStats } = this.props;
+    const { communityStats } = this.props;
     const style = CommunityStyle();
 
     if (!communityStats) {
@@ -94,15 +93,15 @@ class Community extends Component {
                    style={style.text}>{formatter.round(communityStats.total_depositors_num, { noPrecision: true })}</CelText>
           <CelText weight={"300"} align={"center"} type={"H6"} style={style.secondText}>Members are depositing</CelText>
 
-        <CommunityDashboard name={"CEL VS BTC VS ETH"}/>
+        {/* <CommunityDashboard name={"CEL VS BTC VS ETH"}/>*/}
 
-          <View style={style.graphMargin}>
-            <PerformanceGraph
-                celStats={celStats}
-                ethStats={ethStats}
-                btcStats={btcStats}
-            />
-          </View>
+        {/*  <View style={style.graphMargin}>*/}
+        {/*    <PerformanceGraph*/}
+        {/*        celStats={celStats}*/}
+        {/*        ethStats={ethStats}*/}
+        {/*        btcStats={btcStats}*/}
+        {/*    />*/}
+        {/*  </View>*/}
 
         {/* <CommunityDashboard name={"BORROW"} info buttonTypes={["Loans", "Average", "Total"]}/>*/}
 

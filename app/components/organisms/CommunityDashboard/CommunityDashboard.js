@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -54,18 +54,16 @@ class CommunityDashboard extends Component {
     if (name === "CELPAY") {
       this.setState({
         primaryNumber: formatter.usd(communityStats.highest_celpay_transaction_usd),
-        explanation: "Highest CelPay sent"
+        explanation: "Sent via CelPay in total"
       })
     }
     if (name === "INTEREST") {
       this.setState({
         primaryNumber: formatter.usd(communityStats.total_interests_usd),
-        explanation: "Total interest earn"
+        explanation: "The average earn per user in the last 12 months"
       })
     }
   }
-
-  getSeparatorColor = style => StyleSheet.flatten(style.separatorColor).color // get color from raw json depending on style theme
 
   // event hanlders
   // rendering methods
@@ -100,11 +98,11 @@ class CommunityDashboard extends Component {
       number = formatter.usd(communityStats.total_celpay_sent_usd);
     }
     if (name === "INTEREST" && button === "Earned") {
-      explanationText = "Total community earn";
+      explanationText = "Total community earn in the last 12 months";
       number = formatter.usd(communityStats.total_interests_usd);
     }
     if (name === "INTEREST" && button === "Average") {
-      explanationText = "Average community earn";
+      explanationText = "The average earn per user in the last 12 months";
       number = formatter.usd(communityStats.average_interest_earned_usd);
     }
     if (name === "INTEREST" && button === "Rates") {
@@ -140,8 +138,11 @@ class CommunityDashboard extends Component {
                   fill={ activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
                   strokeWidth={0.5}
                 />
-                <CelText type={"H7"} weight={"500"} align={"center"}
-                         color={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}>
+                <CelText
+                  type={"H7"}
+                  weight={"500"}
+                  align={"center"}
+                  color={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}>
                   {button.toUpperCase()}
                 </CelText>
                 {activeButton === button &&
@@ -154,9 +155,21 @@ class CommunityDashboard extends Component {
         }
         {info &&
         <View>
-          <CelText weight={"600"} align={"center"} type={"H1"}
-                   style={style.primary}>{primaryNumber}</CelText>
-          <CelText weight={"300"} align={"center"} type={"H6"} style={style.explanation}>{explanation}</CelText>
+          <CelText
+            weight={"600"}
+            align={"center"}
+            type={"H2"}
+            style={style.primary}
+          >{primaryNumber}
+          </CelText>
+          <CelText
+            weight={"300"}
+            align={"center"}
+            type={"H6"}
+            style={style.explanation}
+          >
+            {explanation}
+          </CelText>
         </View>
         }
         {children}
