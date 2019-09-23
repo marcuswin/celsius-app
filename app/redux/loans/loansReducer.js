@@ -9,7 +9,10 @@ function initialState() {
     allLoans: [],
     activeLoan: null,
     loanInfo: null,
-    marginCalls: []
+    marginCalls: [],
+    loan: undefined,
+    loanSettings: undefined,
+    amortizationTable: []
   };
 }
 
@@ -27,6 +30,19 @@ export default function loansReducer(state = initialState(), action) {
         activeLoan: state.allLoans.find(l => l.id === action.loanId),
       };
 
+    case ACTIONS.APPLY_FOR_LOAN_PREVIEW_DATA_SUCCESS:
+      return {
+        ...state,
+        loan: action.loan,
+      };
+
+    case ACTIONS.GET_LOAN_SETTINGS_SUCCESS:
+    case ACTIONS.UPDATE_LOAN_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        loanSettings: action.loanSettings
+      };
+
     case ACTIONS.GET_ALL_LOANS_SUCCESS:
       return {
         ...state,
@@ -41,6 +57,12 @@ export default function loansReducer(state = initialState(), action) {
       return {
         ...state,
         marginCalls: action.marginCalls
+      };
+
+    case ACTIONS.GET_AMORTIZATION_TABLE_SUCCESS:
+      return {
+        ...state,
+        amortizationTable: action.amortizationTable
       };
 
     default:

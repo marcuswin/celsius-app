@@ -1,12 +1,11 @@
 import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
-import { openModal, showMessage } from "../ui/uiActions";
+import { showMessage, closeModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
-import analytics from "../../utils/analytics";
-import { MODALS } from "../../constants/UI";
 import formatter from "../../utils/formatter";
+import loanUtil from "../../utils/loan-util";
 
 export {
   applyForALoan,
@@ -16,44 +15,89 @@ export {
   cancelLoan,
   getMarginCalls,
   lockMarginCollateral,
-  updateLoanSettings
+  updateLoanSettings,
+  loanApplyPreviewData,
+  getLoanSettings,
+  payPrincipal,
+  prepayInterest,
+  payMonthlyInterest,
+  getAmortizationTable,
 }
 
 /**
  * Applies the user for a loan
  */
 function applyForALoan() {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { formData } = getState().forms;
     startApiCall(API.APPLY_FOR_LOAN);
 
     const loanApplication = {
-      coin: formData.coin,
-      amount_collateral_usd: formData.amountCollateralUsd,
-      amount_collateral_crypto: formData.amountCollateralCrypto,
+      coin: formData.collateralCoin,
       ltv: formData.ltv,
       interest: formData.interest,
       loan_amount: formData.loanAmount,
       term_of_loan: formData.termOfLoan,
-      bank_info_id: formData.bankInfo ? formData.bankInfo.id : null,
-    }
+      bank_info_id: formData.bankInfo ? formData.bankInfo.id : undefined,
+      loan_asset_short: formData.coin
+    };
 
-    dispatch(navigateTo("VerifyProfile", {onSuccess: async () =>  {
-      try {
-        const verification = {
-          pin: getState().forms.formData.pin,
-          twoFactorCode: getState().forms.formData.code,
-        };
-        const res = await loansService.apply(loanApplication, verification);
-        dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS, loan: res.data.loan });
-        analytics.loanApplied(res.data.loan)
-        dispatch(navigateTo('TransactionDetails', { id: res.data.transaction_id }));
-        dispatch(openModal(MODALS.BORROW_CONFIRM))
-      } catch (err) {
-        dispatch(showMessage('error', err.msg));
-        dispatch(apiError(API.APPLY_FOR_LOAN, err));
-      }
-    }}));
+    try {
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code
+      };
+
+      const res = await loansService.apply(loanApplication, verification);
+      dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS });
+
+      const allLoans = await loansService.getAllLoans();
+
+      dispatch({
+        type: ACTIONS.GET_ALL_LOANS_SUCCESS,
+        callName: API.GET_ALL_LOANS,
+        allLoans
+      });
+
+      dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id, hideBack: true }));
+      dispatch(showMessage('success', 'Loan created successfully!'))
+
+      // analytics.loanApplied(res.data);
+    } catch (err) {
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.APPLY_FOR_LOAN, err));
+    }
+  }
+}
+
+/**
+ * Applies the user for a loan
+ */
+function loanApplyPreviewData() {
+  return async (dispatch, getState) => {
+    const { formData } = getState().forms;
+    startApiCall(API.APPLY_FOR_LOAN_PREVIEW_DATA);
+
+    const loanApplication = {
+      coin: formData.collateralCoin,
+      ltv: formData.ltv,
+      interest: formData.interest,
+      loan_amount: formData.loanAmount,
+      term_of_loan: formData.termOfLoan,
+      bank_info_id: formData.bankInfo ? formData.bankInfo.id : undefined,
+      loan_asset_short: formData.coin
+    };
+
+    try {
+      const res = await loansService.loanApplyPreviewData(loanApplication);
+      dispatch({
+        type: ACTIONS.APPLY_FOR_LOAN_PREVIEW_DATA_SUCCESS,
+        loan: loanUtil.mapLoan(res.data)
+      });
+    } catch (err) {
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.APPLY_FOR_LOAN_PREVIEW_DATA, err));
+    }
   }
 }
 
@@ -63,6 +107,7 @@ function applyForALoan() {
 function getAllLoans() {
   return async (dispatch) => {
     try {
+      startApiCall(API.GET_ALL_LOANS);
       const allLoans = await loansService.getAllLoans();
 
       dispatch({
@@ -169,17 +214,16 @@ function setActiveLoan(loanId) {
 
 /**
  * Cancels desired pending loan
- * @param id
  */
 function cancelLoan() {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
+      const { loanId } = getState().forms.formData
       startApiCall(API.CANCEL_LOAN)
-      // id should be number
-      // const res = await loansService.cancelLoan(id)
+      await loansService.cancelLoan(loanId)
 
-      // TODO add needed logic for redux or call getAllLoans()
-
+      dispatch(showMessage('success', 'Loan successfully canceled!'))
+      dispatch(closeModal())
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CANCEL_LOAN, err));
@@ -194,16 +238,158 @@ function cancelLoan() {
  *  param {Object} loan.setting true/false
  */
 
-function updateLoanSettings() {
+function updateLoanSettings(id, value) {
   return async (dispatch) => {
 
     try {
       startApiCall(API.UPDATE_LOAN_SETTINGS)
-      // const res = await loansService.updateLoanSettings(id, value)
+      const res = await loansService.updateLoanSettings(id, value);
+      const loanSettings = res.data;
+
+      dispatch({
+        type: ACTIONS.UPDATE_LOAN_SETTINGS_SUCCESS,
+        callName: API.UPDATE_LOAN_SETTINGS,
+        loanSettings
+      });
 
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.UPDATE_LOAN_SETTINGS, err));
+    }
+  }
+}
+
+/**
+ *
+ * @param {Number} id
+ * @returns {Function}
+ */
+
+function getLoanSettings(id){
+    return async (dispatch) => {
+      try {
+        startApiCall(API.GET_LOAN_SETTINGS);
+        const res = await loansService.getLoanSettings(id);
+        const loanSettings = res.data;
+
+        dispatch({
+          type: ACTIONS.GET_LOAN_SETTINGS_SUCCESS,
+          callName: API.GET_LOAN_SETTINGS,
+          loanSettings
+        });
+
+      } catch(err) {
+        dispatch(showMessage('error', err.msg));
+        dispatch(apiError(API.GET_LOAN_SETTINGS, err));
+      }
+    }
+}
+
+/**
+ *
+ * @param {Number} loanId
+ * @returns {Function}
+ */
+
+function prepayInterest(id) {
+  return async (dispatch, getState) => {
+    startApiCall(API.PREPAY_LOAN_INTEREST)
+
+    try {
+      const { formData } = getState().forms
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code
+      };
+
+      const res = await loansService.prepayInterest(formData.prepaidPeriod, formData.coin, id, verification)
+      const transactionId = res.data.transaction_id;
+
+      dispatch({
+        type: ACTIONS.PREPAY_LOAN_INTEREST_SUCCESS
+      })
+      dispatch(navigateTo('TransactionDetails', { id: transactionId }));
+
+    } catch(err){
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.PREPAY_LOAN_INTEREST, err));
+    }
+  }
+}
+
+/**
+ * Pays principal for the selected loan
+ *
+ * @param {Number} id
+ */
+
+function payPrincipal(id) {
+  return async (dispatch, getState) => {
+    startApiCall(API.PAY_LOAN_PRINCIPAL)
+
+    try {
+      const { formData } = getState().forms
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code
+      };
+
+      const res = await loansService.payPrincipal(id, verification);
+
+      const transactionId = res.data.transaction_id;
+      dispatch(navigateTo('TransactionDetails', { id: transactionId }));
+
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.PAY_LOAN_PRINCIPAL, err));
+    }
+  }
+}
+
+/**
+ * Pay monthly interest for specific loan
+ *
+ * @param {UUID} id - loan id
+ */
+function payMonthlyInterest(id) {
+  return async (dispatch, getState) => {
+    startApiCall(API.PAY_LOAN_INTEREST)
+
+    try {
+      const { formData } = getState().forms
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code
+      };
+
+      const res = await loansService.payMonthlyInterest(id, verification);
+      const transactionId = res.data.transaction_id;
+      dispatch({ type: ACTIONS.PAY_LOAN_INTEREST_SUCCESS })
+      dispatch(navigateTo('TransactionDetails', { id: transactionId }));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.PAY_LOAN_PRINCIPAL, err));
+    }
+  }
+}
+
+function getAmortizationTable(id) {
+  return async (dispatch) => {
+    startApiCall(API.GET_AMORTIZATION_TABLE)
+
+    try {
+      const res = await loansService.getAmortizationTable(id);
+      const amortizationTable = res.data;
+
+      dispatch({
+        type: ACTIONS.GET_AMORTIZATION_TABLE_SUCCESS,
+        callName: API.GET_AMORTIZATION_TABLE,
+        amortizationTable
+      });
+
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_AMORTIZATION_TABLE, err));
     }
   }
 }

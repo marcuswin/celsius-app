@@ -9,6 +9,7 @@ const base = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
+    paddingVertical: 5,
     paddingHorizontal: 40
   },
   arcChart: {

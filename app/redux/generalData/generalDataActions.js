@@ -112,7 +112,7 @@ function getLoanTermsOfUse() {
       const res = await generalDataService.getLoanTermsOfUse();
       const pdfRes = await generalDataService.getPDFLoanTermsOfUse();
       const lToU = res.data;
-      const pdf = pdfRes.data;
+      const pdf = pdfRes;
 
        dispatch({
         type: ACTIONS.GET_LOAN_TERMS_OF_USE_SUCCESS,

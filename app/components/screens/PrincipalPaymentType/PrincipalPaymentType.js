@@ -27,12 +27,15 @@ class PrincipalPaymentType extends Component {
     title: "Principal Payment Type",
   });
 
-  handleSelectCoin = (coin) => {
-    const { actions } = this.props
-    actions.updateFormField('coin',  coin )
+  handleSelectCoin = async (coin) => {
+    const { actions, navigation } = this.props;
+    const id = navigation.getParam("id");
+
+    actions.updateFormField('coin',  coin );
+    await actions.updateLoanSettings(id, {principal_payment_asset: coin})
     actions.navigateBack()
     this.renderMessage(coin)
-  }
+  };
 
   renderMessage = (coin) => {
     const { actions } = this.props
@@ -45,7 +48,7 @@ class PrincipalPaymentType extends Component {
 
     const availableCoins = walletCoins
       .filter(coin => coins.includes(coin.short))
-      .sort((a,b) => Number(a.amount_usd) < Number(b.amount_usd))
+      .sort((a,b) => Number(b.amount_usd) - Number(a.amount_usd))
 
     return (
         <RegularLayout

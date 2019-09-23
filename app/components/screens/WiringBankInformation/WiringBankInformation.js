@@ -5,15 +5,17 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
 
-// import WiringBankInformationStyle from "./WiringBankInformation.styles";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import Separator from "../../atoms/Separator/Separator";
+import formatter from "../../../utils/formatter";
+import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
-    loyaltyInfo: state.user.loyaltyInfo
+    loyaltyInfo: state.user.loyaltyInfo,
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -24,13 +26,48 @@ class WiringBankInformation extends Component {
     right: "info"
   });
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isLoading: false,
+    }
+  }
+
+  getCopy = () => {
+    const { formData } = this.props
+
+    if (formData.amountUsd) {
+      return `Use the wire transfer details provided below to complete your prepayment of ${ formatter.usd(formData.amountUsd) }.`
+    }
+
+    return `Use the wire transfer details provided below to complete your prepayment in USD.`
+  }
+
+  setInterestInDollars = async () => {
+    const { actions, navigation } = this.props
+    const id = navigation.getParam('id')
+    const reason = navigation.getParam('reason')
+
+    this.setState({ isLoading: true })
+    await actions.updateLoanSettings(id, {interest_payment_asset: "USD"})
+    actions.showMessage("success", `You have successfully changed interest payment method to USD`)
+    actions.navigateTo('ChoosePaymentMethod', { id, reason })
+    this.setState({ isLoading: false })
+
+
+  }
+
   render() {
-    const { actions } = this.props;
+    const { navigation } = this.props;
+    const { isLoading } = this.state;
+    const copy = this.getCopy()
+    const reason = navigation.getParam('reason')
+
     return (
-      <RegularLayout fabType={"hide"}>
+      <RegularLayout>
         <CelText align={"center"}>
-          Use the wire transfer details provided below to complete your
-          prepayment in USD.
+          { copy }
         </CelText>
         <Separator text="Wiring Information" />
         <View style={{ marginBottom: 30 }}>
@@ -65,21 +102,23 @@ class WiringBankInformation extends Component {
           <CelText weight={"bold"}>(International) SWIFT Code:</CelText>
           <CelText>SIGNUS33XXX</CelText>
         </View>
+
+        { reason === LOAN_PAYMENT_REASONS.INTEREST && (
+          <CelButton
+            onPress={this.setInterestInDollars}
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Pay with Dollars
+          </CelButton>
+        )}
+
         {/* <Card>
           <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>Download Info</View>
             <View style={{ flex: 1 }}>Share Info</View>
           </View>
         </Card> */}
-        <CelButton
-          margin="50 0 30 0"
-          iconRight="IconArrowRight"
-          onPress={() => {
-            actions.navigateTo("LoanPaymentCoin");
-          }}
-        >
-          Continue
-        </CelButton>
       </RegularLayout>
     );
   }

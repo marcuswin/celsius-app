@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import LoanApplicationSuccessModalStyle from "./LoanApplicationSuccessModal.styles";
 import CelText from "../../atoms/CelText/CelText";
-import { MODALS } from "../../../constants/UI";
+import { LOAN_PAYMENT_REASONS, MODALS } from "../../../constants/UI";
 import CelModal from "../CelModal/CelModal";
 import CelButton from "../../atoms/CelButton/CelButton";
 import STYLES from "../../../constants/STYLES";
@@ -16,7 +17,9 @@ import * as appActions from "../../../redux/actions";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class LoanApplicationSuccessModal extends Component {
-  static propTypes = {};
+  static propTypes = {
+    loanId: PropTypes.number.isRequired,
+  };
   static defaultProps = {};
 
   constructor(props) {
@@ -41,13 +44,13 @@ class LoanApplicationSuccessModal extends Component {
   }
 
   closeModalHandler = () => {
-    const { actions } = this.props;
+    const { actions, loanId } = this.props;
     const { steps, currentStep } = this.state;
 
     if (steps[currentStep].buttonText === "Next") {
       this.setState({ currentStep: 1 });
     } else {
-      actions.navigateTo("ChoosePaymentMethod");
+      actions.navigateTo("ChoosePaymentMethod", { id: loanId, reason: LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT });
       actions.closeModal();
       this.setState({ currentStep: 0 });
     }
@@ -80,11 +83,7 @@ class LoanApplicationSuccessModal extends Component {
         </CelButton>
         {currentStep > 0 && (
           <View>
-            <CelButton basic onPress={() => {
-              actions.closeModal()
-              actions.showMessage('success', 'Loan successfully initialized!')
-              actions.navigateTo('BorrowLanding')
-            }}>
+            <CelButton basic onPress={() => {actions.closeModal()}}>
               Close
             </CelButton>
           </View>

@@ -70,7 +70,7 @@ class PersonalInformation extends Component {
 
     if (response.success) {
       actions.getProfileInfo()
-      actions.showMessage("success", "You have successfully submitted ssn number");
+      actions.showMessage("success", "You have successfully submitted SSN number");
     }
     this.setState({ updatingTaxInfo: false });
   };
@@ -84,10 +84,13 @@ class PersonalInformation extends Component {
     
     return (
       <RegularLayout>
-        <CelText margin={"0 0 20 0"} align={"center"} weight={"300"} type={"H4"}>To make changes on your personal
-          information <CelText weight={"300"} type={"H4"} color={STYLES.COLORS.CELSIUS_BLUE}
-            onPress={() => Linking.openURL("mailto:app@celsius.network")}>contact our
-            support.</CelText></CelText>
+        <CelText margin={"0 0 20 0"} align={"center"} weight={"300"} type={"H4"}>
+          To make changes on your personal information
+          <CelText weight={"300"} type={"H4"} color={STYLES.COLORS.CELSIUS_BLUE}
+            onPress={() => Linking.openURL("mailto:app@celsius.network")}>
+            {" contact our support."}
+          </CelText>
+        </CelText>
         {isUSCitizen() ? (
           <View>
             {userSetCountry &&
@@ -172,9 +175,9 @@ class PersonalInformation extends Component {
           <CelInput field={"profileCitizenship"} disabled type="text" value={user.citizenship} />
         </View>}
 
-        {user.cellphone &&
+        {!!user.cellphone &&
           <CelInput type="text" field='profileCellphone' disabled placeholder='Phone number' error={formErrors.cellphone}
-            value={user.cellphone_verified ? user.cellphone : ""} margin={"0 0 20 0"} />
+                    value={user.cellphone_verified ? user.cellphone : ""} margin={"0 0 20 0"}/>
         }
 
         {!user.cellphone_verified &&

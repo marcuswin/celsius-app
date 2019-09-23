@@ -11,10 +11,12 @@ import Card from "../../atoms/Card/Card";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import CelButton from "../../atoms/CelButton/CelButton";
+import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
 
 @connect(
   state => ({
-    loyaltyInfo: state.user.loyaltyInfo
+    loyaltyInfo: state.user.loyaltyInfo,
+    loanSettings: state.loans.loanSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -26,31 +28,67 @@ class PaymentCel extends Component {
     payInCelRatio: 0.1
   };
 
-  static navigationOptions = () => ({
-    title: "Pay with CEL",
-    right: "info"
-  });
+  static navigationOptions = ({ navigation }) => {
+    const reason = navigation.getParam("reason");
 
-  // TODO (srdjan) make interest in cel ratio calculation
-  // getPayInCelRatio = () => {
-  //   const { loyaltyInfo } = this.props
-  //
-  // }
+    let title = "Pay with CEL"
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
+      title = "Prepay with CEL"
+    }
 
-  navigate = () => {
+    return {
+      title,
+      right: "info"
+    }
+  };
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isLoading: false,
+    }
+  }
+
+  navigate = async () => {
     const {actions, navigation} = this.props;
     const reason = navigation.getParam("reason");
-     if (reason) {
+    const id = navigation.getParam("id");
+
+    if (reason) {
+       await actions.updateLoanSettings(id, {interest_payment_asset: "CEL"})
        actions.showMessage("success", "You have successfully changed interest payment method")
-       return actions.navigateTo("LoanSettings")
+
+      return actions.navigateTo("LoanSettings")
      }
 
-    actions.navigateTo("LoanPrepaymentPeriod", { coin: "CEL" })
+    actions.navigateTo("LoanPrepaymentPeriod", { coin: "CEL", id })
   };
+
+  payInCel = async () => {
+    const { actions, navigation } = this.props
+    const reason = navigation.getParam("reason");
+    const id = navigation.getParam("id");
+
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
+      actions.updateFormField('coin', 'CEL')
+      actions.navigateTo('LoanPrepaymentPeriod', { id, reason })
+    }
+
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
+      this.setState({ isLoading: true })
+      await actions.updateLoanSettings(id, {interest_payment_asset: "CEL"})
+      actions.showMessage("success", "You have successfully changed interest payment method")
+      actions.navigateTo('ChoosePaymentMethod', { id, reason })
+      this.setState({ isLoading: false })
+    }
+
+  }
 
   render() {
     // const style = PaymentCelCelStyle();
     const { actions } = this.props;
+    const { isLoading } = this.state;
 
     const percentageNumber = 16; // TODO (srdjan) this number is from BE, calculated or hardcoded?
 
@@ -78,7 +116,9 @@ class PaymentCel extends Component {
         </Card>
         <CelButton
           margin={"20 0 0 0"}
-          onPress={() => this.navigate()}
+          onPress={this.payInCel}
+          loading={isLoading}
+          disabled={isLoading}
         >
           Pay with CEL
         </CelButton>

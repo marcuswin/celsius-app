@@ -11,13 +11,13 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from "../../../utils/formatter";
 import { getMargins, widthPercentageToDP } from "../../../utils/styles-util";
-import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
 import { LOAN_STATUS } from "../../../constants/DATA";
+import { LOAN_PAYMENT_REASONS, MODALS } from "../../../constants/UI";
 import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
 import STYLES from "../../../constants/STYLES";
+import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
 
 class LoanOverviewCard extends Component {
-
   static propTypes = {
     loan: PropTypes.instanceOf(Object),
     navigateTo: PropTypes.func.isRequired,
@@ -35,7 +35,10 @@ class LoanOverviewCard extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false,
+      table: []
+    };
   }
 
   getMarginForIndex(index, length) {
@@ -55,48 +58,77 @@ class LoanOverviewCard extends Component {
     actions.lockMarginCollateral(loan.margin_call.id, marginCallData);
   };
 
+  openCancelModal = () => {
+    const {actions, loan} = this.props;
+    actions.updateFormField('loanId', loan.id);
+    actions.openModal(MODALS.LOAN_CANCEL_MODAL);
+  }
+
+  payInterest = async () => {
+    const { actions, loan } = this.props
+    this.setState({ isLoading: true });
+    await actions.navigateTo('VerifyProfile', {
+      onSuccess: () => actions.payMonthlyInterest(loan.id),
+    })
+    this.setState({ isLoading: false });
+  }
+
+  payPrincipal = async () => {
+    const { actions, loan } = this.props
+    this.setState({ isLoading: true });
+    await actions.navigateTo('VerifyProfile', {
+      onSuccess: () => actions.payPrincipal(loan.id),
+    })
+    this.setState({ isLoading: false });
+  }
+
   render() {
     const { loan, navigateTo, index, length, actions, hasEnoughOtherCoins, hasEnoughOriginalCoin } = this.props;
+    const {isLoading} = this.state;
     const style = LoanOverviewCardStyle();
+    let previousPayments;
+    let previous5Payments;
 
-    const previousPayments = loan.amortization_table.filter(p => p.isPaid);
-    const previous5Payments = previousPayments.slice(0, 5);
+    if (loan.amortization_table) {
+      previousPayments = loan.amortization_table.filter(p => p.isPaid);
+      previous5Payments = previousPayments.slice(0, 5);
+    }
 
     return (
       <View style={[style.container, getMargins(this.getMarginForIndex(index, length))]}>
-        <Card padding={"0 0 0 0"}>
+        <Card  padding={"0 0 0 0"}>
           <View style={style.info}>
             <View style={style.status}>
               <Icon name={"TransactionLoan"} fill={loan.uiProps.color} width={"25"} height={"25"}/>
               <CelText type={"H5"} color={loan.uiProps.color} margin={"0 5 0 0"}>{loan.uiProps.displayText}</CelText>
-            </View>
+             </View>
 
             <CelText type={"H2"} weight={"600"} margin={"5 0 5 0"}>{loan.uiProps.displayAmount}</CelText>
 
             {loan.status === LOAN_STATUS.COMPLETED && (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Loan Completed:</CelText>
-                <CelText type={"H6"}>{moment(loan.maturity_date).format("MMMM DD, YYYY")}</CelText>
+                <CelText type={"H6"}>{moment(loan.maturity_date).format("MMM DD, YYYY").toUpperCase()}</CelText>
               </View>
             )}
 
             {loan.status === LOAN_STATUS.CANCELED && (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Request Canceled:</CelText>
-                <CelText type={"H6"}>{moment(loan.canceled_at).format("MMMM DD, YYYY")}</CelText>
+                <CelText type={"H6"}>{moment(loan.canceled_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
               </View>
             )}
 
             {[LOAN_STATUS.APPROVED, LOAN_STATUS.ACTIVE].includes(loan.status) && (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Loan Approved:</CelText>
-                <CelText type={"H6"}>{moment(loan.approved_at).format("MMMM DD, YYYY")}</CelText>
+                <CelText type={"H6"}>{moment(loan.approved_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
               </View>
             )}
 
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
               <CelText type={"H6"}>Loan Requested:</CelText>
-              <CelText type={"H6"}>{moment(loan.created_at).format("MMMM DD, YYYY")}</CelText>
+              <CelText type={"H6"}>{moment(loan.created_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
             </View>
 
             {loan.status === LOAN_STATUS.PENDING &&
@@ -134,26 +166,43 @@ class LoanOverviewCard extends Component {
           }
 
           {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
-            <View>
+            <View styles={{ flex: 1 }}>
               <Separator size={2} margin={"0 0 10 0"}/>
-              <View style={style.interest}>
-                <View>
-                  <CelText type={"H6"} weight={"300"}>Monthly interest</CelText>
-                  <CelText type={"H3"} weight={"600"}>{formatter.usd(loan.monthly_payment)}</CelText>
-                  <CelText type={"H6"} weight={"300"} margin={"15 0 0 0"}>Total interest</CelText>
-                  <CelText type={"H3"} weight={"600"}>{formatter.usd(loan.total_interest)}</CelText>
-
-                  <Card color={style.card.color} padding={"5 5 5 5"}>
-                    <CelText type={"H7"} weight={"300"}>{"-XX if paid in CEL"}</CelText>
-                  </Card>
-
+              <View>
+                <View
+                    style={style.interests}
+                >
+                  <View style={[style.interest, {marginBottom: 8}]}>
+                    <CelText align={'center'} type={"H6"} weight={"300"}>Monthly interest</CelText>
+                    <CelText align={'center'} type={"H3"} weight={"600"}>{formatter.usd(loan.monthly_payment)}</CelText>
+                  </View>
+                  <View style={style.interest}>
+                    <CelText align={'center'} type={"H6"} weight={"300"}>Total interest</CelText>
+                    <CelText align={'center'} type={"H3"} weight={"600"}>{formatter.usd(loan.total_interest)}</CelText>
+                  </View>
                 </View>
-                <View style={style.progress}>
-                  <CircularProgressBar
-                    amountLoaned={Number(loan.total_interest)}
-                    amountPaid={Number(loan.total_interest_paid)}
-                  />
-                </View>
+              </View>
+
+              <View styles={{ flex: 1}}>
+                <Card
+                    color={style.card.color}
+                    padding={"5 5 5 5"}
+                    margin={'0 0 20 0'}
+                    size={'half'}
+                    styles={{ alignSelf: 'center'}}
+                >
+                  <CelText
+                    type={"H7"}
+                    weight={"300"}
+                    align={'center'}
+                  >{"-XX if paid in CEL"}</CelText>
+                </Card>
+              </View>
+              <View style={style.progress}>
+                <CircularProgressBar
+                  amountLoaned={Number(loan.total_interest)}
+                  amountPaid={Number(loan.total_interest_paid)}
+                />
               </View>
             </View>
           )}
@@ -175,7 +224,7 @@ class LoanOverviewCard extends Component {
 
             {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
                 <CelButton
-                  onPress={() => navigateTo("LoanSettings", { id: loan.id })}
+                  onPress={() => navigateTo('VerifyProfile', { onSuccess: () => navigateTo("LoanSettings", { id: loan.id }) })}
                   basic
                   textSize={"H6"}
                 >
@@ -184,34 +233,46 @@ class LoanOverviewCard extends Component {
             )}
           </View>
 
-          {loan.hasInterestPaymentFinished && loan.status === LOAN_STATUS.ACTIVE &&
-          <View>
-            <Separator size={2} margin={"0 0 0 0"}/>
-            <CelButton
-              onPress={() => navigateTo("LoanRequestDetails", { id: loan.id })}
-              margin={"15 0 15 0"}
-              color="green"
-            >
-              Payout Principal
-            </CelButton>
-          </View>
+          { loan.hasInterestPaymentFinished && !loan.isPrincipalPaid &&
+            <View>
+              <Separator size={2} margin={"0 0 0 0"}/>
+              <CelButton
+                onPress={this.payPrincipal}
+                margin={"15 0 15 0"}
+                color="green"
+                loading={isLoading}
+                disabled={isLoading}
+              >
+                Payout Principal
+              </CelButton>
+            </View>
+          }
+          { loan.can_pay_interest &&
+            <View>
+              <Separator size={2} margin={"0 0 0 0"}/>
+              <CelButton
+                onPress={this.payInterest}
+                margin={"15 0 15 0"}
+                loading={isLoading}
+                disabled={isLoading}
+              >
+                Pay Monthly Interest
+              </CelButton>
+            </View>
           }
         </Card>
 
         {loan.status === LOAN_STATUS.PENDING && (
           <CelButton
             margin="15 0 15 0"
-            onPress={() => {
-              actions.cancelLoan(loan.id);
-              navigateTo("LoanRequestDetails", { id: loan.id });
-            }}
+            onPress={this.openCancelModal}
             color="red"
           >
             Cancel loan
           </CelButton>
         )}
 
-        {loan.status === LOAN_STATUS.APPROVED && (
+        { loan.canPrepayInterest && (
           <Card close>
             <CelText weight="500">
               Did you know you can prepay loan interest?
@@ -228,14 +289,14 @@ class LoanOverviewCard extends Component {
             <CelButton
               basic
               textSize={"H6"}
-              onPress={() => navigateTo("LoanRequestDetails", { id: loan.id })}
+              onPress={() => navigateTo("ChoosePaymentMethod", { id: loan.id, reason: LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT })}
             >
               Prepay interest
             </CelButton>
           </Card>
         )}
 
-        {loan.status === LOAN_STATUS.ACTIVE && (
+        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && previousPayments && !!previousPayments.length && (
           <View>
             <CelText>Payment History</CelText>
 
@@ -255,10 +316,13 @@ class LoanOverviewCard extends Component {
           </View>
         )}
 
-        {loan.status === LOAN_STATUS.ACTIVE && !loan.hasInterestPaymentFinished && (
+        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) &&
+          (!loan.hasInterestPaymentFinished || !loan.isPrincipalPaid) && (
           <View>
             <Separator margin="10 0 10 0"/>
-            <CelButton onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}>
+            <CelButton
+              onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}
+            >
               Upcoming Payments
             </CelButton>
           </View>

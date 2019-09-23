@@ -10,7 +10,7 @@ import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
 
 @connect(
   state => ({
-    activeLoan: state.loans.activeLoan,
+    allLoans: state.loans.allLoans
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -27,17 +27,20 @@ class LoanPaymentHistory extends Component {
   constructor(props) {
     super(props);
 
-    const { navigation, actions } = props;
+    const { navigation, allLoans } = props;
     const loanId = navigation.getParam("id");
-    actions.setActiveLoan(loanId)
+
+    this.state = {
+      loan: allLoans.find(l => l.id === loanId)
+    }
   }
 
   render() {
-    const { activeLoan } = this.props
+    const { loan } = this.state
 
-    if (!activeLoan) return null;
+    if (!loan.amortization_table) return null;
 
-    const paymentHistory = activeLoan.amortization_table.filter(p => p.isPaid)
+    const paymentHistory = loan.amortization_table.filter(p => p.isPaid)
 
     return (
       <RegularLayout>

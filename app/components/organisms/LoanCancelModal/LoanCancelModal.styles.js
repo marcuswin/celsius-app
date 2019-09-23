@@ -4,8 +4,7 @@ import { getThemedStyle } from '../../../utils/styles-util';
 const base = {
     container: {
         flex: 1
-    },
-    spinner: {alignItems: "center", justifyContent: "center"}
+    }
 }
 
 const themed = {
@@ -19,6 +18,6 @@ const themed = {
     }
 }
 
-const LoanSettingsStyle = () => getThemedStyle(base, themed);
+const LoanCancelModalStyle = () => getThemedStyle(base, themed);
 
-export default LoanSettingsStyle
+export default LoanCancelModalStyle

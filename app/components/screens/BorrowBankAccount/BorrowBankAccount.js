@@ -42,12 +42,17 @@ class BorrowBankAccount extends Component {
 
   getExistingBankAccountData() {
     const { bankAccountInfo, actions } = this.props;
+
+    if (!bankAccountInfo) return;
+
     actions.updateFormFields({
       bank_name: bankAccountInfo.bank_name,
       bank_account_number: bankAccountInfo.bank_account_number,
       bank_routing_number: bankAccountInfo.bank_routing_number,
-      selectedAccountType:
-        bankAccountInfo.account_type === "checking" ? "Checking" : "Savings",
+      selectedAccountType: bankAccountInfo.account_type === "checking" ? "Checking" : "Savings",
+      bank_city: bankAccountInfo.bank_city,
+      bank_street_and_number: bankAccountInfo.bank_street_and_number,
+      bank_zip: bankAccountInfo.bank_zip,
       swift: bankAccountInfo.swift,
       iban: bankAccountInfo.iban,
       bank_location: { name: bankAccountInfo.location }
@@ -62,6 +67,9 @@ class BorrowBankAccount extends Component {
       bank_name: formData.bank_name,
       bank_routing_number: formData.bank_routing_number,
       account_type: formData.selectedAccountType,
+      bank_city: formData.bank_city,
+      bank_street_and_number: formData.bank_street_and_number,
+      bank_zip: formData.bank_zip,
       bank_account_number: formData.bank_account_number,
       swift: formData.swift,
       iban: formData.iban,
@@ -77,8 +85,8 @@ class BorrowBankAccount extends Component {
     }
 
     this.setState({ isLoading: true });
-    await actions.confirmLoanInfo(formData); // TODO: create object with proper data and send it instead of formData
     await actions.linkBankAccount(bankAccountInfo);
+    actions.navigateTo('LoanTermsOfUse')
     this.setState({ isLoading: false });
   };
 
@@ -93,6 +101,8 @@ class BorrowBankAccount extends Component {
     const { isLoading } = this.state;
     const { formData, formErrors } = this.props;
     const isAmerican = this.isAmerican();
+
+    // TODO Check how should bank data be sent to back
 
     return (
       <View style={{ flex: 1 }}>
@@ -124,6 +134,51 @@ class BorrowBankAccount extends Component {
             error={formErrors.bank_name}
             returnKeyType={"next"}
             blurOnSubmiting={false}
+            onSubmitEditing={() => {
+              this.bank_city.focus();
+            }}
+          />
+
+          <CelInput
+            placeholder="Bank City"
+            field={"bank_city"}
+            value={formData.bank_city}
+            error={formErrors.bank_city}
+            returnKeyType={"next"}
+            blurOnSubmiting={false}
+            refs={input => {
+              this.bank_city = input;
+            }}
+            onSubmitEditing={() => {
+              this.bank_street_and_number.focus();
+            }}
+          />
+
+          <CelInput
+            placeholder="Bank Street and Number"
+            field={"bank_street_and_number"}
+            value={formData.bank_street_and_number}
+            error={formErrors.bank_street_and_number}
+            returnKeyType={"next"}
+            blurOnSubmiting={false}
+            refs={input => {
+              this.bank_street_and_number = input;
+            }}
+            onSubmitEditing={() => {
+              this.bank_zip.focus();
+            }}
+          />
+
+          <CelInput
+            placeholder="Bank Zip"
+            field={"bank_zip"}
+            value={formData.bank_zip}
+            error={formErrors.bank_zip}
+            returnKeyType={"next"}
+            blurOnSubmiting={false}
+            refs={input => {
+              this.bank_zip = input;
+            }}
             onSubmitEditing={() => {
               if (isAmerican) {
                 this.bank_account_number.focus();
@@ -216,7 +271,7 @@ class BorrowBankAccount extends Component {
               onPress={this.linkBankAccount}
               loading={isLoading}
             >
-              Confirm your loan
+              Continue
             </CelButton>
           </View>
         </RegularLayout>

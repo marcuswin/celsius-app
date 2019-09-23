@@ -56,7 +56,6 @@ class LoanInterestCard extends Component {
       amountCollateralUsd,
       ltv: loanToValue
     });
-
     actions.navigateTo("BorrowLoanTerm")
   };
 
@@ -76,7 +75,7 @@ class LoanInterestCard extends Component {
         onPress={this.isAllowed ? () => this.setLoanOption(ltv.interest, this.monthlyPayment, this.amountCollateralUsd, this.amountCollateralCrypto, this.loanToValue) : null}
         color={this.isAllowed ? null: style.cardStyle.color}
         padding="15 15 15 15"
-        margin="25 0 5 0"
+        margin="5 0 5 0"
         // opacity={isAllowed ? 1 : 0.4}
       >
           <View style={style.textContainer}>

@@ -19,6 +19,17 @@ function getProps(purpose, componentProps) {
   }
 
   switch (purpose) {
+    case EMPTY_STATES.NO_LOANS:
+      return {
+        ...props,
+        image: require('../../assets/images/monkey-on-a-laptop-illustration.png'),
+        heading: "Apply For Your First Loan",
+        paragraphs: ["Take out a dollar, crypto or stablecoin loan at the lowest interest rates."],
+        onPress: () => actions.navigateTo("BorrowEnterAmount"),
+        button: 'Apply for a loan',
+        secondaryOnPress: () => actions.openModal(MODALS.BORROW_CALCULATOR_MODAL),
+        secondaryButton: 'Calculate Loan Interest',
+      };
     // Not KYC Verified Empty States
     case EMPTY_STATES.NON_VERIFIED_WITHDRAW:
       return {

@@ -312,8 +312,9 @@ async function withdrawCompleted (withdrawTransaction) {
  */
 async function celpayCompleted (celPayTransfer) {
   const { currencyRatesShort } = store.getState().currencies
-  const amountUsd =
-      celPayTransfer.amount * currencyRatesShort[celPayTransfer.coin]
+
+  const amountUsd = celPayTransfer.amount * currencyRatesShort[celPayTransfer.coin.toLowerCase()]
+
   await appsFlyer.trackEvent('SPEND_CREDITS', {
     ...appInfo,
     revenue: Number(amountUsd),

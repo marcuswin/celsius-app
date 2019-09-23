@@ -12,14 +12,13 @@ import Badge from "../../atoms/Badge/Badge";
 
 
 class PaymentCard extends Component {
-
   static propTypes = {
     cardTitle: PropTypes.string,
     cardCopy: PropTypes.string,
     lightImage: PropTypes.number,
     darkImage: PropTypes.number,
     onPressAction: PropTypes.func,
-    isPaymentCel: PropTypes.bool, // TODO move to redux
+    isActive: PropTypes.bool,
   };
   static defaultProps = {}
 
@@ -29,8 +28,7 @@ class PaymentCard extends Component {
   }
 
   render() {
-
-    const { cardTitle, cardCopy, lightImage, darkImage, onPressAction, isPaymentCel } = this.props
+    const { cardTitle, cardCopy, lightImage, darkImage, onPressAction, isActive } = this.props
     const style = PaymentCardsStyle();
 
     return (
@@ -69,7 +67,7 @@ class PaymentCard extends Component {
                     style={{marginTop: 10}}
                   />
                 </View>
-                { isPaymentCel ?
+                { isActive ?
                   (<View style={{ alignSelf: 'flex-start'}}>
                   <Badge
                     color={STYLES.COLORS.GREEN}

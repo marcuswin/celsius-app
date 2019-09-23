@@ -8,12 +8,14 @@ import ChoosePaymentMethodStyle from "./ChoosePaymentMethod.styles";
 import PaymentCard from "../../organisms/PaymentCard/PaymentCard";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import PrepayDollarInterestModal from "../../organisms/PrepayDollarInterestModal/PrepayDollarInterestModal";
-import { MODALS } from "../../../constants/UI";
+import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
 import formatter from "../../../utils/formatter";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 @connect(
   state => ({
-    formData: state.forms.formData
+    formData: state.forms.formData,
+    loanSettings: state.loans.loanSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -21,45 +23,89 @@ class ChoosePaymentMethod extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     const reason = navigation.getParam("reason");
+
+    let title = "Setup Payment"
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
+      title = "Prepay interest"
+    }
+
     return {
-    title: reason ? "Setup Payment" : "Prepay interest",
-    right: "profile",
-    left: "back"
-  }};
+      title,
+      right: "profile",
+      left: "back"
+    };
+  };
+
+
+  componentDidMount() {
+    const { actions, navigation } = this.props
+    const id = navigation.getParam("id");
+    actions.getLoanSettings(id)
+  }
+
+  getActiveCards = () => {
+    const { navigation, loanSettings } = this.props;
+    const reason = navigation.getParam("reason");
+
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
+      return {
+        cel: false,
+        coin: false,
+        usd: false,
+      }
+    }
+
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
+      return {
+        cel: loanSettings.interest_payment_asset === "CEL",
+        coin: !["CEL", 'USD'].includes(loanSettings.interest_payment_asset),
+        usd: loanSettings.interest_payment_asset === "USD",
+      }
+    }
+  }
 
   getCardProps = () => {
     const { actions, navigation } = this.props;
     const number = 12; // TODO (srdjan) this number is from BE, calculating based on cel ratio, or hardcoded?
+    const id = navigation.getParam("id");
     const reason = navigation.getParam("reason");
+    const activeCards = this.getActiveCards()
 
-    const pay = reason ? `pay` : `prepay`;
+    const pay = reason !== LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT ? `pay` : `prepay`;
 
     const cardProps = [
       {
         cardTitle: `${formatter.capitalize(pay)} with CEL`,
         cardCopy: `Pay up to ${number}% less interest when you choose to ${pay} your monthly payment in CEL.`,
-        onPressAction: () => actions.navigateTo("PaymentCel", {reason}),
+        onPressAction: () => actions.navigateTo("PaymentCel", { reason, id }),
         lightImage: require("../../../../assets/images/icons/cel.png"),
         darkImage: require("../../.././../assets/images/icons/cel-dark.png"),
-        isPaymentCel: true
+        isActive: activeCards.cel,
       },
       {
         cardTitle: `${formatter.capitalize(pay)} with crypto`,
         cardCopy: `Use coins from your wallet to ${pay} your loan interest.`,
-        onPressAction: () => actions.navigateTo("LoanPaymentCoin", {reason}),
+        onPressAction: () => actions.navigateTo("LoanPaymentCoin", { reason, id }),
         lightImage: require("../../../../assets/images/icons/crypto.png"),
         darkImage: require("../../.././../assets/images/icons/crypto-dark.png"),
-        isPaymentCel: false
+        isActive: activeCards.coin,
       },
       {
         cardTitle: `${formatter.capitalize(pay)} with Dollars`,
         cardCopy: `Get all the information necessary to ${pay} your interest in dollars.`,
-        onPressAction: () => reason ? actions.navigateTo("BorrowBankAccount", { reason }) : actions.openModal(MODALS.PREPAY_DOLLAR_INTEREST_MODAL),
+        onPressAction: () => {
+          if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
+            actions.updateFormField('coin', "USD")
+            actions.navigateTo('LoanPrepaymentPeriod', { id, reason })
+          } else {
+            actions.navigateTo('WiringBankInformation', { id, reason })
+          }
+        },
         lightImage: require("../../../../assets/images/icons/dollars.png"),
         darkImage: require("../../.././../assets/images/icons/dollars-dark.png"),
-        isPaymentCel: false
+        isActive: activeCards.usd,
       }
     ];
 
@@ -67,6 +113,9 @@ class ChoosePaymentMethod extends Component {
   };
 
   render() {
+    const { loanSettings } = this.props
+    if (!loanSettings) return <LoadingScreen />
+
     const style = ChoosePaymentMethodStyle();
 
     const cardProps = this.getCardProps();
@@ -74,19 +123,9 @@ class ChoosePaymentMethod extends Component {
     return (
       <View style={style.container}>
         <RegularLayout>
-          {cardProps.map(i => (
-            <PaymentCard
-              key={i.cardTitle}
-              cardTitle={i.cardTitle}
-              cardCopy={i.cardCopy}
-              onPressAction={i.onPressAction}
-              lightImage={i.lightImage}
-              isPaymentCel={i.isPaymentCel}
-              darkImage={i.darkImage}
-            />
-          ))}
+          {cardProps.map(i => <PaymentCard {...i} key={i.cardTitle}/>)}
         </RegularLayout>
-        <PrepayDollarInterestModal />
+        <PrepayDollarInterestModal/>
       </View>
     );
   }

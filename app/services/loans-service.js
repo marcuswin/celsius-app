@@ -10,7 +10,13 @@ const loansService = {
   cancelLoan,
   getMarginCalls,
   lockMarginCollateral,
-  updateLoanSettings
+  updateLoanSettings,
+  loanApplyPreviewData,
+  getLoanSettings,
+  prepayInterest,
+  payPrincipal,
+  payMonthlyInterest,
+  getAmortizationTable
 };
 
 /**
@@ -38,6 +44,30 @@ function apply(loanApplication, verification) {
     ...verification
   });
 }
+
+/**
+ * Applies the user for a loan on /loans/apply and takes collateral
+ *
+ * @param {Object} loanApplication
+ * @param {string} loanApplication.coin - eg. ETH
+ * @param {number} loanApplication.amount_collateral_usd
+ * @param {number} loanApplication.amount_collateral_crypto
+ * @param {number} loanApplication.ltv - loan to value, eg. 0.5
+ * @param {number} loanApplication.interest - annual interest percentage, eg. 0.05
+ * @param {string} loanApplication.loan_amount - amount to borrow in USD
+ * @param {number} loanApplication.term_of_loan - in months, eg. 12
+ * @param {string} loanApplication.bank_info_id - uuid of users bank_info
+ *
+ * @returns {Promise}
+ *
+ */
+
+function loanApplyPreviewData(loanApplication) {
+  return axios.post(`${apiUrl}/loans/apply_preview`, {
+    ...loanApplication,
+  });
+}
+
 
 
 /**
@@ -121,7 +151,70 @@ function lockMarginCollateral(marginCallID, marginCallData) {
  * @returns {Promise}
  */
 function updateLoanSettings(loanId, value) {
-  return axios.post(`${apiUrl}/loans/${loanId}/settings`, value)
+  return axios.put(`${apiUrl}/loans/${loanId}/settings`, value)
+}
+
+/**
+ *
+ * @param {Number}loanId
+ * @returns {Promise}
+ */
+function getLoanSettings(loanId){
+  return axios.get(`${apiUrl}/loans/${loanId}/settings`)
+}
+
+/**
+ * Prepay interest for a loan
+ *
+ * @param {Number} numberOfInstallments - number of months to prepay
+ * @param {String} coin - BTC|XRP
+ * @param {UUID} id - id of the loan
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+
+ * @returns {Promise}
+ */
+function prepayInterest(numberOfInstallments, coin, id, verification) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/prepayment`, {
+    numberOfInstallments,
+    coin,
+    ...verification
+  })
+}
+
+/**
+ * Creates the principal payment for specific loan, and finishes the loan
+ *
+ * @param {Number} id - loan id
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+
+ * @returns {Promise}
+ */
+function payPrincipal(id, verification) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/receiving_principal_back`, verification)
+}
+
+/**
+ * Creates the monthly interest payment for specific loan
+ *
+ * @param {Number} id - loan id
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+
+ * @returns {Promise}
+ */
+function payMonthlyInterest(id, verification) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/monthly_interest`, verification)
+}
+
+/**
+ *
+ * @param id
+ * @returns {Promise}
+ */
+function getAmortizationTable(id) {
+  return axios.get(`${apiUrl}/loans/${id}/amortization-table`)
 }
 
 export default loansService;

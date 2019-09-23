@@ -17,6 +17,7 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import CelButton from "../../atoms/CelButton/CelButton";
 import { LOAN_STATUS } from "../../../constants/DATA";
 import formatter from "../../../utils/formatter";
+import LoanApplicationSuccessModal from "../../organisms/LoanApplicationSuccessModal/LoanApplicationSuccessModal";
 
 @connect(
   state => ({
@@ -29,10 +30,16 @@ class LoanRequestDetails extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  static navigationOptions = () => ({
-    title: `Loan Details`,
-    right: "profile"
-  });
+  static navigationOptions = ({ navigation }) => {
+    const hideBack = navigation.getParam("hideBack")
+
+    return {
+      title: `Loan Details`,
+      right: "profile",
+      hideBack,
+    };
+  }
+
 
   constructor(props) {
     super(props);
@@ -43,7 +50,7 @@ class LoanRequestDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (_.isEqual(prevProps.activeLoan, this.props.activeLoan)) {
+    if (!_.isEqual(prevProps.activeLoan, this.props.activeLoan)) {
       this.props.navigation.setParams({
         title: `${this.props.activeLoan.uiProps.displayText} Details`
       })
@@ -91,11 +98,11 @@ class LoanRequestDetails extends Component {
                                  monthly={activeLoan.monthly_payment}
                                  total={activeLoan.total_interest}/>;
       case "marginCall":
-        return <CardSection key={sectionType} title={"BTC Margin Call At:"} amount={30}
-                            cardText={"If BTC drops below $xxxx you will get a notification asking for additional collateral."} />;
+        return activeLoan.margin_call && <CardSection key={sectionType} title={`${activeLoan.margin_call.collateral_coin} Margin Call At:`} amount={activeLoan.margin_call.margin_call_usd_amount}
+                            cardText={`If ${activeLoan.margin_call.collateral_coin} drops below ${formatter.usd(activeLoan.margin_call.margin_call_usd_amount)} you will get a notification asking for additional collateral.`} />;
       case "liquidation":
-        return  <CardSection key={sectionType} title={"Liquidation At:"} amount={50}
-                             cardText={"If BTC drops below $xxx we will sell some of your collateral to cover the margin."}/>;
+        return activeLoan.margin_call && <CardSection key={sectionType} title={"Liquidation At:"} amount={activeLoan.liquidation_call_price}
+                             cardText={`If ${activeLoan.margin_call.collateral_coin} drops below ${formatter.usd(activeLoan.liquidation_call_price)} we will sell some of your collateral to cover the margin.`}/>;
       // case "firstInterest":
       //   return  <BasicSection key={sectionType} label={"First Interest Payment Due"} value={moment(transaction.loan_data.first_interest).format("D MMM YYYY")}/>;
       // case "nextInterest":
@@ -109,6 +116,7 @@ class LoanRequestDetails extends Component {
 
   render() {
     const { actions, activeLoan } = this.props;
+
     if (!activeLoan) return <LoadingScreen/>;
 
     const style = LoanRequestDetailsStyle();
@@ -136,6 +144,8 @@ class LoanRequestDetails extends Component {
         >
           Go back to the wallet
         </CelButton>
+
+        <LoanApplicationSuccessModal loanId={activeLoan.id} />
       </RegularLayout>
     );
   }

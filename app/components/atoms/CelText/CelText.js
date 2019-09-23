@@ -70,7 +70,7 @@ class CelText extends Component {
 
     const fontWeight = weight || this.getFontWeightForType(type)
     let fontFamily = `${font}${ASSETS.WEIGHT[fontWeight.toString()]}`
-    if (italic) fontFamily = `${fontFamily}-italic`
+    if (italic) fontFamily = `${fontFamily}Italic`
     return fontFamily
   }
 

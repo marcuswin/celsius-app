@@ -38,12 +38,6 @@ class BorrowLoanTerm extends Component {
     props.actions.updateFormField('termOfLoan', 6)
   }
 
-  onConfirmYourLoanPress = async () => {
-    const { actions, formData } = this.props
-    await actions.confirmLoanInfo(formData)  // TODO: create object with proper data and send it instead of formData
-    actions.navigateTo('ConfirmYourLoan')
-  }
-
   changeSelectedLoan = (selectedStep) => {
     const { actions } = this.props;
     actions.updateFormField('termOfLoan', selectedStep)
@@ -53,8 +47,12 @@ class BorrowLoanTerm extends Component {
     const { actions, formData } = this.props
     if (formData.loanType === LOAN_TYPES.STABLE_COIN_LOAN ) {
       return (
-        <CelButton margin="50 0 30 0" onPress={this.onConfirmYourLoanPress} iconRight="IconArrowRight">
-          Confirm your loan
+        <CelButton
+          margin="50 0 30 0"
+          onPress={() => actions.navigateTo('LoanTermsOfUse')}
+          iconRight="IconArrowRight"
+        >
+          Continue
         </CelButton>
       )
     }
@@ -69,12 +67,12 @@ class BorrowLoanTerm extends Component {
     const { actions, formData } = this.props;
 
     const sliderItems = [
-      { value: 6, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null}>6 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 6)) }  USD </CelText></>},
-      { value: 12, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null}>12 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 12)) }  USD</CelText></>},
-      { value: 18, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 18 ? STYLES.COLORS.CELSIUS_BLUE : null}>18 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 18)) }  USD</CelText></>},
-      { value: 24, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null}>24 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 24)) }  USD</CelText></>},
-      { value: 30, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 30 ? STYLES.COLORS.CELSIUS_BLUE : null}>30 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 30)) } USD</CelText></>},
-      { value: 36, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 36 ? STYLES.COLORS.CELSIUS_BLUE : null}>36 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 36)) }  USD</CelText></>},
+      { value: 6, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null}>6 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 6)) }  USD </CelText></>},
+      { value: 12, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null}>12 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 12)) }  USD</CelText></>},
+      { value: 18, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 18 ? STYLES.COLORS.CELSIUS_BLUE : null}>18 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 18)) }  USD</CelText></>},
+      { value: 24, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null}>24 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 24)) }  USD</CelText></>},
+      { value: 30, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 30 ? STYLES.COLORS.CELSIUS_BLUE : null}>30 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 30)) } USD</CelText></>},
+      { value: 36, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 36 ? STYLES.COLORS.CELSIUS_BLUE : null}>36 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 36)) }  USD</CelText></>},
     ]
 
     return (

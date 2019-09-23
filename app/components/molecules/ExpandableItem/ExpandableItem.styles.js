@@ -9,16 +9,16 @@ const base = {
   left: {
     flex: 1,
     alignItems: 'flex-start',
-    borderWidth: 1,
-    height: 2,
+    borderWidth: 0.5,
+    height: 1,
     marginTop: 10,
     marginRight: 5
   },
   leftSegment: {
     alignItems: 'flex-start',
     borderColor: 'blue',
-    borderWidth: 1,
-    height: 2,
+    borderWidth: 0.5,
+    height: 1,
     marginTop: 10,
     width: 21
   },
@@ -26,8 +26,8 @@ const base = {
     flex: 1,
     alignItems: 'flex-start',
     borderColor: 'red',
-    borderWidth: 1,
-    height: 2,
+    borderWidth: 0.5,
+    height: 1,
     marginTop: 10,
     marginLeft: 5
   },
