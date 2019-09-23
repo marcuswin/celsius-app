@@ -155,18 +155,16 @@ class CelHeading extends Component {
   getContent = () => {
     const { formData } = this.props;
     const scene = this.props.scene.descriptor
-
     const style = CelHeadingStyle()
     const paddings = getPadding("15 20 15 20")
     const leftStyle = formData.activeSearch ? [style.left, { flexDirection: 'row', flex: 2 }] : style.left;
-
     return (
       <View style={[style.content, paddings]}>
         <View style={leftStyle}>
           {this.getLeftContent(scene.options)}
           {formData.activeSearch && (
-            <View style={[{ width: '100%', justifyContent: 'center', alignSelf: 'center', marginLeft: 12 }]}>
-              <CelInput debounce autoFocus={formData.activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" type='text' value={this.props.formData.search} />
+            <View style={[{ width: '100%', justifyContent: 'center', paddingTop: 20, alignSelf: 'center', marginLeft: 12 }]}>
+              <CelInput debounce autoFocus={formData.activeSearch} basic margin="0 0 0 0" field="search" placeholder={scene.state.routeName === 'SelectCoin' ? "Select a coin" : "Dialing code, country…"} type='text' value={this.props.formData.search} />
             </View>
           )}
         </View>

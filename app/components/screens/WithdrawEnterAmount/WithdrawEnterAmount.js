@@ -12,7 +12,6 @@ import formatter from '../../../utils/formatter'
 import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
 import { EMPTY_STATES, KEYPAD_PURPOSES, MODALS } from '../../../constants/UI'
 import CoinSwitch from '../../atoms/CoinSwitch/CoinSwitch'
-import SimpleSelect from '../../molecules/SimpleSelect/SimpleSelect'
 import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal'
 import { KYC_STATUSES, PREDIFINED_AMOUNTS } from '../../../constants/DATA'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
@@ -30,6 +29,7 @@ import { hasPassedKYC } from "../../../utils/user-util";
 import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import CircleButton from "../../atoms/CircleButton/CircleButton";
+import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
 
 @connect(
   state => ({
@@ -57,7 +57,7 @@ class WithdrawEnterAmount extends Component {
     }
   })
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const {
@@ -72,7 +72,7 @@ class WithdrawEnterAmount extends Component {
       (coinSelectItems &&
         coinSelectItems.length > 0 &&
         coinSelectItems[0].value) ||
-        ''
+      ''
     )
 
     const coinSelectItems = currencies
@@ -236,7 +236,7 @@ class WithdrawEnterAmount extends Component {
 
 
 
-  render () {
+  render() {
     const { coinSelectItems, activePeriod } = this.state
     const {
       formData,
@@ -264,7 +264,7 @@ class WithdrawEnterAmount extends Component {
       )
     }
     const coin = formData.coin || ''
-    
+
     const coinData = walletSummary.coins.find(
       c => c.short === coin.toUpperCase()
     ) || { amount: '', amount_usd: '' }
@@ -282,7 +282,6 @@ class WithdrawEnterAmount extends Component {
       hours = withdrawalAddresses[formData.coin].will_unlock_in.split(':')[0]
       minutes = withdrawalAddresses[formData.coin].will_unlock_in.split(':')[1]
     }
-
     return (
       <RegularLayout padding='20 0 0 0'>
         <View style={style.container}>
@@ -296,13 +295,15 @@ class WithdrawEnterAmount extends Component {
 
             <View>
               <View style={style.selectWrapper}>
-                <SimpleSelect
-                  items={coinSelectItems}
-                  field='coin'
-                  displayValue={coin}
-                  updateFormField={actions.updateFormField}
+
+                <CoinPicker
+                  type={'enterAmount'}
                   onChange={this.handleCoinChange}
-                  placeholder='Choose a coin'
+                  updateFormField={actions.updateFormField}
+                  value={coin}
+                  field='coin'
+                  coinCompliance={coinSelectItems}
+                  navigateTo={actions.navigateTo}
                 />
               </View>
 
@@ -345,32 +346,32 @@ class WithdrawEnterAmount extends Component {
                 </CelButton>
               </View>
             ) : (
-              <View>
-                <CircleButton
-                  style={{ marginTop: 50 }}
-                  icon="TransactionLocked"
-                  iconSize={35}
-                />
+                <View>
+                  <CircleButton
+                    style={{ marginTop: 50 }}
+                    icon="TransactionLocked"
+                    iconSize={35}
+                  />
 
-                <CelText margin='20 0 15 0' align='center' type='H2' weight={'bold'}>
-                  Address Locked
+                  <CelText margin='20 0 15 0' align='center' type='H2' weight={'bold'}>
+                    Address Locked
                 </CelText>
 
-                <CelText align="center">
-                  You have recently changed your ${coin} withdrawal address.
+                  <CelText align="center">
+                    You have recently changed your ${coin} withdrawal address.
                 </CelText>
 
-                <Card margin="10 0 0 0">
-                  <CelText align="center" type="H6">
-                    Due to our security protocols, your address will be active in
+                  <Card margin="10 0 0 0">
+                    <CelText align="center" type="H6">
+                      Due to our security protocols, your address will be active in
                   </CelText>
 
-                  <CelText margin="10 0 0 0" align='center' type='H3' weight={'bold'}>
-                    ${ hours }h ${ minutes }m.
+                    <CelText margin="10 0 0 0" align='center' type='H3' weight={'bold'}>
+                      ${hours}h ${minutes}m.
                   </CelText>
-                </Card>
-              </View>
-            )}
+                  </Card>
+                </View>
+              )}
           </View>
         </View>
 

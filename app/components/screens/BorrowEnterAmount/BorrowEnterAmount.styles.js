@@ -1,4 +1,5 @@
-// import STYLES from '../../../constants/STYLES';
+import { Platform } from 'react-native'
+import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
@@ -18,14 +19,52 @@ const base = {
     alignItems: 'center',
     justifyContent: 'center'
   },
+  selectWrapper: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    width: 'auto',
+    alignItems: 'center',
+    borderRadius: 8,
+    ...Platform.select({
+      android: {
+        borderColor: '#E9E9E9',
+        borderTopWidth: 0.2,
+        borderLeftWidth: 0.2,
+        borderRightWidth: 0.5,
+        borderBottomWidth: 2
+      },
+      ios: {
+        ...STYLES.SHADOW_STYLES
+      }
+    }),
+    paddingHorizontal: 10,
+    marginBottom: 5
+  },
 };
 
 const themed = {
-  light: {},
+  light: {
+    selectWrapper: {
+      backgroundColor: STYLES.COLORS.WHITE
+    }
+  },
 
-  dark: {},
+  dark: {
+    selectWrapper: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
+      ...Platform.select({
+        android: {
+          borderColor: 'transparent',
+        },
+      })
+    }
+  },
 
-  celsius: {}
+  celsius: {
+    selectWrapper: {
+      backgroundColor: STYLES.COLORS.WHITE
+    }
+  }
 };
 
 const BorrowEnterAmountStyle = () => getThemedStyle(base, themed);
