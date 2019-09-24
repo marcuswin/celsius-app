@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import CelText from '../../atoms/CelText/CelText';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
+import CoinPickerStyle from "./CoinPicker.styles";
 import Icon from '../../atoms/Icon/Icon';
 
 class CoinPicker extends Component {
@@ -53,13 +54,14 @@ class CoinPicker extends Component {
       }
       updateFormField(field, defaultSelected);
     }
-
   }
+
+  getIconColor = (style) => StyleSheet.flatten(style.iconColor).color; // get color from raw json depending on style theme
 
   renderByType = () => {
     const { type, value, onCoinSelect, navigateTo, field, coinCompliance, onChange } = this.props;
     const { coinListFormated } = this.state
-
+    const iconColor = this.getIconColor(CoinPickerStyle());
 
     switch (type) {
       case "depositAmount":
@@ -79,7 +81,7 @@ class CoinPicker extends Component {
                 <CelText type="H3" style={{ paddingRight: 10, }}>
                   {value}
                 </CelText>
-                <Icon width="13" height="13" name="CaretDown" />
+                <Icon width="13" height="13" name="CaretDown" fill={iconColor} />
               </View>
             </TouchableOpacity>
           </>
@@ -94,7 +96,7 @@ class CoinPicker extends Component {
                 <CelText type="H3" style={{ paddingRight: 10, }}>
                   {(coinCompliance.find(coin => coin.value === value) || { label: "" }).label}
                 </CelText>
-                <Icon width="13" height="13" name="CaretDown" />
+                <Icon width="13" height="13" name="CaretDown" fill={iconColor} />
               </View>
             </TouchableOpacity>
           </>
