@@ -18,7 +18,6 @@ import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmoun
 import { getPadding } from '../../../utils/styles-util'
 import Icon from "../../atoms/Icon/Icon";
 import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
-import { isCompanyMember } from "../../../utils/user-util";
 import { LOAN_TYPES } from '../../../constants/DATA';
 import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
 
@@ -191,19 +190,17 @@ class BorrowEnterAmount extends Component {
               How much would you like to borrow?
             </CelText>
 
-            {isCompanyMember() && (
-              <View style={styles.selectWrapper}>
-                <CoinPicker
-                  type={'enterAmount'}
-                  onChange={(field, value) => actions.updateFormFields({ [field]: value, loanType: value === 'USD' ? LOAN_TYPES.USD_LOAN : LOAN_TYPES.STABLE_COIN_LOAN })}
-                  updateFormField={actions.updateFormField}
-                  value={coin}
-                  field='coin'
-                  coinCompliance={coinSelectItems}
-                  navigateTo={actions.navigateTo}
-                />
-              </View>
-            )}
+            <View style={styles.selectWrapper}>
+              <CoinPicker
+                type={'enterAmount'}
+                onChange={(field, value) => actions.updateFormFields({ [field]: value, loanType: value === 'USD' ? LOAN_TYPES.USD_LOAN : LOAN_TYPES.STABLE_COIN_LOAN })}
+                updateFormField={actions.updateFormField}
+                value={coin}
+                field='coin'
+                coinCompliance={coinSelectItems}
+                navigateTo={actions.navigateTo}
+              />
+            </View>
 
             <View style={{ width: '100%' }}>
               <TouchableOpacity
