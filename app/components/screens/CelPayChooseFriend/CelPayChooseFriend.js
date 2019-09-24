@@ -140,7 +140,7 @@ class CelPayChooseFriend extends Component {
 
   handleContactImport = async () => {
     if (!hasPassedKYC()) return
-    const { navigation, actions } = this.props;
+    const { navigation } = this.props;
 
     const permission = await requestForPermission(Permissions.CONTACTS);
 
@@ -157,7 +157,8 @@ class CelPayChooseFriend extends Component {
         logger.log(err)
       }
     } else {
-      actions.showMessage('warning', 'In order to CelPay directly to your friends, go to your phone settings and allow Celsius app to access your contacts.')
+      // actions.showMessage('warning', 'In order to CelPay directly to your friends, go to your phone settings and allow Celsius app to access your contacts.')
+      await requestForPermission(Permissions.CONTACTS);
     }
 
     navigation.setParams({

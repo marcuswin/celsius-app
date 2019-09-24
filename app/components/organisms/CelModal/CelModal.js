@@ -134,7 +134,6 @@ class CelModal extends Component {
         <View style={[style.wrapper, size]}>
           <View style={style.modal}>
             {this.renderImage()}
-
             {shouldRenderCloseButton ? (
               <TouchableOpacity
                 style={style.closeBtn}

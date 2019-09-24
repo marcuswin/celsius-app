@@ -142,7 +142,7 @@ class WithdrawCreateAddress extends Component {
           value={formData.withdrawAddress}
           type='text-area'
           multiline
-          numberOfLines={formData.withdrawAddress ? 3 : 1}
+          numberOfLines={formData.withdrawAddress ? 2 : 1 }
           returnKeyType={hasTag ? "next" : "done"}
           blurOnSubmiting={!hasTag}
           onSubmitEditing={() => { if (hasTag) this.tag.focus() }}

@@ -17,9 +17,6 @@ const base = {
         borderRadius: 10,
         backgroundColor: 'white',
         flex: 1,
-        height: 50,
-        justifyContent: 'space-around',
-        alignContent: 'center',
         alignItems: 'center',
     },
     taxID: {

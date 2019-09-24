@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {View, Text, Platform} from 'react-native';
 
 
 
@@ -13,7 +13,7 @@ const CelTextArea = (props) => {
     <View>
       <View style={style}>
         <CelInputText
-          style={{ height: props.numberOfLines * 28 }}
+          style={{ height: Platform.OS === 'android' ? props.numberOfLines * 40 : props.numberOfLines * 35}}
           {...props}
           multiline
         />

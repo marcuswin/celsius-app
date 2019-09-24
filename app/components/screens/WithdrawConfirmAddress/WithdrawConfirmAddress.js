@@ -110,7 +110,7 @@ class WithdrawConfirmAddress extends Component {
           disabled
           type='text-area'
           multiline
-          numberOfLines={3}
+          numberOfLines={2}
           returnKeyType={hasTag ? "next" : "done"}
           blurOnSubmiting={!hasTag}
           onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
