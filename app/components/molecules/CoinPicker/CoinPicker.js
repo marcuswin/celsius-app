@@ -8,7 +8,7 @@ import Icon from '../../atoms/Icon/Icon';
 class CoinPicker extends Component {
 
   static propTypes = {
-    coinList: PropTypes.instanceOf(Array).isRequired,
+    coinList: PropTypes.instanceOf(Array),
     updateFormField: PropTypes.func.isRequired,
     field: PropTypes.string.isRequired,
     value: PropTypes.string,

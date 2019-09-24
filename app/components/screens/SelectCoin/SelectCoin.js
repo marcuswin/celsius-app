@@ -45,8 +45,15 @@ class SelectCoin extends Component {
     if (nextProps.formData.search !== prevState.search) {
 
       const coinList = nextProps.navigation.getParam('coinList')
-
       const allCoins = nextProps.currencies.filter(item => coinList.includes(item.short));
+
+      if (coinList.includes('USD')) {
+        allCoins.unshift({
+          name: 'US Dollar',
+          short: 'USD',
+          image: require('../../../../assets/images/coins/dollar-icon.png'),
+        })
+      }
 
       const text = nextProps.formData && nextProps.formData.search && nextProps.formData.search.toLowerCase() || "";
 
@@ -66,8 +73,7 @@ class SelectCoin extends Component {
 
     this.state = {
       filteredCoins: allCoins,
-      search: ''
-
+      search: '',
     };
 
   }
@@ -94,7 +100,7 @@ class SelectCoin extends Component {
     const onCoinSelect = navigation.getParam('onCoinSelect')
     const field = navigation.getParam('field')
     const onChange = navigation.getParam('onChange')
-
+    const image = item.image_url ? { uri: item.image_url } : item.image
 
     return (
       <React.Fragment>
@@ -108,7 +114,7 @@ class SelectCoin extends Component {
             style={itemStyle}
           >
             <View style={style.left}>
-              <Image source={{ uri: item.image_url }} style={{ width: 30, height: 30 }} />
+              <Image source={image} style={{ width: 30, height: 30 }} />
               <CelText style={{ paddingLeft: 10, }}>
                 {item.name[0].toUpperCase() + item.name.slice(1)} ({item.short})
             </CelText>
