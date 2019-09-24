@@ -253,8 +253,9 @@ function initAppData(initToken = null) {
         // get wallet details for verified users
         if (profile.kyc && hasPassedKYC()) {
           await dispatch(actions.getWalletSummary())
-          
+          await dispatch(actions.getAllLoans())
         }
+
       }
     } else if (token) {
       // logout if expired session or no token

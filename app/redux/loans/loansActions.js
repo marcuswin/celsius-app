@@ -1,11 +1,12 @@
 import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
-import { showMessage, closeModal } from "../ui/uiActions";
+import { showMessage, closeModal, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
 import formatter from "../../utils/formatter";
 import loanUtil from "../../utils/loan-util";
+import { MODALS } from "../../constants/UI";
 
 export {
   applyForALoan,
@@ -22,6 +23,7 @@ export {
   prepayInterest,
   payMonthlyInterest,
   getAmortizationTable,
+  checkForLoanAlerts,
 }
 
 /**
@@ -338,7 +340,6 @@ function payPrincipal(id) {
 
       const transactionId = res.data.transaction_id;
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
-
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.PAY_LOAN_PRINCIPAL, err));
@@ -390,6 +391,48 @@ function getAmortizationTable(id) {
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_AMORTIZATION_TABLE, err));
+    }
+  }
+}
+
+/**
+ * Opens initial modal for loan payment warning (interest, principal, margin call)
+ *
+ */
+function checkForLoanAlerts() {
+  return (dispatch, getState) => {
+    const { allLoans } = getState().loans
+
+    const LOAN_ALERTS = {
+      INTEREST_ALERT: 'INTEREST_ALERT',
+      PRINCIPAL_ALERT: 'PRINCIPAL_ALERT',
+      MARGIN_CALL_ALERT: 'MARGIN_CALL_ALERT',
+    }
+
+    const loanAlerts = []
+    allLoans.forEach(l => {
+      // TODO: missing designs
+      // if (l.can_pay_interest) {
+      //   loanAlerts.push({ id: l.id, type: LOAN_ALERTS.INTEREST_ALERT })
+      // }
+
+      if (l.hasInterestPaymentFinished && !l.isPrincipalPaid) {
+        loanAlerts.push({ id: l.id, type: LOAN_ALERTS.PRINCIPAL_ALERT })
+      }
+
+      // TODO: wait for margin call logic on BE
+      // if (l.margin_call_activated) {
+      //   loanAlerts.push({ id: l.id, type: LOAN_ALERTS.MARGIN_CALL_ALERT })
+      // }
+    })
+
+    dispatch({
+      type: ACTIONS.CHECK_LOAN_ALERTS,
+      loanAlerts,
+    })
+
+    if (loanAlerts.length) {
+      dispatch(openModal(MODALS.LOAN_ALERT_MODAL))
     }
   }
 }
