@@ -49,11 +49,7 @@ const base = {
     height: widthPercentageToDP("20.4%"),
     overflow: "hidden"
   },
-  graphMargin: {
-    marginTop: heightPercentageToDP("5%"),
-    marginRight: widthPercentageToDP('10%'),
-    marginLeft: widthPercentageToDP('10%')
-  }
+  graphMargin: {marginTop: heightPercentageToDP("5%")}
 };
 
 

@@ -12,15 +12,14 @@ import CelText from "../../atoms/CelText/CelText";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
 import CommunityStyle from "./Community.styles";
+import PerformanceGraph from "../../graphs/PerformanceGraph/PerformanceGraph";
 import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import CelStats from "../../organisms/CelStats/CelStats";
 
 @connect(
   state => ({
     communityStats: state.community.stats,
-    currenciesGraphs: state.currencies.graphs,
-    celStats: state.community.stats.coin_comparison_graphs.CEL,
-    btcStats: state.community.stats.coin_comparison_graphs.BTC,
-    ethStats: state.community.stats.coin_comparison_graphs.ETH
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -36,80 +35,297 @@ class Community extends Component {
     right: "profile"
   });
 
+  renderNetworkCounts = () => {
+      const { communityStats } = this.props
+      const style = CommunityStyle()
+      const usersNum = communityStats.users_num
+      return (
+          <Card padding={"0 0 0 0"}>
+              <View style={style.imageView}>
+                  <ThemedImage
+                      lightSource={require("../../../../assets/images/community/dogIllustration.png")}
+                      darkSource={require("../../../../assets/images/community/dogIllustration-dark.png")}
+                      style={style.communityImage}
+                  />
+                  <View>
+                      <CelText
+                          weight={"300"}
+                          align={"left"}
+                          type={"H6"}
+                      >
+                          Celsius Network counts
+                      </CelText>
+                      <CelText
+                          weight={"600"}
+                          align={"left"}
+                          type={"H1"}
+                      >
+                          {formatter.round(usersNum, { noPrecision: true })}
+                      </CelText>
+                      <CelText
+                          weight={"300"}
+                          align={"left"}
+                          type={"H6"}
+                      >
+                          members
+                      </CelText>
+                  </View>
+              </View>
+          </Card>
+      )
+  }
+
+  renderDepositCoinSection = () => {
+      const { communityStats } = this.props
+      const style = CommunityStyle()
+
+      const highestDeposit  = communityStats.highest_deposit;
+
+      const bestCoinDepositCoin = highestDeposit.total
+      const bestCoinDepositUsd = highestDeposit.total_usd
+
+      const bestCoinWithdrawalCoin = -communityStats.withdrawals_in_highest_deposit_coin.total
+      const bestCoinWithdrawalUsd = -communityStats.withdrawals_in_highest_deposit_coin.total_usd
+
+      const image = communityStats.interest_rates.filter(obj => obj.coin === highestDeposit.coin);
+
+
+    return (
+          <>
+              <Separator text={"MOST DEPOSITED COIN"} margin={'30 0 20 0'}/>
+              <View style={style.image}>
+                  <Image source={{ uri: image && image.length && image[0].currency.image_url }} style={style.coinImage}/>
+              </View>
+              <CelText
+                  align={'center'}
+                  weight={'600'}
+                  type={'H2'}
+                  margin={'5 0 0 0'}
+              >
+                  { highestDeposit.name.charAt(0).toUpperCase() + highestDeposit.name.slice(1) } ({ highestDeposit.coin  /* TODO: update */})
+              </CelText>
+              <CelText
+                  margin={"20 0 0 0"}
+                  weight={"300"}
+                  align={"center"}
+                  type={"H6"}
+              >
+                  Net Deposit
+              </CelText>
+              <CelText
+                  weight={"600"}
+                  align={"center"}
+                  type={"H2"}
+                  margin="7 0 7 0"
+              >
+                  {`${formatter.crypto(bestCoinDepositCoin - bestCoinWithdrawalCoin, "", { noPrecision: true })} ${ highestDeposit.coin }` /* TODO: update */ }
+              </CelText>
+              <CelText
+                  weight={"300"}
+                  align={"center"}
+                  type={"H5"}
+              >
+                  {formatter.usd( bestCoinDepositUsd - bestCoinWithdrawalUsd, { symbol: ''})  /* TODO: update */ } USD
+              </CelText>
+              <Card margin={"20 0 0 0"}>
+                  <View style={style.amountsView}>
+                      <View>
+                          <CelText
+                            weight={"300"}
+                            align={"center"}
+                            type={"H6"}
+                          >
+                            Deposits
+                          </CelText>
+                          <CelText
+                            weight={"600"}
+                            align={"center"}
+                            type={"H3"}
+                            margin={'5 0 10 0'}
+                          >
+                            {formatter.usd(bestCoinDepositCoin, { symbol: ''})  /* TODO: update */ } { highestDeposit.coin }
+                          </CelText>
+                          <CelText
+                              weight={"300"}
+                              align={"center"}
+                              type={"H6"}
+                          >
+                              {formatter.usd(bestCoinDepositUsd, { symbol: ''})  /* TODO: update */ } USD
+                          </CelText>
+                      </View>
+                      <Separator margin={'20 0 20 0'} />
+                      <View>
+                          <CelText
+                            weight={"300"}
+                            align={"center"}
+                            type={"H6"}
+                          >
+                            Withdrawals
+                          </CelText>
+                          <CelText
+                            weight={"600"}
+                            align={"center"}
+                            type={"H3"}
+                            margin={'5 0 10 0'}
+                          >
+                            {formatter.usd(bestCoinWithdrawalCoin, { symbol: ''})  /* TODO: update */ } { highestDeposit.coin }
+                          </CelText>
+                          <CelText
+                              weight={"300"}
+                              align={"center"}
+                              type={"H6"}
+                          >
+                              {formatter.usd(bestCoinWithdrawalUsd, { symbol: ''})  /* TODO: update */ } USD
+                          </CelText>
+                      </View>
+                  </View>
+              </Card>
+          </>
+      )
+  }
+
+
+  renderDepositTotalSection = () => {
+      const { communityStats } = this.props
+      const style = CommunityStyle()
+
+      const totalDepositsUsd = communityStats.total_deposits_usd
+      const totalWithdrawalsUsd = -communityStats.total_withdrawals_USD
+      return (
+          <>
+              <Separator text={"TOTAL COINS DEPOSITED"} margin={'30 0 20 0'}/>
+
+              <CelText
+                  weight={"300"}
+                  align={"center"}
+                  type={"H6"}
+              >
+                  Net Deposit
+              </CelText>
+              <CelText
+                  weight={"600"}
+                  align={"center"}
+                  type={"H2"}
+                  margin="7 0 7 0"
+              >
+                  {formatter.usd(totalDepositsUsd - totalWithdrawalsUsd, { symbol: ''})} USD
+              </CelText>
+              <Card margin={"20 0 15 0"}>
+                  <View style={style.amountsView}>
+                      <View>
+                          <CelText
+                              weight={"300"}
+                              align={"center"}
+                              type={"H6"}
+                          >
+                              Deposits
+                          </CelText>
+                          <CelText
+                              weight={"600"}
+                              align={"center"}
+                              type={"H4"}
+                              margin={'5 0 0 0'}
+                          >
+                              {formatter.usd(totalDepositsUsd, { symbol: ''})} USD
+                          </CelText>
+                      </View>
+                      <Separator margin={'10 0 10 0'} />
+                      <View>
+                          <CelText
+                              weight={"300"}
+                              align={"center"}
+                              type={"H6"}
+                          >
+                              Withdrawals
+                          </CelText>
+                          <CelText
+                              weight={"600"}
+                              align={"center"}
+                              type={"H4"}
+                              margin={'5 0 0 0'}
+                          >
+                              {formatter.usd(totalWithdrawalsUsd, { symbol: ''})} USD
+                          </CelText>
+                      </View>
+                  </View>
+              </Card>
+
+              <CelText
+                  weight={"600"}
+                  align={"center"}
+                  type={"H2"}
+                  style={style.text}
+              >
+                  {formatter.round(communityStats.total_depositors_num, { noPrecision: true })}
+              </CelText>
+              <CelText
+                  weight={"300"}
+                  align={"center"}
+                  type={"H6"}
+                  style={style.secondText}
+              >
+                  Members are depositing
+              </CelText>
+          </>
+      )
+  }
+
   render() {
     const { communityStats } = this.props;
     const style = CommunityStyle();
 
-    if (!communityStats) {
-      return null
-    }
-    const highestDeposit = communityStats.highest_deposit;
-    const image = communityStats.interest_rates.filter(obj => obj.coin === highestDeposit.coin);
+      if (!communityStats) {
+          return <LoadingScreen />
+      }
 
     return (
       <RegularLayout>
 
-        <Card padding={"0 0 0 0"}>
-          <View style={style.imageView}>
-            <ThemedImage
-              lightSource={require("../../../../assets/images/community/dogIllustration.png")}
-              darkSource={require("../../../../assets/images/community/dogIllustration-dark.png")}
-              style={style.communityImage}/>
-            <View>
-              <CelText weight={"300"} align={"left"} type={"H6"}>Celsius Network counts</CelText>
-              <CelText weight={"600"} align={"left"}
-                       type={"H1"}>{formatter.round(communityStats.users_num, { noPrecision: true })}</CelText>
-              <CelText weight={"300"} align={"left"} type={"H6"}>members</CelText>
-            </View>
+          { this.renderNetworkCounts() }
+
+          { this.renderDepositCoinSection() }
+
+          { this.renderDepositTotalSection() }
+
+          <Separator
+            text={"CEL VS BTC VS ETH"}
+            margin={'30 0 30 0'}
+          />
+          <CelText
+              weight={"300"}
+              align={"center"}
+              type={"H6"}
+              margin={'0 0 20 0'}
+
+          >
+              Last 12 months
+          </CelText>
+          <View style={style.graphMargin}>
+            { communityStats ? <PerformanceGraph
+                celStats={ communityStats.coin_comparison_graphs.CEL }
+                ethStats={ communityStats.coin_comparison_graphs.ETH }
+                btcStats={ communityStats.coin_comparison_graphs.BTC }
+            /> : null }
           </View>
-        </Card>
-
-        <CommunityDashboard name={"DEPOSITS"}/>
-          <View style={style.image}>
-            <Image source={{ uri: image[0].currency.image_url }} style={style.coinImage}/>
-          </View>
-          <CelText margin={"10 0 0 0"} weight={"300"} align={"center"} type={"H6"}>Most deposited coin</CelText>
-          <CelText weight={"600"} align={"center"} type={"H1"}
-                   margin="7 0 7 0">{`${formatter.crypto(highestDeposit.total, "", { noPrecision: true })} ${highestDeposit.coin}`}</CelText>
-          <CelText weight={"300"} align={"center"} type={"H5"}>{formatter.usd(highestDeposit.total_usd)}</CelText>
-
-          <Card margin={"20 0 0 0"}>
-            <View style={style.amountsView}>
-              <View>
-                <CelText weight={"300"} align={"center"} type={"H6"}>Total coins deposited</CelText>
-                <CelText weight={"600"} align={"center"}
-                         type={"H3"}>{formatter.usd(communityStats.total_deposits_usd)}</CelText>
-              </View>
-              <Separator margin={"10 0 10 0"}/>
-              <View>
-                <CelText weight={"300"} align={"center"} type={"H6"}>Avg. deposit over time</CelText>
-                <CelText weight={"600"} align={"center"}
-                         type={"H3"}>{formatter.usd(communityStats.average_deposit_usd)}</CelText>
-              </View>
-            </View>
-          </Card>
-
-          <CelText weight={"600"} align={"center"} type={"H1"}
-                   style={style.text}>{formatter.round(communityStats.total_depositors_num, { noPrecision: true })}</CelText>
-          <CelText weight={"300"} align={"center"} type={"H6"} style={style.secondText}>Members are depositing</CelText>
-
-        {/* <CommunityDashboard name={"CEL VS BTC VS ETH"}/>*/}
-
-        {/*  <View style={style.graphMargin}>*/}
-        {/*    <PerformanceGraph*/}
-        {/*        celStats={celStats}*/}
-        {/*        ethStats={ethStats}*/}
-        {/*        btcStats={btcStats}*/}
-        {/*    />*/}
-        {/*  </View>*/}
 
         {/* <CommunityDashboard name={"BORROW"} info buttonTypes={["Loans", "Average", "Total"]}/>*/}
 
-        <CommunityDashboard name={"CELPAY"} info buttonTypes={["Sent", "Transactions", "Total"]}/>
+        <CommunityDashboard
+            name={"CELPAY"}
+            info
+            buttonTypes={ ["Total", "Transactions"] }
+        />
 
-        <CommunityDashboard name={"INTEREST"} info buttonTypes={["Earned", "Average"]}/>
+        <CommunityDashboard
+            name={"INTEREST"}
+            info
+            buttonTypes={["Average", "Earned"]}
+        />
 
-        {communityStats && communityStats.no_of_users_referred > 0 ?
+          {/* { this.renderCommunityStatsTable() }*/}
+          <CelStats />
+
+        {communityStats.no_of_users_referred > 0 ?
           <CommunityDashboard name={"REFERRED"}>
             <Card padding={"0 0 0 0"}>
               <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
