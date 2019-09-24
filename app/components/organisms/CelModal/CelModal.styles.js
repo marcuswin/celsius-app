@@ -76,6 +76,7 @@ const base = {
   },
   screen: {
     width: widthPercentageToDP("80%"),
+    // height: heightPercentageToDP('50%'),
     justifyContent: "flex-start",
     alignItems: "center",
     alignContent: 'flex-start',
@@ -87,11 +88,13 @@ const base = {
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
-    paddingTop: 30,
+    paddingTop: 20,
+    paddingHorizontal: 10,
     color: STYLES.COLORS.DARK_GRAY
 
   },
   description: {
+    paddingHorizontal: 10,
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
@@ -112,15 +115,14 @@ const base = {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: heightPercentageToDP('14%')
+    paddingTop: 100,
   },
   dotsDeposit: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: heightPercentageToDP("5%")
+    marginTop: heightPercentageToDP("10%")
   },
 };
 

@@ -30,6 +30,7 @@ import CelText from '../../atoms/CelText/CelText'
 import CelInput from '../../atoms/CelInput/CelInput'
 import Message from '../../molecules/Message/Message'
 import STYLES from '../../../constants/STYLES';
+import CelButton from '../../atoms/CelButton/CelButton';
 
 const cardWidth = widthPercentageToDP("70%");
 const { width } = Dimensions.get('window');
@@ -91,12 +92,6 @@ class CelModal extends Component {
     }[theme]
   }
 
-  closeModalHandler = () => {
-    const { closeModal } = this.props
-    closeModal()
-    this.setState({ currentStep: 1 })
-  }
-
 
   transitionAnimation = (index) => ({
     transform: [
@@ -120,9 +115,7 @@ class CelModal extends Component {
     const style = CelModalStyle()
 
     if (!picture) return (
-      <View style={{ zIndex: 10}}>
-        {modalInfo && this.renderMultiStepPicture()}
-      </View>
+      modalInfo && this.renderMultiStepPicture()
     )
     if (pictureCircle) return (
       <View style={style.imageWrapperCircle}>
@@ -140,7 +133,7 @@ class CelModal extends Component {
 
   renderModalContent() {
     const { xOffset } = this.state;
-    const { modalInfo } = this.props
+    const { modalInfo, actions } = this.props
     const style = CelModalStyle()
 
     return (
@@ -160,10 +153,13 @@ class CelModal extends Component {
             showsHorizontalScrollIndicator={false}
           >
             {modalInfo.map((step, index) => (
-              <Animated.View key={index} style={[style.screen, this.transitionAnimation(index)]}>
-                <CelText type='H2' weight='bold' style={style.title}>{step.title}</CelText>
-                <CelText type='H4' style={style.description}>{step.description}</CelText>
-              </Animated.View>
+              <View>
+                <Animated.View key={index} style={[style.screen, this.transitionAnimation(index)]}>
+                  <CelText type='H2' weight='bold' style={style.title}>{step.title}</CelText>
+                  <CelText type='H4' style={style.description}>{step.description}</CelText>
+                  <CelButton margin={'20 0 20 0'} onPress={() => actions.closeModal()}>{step.buttonText}</CelButton>
+                </Animated.View>
+              </View>
             )
             )
             }
@@ -192,11 +188,11 @@ class CelModal extends Component {
               height: 150,
               width: 150,
               position: "absolute",
-              zIndex: 10,
+              zIndex: 1,
               top: -heightPercentageToDP("20%") / 4,
-              left: widthPercentageToDP('50%') / 2
+              left: widthPercentageToDP('54%') / 2
             }}
-            source={step.image} resizeMode="cover" width={150} height={150}
+            source={step.image} width={150} height={150}
           />
         )
       })
@@ -226,7 +222,6 @@ class CelModal extends Component {
           );
         })
         }
-
       </View>
     );
   }
@@ -250,12 +245,12 @@ class CelModal extends Component {
     } = this.props
     const style = CelModalStyle()
     const paddingStyle = padding ? getPadding(padding) : {}
-    // const tintColor = this.getTintColor();
+
 
     let size
     if (picture) size = { paddingVertical: heightPercentageToDP('18%') }
-    else if (!picture && modalType === 'withdraw') size = { paddingVertical: heightPercentageToDP('18%') }
-    else size = { paddingVertical: heightPercentageToDP('5%') }
+    else if (!picture && modalType === 'withdraw') size = { paddingVertical: heightPercentageToDP('14%'), }
+    else size = { paddingVertical: heightPercentageToDP('1%') }
 
     const childrenWithProps = addThemeToComponents(
       children,
@@ -271,11 +266,9 @@ class CelModal extends Component {
         modalInfo={modalInfo}
       >
         <Message />
-
         <View style={[style.wrapper, size]}>
           <View style={style.modal}>
             {this.renderImage()}
-
             {shouldRenderCloseButton ? (
               <TouchableOpacity
                 style={style.closeBtn}
@@ -299,26 +292,25 @@ class CelModal extends Component {
             )
               :
               null}
-
             {noScroll ? (
               <View style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('8%') }, paddingStyle]}>
                 {childrenWithProps}
               </View>
             ) : (
-                <ScrollView
-                  style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('5%') }, paddingStyle]}
-                  showsVerticalScrollIndicator={false}
-                  contentContainerStyle={{ flexGrow: 1 }}
-                >
-                  {modalInfo.length > 1 && this.renderDots()}
-                  {!!modalInfo && this.renderModalContent()}
-                  {childrenWithProps}
-
-                </ScrollView>
+                <View>
+                  <ScrollView
+                    style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('5%') }, paddingStyle]}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                  >
+                    {!!modalInfo && modalInfo.length > 1 && this.renderDots()}
+                    {!!modalInfo && this.renderModalContent()}
+                    {childrenWithProps}
+                  </ScrollView>
+                </View>
               )}
           </View>
-          <BlurView tint={'dark'} intensity={100} style={StyleSheet.absoluteFill}
-          >
+          <BlurView tint={'dark'} intensity={100} style={StyleSheet.absoluteFill}>
             <TouchableOpacity style={style.outsideCloseModal} onPress={() => {
               actions.closeModal()
               if (onClose) onClose()
