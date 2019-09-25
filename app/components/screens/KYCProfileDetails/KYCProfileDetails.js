@@ -74,9 +74,6 @@ class KYCProfileDetails extends Component {
         firstName: user.first_name,
         middleName: user.middle_name,
         lastName: user.last_name,
-      })
-
-      actions.updateFormField({
         citizenship: { name: user.citizenship },
         gender: user.gender ? user.gender.toLowerCase() : '',
         month: date[1],
@@ -144,11 +141,22 @@ class KYCProfileDetails extends Component {
     this.setState({ updatingProfileInProgress: false })
   }
 
+  clearForms = () => {
+    const { formData } = this.props
+
+    formData.day = null
+    formData.month = null
+    formData.year = null
+    formData.gender = null
+    formData.citizenship = { name: null }
+  }
+
   render() {
     const { formData, formErrors, actions } = this.props
     const { isLoading, updatingProfileInProgress } = this.state
     // const style = KYCProfileDetailsStyle();
     if (isLoading) return <LoadingScreen />
+
 
     return (
       <RegularLayout>
@@ -261,7 +269,10 @@ class KYCProfileDetails extends Component {
         </View>
         <CelButton
           onPress={
-            () => actions.navigateTo("WalletFab")
+            () => {
+              actions.navigateTo("WalletFab")
+              this.clearForms()
+            }
           }
           basic
           margin={"20 0 20 0"}
