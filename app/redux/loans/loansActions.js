@@ -32,6 +32,8 @@ export {
 function applyForALoan() {
   return async (dispatch, getState) => {
     const { formData } = getState().forms;
+    const { automaticLoanLimit } = getState().generalData;
+
     startApiCall(API.APPLY_FOR_LOAN);
 
     const loanApplication = {
@@ -63,6 +65,10 @@ function applyForALoan() {
 
       dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id, hideBack: true }));
       dispatch(showMessage('success', 'Loan created successfully!'))
+
+      if (formData.loanAmount <= automaticLoanLimit) {
+        dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL))
+      }
 
       // analytics.loanApplied(res.data);
     } catch (err) {
