@@ -122,8 +122,8 @@ class WithdrawConfirmAddress extends Component {
           backgroundColor={STYLES.COLORS.ORANGE}
           titleText={"Your withdrawal address"}
           left
-          explanationText={`Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. \n\nYou can change your withdrawal address from your`}
-          boldText={' wallet settings.'}
+          explanationText={`Please confirm the withdrawal address where your funds will be sent. If you previously transferred money from an exchange, this may not be your correct withdrawal address. \n\nYou can change your withdrawal address at any time from your wallet settings or by pressing on the link below.`}
+          wordsToHightlight={['wallet', 'settings']}
         />
 
         {hasTag ? (
