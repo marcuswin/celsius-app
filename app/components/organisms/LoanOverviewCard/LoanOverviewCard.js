@@ -25,7 +25,8 @@ class LoanOverviewCard extends Component {
     actions: PropTypes.instanceOf(Object),
     length: PropTypes.number,
     hasEnoughOriginalCoin: PropTypes.bool,
-    hasEnoughOtherCoins: PropTypes.bool
+    hasEnoughOtherCoins: PropTypes.bool,
+    celDiscount: PropTypes.string,
   };
   static defaultProps = {
     payed: false,
@@ -83,7 +84,7 @@ class LoanOverviewCard extends Component {
   }
 
   render() {
-    const { loan, navigateTo, index, length, actions, hasEnoughOtherCoins, hasEnoughOriginalCoin } = this.props;
+    const { loan, navigateTo, index, length, actions, hasEnoughOtherCoins, hasEnoughOriginalCoin, celDiscount } = this.props;
     const {isLoading} = this.state;
     const style = LoanOverviewCardStyle();
     let previousPayments;
@@ -205,7 +206,7 @@ class LoanOverviewCard extends Component {
                     type={"H7"}
                     weight={"300"}
                     align={'center'}
-                  >{"-XX% if paid in CEL"}</CelText>
+                  >-{ formatter.percentageDisplay(celDiscount) } if paid in CEL</CelText>
                 </Card>
               </View>
             </View>

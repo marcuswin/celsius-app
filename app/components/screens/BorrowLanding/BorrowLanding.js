@@ -45,7 +45,8 @@ const cardWidth = widthPercentageToDP("70%");
         : KYC_STATUSES.collecting,
       marginCalls: state.loans.marginCalls,
       eligibleCoins,
-      maxAmount
+      maxAmount,
+      loyaltyInfo: state.user.loyaltyInfo,
     }
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -195,7 +196,7 @@ class BorrowLanding extends Component {
 
   renderDefaultView() {
     const { xOffset } = this.state;
-    const { actions, allLoans, walletSummary, marginCalls } = this.props;
+    const { actions, allLoans, walletSummary, marginCalls, loyaltyInfo } = this.props;
 
     let hasEnoughOriginalCoin;
     let hasEnoughOtherCoins;
@@ -244,6 +245,7 @@ class BorrowLanding extends Component {
                       actions={actions}
                       hasOriginalCoin={hasEnoughOriginalCoin}
                       hasEnoughOtherCoins={hasEnoughOtherCoins}
+                      celDiscount={loyaltyInfo.tier.loanInterestBonus}
                     />
                   </Animated.View>
                 );

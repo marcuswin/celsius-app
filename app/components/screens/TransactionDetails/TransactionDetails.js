@@ -93,7 +93,6 @@ class TransactionDetails extends Component {
     const kycPassed = user.kyc && (hasPassedKYC())
     const transactionId = navigation.getParam('id')
 
-
     switch (sectionType) {
       case 'info':
         return <InfoSection margin="40 0 20 0" key={sectionType} transaction={transaction} transactionProps={transactionProps} />;
@@ -194,7 +193,15 @@ class TransactionDetails extends Component {
       case "margin:call:card":
         return <MarginCallCard key={sectionType} />;
       case "change:payment:card":
-        return <ChangePaymentCard key={sectionType} heading="You would have saved XX% if you paid your interest in CEL." text="Change payment" navigateTo={actions.navigateTo} loan={transaction.loan_data}/>;
+        return (
+          <ChangePaymentCard
+            key={sectionType}
+            heading={`You would have saved ${ formatter.percentageDisplay(loyaltyInfo.tier.loanInterestBonus) } if you paid your interest in CEL.`}
+            text="Change payment"
+            navigateTo={actions.navigateTo}
+            loan={transaction.loan_data}
+          />
+        );
       case 'info:box':
         return <SsnInfo key={sectionType} navigateTo={actions.navigateTo} />
       default:
