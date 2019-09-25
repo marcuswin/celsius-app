@@ -85,7 +85,7 @@ class CelInput extends Component {
     rightText: null
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -178,7 +178,7 @@ class CelInput extends Component {
     }
   }
 
-  render () {
+  render() {
     const { error, margin, large, theme } = this.props
     const cmpStyle = theme ? CelInputStyle(theme) : CelInputStyle()
     const styleWrapper = [
@@ -193,10 +193,11 @@ class CelInput extends Component {
       <View style={styleWrapper}>
         <Input />
         {error && (
-          <CelText margin='5 0 0 0' color='red' style={{ height: 20 }}>
-            {error}
-          </CelText>
-        )}
+            <CelText margin='5 0 0 0' color='red' align={'left'} type={'H6'} style={{ flexWrap: 'wrap', alignSelf: 'flex-start', justifyContent: 'center', paddingLeft: 5 }}>
+              {error}
+            </CelText>
+        )
+        }
       </View>
     )
   }
