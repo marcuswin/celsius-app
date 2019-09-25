@@ -241,15 +241,12 @@ class CoinDetails extends Component {
               </View>
             </View>
             {celpayCompliance &&
-              <View style={{paddingHorizontal: 5}}>
-                <Separator margin={"20 0 22 0"}/>
-                <InterestCard
-                  coin={coinDetails.short}
-                  interestRate={interestRate}
-                  interestInCoins={interestInCoins}
-                  setUserAppSettings={actions.setUserAppSettings}
-                />
-              </View>
+              <InterestCard
+                coin={coinDetails.short}
+                interestRate={interestRate}
+                interestInCoins={interestInCoins}
+                setUserAppSettings={actions.setUserAppSettings}
+              />
             }
           </Card>
         </View>
