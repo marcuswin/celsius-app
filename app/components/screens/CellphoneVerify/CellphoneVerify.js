@@ -39,9 +39,9 @@ class CellphoneVerify extends Component {
 
   verify = async (verificationCode) => {
     const {actions} = this.props;
-    actions.verifySMS(verificationCode);
     const response = await actions.verifySMS(verificationCode);
     if (response.success) {
+      actions.showMessage('success', 'Phone number verified!')
       actions.getProfileInfo()
       actions.navigateTo("Profile")
     }
