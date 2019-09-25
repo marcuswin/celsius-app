@@ -141,22 +141,11 @@ class KYCProfileDetails extends Component {
     this.setState({ updatingProfileInProgress: false })
   }
 
-  clearForms = () => {
-    const { formData } = this.props
-
-    formData.day = null
-    formData.month = null
-    formData.year = null
-    formData.gender = null
-    formData.citizenship = { name: null }
-  }
-
   render() {
     const { formData, formErrors, actions } = this.props
     const { isLoading, updatingProfileInProgress } = this.state
     // const style = KYCProfileDetailsStyle();
     if (isLoading) return <LoadingScreen />
-
 
     return (
       <RegularLayout>
@@ -271,7 +260,7 @@ class KYCProfileDetails extends Component {
           onPress={
             () => {
               actions.navigateTo("WalletFab")
-              this.clearForms()
+              actions.clearForm()
             }
           }
           basic
