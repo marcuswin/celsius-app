@@ -31,8 +31,7 @@ class InfoBox extends Component {
     backgroundColor: PropTypes.string,
     triangle: PropTypes.bool,
     opened: PropTypes.bool,
-    explanationText: PropTypes.string,
-    wordsToHightlight: PropTypes.instanceOf(Array)
+    explanationText: PropTypes.oneOfType([PropTypes.string, PropTypes.component])
   }
 
   static defaultProps = {
@@ -56,21 +55,6 @@ class InfoBox extends Component {
     })
   }
 
-  renderHighlightedText() {
-    const { explanationText, wordsToHightlight } = this.props
-
-    const words = explanationText.split(' ')
-
-    const renderWord = (word) => {
-      if (wordsToHightlight.indexOf(word) > -1) {
-        return (<CelText color={'white'} weight={'700'}>{word} </CelText>)
-      }
-      return (<CelText color={'white'}>{word} </CelText>)
-
-    }
-    return (React.Children.map(words, renderWord))
-  }
-
   render() {
     const {
       left,
@@ -82,13 +66,12 @@ class InfoBox extends Component {
       color,
       explanationText,
       backgroundColor,
-      wordsToHightlight,
       padding
     } = this.props
     const { open } = this.state
     const paddingStyle = getPadding(padding)
     const rotate = open ? '0deg' : '180deg'
-    
+
     if (triangle) {
       return (
         <TouchableOpacity
@@ -177,9 +160,7 @@ class InfoBox extends Component {
                   paddingBottom: heightPercentageToDP('2%')
                 }}
               >
-                {wordsToHightlight && this.renderHighlightedText()}
-                {!wordsToHightlight && explanationText} {!wordsToHightlight && <CelText type={'H5'} weight={'700'} color={STYLES.COLORS.WHITE}>{boldText}</CelText>}
-
+                {explanationText} <CelText type={'H5'} weight={'700'} color={STYLES.COLORS.WHITE}>{boldText}</CelText>
               </CelText>
             </View>
           )}
