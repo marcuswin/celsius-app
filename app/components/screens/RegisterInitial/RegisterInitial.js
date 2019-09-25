@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 
 
 import * as appActions from "../../../redux/actions";
@@ -211,7 +211,12 @@ class RegisterInitial extends Component {
       const { isExpanded } = this.state
       const style = RegisterInitialStyle()
       return (
-          <Card color={ promoCode ? STYLES.COLORS.GREEN : STYLES.COLORS.CELSIUS_BLUE }>
+          <Card
+              color={ promoCode ? STYLES.COLORS.GREEN : STYLES.COLORS.CELSIUS_BLUE }
+              onPress={ () => {
+                  this.setState( { isExpanded: !isExpanded })
+              }}
+          >
               <View style={ style.referralHeading }>
                   <View style={ style.iconWrapper }>
                       <View style={ style.iconStyle }>
@@ -232,10 +237,7 @@ class RegisterInitial extends Component {
                       >
                           { promoCode ? 'Referral Code Activated' : 'Have a referral code?' }
                       </CelText>
-                      { !promoCode &&  <TouchableOpacity
-                        onPress={ () => {
-                            this.setState( { isExpanded: !isExpanded })
-                        }}
+                      { !promoCode &&  <View
                         style={ style.caretStyle }
                       >
                            <Icon
@@ -244,7 +246,7 @@ class RegisterInitial extends Component {
                               height="15"
                               fill={ STYLES.COLORS.WHITE }
                           />
-                      </TouchableOpacity> }
+                      </View> }
                   </View>
               </View>
               { isExpanded && <View>
