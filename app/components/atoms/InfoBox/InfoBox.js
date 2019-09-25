@@ -31,7 +31,7 @@ class InfoBox extends Component {
     backgroundColor: PropTypes.string,
     triangle: PropTypes.bool,
     opened: PropTypes.bool,
-    explanationText: PropTypes.string
+    explanationText: PropTypes.oneOfType([PropTypes.string, PropTypes.component])
   }
 
   static defaultProps = {
@@ -39,7 +39,7 @@ class InfoBox extends Component {
     triangle: false
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -47,7 +47,7 @@ class InfoBox extends Component {
     }
   }
 
-  renderLargeInfoBox () {
+  renderLargeInfoBox() {
     const { open } = this.state
     const o = !open
     this.setState({
@@ -55,7 +55,7 @@ class InfoBox extends Component {
     })
   }
 
-  render () {
+  render() {
     const {
       left,
       right,
@@ -70,8 +70,8 @@ class InfoBox extends Component {
     } = this.props
     const { open } = this.state
     const paddingStyle = getPadding(padding)
-
     const rotate = open ? '0deg' : '180deg'
+
     if (triangle) {
       return (
         <TouchableOpacity

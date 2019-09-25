@@ -282,17 +282,17 @@ class CelPayEnterAmount extends Component {
     )[0]
 
     return (
-      <RegularLayout padding='20 0 0 0' fabType={'hide'}>
+      <RegularLayout padding='0 0 0 0' fabType={'hide'}>
         <View style={style.container}>
+          <BalanceView
+            opacity={0.65}
+            coin={formData.coin}
+            crypto={coinData.amount}
+            usd={coinData.amount_usd}
+          />
           <View style={style.wrapper}>
-            <BalanceView
-              opacity={0.65}
-              coin={formData.coin}
-              crypto={coinData.amount}
-              usd={coinData.amount_usd}
-            />
             <View style={style.amounts}>
-          
+
               <View style={style.selectWrapper}>
 
                 <CoinPicker

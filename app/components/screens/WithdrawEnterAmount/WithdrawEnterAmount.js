@@ -283,15 +283,15 @@ class WithdrawEnterAmount extends Component {
       minutes = withdrawalAddresses[formData.coin].will_unlock_in.split(':')[1]
     }
     return (
-      <RegularLayout padding='20 0 0 0'>
+      <RegularLayout padding='0 0 0 0'>
         <View style={style.container}>
+          <BalanceView
+            opacity={0.65}
+            coin={coin}
+            crypto={coinData.amount}
+            usd={coinData.amount_usd}
+          />
           <View style={style.wrapper}>
-            <BalanceView
-              opacity={0.65}
-              coin={coin}
-              crypto={coinData.amount}
-              usd={coinData.amount_usd}
-            />
 
             <View>
               <View style={style.selectWrapper}>
@@ -374,7 +374,6 @@ class WithdrawEnterAmount extends Component {
               )}
           </View>
         </View>
-
         {!isAddressLocked && (
           <CelNumpad
             field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
