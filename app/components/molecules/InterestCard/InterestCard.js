@@ -62,6 +62,8 @@ class InterestCard extends Component {
     if (!interestRate.eligible) return null
     if (tier === 'NONE') return null
     if (isUSCitizen()) return null
+    if (coin === 'CEL') return null
+
 
     const theme = getTheme()
 
