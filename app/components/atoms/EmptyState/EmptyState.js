@@ -37,7 +37,7 @@ class EmptyState extends Component {
   }
   static defaultProps = {}
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = emptyStateUtil.getProps(props.purpose, props)
   }
@@ -48,9 +48,7 @@ class EmptyState extends Component {
       ...this.state,
       ...this.props
     }
-    const {
-      aboveHeadingSection,
-    } = emptyStateProps
+    const { aboveHeadingSection } = emptyStateProps
 
     switch (aboveHeadingSection) {
       case "kyc-rejected":
@@ -76,7 +74,7 @@ class EmptyState extends Component {
             weight={'500'}
             color={STYLES.COLORS.ORANGE}
           >
-            In progress
+            Identity Confirmation in Progress
           </CelText>
         )
       default:
@@ -96,13 +94,13 @@ class EmptyState extends Component {
 
     switch (modal) {
       case MODALS.KYC_REJECTED_MODAL:
-        return <InfoModal  { ...modalProps } />
+        return <InfoModal  {...modalProps} />
       default:
         return null
     }
   }
 
-  render () {
+  render() {
     const emptyStateProps = {
       ...this.state,
       ...this.props
@@ -128,7 +126,7 @@ class EmptyState extends Component {
           />
         </View>
 
-        { this.renderAboveHeadingSection() }
+        {this.renderAboveHeadingSection()}
 
         <CelText margin='20 0 15 0' align='center' type='H2' weight={'bold'}>
           {heading}
@@ -167,7 +165,7 @@ class EmptyState extends Component {
         ) : null}
 
         {support ? <ContactSupport /> : null}
-        { this.renderModal() }
+        {this.renderModal()}
       </View>
     )
   }

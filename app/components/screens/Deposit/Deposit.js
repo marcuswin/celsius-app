@@ -288,6 +288,7 @@ class Deposit extends Component {
       formData,
       depositCompliance,
       navigation,
+      kycStatus
     } = this.props
     const {
       address,
@@ -310,6 +311,13 @@ class Deposit extends Component {
     }
 
     if (!hasPassedKYC()) {
+      if (kycStatus === 'pending') {
+        return (
+          <StaticScreen
+            emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_DEPOSIT }}
+          />
+        )
+      }
       return (
         <StaticScreen
           emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }}

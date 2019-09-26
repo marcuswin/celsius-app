@@ -14,7 +14,7 @@ function getProps(purpose, componentProps) {
     modalProps: null,
     button: null,
   };
-  if (purpose.includes('NON_VERIFIED')) {
+  if (purpose.includes('NON_VERIFIED') || purpose.includes('VERIFICATION_IN_PROCESS')) {
     props = getNonVerifiedProps(componentProps)
   }
 
@@ -30,6 +30,7 @@ function getProps(purpose, componentProps) {
         secondaryOnPress: () => actions.openModal(MODALS.BORROW_CALCULATOR_MODAL),
         secondaryButton: 'Calculate Loan Interest',
       };
+
     // Not KYC Verified Empty States
     case EMPTY_STATES.NON_VERIFIED_WITHDRAW:
       return {
@@ -39,6 +40,15 @@ function getProps(purpose, componentProps) {
         paragraphs: ["Withdraw pain (and fee!) free with Celsius Network. Complete your KYC verification to take full advantage."],
         onPress: () => actions.navigateTo("KYCProfileDetails")
       };
+
+    case EMPTY_STATES.VERIFICATION_IN_PROCESS_WITHDRAW:
+      return {
+        ...props,
+        paragraphs: ['Withdraw will be available upon identity verification.'],
+        button: "Back to settings",
+        onPress: () => actions.navigateTo("WalletSettings")
+      };
+
     case EMPTY_STATES.MAINTENANCE:
       return {
         ...props,
@@ -46,6 +56,7 @@ function getProps(purpose, componentProps) {
         heading: "Be back soon!",
         paragraphs: ["Celsius is currently down for maintenance. We expect to be back in a couple of hours. Thanks for your patience."],
       };
+
     case EMPTY_STATES.NON_VERIFIED_CELPAY:
       return {
         ...props,
@@ -53,12 +64,30 @@ function getProps(purpose, componentProps) {
         paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by verifying your profile."],
         onPress: () => actions.navigateTo("KYCProfileDetails")
       };
+
+    case EMPTY_STATES.VERIFICATION_IN_PROCESS_CELPAY:
+      return {
+        ...props,
+        image: require("../../assets/images/diane-sad3x.png"),
+        paragraphs: ['CelPay will be available upon identity verification.'],
+        button: "Back to settings",
+        onPress: () => actions.navigateTo("WalletSettings")
+      };
+
     case EMPTY_STATES.NON_VERIFIED_DEPOSIT:
       return {
         ...props,
         heading: "Start earning interest",
         paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by verifying your profile."],
         onPress: () => actions.navigateTo("KYCProfileDetails")
+      };
+
+    case EMPTY_STATES.VERIFICATION_IN_PROCESS_DEPOSIT:
+      return {
+        ...props,
+        paragraphs: ['Deposits will be available upon identity verification.'],
+        button: "Back to settings",
+        onPress: () => actions.navigateTo("WalletSettings")
       };
 
     case EMPTY_STATES.NON_MEMBER_CELPAY:
@@ -154,9 +183,9 @@ function getNonVerifiedProps(componentProps) {
   const modal = isRejected ? MODALS.KYC_REJECTED_MODAL : null
   const modalProps = isRejected ? {
     name: MODALS.KYC_REJECTED_MODAL,
-    heading:'Identity verification failed',
+    heading: 'Identity verification failed',
     paragraphs: kycRejectionReasons,
-    yesCopy:'Verify identity again',
+    yesCopy: 'Verify identity again',
     onYes: actions.closeModal,
     support: true,
   } : null
