@@ -121,6 +121,7 @@ class CelModal extends Component {
     let marginTop = heightPercentageToDP('8%')
     if (picture) marginTop = heightPercentageToDP('6%')
     if (header) marginTop = heightPercentageToDP('15.3%')
+    if (title) marginTop  = heightPercentageToDP('0.5%')
 
     return (
       <Modal
@@ -174,7 +175,7 @@ class CelModal extends Component {
               </View>
             ) : (
                 <>
-                  {title && <CelText style={{paddingTop: 90}} color={STYLES.COLORS.DARK_GRAY} type="H2" weight="bold" align={"center"}>{title}</CelText>}
+                  {title && <CelText style={{paddingTop: 70, paddingHorizontal: 30}} color={STYLES.COLORS.DARK_GRAY} type="H2" weight="bold" align={"center"}>{title}</CelText>}
                   <ScrollView
                       style={[
                         style.contentWrapper,

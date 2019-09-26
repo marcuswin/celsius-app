@@ -24,16 +24,14 @@ class BecameCelMemberModal extends Component {
   }
 
   render() {
-    const { actions } = this.props
+    const { actions, title } = this.props
 
     return (
       <CelModal
         name={MODALS.BECAME_CEL_MEMBER_MODAL}
         picture={require('../../../../assets/images/illustrations-v3/stamp3x.png')}
+        title={title}
       >
-        <CelText margin='20 0 0 0' align='center' weight='bold' type='H2'>
-          Congrats! You have earned 1 CEL token!
-        </CelText>
         <CelText margin='16 0 10 0' type='H4' weight='300' align='center'>
           This CEL token allows you to take advantage of Celsius' products. Without any CEL you will be unable to earn, borrow, or pay, so keep HODLing!
         </CelText>

@@ -226,7 +226,7 @@ class WalletLanding extends Component {
           closeModal={actions.closeModal}
           transfer={branchTransfer}
         />
-        <BecameCelMemberModal />
+        <BecameCelMemberModal title={'Congrats! You have earned 1 CEL token!'} />
         <EarnInterestCelModal />
         <LoanAlertsModal />
       </RegularLayout>

@@ -223,9 +223,6 @@ class WithdrawEnterAmount extends Component {
     const { withdrawalAddresses, formData, actions } = this.props
     const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()]
 
-
-
-
     if (coinAddress) {
       actions.navigateTo('WithdrawConfirmAddress')
     } else {
@@ -395,7 +392,7 @@ class WithdrawEnterAmount extends Component {
         />
         {loyaltyInfo && (
           <LoseTierModal
-            navigateToNextStep={this.navigateToNextStep}
+            navigateToNextStep={() => this.navigateToNextStep(true)}
             tierTitle={loyaltyInfo.tier.title}
             closeModal={actions.closeModal}
           />
