@@ -67,11 +67,7 @@ class LoanOverviewCard extends Component {
 
   payInterest = async () => {
     const { actions, loan } = this.props
-    this.setState({ isLoading: true });
-    await actions.navigateTo('VerifyProfile', {
-      onSuccess: () => actions.payMonthlyInterest(loan.id),
-    })
-    this.setState({ isLoading: false });
+    actions.navigateTo('ChoosePaymentMethod', { reason: LOAN_PAYMENT_REASONS.MANUAL_INTEREST, id: loan.id })
   }
 
   payPrincipal = async () => {

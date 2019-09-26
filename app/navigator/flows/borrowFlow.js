@@ -22,6 +22,7 @@ import LoanPaymentCoin from "../../components/screens/LoanPaymentCoin/LoanPaymen
 import WiringBankInformation from "../../components/screens/WiringBankInformation/WiringBankInformation";
 import PrincipalPayment from "../../components/screens/PrincipalPayment/PrincipalPayment";
 import PrincipalPaymentType from "../../components/screens/PrincipalPaymentType/PrincipalPaymentType";
+import InterestPaymentSettings from "../../components/screens/InterestPaymentSettings/InterestPaymentSettings";
 
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { profileFlow } from './profileFlow'
@@ -53,6 +54,7 @@ export const borrowFlow = {
     PrincipalPayment,
     PrincipalPaymentType,
     LoanTermsOfUse,
+    InterestPaymentSettings,
     ...profileFlow.screens,
   },
   props: {

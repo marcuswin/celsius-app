@@ -357,8 +357,9 @@ function payPrincipal(id) {
  * Pay monthly interest for specific loan
  *
  * @param {UUID} id - loan id
+ * @param {string} coin - BTC|ETH coin in which interest should be paid
  */
-function payMonthlyInterest(id) {
+function payMonthlyInterest(id, coin) {
   return async (dispatch, getState) => {
     startApiCall(API.PAY_LOAN_INTEREST)
 
@@ -369,7 +370,7 @@ function payMonthlyInterest(id) {
         twoFactorCode: formData.code
       };
 
-      const res = await loansService.payMonthlyInterest(id, verification);
+      const res = await loansService.payMonthlyInterest(id, coin, verification);
       const transactionId = res.data.transaction_id;
       dispatch({ type: ACTIONS.PAY_LOAN_INTEREST_SUCCESS })
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));

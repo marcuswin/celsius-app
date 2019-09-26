@@ -80,6 +80,11 @@ class PaymentCel extends Component {
       this.setState({ isLoading: false })
     }
 
+    if (reason === LOAN_PAYMENT_REASONS.MANUAL_INTEREST) {
+      actions.navigateTo('VerifyProfile', {
+        onSuccess: () => actions.payMonthlyInterest(id, 'CEL'),
+      })
+    }
   }
 
   render() {

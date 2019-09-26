@@ -66,6 +66,12 @@ class LoanPaymentCoin extends Component {
       actions.navigateTo('ChoosePaymentMethod', { id, reason })
       this.setState({ isLoading: { [coinShort]: false }})
     }
+
+    if (reason === LOAN_PAYMENT_REASONS.MANUAL_INTEREST) {
+      actions.navigateTo('VerifyProfile', {
+        onSuccess: () => actions.payMonthlyInterest(id, coinShort),
+      })
+    }
   }
 
   render() {

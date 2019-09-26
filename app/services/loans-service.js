@@ -199,13 +199,17 @@ function payPrincipal(id, verification) {
  * Creates the monthly interest payment for specific loan
  *
  * @param {Number} id - loan id
+ * @param {string} coin - BTC|ETH coin in which interest should be paid
  * @param {string} verification.pin - eg '1234'
  * @param {string} verification.twoFactorCode - eg '123456'
 
  * @returns {Promise}
  */
-function payMonthlyInterest(id, verification) {
-  return axios.post(`${apiUrl}/loans/${id}/payment/monthly_interest`, verification)
+function payMonthlyInterest(id, coin, verification) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/monthly_interest`, {
+    ...verification,
+    coin,
+  })
 }
 
 /**

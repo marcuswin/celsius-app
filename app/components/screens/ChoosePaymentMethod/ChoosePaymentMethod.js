@@ -50,20 +50,18 @@ class ChoosePaymentMethod extends Component {
     const { navigation, loanSettings } = this.props;
     const reason = navigation.getParam("reason");
 
-    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
-      return {
-        cel: false,
-        coin: false,
-        usd: false,
-      }
-    }
-
     if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
       return {
         cel: loanSettings.interest_payment_asset === "CEL",
         coin: !["CEL", 'USD'].includes(loanSettings.interest_payment_asset),
         usd: loanSettings.interest_payment_asset === "USD",
       }
+    }
+
+    return {
+      cel: false,
+      coin: false,
+      usd: false,
     }
   }
 
