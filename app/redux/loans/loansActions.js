@@ -66,7 +66,7 @@ function applyForALoan() {
       dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id, hideBack: true }));
       dispatch(showMessage('success', 'Loan created successfully!'))
 
-      if (formData.loanAmount <= automaticLoanLimit) {
+      if (formData.loanAmount <= automaticLoanLimit && formData.coin !== 'USD') {
         dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL))
       }
 
