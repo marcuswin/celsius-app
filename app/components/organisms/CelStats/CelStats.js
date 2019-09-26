@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import PropTypes from 'prop-types';
 
 import CelsiusStatsStyle from "./CelStats.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -12,11 +11,6 @@ import { getTheme } from '../../../utils/styles-util'
 
 class CelStats extends Component {
 
-  static propTypes = {
-    celTierStats: PropTypes.string
-  };
-  static defaultProps = {
-  }
 
   constructor(props) {
     super(props);
@@ -41,9 +35,7 @@ class CelStats extends Component {
   render() {
     const style = CelsiusStatsStyle();
     const theme = getTheme()
-    const { celTierStats } = this.props
-
-    let totalCelUsers
+    const { celTierStats, totalCelUsers } = this.props
 
     if (!celTierStats || !totalCelUsers) {
       return null
@@ -100,7 +92,7 @@ class CelStats extends Component {
 
         { celTierStats.map((i, k) => (
             <View style={ style.celTierWrapper} key={k}>
-              <View style={[style.celTierIndentation, { backgroundColor: this.setTierColor(i.name) }]} >
+              <View style={[style.celTierIndentation, { backgroundColor: this.setTierColor(i.name.toLowerCase()) }]} >
                 <View style={{
                   width: TEXT_HEIGHT,
                   height: TEXT_LENGTH,
@@ -132,11 +124,11 @@ class CelStats extends Component {
               <View style={ style.celTierItem}>
                 <CelText
                     weight={'600'}
-                    type={'H6'}
+                    type={'H5'}
                     align={'center'}
-                    margin={'25 0 25 0'}
+                    margin={'30 0 15 0'}
                 >
-                  { formatter.usd(i.totalCelInterests, {symbol: ''}) }
+                  { formatter.crypto(i.totalCelInterests, '',{noPrecision: true} ) }
                 </CelText>
               </View>
               <Separator
@@ -148,11 +140,11 @@ class CelStats extends Component {
               <View style={ style.celTierItem}>
                 <CelText
                     weight={'600'}
-                    type={'H6'}
+                    type={'H5'}
                     align={'center'}
-                    margin={'25 0 25 0'}
+                    margin={'30 0 15 0'}
                 >
-                  { formatter.percentageDisplay(i.percentageOfUsers) }
+                  { formatter.percentageDisplay(i.percentageOfUsers / 100) }
                 </CelText>
               </View>
               <Separator
@@ -164,11 +156,11 @@ class CelStats extends Component {
               <View style={ style.celTierItem }>
                 <CelText
                     weight={'600'}
-                    type={'H6'}
+                    type={'H5'}
                     align={'center'}
-                    margin={'25 0 25 0'}
+                    margin={'30 0 15 0'}
                 >
-                  { formatter.percentageDisplay(i.interestInCelInPercentages) }
+                  { formatter.percentageDisplay(i.interestInCelInPercentages / 100) }
                 </CelText>
               </View>
             </View>)) }
@@ -178,7 +170,7 @@ class CelStats extends Component {
             align={'center'}
             margin={'10 0 10 0'}
         >
-          { formatter.percentageDisplay(totalCelUsers) }
+          { formatter.percentageDisplay(totalCelUsers / 100) }
         </CelText>
         <CelText
             type={'H7'}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Image } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import PropTypes from 'prop-types';
 
 import * as appActions from "../../../redux/actions";
 
@@ -26,7 +27,8 @@ import CelStats from "../../organisms/CelStats/CelStats";
 class Community extends Component {
 
   static propTypes = {
-    // text: PropTypes.string
+      celTierStats: PropTypes.instanceOf(Object),
+      totalCelUsers: PropTypes.number
   };
   static defaultProps = {};
 
@@ -323,7 +325,7 @@ class Community extends Component {
         />
 
           {/* { this.renderCommunityStatsTable() }*/}
-          <CelStats />
+          <CelStats celTierStats={communityStats.tier_stats} totalCelUsers={communityStats.percentage_of_users_earn_interest_in_cel} />
 
         {communityStats.no_of_users_referred > 0 ?
           <CommunityDashboard name={"REFERRED"}>
