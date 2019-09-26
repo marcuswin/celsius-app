@@ -21,7 +21,7 @@ export default {
  */
 function log (content) {
   // eslint-disable-next-line no-console
-  if ([].indexOf(ENV) !== -1) console.log(content)
+  if (['STAGING'].indexOf(ENV) !== -1) console.log(content)
 }
 
 /**
