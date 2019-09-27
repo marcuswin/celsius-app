@@ -5,7 +5,6 @@ import { Image, Linking, View } from "react-native";
 import ComingSoonCoinsStyle from "./ComingSoonCoins.styles";
 import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
-import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import {THEMES, WALLET_LANDING_VIEW_TYPES} from "../../../constants/UI";
 import Icon from "../../atoms/Icon/Icon";
@@ -27,8 +26,6 @@ const ComingSoonCoins = (props) => {
   const theme = getTheme();
   return (
     <View style={style.container}>
-      <Separator margin="10 0 10 0" text="COMING SOON"/>
-
       <View style={style.flexWrapper}>
         { COMING_SOON_COINS.map(csc => (
           <Card size={cardSize} key={csc.short}>

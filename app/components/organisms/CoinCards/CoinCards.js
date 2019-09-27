@@ -9,6 +9,7 @@ import { WALLET_LANDING_VIEW_TYPES } from "../../../constants/UI";
 import CoinGridCard from "../../molecules/CoinGridCard/CoinGridCard";
 import CoinListCard from "../../molecules/CoinListCard/CoinListCard";
 import Icon from "../../atoms/Icon/Icon";
+import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 
 class CoinCards extends Component {
 
@@ -41,6 +42,7 @@ class CoinCards extends Component {
   filterCoins = async () => {
     const { walletSummary, currenciesRates, currenciesGraphs, navigateTo } = this.props
     const walletCoins = []
+
     if (walletSummary) {
       walletSummary.coins.forEach(coin => {
         walletCoins.push(coin)
@@ -70,22 +72,25 @@ class CoinCards extends Component {
         coins.push(coin)
       })
 
+
       await this.setState({
         walletCoins: coins
       })
     }
   }
 
-  renderCoinCards = () => {
+  renderCoinCards = (c) => {
     const { activeView } = this.props
-    const { walletCoins } = this.state
+    // const { walletCoins } = this.state
+    // const coinsWithAmount = _.remove(walletCoins, c => c.amount !== 0)
+    // const coinsWithoutAmount = _.remove(walletCoins, c => c.amount === 0)
 
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 
     // Render grid item
     if (isGrid) {
       return (
-          walletCoins.map( coin => (
+          c.map( coin => (
             <CoinGridCard
                 key={coin.short}
                 coin={coin}
@@ -100,7 +105,7 @@ class CoinCards extends Component {
     }
     // Render list item
     return (
-        walletCoins.map(coin => (
+        c.map(coin => (
             <CoinListCard
                 key={coin.short}
                 coin={coin}
@@ -136,10 +141,33 @@ class CoinCards extends Component {
 
   render() {
     const style = CoinCardsStyle();
+
+    const { walletCoins } = this.state
+    const coinsWithAmount = _.remove(walletCoins, c => c.amount !== 0)
+    const coinsWithoutAmount = _.remove(walletCoins, c => c.amount === 0)
+
     return (
-      <View style={style.coinCardContainer}>
-        { this.renderCoinCards() }
-        { this.renderAddMoreCoins() }
+      <View>
+        <ExpandableItem
+            heading={'DEPOSITS'}
+            margin={'10 0 10 0'}
+            childrenStyle={style.coinCardContainer}
+            isExpanded
+        >
+          { this.renderCoinCards(coinsWithAmount) }
+          { this.renderAddMoreCoins() }
+        </ExpandableItem>
+
+        <ExpandableItem
+            heading={'AVAILABLE COINS'}
+            margin={'10 0 10 0'}
+            childrenStyle={style.coinCardContainer}
+        >
+          { this.renderCoinCards(coinsWithoutAmount) }
+        </ExpandableItem>
+
+
+
       </View>
     )
   }

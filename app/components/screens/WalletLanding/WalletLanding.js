@@ -22,6 +22,7 @@ import ComingSoonCoins from "../../molecules/ComingSoonCoins/ComingSoonCoins";
 import CoinCards from "../../organisms/CoinCards/CoinCards";
 import WalletLandingStyle from "./WalletLanding.styles";
 import LoanAlertsModal from "../../organisms/LoanAlertsModal/LoanAlertsModal";
+import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 
 let counter = 0;
 
@@ -212,14 +213,22 @@ class WalletLanding extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          <CoinCards activeView={activeView}
-                     navigateTo={actions.navigateTo}
-                     walletSummary={walletSummary}
-                     currenciesGraphs={currenciesGraphs}
-                     currenciesRates={currenciesRates}
-                     depositCompliance={depositCompliance}
-          />
-          <ComingSoonCoins activeView={activeView}/>
+
+            <CoinCards activeView={activeView}
+                       navigateTo={actions.navigateTo}
+                       walletSummary={walletSummary}
+                       currenciesGraphs={currenciesGraphs}
+                       currenciesRates={currenciesRates}
+                       depositCompliance={depositCompliance}
+            />
+
+          <ExpandableItem
+            heading={'COMING SOON'}
+            margin={'10 0 10 0'}
+          >
+            <ComingSoonCoins activeView={activeView}/>
+          </ExpandableItem>
+
         </View>
         <CelPayReceivedModal
           navigateTo={actions.navigateTo}

@@ -11,18 +11,24 @@ import { getMargins, getTheme } from '../../../utils/styles-util'
 
 class ExpandableItem extends Component {
   static propTypes = {
-    heading: PropTypes.string,
+    heading: PropTypes.string.isRequired,
     margin: PropTypes.string,
+    isExpanded: PropTypes.bool,
+    childrenStyle: PropTypes.oneOfType([
+      PropTypes.number, // StyleSheet.create() returns number
+      PropTypes.instanceOf(Object)
+    ]),
   };
   static defaultProps = {
     margin: "0 0 0 0",
+    isExpanded: false
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      isExpanded: false
+      isExpanded: props.isExpanded
     };
   }
 
@@ -66,16 +72,23 @@ class ExpandableItem extends Component {
   };
 
   render() {
-    const { children, heading } = this.props;
+    const { children, heading, childrenStyle } = this.props;
     const { isExpanded } = this.state;
 
     return (
       <>
         {heading && this.renderSeparator()}
-        {isExpanded && <View>{children}</View>}
+        {isExpanded && <View style={ childrenStyle }>{children}</View>}
       </>
     );
   }
+}
+
+ExpandableItem.propTypes = {
+  heading: PropTypes.string,
+  margin: PropTypes.string,
+  isExpanded: PropTypes.bool,
+  childrenStyle: PropTypes.instanceOf(Object)
 }
 
 export default ExpandableItem;
