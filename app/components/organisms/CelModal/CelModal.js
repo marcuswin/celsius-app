@@ -32,7 +32,7 @@ import Message from '../../molecules/Message/Message'
 import STYLES from '../../../constants/STYLES';
 import CelButton from '../../atoms/CelButton/CelButton';
 
-const cardWidth = widthPercentageToDP("70%");
+const cardWidth = widthPercentageToDP("80%");
 const { width } = Dimensions.get('window');
 
 @connect(
@@ -183,6 +183,7 @@ class CelModal extends Component {
         })
         return (
           <Animated.Image
+            key={index}
             style={{
               opacity,
               height: 150,
@@ -190,9 +191,9 @@ class CelModal extends Component {
               position: "absolute",
               zIndex: 1,
               top: -heightPercentageToDP("20%") / 4,
-              left: widthPercentageToDP('54%') / 2
+              alignSelf: 'center',
             }}
-            source={step.image} width={150} height={150}
+            source={step.image}
           />
         )
       })
@@ -246,6 +247,11 @@ class CelModal extends Component {
     const style = CelModalStyle()
     const paddingStyle = padding ? getPadding(padding) : {}
 
+    let scrollWrapper
+
+    if (modalType === 'withdraw') scrollWrapper = style.contentWrapperWithdraw
+    else if (modalType === 'deposit') scrollWrapper = style.contentWrapperDeposit
+    else scrollWrapper = style.contentWrapper
 
     let size
     if (picture) size = { paddingVertical: heightPercentageToDP('18%') }
@@ -269,6 +275,7 @@ class CelModal extends Component {
         <View style={[style.wrapper, size]}>
           <View style={style.modal}>
             {this.renderImage()}
+            {!!modalInfo && modalInfo.length > 1 && this.renderDots()}
             {shouldRenderCloseButton ? (
               <TouchableOpacity
                 style={style.closeBtn}
@@ -299,11 +306,10 @@ class CelModal extends Component {
             ) : (
                 <View>
                   <ScrollView
-                    style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('5%') }, paddingStyle]}
+                    style={[scrollWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('5%') }, paddingStyle]}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ flexGrow: 1 }}
                   >
-                    {!!modalInfo && modalInfo.length > 1 && this.renderDots()}
                     {!!modalInfo && this.renderModalContent()}
                     {childrenWithProps}
                   </ScrollView>

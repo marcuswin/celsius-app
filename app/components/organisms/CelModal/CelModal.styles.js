@@ -1,13 +1,15 @@
-import { Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
+
+const { width } = Dimensions.get('window');
 
 const base = {
   wrapper: {
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Platform.OS === 'android' ? 'rgba(243,243,243,0.9)' : 'rgba(243,243,243,0)',
-    flex: 1,
+    flex: 4,
   },
   modal: {
     backgroundColor: "white",
@@ -41,6 +43,21 @@ const base = {
     height: heightPercentageToDP("22.5%")
   },
   contentWrapper: {
+    marginTop: 100,
+    paddingRight: 20,
+    paddingLeft: 20,
+    marginBottom: 20
+  },
+  contentWrapperWithdraw: {
+    height: width * 0.8,
+    marginTop: 100,
+    paddingRight: 20,
+    paddingLeft: 20,
+    marginBottom: 20
+  },
+  contentWrapperDeposit: {
+    height: width * 0.7,
+    marginTop: 100,
     paddingRight: 20,
     paddingLeft: 20,
     marginBottom: 20
@@ -76,12 +93,12 @@ const base = {
   },
   screen: {
     width: widthPercentageToDP("80%"),
-    // height: heightPercentageToDP('50%'),
     justifyContent: "flex-start",
     alignItems: "center",
     alignContent: 'flex-start',
     borderRadius: 25,
     backgroundColor: "white",
+    marginBottom: 40
   },
   title: {
     textAlign: 'center',
@@ -104,25 +121,18 @@ const base = {
     marginTop: 0,
     backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
   },
-  dots: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: heightPercentageToDP('3%')
-  },
   dotsWithdraw: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 100,
+    paddingTop: 120,
   },
   dotsDeposit: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: heightPercentageToDP("10%")
+    paddingTop: 90,
   },
 };
 
