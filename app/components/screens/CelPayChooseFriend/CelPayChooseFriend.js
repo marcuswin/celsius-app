@@ -226,8 +226,8 @@ class CelPayChooseFriend extends Component {
     const { isLoading } = this.state;
     const hasFriends = this.hasFriends()
 
-    if (kycStatus !== 'pending' && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
-    if (kycStatus === 'pending' && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_CELPAY }}/>
+    if (kycStatus !== KYC_STATUSES.pending && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
+    if (kycStatus === KYC_STATUSES.pending && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_CELPAY }}/>
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
     if (!celpayCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
 

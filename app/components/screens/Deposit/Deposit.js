@@ -311,7 +311,7 @@ class Deposit extends Component {
     }
 
     if (!hasPassedKYC()) {
-      if (kycStatus === 'pending') {
+      if (kycStatus === KYC_STATUSES.pending) {
         return (
           <StaticScreen
             emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_DEPOSIT }}
