@@ -75,6 +75,7 @@ function initCelsiusApp() {
       dispatch({ type: ACTIONS.APP_INIT_DONE });
       clearTimeout(timeout)
     } catch (e) {
+      clearTimeout(timeout)
       loggerUtil.err(e);
     }
   };
