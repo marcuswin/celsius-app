@@ -58,8 +58,9 @@ class WiringBankInformation extends Component {
 
   }
 
+
   render() {
-    const { navigation } = this.props;
+    const { navigation, actions } = this.props;
     const { isLoading } = this.state;
     const copy = this.getCopy()
     const reason = navigation.getParam('reason')
@@ -112,6 +113,12 @@ class WiringBankInformation extends Component {
             Pay with Dollars
           </CelButton>
         )}
+
+        <CelButton
+          onPress={() => actions.getBankDetailsEmail()}
+        >
+          Go to Loan Overview
+        </CelButton>
 
         {/* <Card>
           <View style={{ flex: 1 }}>

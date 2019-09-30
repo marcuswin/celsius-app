@@ -16,7 +16,8 @@ const loansService = {
   prepayInterest,
   payPrincipal,
   payMonthlyInterest,
-  getAmortizationTable
+  getAmortizationTable,
+  getBankDetailsEmail
 };
 
 /**
@@ -221,4 +222,15 @@ function getAmortizationTable(id) {
   return axios.get(`${apiUrl}/loans/${id}/amortization-table`)
 }
 
+/**
+ * Makes you receive email with wiring bank info
+ *
+ * @returns {Promise}
+ */
+function getBankDetailsEmail() {
+  return axios.get(`${apiUrl}/loans/bank-details`)
+}
+
 export default loansService;
+
+
