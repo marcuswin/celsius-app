@@ -242,11 +242,19 @@ class WithdrawEnterAmount extends Component {
       keypadOpen,
       withdrawalSettings,
       withdrawalAddresses,
-      loyaltyInfo
+      loyaltyInfo,
+      kycStatus
     } = this.props
 
     const style = WithdrawEnterAmountStyle()
     if (!hasPassedKYC()) {
+      if (kycStatus === KYC_STATUSES.pending) {
+        return (
+          <StaticScreen
+            emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_WITHDRAW }}
+          />
+        )
+      }
       return (
         <StaticScreen
           emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }}
