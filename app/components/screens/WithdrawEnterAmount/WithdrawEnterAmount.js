@@ -406,7 +406,7 @@ class WithdrawEnterAmount extends Component {
           />
         )}
         <WithdrawInfoModal
-          type={coin === 'CEL'}
+          type={coin}
           closeModal={actions.closeModal}
           toggleKeypad={actions.toggleKeypad}
           withdrawalSettings={withdrawalSettings}

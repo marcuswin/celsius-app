@@ -1,17 +1,13 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+// import { View, Animated } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 
 import * as appActions from "../../../redux/actions";
-import DepositInfoModalStyle from "./DepositInfoModal.styles";
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
-import DotsBar from "../../atoms/DotsBar/DotsBar";
-import CelText from "../../atoms/CelText/CelText";
-import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
@@ -32,6 +28,7 @@ class DepositInfoModal extends Component {
     super(props);
     const { type, currencies } = props;
     let steps;
+
 
     const coinName = currencies.find(coin => coin.short === type);
 
@@ -91,6 +88,7 @@ class DepositInfoModal extends Component {
             title: `Only deposit EOS (EOS) to this wallet`,
             description: "Sending any other digital asset to this specific address, will result in permanent loss.",
             buttonText: "Continue"
+
           },
           {
             image: { uri: coinName.image_url },
@@ -123,24 +121,15 @@ class DepositInfoModal extends Component {
 
     this.state = {
       currentStep: 0,
-      steps
+      steps,
     };
   }
-
   closeModalHandler = () => {
-    const { actions } = this.props;
-    const { steps, currentStep } = this.state;
-
-    if (steps[currentStep].buttonText === "Continue") {
-      this.setState({ currentStep: 1 });
-    } else {
-      actions.closeModal();
-      this.setState({ currentStep: 0 });
-    }
-  };
+    const { closeModal } = this.props
+    closeModal()
+  }
 
   render() {
-    const style = DepositInfoModalStyle();
     const { steps, currentStep } = this.state;
 
     return (
@@ -148,18 +137,9 @@ class DepositInfoModal extends Component {
         name={MODALS.DEPOSIT_INFO_MODAL}
         picture={steps[currentStep].image}
         pictureCircle
-      >
-        {steps.length > 1 &&
-          <View style={style.progressBar}>
-            <DotsBar length={2} currentStep={currentStep + 1} />
-          </View>}
-        <CelText type='H2' align={"center"} weight='bold' style={style.title}>{steps[currentStep].title}</CelText>
-        <CelText type='H4' align={"center"} style={style.description}>{steps[currentStep].description}</CelText>
-        <CelButton
-          margin={"20 0 20 0"}
-          onPress={this.closeModalHandler}
-        >{steps[currentStep].buttonText}</CelButton>
-      </CelModal>
+        modalInfo={steps}
+        modalType={'deposit'}
+      />
     );
   }
 }

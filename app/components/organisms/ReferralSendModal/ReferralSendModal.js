@@ -66,8 +66,9 @@ class ReferralSendModal extends Component {
       <CelModal name={MODALS.REFERRAL_SEND_MODAL}
         picture={require('../../../../assets/images/icons/referrals/dog.png')}
         style={{ paddingBottom: 30 }}
-        title='Refer and earn!'
       >
+        <CelText type="H2" weight="bold" align={"center"} style={{ paddingTop: 60 }}>Refer and earn!</CelText>
+
         <CelText color={STYLES.COLORS.DARK_GRAY} align={"center"} weight='300' style={style.explanation}>Earn $10 in BTC when a friend joins Celsius Network with your unique referral link!*</CelText>
 
         <View style={style.copyShareWrapper}>
