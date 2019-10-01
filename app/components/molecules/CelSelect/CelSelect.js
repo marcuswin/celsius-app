@@ -172,7 +172,7 @@ class CelSelect extends Component {
         <TouchableOpacity onPress={onPress}>
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 10, borderRadius: 8 }}>
             {this.renderImage(cmpStyle.flagImage, country.alpha2)}
-            <CelText type="H4" align="left" style={{ marginLeft: 5, marginRight: 5 }}>{country.countryCallingCodes ? country.countryCallingCodes[0] : ''}</CelText>
+            <CelText type="H4" align="left" style={{ marginLeft: 10, marginRight: 5 }}>{country.countryCallingCodes ? country.countryCallingCodes[0] : ''}</CelText>
             <View style={{ height: 30, justifyContent: 'center', alignItems: 'center' }}>
               <Icon name='CaretDown' height='9' width='15' fill={iconColor} />
             </View>
@@ -184,15 +184,17 @@ class CelSelect extends Component {
     return (
       <TouchableOpacity
         onPress={onPress}
-        style={[inputStyle, {flex: 1, flexDirection: 'row', alignItems: 'center'}]}
+        style={[inputStyle, {flexDirection: 'row', alignItems: 'center'}]}
       >
         {type === 'country' && showCountryFlag && this.state.value && this.state.value.alpha2 ?
           this.renderImage([cmpStyle.flagImage, {marginRight: 5}], this.state.value.alpha2)
           : null
         }
+        <View style={{flexDirection: "row", justifyContent: "space-between"}}>
         <CelText
             type="H4"
             color={textColor}
+
         >
           {value ? (value.label || value.name) : labelText}</CelText>
         {!disabled &&
@@ -200,6 +202,7 @@ class CelSelect extends Component {
             <Icon name='CaretDown' height='9' width='15' fill={iconColor} />
           </View>
         }
+        </View>
       </TouchableOpacity>
     );
   }
@@ -211,7 +214,7 @@ class CelSelect extends Component {
     const { items, value } = this.state;
 
    return (
-      <View style={[{ width: '100%' }, flex ? { flex } : {}, style]}>
+      <View style={[flex ? { flex } : {}, style]}>
         {type !== 'country' && type !== 'phone' ?
           <RNPickerSelect
             disabled={disabled}

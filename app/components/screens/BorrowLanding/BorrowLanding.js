@@ -20,25 +20,35 @@ import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
 import Separator from "../../atoms/Separator/Separator";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
+import LoanCancelModal from "../../organisms/LoanCancelModal/LoanCancelModal";
 
 const cardWidth = widthPercentageToDP("70%");
 
 @connect(
-  state => ({
-    user: state.user.profile,
-    formData: state.forms.formData,
-    currencies: state.currencies.rates,
-    loanCompliance: state.compliance.loan,
-    walletSummary: state.wallet.summary,
-    allLoans: state.loans.allLoans,
-    minimumLoanAmount: state.generalData.minimumLoanAmount,
-    ltv: state.loans.ltvs,
-    loan: state.compliance.loan,
-    kycStatus: state.user.profile.kyc
-      ? state.user.profile.kyc.status
-      : KYC_STATUSES.collecting,
-    marginCalls: state.loans.marginCalls
-  }),
+  state => {
+    const loanCompliance = state.compliance.loan
+    const walletSummary =state.wallet.summary
+    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short))
+    const maxAmount = eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0)
+
+    return {
+      user: state.user.profile,
+      formData: state.forms.formData,
+      currencies: state.currencies.rates,
+      loanCompliance,
+      walletSummary,
+      allLoans: state.loans.allLoans,
+      minimumLoanAmount: state.generalData.minimumLoanAmount,
+      ltv: state.loans.ltvs,
+      kycStatus: state.user.profile.kyc
+        ? state.user.profile.kyc.status
+        : KYC_STATUSES.collecting,
+      marginCalls: state.loans.marginCalls,
+      eligibleCoins,
+      maxAmount,
+      loyaltyInfo: state.user.loyaltyInfo,
+    }
+  },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowLanding extends Component {
@@ -50,13 +60,9 @@ class BorrowLanding extends Component {
 
   constructor(props) {
     super(props);
-    const { walletSummary, loanCompliance, ltv } = this.props;
-
-    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short));
+    const { ltv } = this.props;
 
     this.state = {
-      eligibleCoins,
-      maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0),
       isLoading: true,
       xOffset: new Animated.Value(0)
     };
@@ -82,8 +88,7 @@ class BorrowLanding extends Component {
   };
 
   applyForAnother = () => {
-    const { maxAmount } = this.state;
-    const { actions, minimumLoanAmount } = this.props;
+    const { actions, minimumLoanAmount, maxAmount } = this.props;
 
     if (maxAmount < minimumLoanAmount / this.bestLtv) {
       actions.showMessage("warning", "Insufficient funds!");
@@ -111,7 +116,7 @@ class BorrowLanding extends Component {
 
   // TODO (fj) move to loans util
   emitParams = () => {
-    const { formData, currencies, walletSummary, ltv, minimumLoanAmount, loanCompliance } = this.props;
+    const { formData, currencies, ltv, minimumLoanAmount, eligibleCoins } = this.props;
     const loanParams = {};
 
     if (formData && formData.ltv) {
@@ -125,8 +130,6 @@ class BorrowLanding extends Component {
       loanParams.collateralNeeded = (Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent;
       loanParams.bestLtv = Math.max(...ltv.map(x => x.percent));
 
-
-      const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short));
       const arrayOfAmountUsd = eligibleCoins.map(c => c.amount_usd);
 
       const indexOfLargestAmount = arrayOfAmountUsd.indexOf(Math.max(...arrayOfAmountUsd));
@@ -134,7 +137,7 @@ class BorrowLanding extends Component {
       loanParams.largestAmountCrypto = eligibleCoins[indexOfLargestAmount].amount;
       loanParams.largestShortCrypto = eligibleCoins[indexOfLargestAmount].short;
       loanParams.minimumLoanAmountCrypto = minimumLoanAmount / (currencies.find(c => c.short === eligibleCoins[indexOfLargestAmount].short)).market_quotes_usd.price;
-      loanParams.missingCollateral = (loanParams.minimumLoanAmountCrypto - loanParams.largestAmountCrypto) / loanParams.bestLtv;
+      loanParams.missingCollateral = (loanParams.largestAmountCrypto - loanParams.minimumLoanAmountCrypto) / loanParams.bestLtv;
 
     }
     return loanParams;
@@ -193,7 +196,7 @@ class BorrowLanding extends Component {
 
   renderDefaultView() {
     const { xOffset } = this.state;
-    const { actions, allLoans, walletSummary, marginCalls } = this.props;
+    const { actions, allLoans, walletSummary, marginCalls, loyaltyInfo } = this.props;
 
     let hasEnoughOriginalCoin;
     let hasEnoughOtherCoins;
@@ -242,6 +245,7 @@ class BorrowLanding extends Component {
                       actions={actions}
                       hasOriginalCoin={hasEnoughOriginalCoin}
                       hasEnoughOtherCoins={hasEnoughOtherCoins}
+                      celDiscount={loyaltyInfo.tier.loanInterestBonus}
                     />
                   </Animated.View>
                 );
@@ -249,6 +253,7 @@ class BorrowLanding extends Component {
             }
           </Animated.ScrollView>
           <BorrowCalculatorModal emitParams={this.emitParams}/>
+          <LoanCancelModal actions={actions}/>
         </View>
       </RegularLayout>
     );
@@ -263,8 +268,8 @@ class BorrowLanding extends Component {
 
   // slavija intersection
   renderIntersection() {
-    const { maxAmount, isLoading } = this.state;
-    const { user, kycStatus, loanCompliance, minimumLoanAmount, allLoans } = this.props;
+    const { isLoading } = this.state;
+    const { user, kycStatus, loanCompliance, minimumLoanAmount, allLoans, maxAmount } = this.props;
     const minLtv = this.getMinLtv();
 
     if (kycStatus && !hasPassedKYC()) return <BorrowCalculatorScreen emitParams={this.emitParams}

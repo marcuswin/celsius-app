@@ -26,13 +26,10 @@ const base = {
         opacity: 0.6
     },
     iconRight: {
-        position: 'absolute',
-        right: 15,
-        top: 0,
-        height: 50,
+        marginTop: 2,
+        marginLeft: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        opacity: 0.4,
     },
     flagImage: {
         width: 30,

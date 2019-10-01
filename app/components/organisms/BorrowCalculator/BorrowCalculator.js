@@ -13,10 +13,10 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import Card from "../../atoms/Card/Card";
 import HorizontalSlider from "../../atoms/HorizontalSlider/HorizontalSlider";
 import STYLES from "../../../constants/STYLES";
-import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 import Icon from "../../atoms/Icon/Icon";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { THEMES } from "../../../constants/UI";
+import CoinPicker from "../../molecules/CoinPicker/CoinPicker";
 
 @connect(
   state => ({
@@ -200,8 +200,8 @@ class BorrowCalculator extends Component {
     let numberOfDigits
     if (loanParams.monthlyInterest && loanParams.totalInterest) {
       numberOfDigits = Math.max(
-          (loanParams.monthlyInterest).length,
-          (loanParams.totalInterest).length
+        (loanParams.monthlyInterest).length,
+        (loanParams.totalInterest).length
       )
     }
 
@@ -234,36 +234,36 @@ class BorrowCalculator extends Component {
             Choose your annual interest rate.
           </CelText>
           <View style={style.ltvWrapper}>
-            { sortedLtv && sortedLtv.map(c => (
-                <Card
-                  size={"thirdExtra"}
-                  margin="20 5 20 5"
-                  noBorder
-                  theme={themeModal}
-                  key={c.interest}
-                  styles={
+            {sortedLtv && sortedLtv.map(c => (
+              <Card
+                size={"thirdExtra"}
+                margin="20 5 20 5"
+                noBorder
+                theme={themeModal}
+                key={c.interest}
+                styles={
+                  formData.ltv.interest === c.interest
+                    ? style.selectedCardStyle
+                    : style.cardStyle
+                }
+                onPress={() => {
+                  actions.updateFormField("ltv", c);
+                }}
+              >
+                <CelText
+                  align={"center"}
+                  weight="bold"
+                  type={"H6"}
+                  style={
                     formData.ltv.interest === c.interest
-                      ? style.selectedCardStyle
-                      : style.cardStyle
+                      ? style.selectedTextStyle
+                      : style.percentageTextStyle
                   }
-                  onPress={() => {
-                    actions.updateFormField("ltv", c);
-                  }}
                 >
-                  <CelText
-                    align={"center"}
-                    weight="bold"
-                    type={"H6"}
-                    style={
-                      formData.ltv.interest === c.interest
-                        ? style.selectedTextStyle
-                        : style.percentageTextStyle
-                    }
-                  >
-                    {formatter.percentageDisplay(c.interest)}
-                  </CelText>
-                </Card>
-              ))}
+                  {formatter.percentageDisplay(c.interest)}
+                </CelText>
+              </Card>
+            ))}
           </View>
           <Separator />
           <CelText
@@ -356,14 +356,13 @@ class BorrowCalculator extends Component {
             fill={themeColors.iconColor}
           />
           <View style={style.selectWrapper}>
-            <SimpleSelect
-              items={coinSelectItems}
-              field="coin"
-              displayValue={formData.coin}
-              value={formData.coin}
+            <CoinPicker
+              type={'enterAmount'}
               updateFormField={actions.updateFormField}
-              placeholder="Choose a coin"
-              theme={themeModal}
+              value={formData.coin}
+              field='coin'
+              coinCompliance={coinSelectItems}
+              navigateTo={actions.navigateTo}
             />
           </View>
         </View>

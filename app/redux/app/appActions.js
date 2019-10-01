@@ -22,6 +22,7 @@ import loggerUtil from "../../utils/logger-util";
 import analytics from "../../utils/analytics";
 import { requestForPermission } from "../../utils/device-permissions";
 import { hasPassedKYC } from "../../utils/user-util";
+import { showMessage } from "../ui/uiActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
 
@@ -47,12 +48,18 @@ export {
 /**
  * Initializes Celsius Application
  */
+let timeout
 function initCelsiusApp() {
   return async (dispatch, getState) => {
     if (getState().app.appInitializing) return;
 
     try {
       dispatch({ type: ACTIONS.APP_INIT_START });
+
+      timeout = setTimeout (() => {
+        dispatch(showMessage('info', "Please be patient, this may take a bit longer."));
+        clearTimeout(timeout);
+      }, 20000);
       await appUtil.logoutOnEnvChange();
 
       disableAccessibilityFontScaling();
@@ -66,7 +73,9 @@ function initCelsiusApp() {
       await dispatch(branchUtil.initBranch());
 
       dispatch({ type: ACTIONS.APP_INIT_DONE });
+      clearTimeout(timeout)
     } catch (e) {
+      clearTimeout(timeout)
       loggerUtil.err(e);
     }
   };
@@ -253,8 +262,9 @@ function initAppData(initToken = null) {
         // get wallet details for verified users
         if (profile.kyc && hasPassedKYC()) {
           await dispatch(actions.getWalletSummary())
-          
+          await dispatch(actions.getAllLoans())
         }
+
       }
     } else if (token) {
       // logout if expired session or no token

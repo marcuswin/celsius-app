@@ -8,7 +8,7 @@ import { heightPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 import CelText from "../../atoms/CelText/CelText";
 
-const height = heightPercentageToDP("22.5%");
+const height = heightPercentageToDP("15%");
 
 const { Surface, Group, Shape } = ART;
 
@@ -56,7 +56,7 @@ class CircularProgressBar extends Component {
             </Group>
           </Surface>
 
-          < View
+          <View
             style={[
               style.innerCircle,
               { backgroundColor: STYLES.COLORS.GREEN_OPACITY }
@@ -64,7 +64,7 @@ class CircularProgressBar extends Component {
           />
           <View style={[style.contentCircle, style.progressBackground]}>
             <CelText color={STYLES.COLORS.GRAY} type={"H6"} weight={"300"}>
-              Amount paid
+              Amount
             </CelText>
             <CelText color={STYLES.COLORS.GREEN} type={"H3"} weight={"600"}>
               {amountPaid}

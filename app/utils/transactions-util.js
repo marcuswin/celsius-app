@@ -60,6 +60,7 @@ function getTransactionType(transaction) {
   if (transaction.nature === "margin_call") return TRANSACTION_TYPES.MARGIN_CALL;
   if (transaction.nature === "pending_interest") return TRANSACTION_TYPES.PENDING_INTEREST;
 
+
   if (transaction.nature === "referred_award" && transaction.state === "locked") return TRANSACTION_TYPES.REFERRED_HODL;
   if (transaction.nature === "referred_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRED;
   if (transaction.nature === "referred_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRED_PENDING;
@@ -67,8 +68,9 @@ function getTransactionType(transaction) {
   if (transaction.nature === "referrer_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRER;
   if (transaction.nature === "referrer_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRER_PENDING;
 
-  if (transaction.nature === "loan_principal") return TRANSACTION_TYPES.LOAN_PRINCIPAL;
-  if (transaction.nature === "loan_interest") return TRANSACTION_TYPES.LOAN_INTEREST;
+  if (transaction.nature === "loan") return TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED;
+  if (transaction.nature === "loan_principal_payment") return TRANSACTION_TYPES.LOAN_PRINCIPAL;
+  if (transaction.nature === "loan_interest_payment") return TRANSACTION_TYPES.LOAN_INTEREST;
   if (transaction.nature === "loan_prepayment") return TRANSACTION_TYPES.LOAN_INTEREST;
 
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_ONHOLD;
@@ -184,6 +186,13 @@ function getTransactionProps(transaction) {
         color: STYLES.COLORS.CELSIUS_BLUE,
         iconName: "TransactionSent",
         statusText: "Margin Call Collateral"
+      };
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED:
+      return {
+        title: () => "Loan Received",
+        color: STYLES.COLORS.GREEN,
+        iconName: "TransactionReceived",
+        statusText: "Loan Received"
       };
     case TRANSACTION_TYPES.LOAN_PRINCIPAL:
       return {
@@ -418,12 +427,6 @@ function getTransactionSections(transaction) {
   switch (transaction.type) {
     case TRANSACTION_TYPES.PENDING_INTEREST:
       return ["info", "date", "time", "status:noSeparator", "info:box", "button:deposit", "button:back"];
-    case TRANSACTION_TYPES.MARGIN_CALL:
-      return ["info", "collateral:loan:card", "date", "time", "margin:call:card", "button:back"];
-    case TRANSACTION_TYPES.LOAN_PRINCIPAL:
-      return ["info", "collateral:loan:card", "date", "time", "button:back"];
-    case TRANSACTION_TYPES.LOAN_INTEREST:
-      return ["info", "collateral:loan:card", "date", "time", "change:payment:card", "button:back"];
     case TRANSACTION_TYPES.DEPOSIT_PENDING:
       return ["info", "address:from", "date", "time", "status:noSeparator", "transactionId", "button:deposit", "button:back"];
     case TRANSACTION_TYPES.DEPOSIT_CONFIRMED:
@@ -467,6 +470,14 @@ function getTransactionSections(transaction) {
       return ["info", "collateral:loan:card", "collateral:date:unlocked", "collateral:time:unlocked", "collateral:unlock:reason", "button:back"];
     case TRANSACTION_TYPES.COLLATERAL_LIQUIDATED:
       return ["info", "collateral:loan:card", "collateral:date:liquidated", "collateral:time:liquidated", "collateral:liquidation:reason", "button:back"];
+    case TRANSACTION_TYPES.MARGIN_CALL:
+      return ["info", "collateral:loan:card", "date", "time", "margin:call:card", "button:back"];
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED:
+      return ["info", "collateral:loan:card", "date", "time", "button:back"];
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL:
+      return ["info", "collateral:loan:card", "date", "time", "button:back"];
+    case TRANSACTION_TYPES.LOAN_INTEREST:
+      return ["info", "collateral:loan:card", "date", "time", "change:payment:card", "button:back"];
 
     case TRANSACTION_TYPES.REFERRED_HODL:
       return ["info", "hodl:info", "date:deposited", "time", "status:noSeparator"];

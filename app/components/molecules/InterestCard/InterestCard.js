@@ -15,6 +15,7 @@ import Spinner from "../../atoms/Spinner/Spinner";
 import { isUSCitizen } from "../../../utils/user-util";
 import Badge from "../../atoms/Badge/Badge";
 import CelSwitch from '../../atoms/CelSwitch/CelSwitch';
+import Separator from '../../atoms/Separator/Separator';
 
 @connect(
   (state) => ({
@@ -61,35 +62,40 @@ class InterestCard extends Component {
     if (!interestRate.eligible) return null
     if (tier === 'NONE') return null
     if (isUSCitizen()) return null
+    if (coin === 'CEL') return null
+
 
     const theme = getTheme()
 
     return (
-      <View style={{ justifyContent: "space-between" }}>
-        {!interestRate.inCEL && (
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
-            <CelText style={{ width: '75%' }}>Switch to earning interest in CEL to increase your interest rate to:</CelText>
+      <View style={{paddingHorizontal: 5}}>
+        <Separator margin={"20 0 22 0"}/>
+        <View style={{ justifyContent: "space-between" }}>
+          {!interestRate.inCEL && (
+            <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
+              <CelText style={{ width: '75%' }}>Switch to earning interest in CEL to increase your interest rate to:</CelText>
 
-            <Badge margin='12 0 10 12' style={{ alignContent: 'center', }} color={STYLES.COLORS.GREEN}>
-              <CelText align='justify' type="H5" color="white">{formatter.percentageDisplay(interestRates[coin].cel_rate)}</CelText>
-            </Badge>
+              <Badge margin='12 0 10 12' style={{ alignContent: 'center', }} color={STYLES.COLORS.GREEN}>
+                <CelText align='justify' type="H5" color="white">{formatter.percentageDisplay(interestRates[coin].cel_rate)}</CelText>
+              </Badge>
+            </View>
+          )}
+
+          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10, marginHorizontal: widthPercentageToDP("2%") }}>
+            <CelText color={"#737A82"} type={"H4"} weight={"300"}>Earn interest in CEL</CelText>
+            {loading ? (
+              <Spinner size={30} />
+            ) : (
+                <CelSwitch
+                  value={interestRate.inCEL}
+                  onValueChange={this.handleValueChange}
+                />
+              )}
           </View>
-        )}
-
-        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10, marginHorizontal: widthPercentageToDP("2%") }}>
-          <CelText color={"#737A82"} type={"H4"} weight={"300"}>Earn interest in CEL</CelText>
-          {loading ? (
-            <Spinner size={30} />
-          ) : (
-              <CelSwitch
-                value={interestRate.inCEL}
-                onValueChange={this.handleValueChange}
-              />
-            )}
+          <Card color={theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_GRAY}>
+            <CelText weight={"300"} type={"H7"}>To earn interest in CEL on all your deposited coins, visit <CelText onPress={() => actions.navigateTo("MyCel")} weight={"300"} type={"H7"} color={STYLES.COLORS.CELSIUS_BLUE}>My CEL</CelText> page.</CelText>
+          </Card>
         </View>
-        <Card color={theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_GRAY}>
-          <CelText weight={"300"} type={"H7"}>To earn interest in CEL on all your deposited coins, visit <CelText onPress={() => actions.navigateTo("MyCel")} weight={"300"} type={"H7"} color={STYLES.COLORS.CELSIUS_BLUE}>My CEL</CelText> page.</CelText>
-        </Card>
       </View>
     )
   }

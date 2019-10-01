@@ -39,7 +39,6 @@ async function requestForPermission(permission, options) {
     ...defaultOpts,
     ...options,
   }
-
   if (Platform.OS === 'ios') {
     if (status === 'undetermined' && opts.askAnyway) {
       const perm = await Permissions.askAsync(permission);
@@ -47,7 +46,7 @@ async function requestForPermission(permission, options) {
     } else if (opts.goToSettings) {
       Linking.openURL('app-settings:')
     }
-  } else if (Platform.OS === 'android' && options && options.askAnyway) {
+  } else if (Platform.OS === 'android' && opts && opts.askAnyway) {
     const perm = await Permissions.askAsync(permission);
     status = perm.status;
   }

@@ -87,9 +87,9 @@ class KYCAddressInfo extends Component {
       state: formData.state,
     }
 
-    this.setState({ updatingAddressInfoInProgress: true })
+    await this.setState({ updatingAddressInfoInProgress: true })
     await actions.updateProfileAddressInfo(updatedAddressInfo)
-    this.setState({ updatingAddressInfoInProgress: false })
+    await this.setState({ updatingAddressInfoInProgress: false })
   };
 
   render() {

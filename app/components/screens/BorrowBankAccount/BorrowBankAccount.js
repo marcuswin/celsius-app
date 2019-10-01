@@ -49,8 +49,10 @@ class BorrowBankAccount extends Component {
       bank_name: bankAccountInfo.bank_name,
       bank_account_number: bankAccountInfo.bank_account_number,
       bank_routing_number: bankAccountInfo.bank_routing_number,
-      selectedAccountType:
-        bankAccountInfo.account_type === "checking" ? "Checking" : "Savings",
+      selectedAccountType: bankAccountInfo.account_type === "checking" ? "Checking" : "Savings",
+      bank_city: bankAccountInfo.bank_city,
+      bank_street_and_number: bankAccountInfo.bank_street_and_number,
+      bank_zip: bankAccountInfo.bank_zip,
       swift: bankAccountInfo.swift,
       iban: bankAccountInfo.iban,
       bank_location: { name: bankAccountInfo.location }
@@ -65,6 +67,9 @@ class BorrowBankAccount extends Component {
       bank_name: formData.bank_name,
       bank_routing_number: formData.bank_routing_number,
       account_type: formData.selectedAccountType,
+      bank_city: formData.bank_city,
+      bank_street_and_number: formData.bank_street_and_number,
+      bank_zip: formData.bank_zip,
       bank_account_number: formData.bank_account_number,
       swift: formData.swift,
       iban: formData.iban,
@@ -81,7 +86,7 @@ class BorrowBankAccount extends Component {
 
     this.setState({ isLoading: true });
     await actions.linkBankAccount(bankAccountInfo);
-    actions.navigateTo('LoanTermsOfUse')
+    actions.navigateTo('ConfirmYourLoan')
     this.setState({ isLoading: false });
   };
 

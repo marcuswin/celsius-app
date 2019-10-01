@@ -10,6 +10,7 @@ import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 const InfoModal = props => {
   const {
     name,
+    picture,
     heading,
     paragraphs,
     onYes,
@@ -20,7 +21,7 @@ const InfoModal = props => {
     children
   } = props;
   return (
-    <CelModal name={name}>
+    <CelModal name={name} picture={picture}>
       <CelText margin="20 0 15 0" align="center" type="H2" weight="bold">
         {heading}
       </CelText>
@@ -60,6 +61,10 @@ const InfoModal = props => {
 InfoModal.propTypes = {
   name: PropTypes.string,
   heading: PropTypes.string,
+  picture: PropTypes.oneOfType([
+    PropTypes.instanceOf(Object),
+    PropTypes.number
+  ]),
   paragraphs: PropTypes.instanceOf(Array),
   support: PropTypes.bool,
   yesCopy: PropTypes.string,

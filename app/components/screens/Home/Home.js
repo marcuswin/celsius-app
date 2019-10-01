@@ -12,7 +12,7 @@ import {
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
 import { THEMES, WELCOME_MESSAGES } from "../../../constants/UI";
-import { hasPassedKYC, isKYCRejectedForever } from "../../../utils/user-util";
+import { isKYCRejectedForever } from "../../../utils/user-util";
 
 const apiCalls = []
 
@@ -65,16 +65,12 @@ class Home extends Component {
         }
 
         if (user.kyc) {
-          if (hasPassedKYC()) {
-            return prevProps.actions.navigateTo('VerifyProfile', {
-              activeScreen: 'WalletLanding' })
-          }
           if (isKYCRejectedForever()) {
             return prevProps.actions.navigateTo('VerifyProfile', {
               activeScreen: 'KYCFinalRejection' })
           }
         }
-        return prevProps.actions.navigateTo('WalletFab')
+        return prevProps.actions.navigateTo('VerifyProfile', { activeScreen: 'WalletLanding' })
       }
       return prevProps.actions.navigateTo('Welcome')
     }

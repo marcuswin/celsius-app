@@ -28,10 +28,19 @@ class CoinCards extends Component {
     }
   }
 
-  async componentDidMount () {
+  componentDidMount () {
+   this.filterCoins()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.walletSummary.total_amount_usd !== this.props.walletSummary.total_amount_usd) {
+      this.filterCoins()
+    }
+  }
+
+  filterCoins = async () => {
     const { walletSummary, currenciesRates, currenciesGraphs, navigateTo } = this.props
     const walletCoins = []
-
     if (walletSummary) {
       walletSummary.coins.forEach(coin => {
         walletCoins.push(coin)
@@ -58,7 +67,7 @@ class CoinCards extends Component {
             () => navigateTo('CoinDetails', {coin: coin.short, title: tempCoin.currency.displayName}) :
             () => navigateTo('Deposit', {coin: coin.short})
 
-       coins.push(coin)
+        coins.push(coin)
       })
 
       await this.setState({

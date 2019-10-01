@@ -30,13 +30,13 @@ class LoanApplicationSuccessModal extends Component {
         {
           title: "Loan successfully initiated",
           description:
-            "Thank you for initiating your loan with Celsius. Once approved, your funds will be transferred to your Celsius wallet.",
+            "Thank you for initiating your loan with Celsius",
           buttonText: "Next"
         },
         {
           title: `Prepay your interest`,
           description:
-            "Your first interest payment will be due on May 12, 2019. Stay ahead of schedule and submit your first interest payment in advance.",
+            "Stay ahead of schedule and submit your first interest payments in advance.",
           buttonText: "Make a payment"
         }
       ]

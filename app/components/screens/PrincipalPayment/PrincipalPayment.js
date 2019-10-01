@@ -92,7 +92,7 @@ class PrincipalPayment extends Component {
   renderMessage = () => {
     const { actions } = this.props;
     if (this.state.payOutPrincipalFromCollateral) {
-      actions.showMessage("success", "You have successfully set up automatic payout from collateral. ");
+      actions.showMessage("success", "You have successfully set up an automatic collateral payout.");
     }
   };
 
@@ -120,7 +120,7 @@ class PrincipalPayment extends Component {
               alignItems='center'
               color='#FFFFFF'
             >
-              Paying out your principal from the collateral will be automatically completed upon maturity date.
+              Your principal loan amount and any unpaid interest will automatically be deducted from your collateral upon loan maturity date. Any additional collateral will then be unlocked and available in your wallet balance.
             </CelText>
           </Card>
           : null

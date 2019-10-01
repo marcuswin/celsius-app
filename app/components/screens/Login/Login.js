@@ -12,6 +12,7 @@ import apiUtil from '../../../utils/api-util';
 import API from '../../../constants/API';
 import SocialLogin from "../../organisms/SocialLogin/SocialLogin";
 import { KEYBOARD_TYPE } from "../../../constants/UI";
+import  Constants  from "../../../../constants"
 
 @connect(
   state => ({
@@ -39,6 +40,8 @@ class Login extends Component {
       API.LOGIN_USER_TWITTER,
     ], callsInProgress);
 
+    // Disabling forgot pass on Staging regarding to its bug on Staging environment
+    const { ENV } = Constants.extra
     return (
       <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
@@ -52,9 +55,12 @@ class Login extends Component {
 
         <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoading}>Log in</CelButton>
 
+      { ENV !== 'STAGING' ?
         <CelButton basic onPress={() => actions.navigateTo('ForgotPassword')}>
           Forgot password
         </CelButton>
+        : null
+      }
       </AuthLayout>
     );
   }

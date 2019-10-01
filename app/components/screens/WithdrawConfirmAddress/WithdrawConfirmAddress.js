@@ -31,7 +31,7 @@ class WithdrawConfirmAddress extends Component {
   static propTypes = {
     // text: PropTypes.string
   };
-  static defaultProps = {};
+  static defaultProps = {}
 
   static navigationOptions = () => ({
     title: "Withdrawal address",
@@ -90,90 +90,93 @@ class WithdrawConfirmAddress extends Component {
     const addressDisplay = addressUtil.splitAddressTag(address.address);
 
     return (
-      <RegularLayout>
-        <BalanceView opacity={0.80} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
-
-        <View style={style.coinAmountContainer}>
-          <CelText type={"H2"}>{formData.coin}</CelText>
-          <CelText type={"H1"}>{formatter.getEllipsisAmount(formData.amountCrypto, -5)}</CelText>
-          <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
-        </View>
-
-        <View style={style.containerWithMargin}>
-          <CelText>Your coins will be sent to:</CelText>
-        </View>
-
-        <CelInput
-          field={"withdrawAddress"}
-          placeholder={"Withdrawal address"}
-          value={addressDisplay.newAddress}
-          disabled
-          type='text-area'
-          multiline
-          numberOfLines={3}
-          returnKeyType={hasTag ? "next" : "done"}
-          blurOnSubmiting={!hasTag}
-          onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
-        />
-
-        <InfoBox
-          triangle
-          color={"white"}
-          backgroundColor={STYLES.COLORS.ORANGE}
-          titleText={"Your withdrawal address"}
-          left
-          explanationText={`Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. \n\nYou can change your withdrawal address from your`}
-          boldText={' wallet settings.'}
-        />
-
-        {hasTag ? (
-          <CelInput
-            placeholder={placeHolderText}
-            value={addressDisplay.newTag}
-            field="coinTag"
-            margin="10 0 10 0"
-            disabled
-            refs={(input) => { this.tag = input }}
-          />
-        ) : null
-        }
-
-        {hasTag ? (
-          <View>
-            <View style={style.containerWithMargin}>
-              <CelText type={"H5"} style={style.tagText}>{tagText}</CelText>
+      <RegularLayout padding='0 0 0 0'>
+        <View style={style.container}>
+          <BalanceView opacity={0.80} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
+          <View style={style.wrapper}>
+            <View style={style.coinAmountContainer}>
+              <CelText type={"H2"}>{formData.coin}</CelText>
+              <CelText type={"H1"}>{formatter.getEllipsisAmount(formData.amountCrypto, -5)}</CelText>
+              <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
             </View>
 
+            <View style={style.containerWithMargin}>
+              <CelText>Your coins will be sent to:</CelText>
+            </View>
+
+            <CelInput
+              field={"withdrawAddress"}
+              placeholder={"Withdrawal address"}
+              value={addressDisplay.newAddress}
+              disabled
+              type='text-area'
+              multiline
+              numberOfLines={2}
+              returnKeyType={hasTag ? "next" : "done"}
+              blurOnSubmiting={!hasTag}
+              onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
+            />
+
             <InfoBox
-              left
+              triangle
               color={"white"}
               backgroundColor={STYLES.COLORS.ORANGE}
-              titleText={"To prevent a permanent loss of your funds, please check if your address has a destination tag."}
+              titleText={"Your withdrawal address"}
+              left
+              explanationText={<CelText color='white'>Please confirm the withdrawal address where your funds will be sent. If you previously transferred money from an exchange, this may not be your correct withdrawal address.
+              {"\n\n"}You can change your withdrawal address at any time from your <CelText color='white' weight={'700'}>wallet settings</CelText> or by pressing on the link below.</CelText>}
+            />
+
+            {hasTag ? (
+              <CelInput
+                placeholder={placeHolderText}
+                value={addressDisplay.newTag}
+                field="coinTag"
+                margin="10 0 10 0"
+                disabled
+                refs={(input) => { this.tag = input }}
+              />
+            ) : null
+            }
+
+            {hasTag ? (
+              <View>
+                <View style={style.containerWithMargin}>
+                  <CelText type={"H5"} style={style.tagText}>{tagText}</CelText>
+                </View>
+
+                <InfoBox
+                  left
+                  color={"white"}
+                  backgroundColor={STYLES.COLORS.ORANGE}
+                  titleText={"To prevent a permanent loss of your funds, please check if your address has a destination tag."}
+                />
+              </View>
+            ) : null}
+
+
+            <View style={style.button}>
+              <CelButton onPress={this.confirmAddress}>
+                Confirm withdrawal
+          </CelButton>
+            </View>
+
+            <CelButton
+              margin={"30 0 20 0"}
+              onPress={() => actions.openModal(MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL)}
+              basic
+            >
+              Change withdrawal address
+        </CelButton>
+            <InfoModal
+              name={MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL}
+              yesCopy={"Change address"}
+              onYes={() => this.navigate()}
+              heading={"Changing withdrawal address"}
+              paragraphs={["Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours."]}
             />
           </View>
-        ) : null}
-
-
-        <View style={style.button}>
-          <CelButton onPress={this.confirmAddress}>
-            Confirm withdrawal
-          </CelButton>
         </View>
-
-        <CelButton
-          margin={"30 0 20 0"}
-          onPress={() => actions.openModal(MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL)}
-          basic
-        >
-          Change withdrawal address
-        </CelButton>
-        <InfoModal
-          name={MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL}
-          yesCopy={"Change address"}
-          onYes={() => this.navigate()}
-          heading={"Changing withdrawal address"}
-          paragraphs={["Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours."]}
-        />
       </RegularLayout>
     );
   }

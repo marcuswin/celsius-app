@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
@@ -12,21 +11,19 @@ import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import CelButton from "../../atoms/CelButton/CelButton";
 import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
+import formatter from "../../../utils/formatter";
 
 @connect(
   state => ({
     loyaltyInfo: state.user.loyaltyInfo,
-    loanSettings: state.loans.loanSettings
+    loanSettings: state.loans.loanSettings,
+    allLoans: state.loans.allLoans,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class PaymentCel extends Component {
-  static propTypes = {
-    payInCelRatio: PropTypes.number
-  };
-  static defaultProps = {
-    payInCelRatio: 0.1
-  };
+  static propTypes = {};
+  static defaultProps = {};
 
   static navigationOptions = ({ navigation }) => {
     const reason = navigation.getParam("reason");
@@ -83,14 +80,21 @@ class PaymentCel extends Component {
       this.setState({ isLoading: false })
     }
 
+    if (reason === LOAN_PAYMENT_REASONS.MANUAL_INTEREST) {
+      actions.navigateTo('VerifyProfile', {
+        onSuccess: () => actions.payMonthlyInterest(id, 'CEL'),
+      })
+    }
   }
 
   render() {
     // const style = PaymentCelCelStyle();
-    const { actions } = this.props;
+    const { actions, loyaltyInfo, navigation, allLoans } = this.props;
     const { isLoading } = this.state;
-
-    const percentageNumber = 16; // TODO (srdjan) this number is from BE, calculated or hardcoded?
+    const id = navigation.getParam("id");
+    const loan = allLoans.find(l => l.id === id)
+    const celDiscount = formatter.percentageDisplay(loyaltyInfo.tier.loanInterestBonus);
+    const discountedInterest = (1 - loyaltyInfo.tier.loanInterestBonus) * Number(loan.monthly_payment)
 
     return (
       <RegularLayout fabType={"hide"}>
@@ -105,13 +109,13 @@ class PaymentCel extends Component {
             </CelText>, your next interest payment would be:
           </CelText>
           <CelText type={"H1"} weight={"700"} align={"center"}>
-            {percentageNumber}% less
+            {celDiscount} less
           </CelText>
           <Separator margin={"10 0 12 0"}/>
           <CelText>
             Decrease your monthly interest payment from{" "}
-            <CelText weight={"500"}>$XX</CelText> to{" "}
-            <CelText weight={"500"}>$XX</CelText> when paying with CEL.
+            <CelText weight={"500"}>{ formatter.usd(loan.monthly_payment) }</CelText> to{" "}
+            <CelText weight={"500"}>{ formatter.usd(discountedInterest) }</CelText> when paying with CEL.
           </CelText>
         </Card>
         <CelButton

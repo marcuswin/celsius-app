@@ -6,6 +6,7 @@ import { View, TouchableOpacity } from 'react-native';
 
 import PredefinedAmountsStyle from "./PredefinedAmounts.styles";
 import CelText from '../../atoms/CelText/CelText';
+import formatter from "../../../utils/formatter";
 
 class PredefinedAmounts extends Component {
 
@@ -24,6 +25,7 @@ class PredefinedAmounts extends Component {
   render() {
     const { data, onSelect, activePeriod } = this.props;
     const style = PredefinedAmountsStyle()
+
     return (
       <View style={{ flexDirection: "row", justifyContent: 'space-evenly', marginTop: 30 }}>
         {data.map(({ label, value }) =>
@@ -32,7 +34,7 @@ class PredefinedAmounts extends Component {
             style={[style.periodButton, activePeriod.value === value ? style.selectedAmount : null]}
             onPress={() => onSelect({ label, value })}
           >
-            <CelText style={activePeriod.label === label ? style.selectedAmountText : null}>{label}</CelText>
+            <CelText style={activePeriod === label ? style.selectedAmountText : null}>{formatter.round(label, {precision: 0})}</CelText>
           </TouchableOpacity>
         )}
       </View >

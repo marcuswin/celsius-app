@@ -21,9 +21,17 @@ import CelModal from "../CelModal/CelModal";
 class EarnInterestCelModal extends Component {
 
   changeInterestEarn = () => {
-    const { actions } = this.props
+    const { actions, appSettings } = this.props
+
+    const coinList = Object.keys(appSettings.interest_in_cel_per_coin).filter(coin => coin !== "CEL")
+    const interestInCelPerCoin = {}
+
+    coinList.forEach(c => {
+      interestInCelPerCoin[c] = true
+    })
     actions.setUserAppSettings({
-      interest_in_cel: true
+      interest_in_cel: true,
+      interest_in_cel_per_coin: interestInCelPerCoin
     })
   }
 

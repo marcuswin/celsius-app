@@ -8,6 +8,7 @@ const LoseMembershipModal = ({
  closeModal
 }) => (
   <InfoModal
+    picture={require('../../../../assets/images/modal-alert.png')}
     name={MODALS.LOSE_MEMBERSHIP_MODAL}
     heading='Watch out'
     paragraphs={[

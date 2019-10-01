@@ -453,14 +453,28 @@ function setUserAppSettings(data) {
       const newDataKeys = Object.keys(newData);
 
       if (newDataKeys.includes("interest_in_cel") || newDataKeys.includes("interest_in_cel_per_coin")) {
+        const coins = Object.keys(newSettings.interest_in_cel_per_coin);
+
+        const changedCoins = [];
+        const coinsInCel = [];
+
+        coins.forEach(c => {
+          if (newSettings.interest_in_cel_per_coin[c]) {
+            coinsInCel.push(c);
+          }
+
+          if (newSettings.interest_in_cel_per_coin[c] !== appSettings.interest_in_cel_per_coin[c]) {
+            changedCoins.push(c);
+          }
+        });
         if (newSettings.interest_in_cel !== appSettings.interest_in_cel) {
 
           if (currentDate.day() <= 5 && currentDate.hour() < 17) {
 
-            if (newSettings.interest_in_cel) {
+            if (newSettings.interest_in_cel && changedCoins === coinsInCel) {
               return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income in CEL on all deposited coins.`));
             }
-            if (!newSettings.interest_in_cel) return dispatch(showMessage("success", `Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income in-kind on all deposited coins.`));
+            if (!newSettings.interest_in_cel) return dispatch(showMessage("warning", `You’re missing out on better rates! Upgrade your interest settings at any time and unlock even greater rewards by choosing to earn interest income in CEL.`));
           } else {
             if (newSettings.interest_in_cel) {
               return dispatch(showMessage("success", `Congrats! You have chosen to earn interest income in CEL for all deposited coins. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
@@ -470,32 +484,18 @@ function setUserAppSettings(data) {
         }
 
         if (!_.isEqual(newSettings.interest_in_cel_per_coin, appSettings.interest_in_cel_per_coin)) {
-          const coins = Object.keys(newSettings.interest_in_cel_per_coin);
-
-          const changedCoins = [];
-          const coinsInCel = [];
-
-          coins.forEach(c => {
-            if (newSettings.interest_in_cel_per_coin[c]) {
-              coinsInCel.push(c);
-            }
-
-            if (newSettings.interest_in_cel_per_coin[c] !== appSettings.interest_in_cel_per_coin[c]) {
-              changedCoins.push(c);
-            }
-          });
 
           if (currentDate.day() <= 5 && currentDate.hour() < 17) {
             if (coinsInCel.length) {
-              return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on ${ coinsInCel.join(', ') } in CEL.`));
+              return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on selected coins in CEL.`));
             }
-            return dispatch(showMessage("success", `Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on ${ changedCoins.join(', ') } in ${ changedCoins.join(', ') }.`));
+            return dispatch(showMessage("success", `Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on selected coinsin in original coins.`));
           }
 
           if (coinsInCel.length) {
               return dispatch(showMessage("success", `Congrats! You have chosen to earn interest income in CEL. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate.day(15).format("DD MMMM")}`));
             }
-            return dispatch(showMessage("success", `You have chosen to earn interest income in ${ changedCoins.join(', ') }. Interest has already been calculated for this week, so you will receive interest in ${ changedCoins.join(', ') } beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
+            return dispatch(showMessage("success", `You have chosen to earn interest income in ${ changedCoins.join(', ') }. Interest has already been calculated for this week, so you will receive interest in selected  coins beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
         }
       }
     } catch (e) {

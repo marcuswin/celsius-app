@@ -7,6 +7,7 @@ function initialState() {
   return {
     interestRates: undefined,
     minimumLoanAmount: undefined,
+    automaticLoanLimit: 1000, // TODO: should be set from BO
     celUtilityTiers: undefined,
     withdrawalSettings: undefined,
 

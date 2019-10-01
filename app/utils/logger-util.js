@@ -2,6 +2,7 @@ import axios from 'axios/index'
 import Constants from '../../constants';
 import store from '../redux/store'
 import API_URL from '../services/api-url'
+import appUtil from './app-util';
 
 const { ENV } = Constants.extra
 
@@ -20,7 +21,7 @@ export default {
  */
 function log (content) {
   // eslint-disable-next-line no-console
-  if ([].indexOf(ENV) !== -1) console.log(content)
+  if (['STAGING'].indexOf(ENV) !== -1) console.log(content)
 }
 
 /**
@@ -66,11 +67,14 @@ function errorValidation(error) {
   return true;
 }
 
-function err(e, isFatal = false) {
+let revisionId
+
+async function err(e, isFatal = false) {
   if (errorValidation(e.message)) {
-    // Todo(sb): OTA updates
-    // const { revisionId } = Constants.manifest
-    const revisionId = ''
+    if(!revisionId) {
+      const appVersion = await appUtil.getRevisionId()
+      revisionId = appVersion.revisionId
+    }
 
     const state = store.getState()
 

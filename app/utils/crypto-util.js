@@ -12,7 +12,7 @@ function isERC20(currency) {
 }
 
 function hasLinkToBuy(currency) {
-  return ["BCH", "BTC", "ETH", "XRP", "LTC", "TUSD", "USDC", "PAX", 'THKD', 'TCAD', 'TAUD', 'TGBP'].includes(currency)
+  return ["BCH", "BTC", "ETH", "XRP", "LTC", "TUSD", "USDC", "PAX", 'THKD', 'TCAD', 'TAUD', 'TGBP', 'CEL', 'DASH', 'XLM', 'OMG', 'ZEC', 'DAI'].includes(currency)
 }
 
 function provideLink(currency) {
@@ -54,6 +54,24 @@ function provideLink(currency) {
     case "TGBP":
       link = "https://www.trusttoken.com/truegbp";
       break;
+    case 'CEL':
+      link='https://switcheo.exchange/markets/CEL_ETH?utm_source=website&utm_term=btn1'
+      break
+    case 'DASH':
+      link='https://www.dash.org/where-to-buy'
+      break
+    case 'XLM':
+      link='https://buy.moonpay.io/celsius'
+      break
+    case 'OMG':
+      link='https://buy.moonpay.io/celsius'
+      break
+    case 'ZEC':
+      link='https://buy.moonpay.io/celsius'
+      break
+    case 'DAI':
+      link='https://buy.moonpay.io/celsius'
+      break
     default:
       link = null;
   }
@@ -61,46 +79,64 @@ function provideLink(currency) {
 }
 
 function provideText(currency) {
-  let text;
+  let text
   switch (currency) {
     case "BCH":
       text = `Buy ${currency} from bitcoin.com`;
-      break;
+      break
     case "BTC":
       text = `Buy ${currency} from bitcoin.com`;
-      break;
+      break
     case "ETH":
       text = `Buy ${currency} from bitcoin.com`;
-      break;
+      break
     case "LTC":
       text = `Buy ${currency} from bitcoin.com`;
-      break;
+      break
     case "XRP":
       text = `Buy ${currency} from bitcoin.com`;
-      break;
+      break
     case "TUSD":
       text = `Buy ${currency} from TrustToken`;
-      break;
+      break
     case "USDC":
       text = `Buy ${currency} from Circle`;
-      break;
+      break
     case "PAX":
       text = `Buy ${currency} from Paxos`;
-      break;
+      break
     case "THKD":
       text = `Buy ${currency} from TrustToken`;
-      break;
+      break
     case "TCAD":
       text = `Buy ${currency} from TrustToken`;
-      break;
+      break
     case "TAUD":
       text = `Buy ${currency} from TrustToken`;
-      break;
+      break
     case "TGBP":
       text = `Buy ${currency} from TrustToken`;
-      break;
+      break
+    case 'CEL':
+      text=`Buy ${currency} on Switcheo`
+      break
+    case 'DASH':
+      text=`Buy ${currency}`
+      break
+    case 'XLM':
+      text=`Buy ${currency} on MoonPay`
+      break
+    case 'OMG':
+      text=`Buy ${currency} on MoonPay`
+      break
+    case 'ZEC':
+      text=`Buy ${currency} on MoonPay`
+      break
+    case 'DAI':
+      text=`Buy ${currency} on MoonPay`
+      break
     default:
-      text = null;
+      text = null
   }
   return text
 }

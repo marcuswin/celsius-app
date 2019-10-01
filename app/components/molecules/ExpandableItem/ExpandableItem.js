@@ -46,7 +46,7 @@ class ExpandableItem extends Component {
         <View style={style.leftSegment} />
         <View style={style.left} />
 
-        <CelText align={"center"} style={style.centralText} allCaps>
+        <CelText align={"center"} type={"H6"} style={style.centralText} allCaps>
           {heading}
         </CelText>
 

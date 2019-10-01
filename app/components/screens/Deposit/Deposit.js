@@ -286,9 +286,9 @@ class Deposit extends Component {
     const {
       actions,
       formData,
-      eligibleCoins,
       depositCompliance,
       navigation,
+      kycStatus
     } = this.props
     const {
       address,
@@ -301,7 +301,6 @@ class Deposit extends Component {
     const styles = DepositStyle()
     const theme = getTheme()
     let infoColor;
-
     switch (theme) {
       case THEMES.LIGHT:
         infoColor = STYLES.COLORS.DARK_GRAY
@@ -312,6 +311,13 @@ class Deposit extends Component {
     }
 
     if (!hasPassedKYC()) {
+      if (kycStatus === KYC_STATUSES.pending) {
+        return (
+          <StaticScreen
+            emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_DEPOSIT }}
+          />
+        )
+      }
       return (
         <StaticScreen
           emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }}
@@ -327,12 +333,14 @@ class Deposit extends Component {
     return (
       <RegularLayout padding={'20 0 100 0'}>
         <CoinPicker
-          coinList={eligibleCoins}
+          type={'depositAmount'}
           updateFormField={actions.updateFormField}
           onCoinSelect={this.handleCoinSelect}
           value={formData.selectedCoin}
           field='selectedCoin'
           defaultSelected={this.getDefaultSelectedCoin()}
+          coinCompliance={depositCompliance.coins}
+          navigateTo={actions.navigateTo}
         />
 
         {navigation.getParam('isMarginWarning') ? this.renderMarginCallCard() : null}

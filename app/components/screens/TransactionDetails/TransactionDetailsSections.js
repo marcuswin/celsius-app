@@ -442,11 +442,11 @@ export const HeadingCard = ({ heading, text }) => (
   </View>
 )
 
-export const ChangePaymentCard = ({ navigateTo, heading, text }) => (
+export const ChangePaymentCard = ({ navigateTo, heading, text, loan }) => (
   <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
     <Card>
       <CelText weight={"300"} type={"H5"}>{heading}</CelText>
-      <CelText margin={"10 0 10 0"} onPress={() => navigateTo("WalletLanding")} weight={"300"} type={"H5"} color={STYLES.COLORS.CELSIUS_BLUE}>{text}</CelText>
+      <CelText margin={"10 0 10 0"} onPress={() => navigateTo('VerifyProfile', { onSuccess: () => navigateTo("LoanSettings", { id: loan.loan_number}) })}  weight={"300"} type={"H5"} color={STYLES.COLORS.CELSIUS_BLUE}>{text}</CelText>
     </Card>
   </View>
 )

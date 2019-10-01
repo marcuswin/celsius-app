@@ -57,6 +57,7 @@ class KYCProfileDetails extends Component {
       if (errors.includes('first_name')) this.firstName.focus();
       else if (errors.includes('last_name')) this.last.focus();
     }
+
   }
 
   initForm = user => {
@@ -256,7 +257,12 @@ class KYCProfileDetails extends Component {
           </CelButton>
         </View>
         <CelButton
-          onPress={() => actions.navigateTo("WalletFab")}
+          onPress={
+            () => {
+              actions.navigateTo("WalletFab")
+              actions.clearForm()
+            }
+          }
           basic
           margin={"20 0 20 0"}
         >

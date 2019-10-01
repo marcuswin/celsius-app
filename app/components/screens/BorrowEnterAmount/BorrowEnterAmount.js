@@ -16,11 +16,10 @@ import formatter from '../../../utils/formatter'
 import STYLES from '../../../constants/STYLES'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { getPadding } from '../../../utils/styles-util'
-import CelSelect from "../../molecules/CelSelect/CelSelect";
 import Icon from "../../atoms/Icon/Icon";
 import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
-import { isCompanyMember } from "../../../utils/user-util";
 import { LOAN_TYPES } from '../../../constants/DATA';
+import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
 
 @connect(
   state => ({
@@ -42,7 +41,7 @@ class BorrowEnterAmount extends Component {
     title: 'Enter the loan amount'
   })
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { loanCompliance, walletSummary, minimumLoanAmount, currencies } = props
     const eligibleCoins = walletSummary.coins.filter(coinData =>
@@ -92,7 +91,7 @@ class BorrowEnterAmount extends Component {
 
   handleAmountChange = (newValue, predefined = '') => {
     const { actions, formData, minimumLoanAmount } = this.props
-    
+
     if (newValue < minimumLoanAmount) {
       actions.showMessage(
         'warning',
@@ -108,7 +107,7 @@ class BorrowEnterAmount extends Component {
     this.setState({ activePeriod: predefined })
   }
 
-  renderButton () {
+  renderButton() {
     const { formData, actions, minimumLoanAmount } = this.props
 
     if (Number(formData.loanAmount) > Number(formData.maxAmount)) {
@@ -144,18 +143,18 @@ class BorrowEnterAmount extends Component {
 
   renderCoinIcon = () => {
     const { appSettings, formData } = this.props
-    if (formData.coin === 'USD') return null
+    if (formData.coin === 'USD') return <CelText type={"H1"} weight={"300"} style={{opacity: 0.6}}>$</CelText>
     return (
       <Icon
         name={`Icon${formData.coin}`}
         width='40'
         height='40'
-        fill={ appSettings.theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3 }
+        fill={appSettings.theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3}
       />
     )
   }
 
-  render () {
+  render() {
     const { activePeriod, coinSelectItems } = this.state
     const {
       actions,
@@ -165,8 +164,10 @@ class BorrowEnterAmount extends Component {
 
     const styles = BorrowEnterAmountStyle()
 
+    const coin = formData.coin || ''
+
     const predifinedAmount = [
-      { label: `$${minimumLoanAmount} min`, value: 'min' },
+      { label: `${minimumLoanAmount} min`, value: 'min' },
       {
         label: `${formatter.floor10(formData.maxAmount, 0)} max`,
         value: 'max'
@@ -184,22 +185,22 @@ class BorrowEnterAmount extends Component {
             { ...getPadding('20 20 100 20') }
           ]}
         >
-          <View style={{ paddingTop: 10, alignItems: 'center' }}>
-            <CelText align='center' type='H4' margin='30 0 60 0'>
+          <View style={{ alignItems: 'center' }}>
+            <CelText align='center' type='H4' weight={"300"} margin='0 0 60 0'>
               How much would you like to borrow?
             </CelText>
 
-            { isCompanyMember() && (
-              <CelSelect
-                margin="0 30 20 30"
-                items={coinSelectItems}
-                field='coin'
-                value={formData.coin}
+            <View style={styles.selectWrapper}>
+              <CoinPicker
+                type={'enterAmount'}
+                onChange={(field, value) => actions.updateFormFields({ [field]: value, loanType: value === 'USD' ? LOAN_TYPES.USD_LOAN : LOAN_TYPES.STABLE_COIN_LOAN })}
                 updateFormField={actions.updateFormField}
-                onChange={(value) => actions.updateFormFields({ coin: value, loanType: value === 'USD' ? LOAN_TYPES.USD_LOAN : LOAN_TYPES.STABLE_COIN_LOAN})}
-                placeholder='Choose a coin'
+                value={coin}
+                field='coin'
+                coinCompliance={coinSelectItems}
+                navigateTo={actions.navigateTo}
               />
-            )}
+            </View>
 
             <View style={{ width: '100%' }}>
               <TouchableOpacity
@@ -222,7 +223,7 @@ class BorrowEnterAmount extends Component {
                 </CelText>
                 <View style={styles.coinTextWrapper}>
                   <CelText color='gray' type='H3'>
-                    { formData.coin }
+                    {formData.coin}
                   </CelText>
                 </View>
               </TouchableOpacity>

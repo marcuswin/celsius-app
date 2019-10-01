@@ -29,6 +29,8 @@ Following types of components exist in the app:
 - call services from components
 ### ❓ DO IF YOU MUST:  
 ### ❗ TO BE DISCUSSED:  
+Look at the Airbnb React/JSX Style Guide (https://github.com/airbnb/javascript/tree/master/react)
+Always use getDerivedStateFromProps when you set a variable that is connected with redux in initial state of the component (through the constructor)
 
 ## Constants (/constants)
 All constants used through out the app.

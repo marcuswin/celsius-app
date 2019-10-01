@@ -15,7 +15,8 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 @connect(
   state => ({
     formData: state.forms.formData,
-    loanSettings: state.loans.loanSettings
+    loanSettings: state.loans.loanSettings,
+    loyaltyInfo: state.user.loyaltyInfo,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -49,14 +50,6 @@ class ChoosePaymentMethod extends Component {
     const { navigation, loanSettings } = this.props;
     const reason = navigation.getParam("reason");
 
-    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
-      return {
-        cel: false,
-        coin: false,
-        usd: false,
-      }
-    }
-
     if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
       return {
         cel: loanSettings.interest_payment_asset === "CEL",
@@ -64,11 +57,17 @@ class ChoosePaymentMethod extends Component {
         usd: loanSettings.interest_payment_asset === "USD",
       }
     }
+
+    return {
+      cel: false,
+      coin: false,
+      usd: false,
+    }
   }
 
   getCardProps = () => {
-    const { actions, navigation } = this.props;
-    const number = 12; // TODO (srdjan) this number is from BE, calculating based on cel ratio, or hardcoded?
+    const { actions, navigation, loyaltyInfo } = this.props;
+    const celDiscount = formatter.percentageDisplay(loyaltyInfo.tier.loanInterestBonus);
     const id = navigation.getParam("id");
     const reason = navigation.getParam("reason");
     const activeCards = this.getActiveCards()
@@ -78,7 +77,7 @@ class ChoosePaymentMethod extends Component {
     const cardProps = [
       {
         cardTitle: `${formatter.capitalize(pay)} with CEL`,
-        cardCopy: `Pay up to ${number}% less interest when you choose to ${pay} your monthly payment in CEL.`,
+        cardCopy: `Pay up to ${celDiscount} less interest when you choose to ${pay} your monthly payment in CEL.`,
         onPressAction: () => actions.navigateTo("PaymentCel", { reason, id }),
         lightImage: require("../../../../assets/images/icons/cel.png"),
         darkImage: require("../../.././../assets/images/icons/cel-dark.png"),

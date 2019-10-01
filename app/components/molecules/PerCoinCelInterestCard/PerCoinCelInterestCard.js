@@ -121,7 +121,6 @@ class PerCoinCelInterestCard extends Component {
       interest_in_cel: !areAllCoinsOff,
       interest_in_cel_per_coin: interestInCelPerCoin,
     })
-
     this.setState({ isLoading: false })
   }
 

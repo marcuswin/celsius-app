@@ -120,7 +120,9 @@ const CACHE_IMAGES = [
     require('../../assets/images/loyaltyIcons/star-dark-icon3x.png'),
     require('../../assets/images/loyaltyIcons/withdraw-icon-dark3x.png'),
     require('../../assets/images/loyaltyIcons/withdraw-icon3x.png'),
-    require('../../assets/images/Onboarding-Welcome3x.png')
+    require('../../assets/images/Onboarding-Welcome3x.png'),
+    require('../../assets/images/modal-alert.png'),
+    require('../../assets/images/coins/dollar-icon.png'),
 ]
 
 export default {

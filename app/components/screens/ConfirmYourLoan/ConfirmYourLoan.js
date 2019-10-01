@@ -74,17 +74,6 @@ class ConfirmYourLoan extends Component {
     )
   }
 
-  requestButtonHandle = async () => {
-    const { actions } = this.props;
-    this.setState({
-      isLoading: true
-    })
-    await actions.applyForALoan()
-    this.setState({
-      isLoading: false
-    })
-  }
-
   renderBankInfo = () => {
     const { formData } = this.props
     if( formData.loanType === LOAN_TYPES.USD_LOAN ) {
@@ -95,7 +84,7 @@ class ConfirmYourLoan extends Component {
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_name }</CelText>
 
           <CelText type="H6" weight="300">Bank Address</CelText>
-          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_address }</CelText>
+          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_street_and_number }</CelText>
 
           <CelText type="H6" weight="300">Bank ZIP / Postal Code</CelText>
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_zip }</CelText>
@@ -154,7 +143,7 @@ class ConfirmYourLoan extends Component {
   }
 
   render() {
-    const { loan } = this.props;
+    const { loan, actions } = this.props;
     const {isLoading} = this.state;
     const style = ConfirmYourLoanStyle();
 
@@ -162,7 +151,7 @@ class ConfirmYourLoan extends Component {
 
     return (
       <View flex={1}>
-        <HeadingProgressBar steps={6} currentStep={6} />
+        <HeadingProgressBar steps={6} currentStep={5} />
         <RegularLayout
           fabType={'hide'}
         >
@@ -216,7 +205,7 @@ class ConfirmYourLoan extends Component {
             <Card>
               <CelText type="H6" weight="300" align="center">Total of Payments</CelText>
               <CelText type="H3" weight="600" align="center">{ formatter.usd(loan.total_of_payment) }</CelText>
-              <CelText type="H6" weight="300" align="center">{loan.total_of_payment}</CelText>
+              <CelText type="H6" weight="300" align="center">(Amount Borrowed + Total Interest)</CelText>
 
               <Separator margin={'10 0 10 0'}/>
 
@@ -309,7 +298,7 @@ class ConfirmYourLoan extends Component {
                 </Card>
             </Card>
 
-            <CelButton loading={isLoading} onPress={ this.requestButtonHandle } margin="22 0 0 0">Request loan</CelButton>
+            <CelButton loading={isLoading} onPress={ () => actions.navigateTo('LoanTermsOfUse') } margin="22 0 0 0">Continue</CelButton>
           </View>
         </RegularLayout>
       </View>

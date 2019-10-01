@@ -11,7 +11,6 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
 import { KEYPAD_PURPOSES, MODALS } from '../../../constants/UI'
 import CoinSwitch from '../../atoms/CoinSwitch/CoinSwitch'
-import SimpleSelect from '../../molecules/SimpleSelect/SimpleSelect'
 import BalanceView from '../../atoms/BalanceView/BalanceView'
 import STYLES from '../../../constants/STYLES'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
@@ -22,6 +21,7 @@ import { isMalisaPusonja } from '../../../utils/user-util'
 import celUtilityUtil from '../../../utils/cel-utility-util'
 import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
 import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembershipModal";
+import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
 
 @connect(
   state => ({
@@ -48,7 +48,7 @@ class CelPayEnterAmount extends Component {
     }
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { currencies, celpayCompliance, formData, walletSummary } = this.props
 
@@ -75,17 +75,17 @@ class CelPayEnterAmount extends Component {
         (coinSelectItems &&
           coinSelectItems.length > 0 &&
           coinSelectItems[0].value) ||
-          ''
+        ''
       )
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { actions } = this.props
     actions.getLoyaltyInfo()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { formData } = this.props
 
     if (prevProps.formData.friend !== formData.friend) {
@@ -113,7 +113,7 @@ class CelPayEnterAmount extends Component {
     actions.toggleKeypad(false)
   }
 
-  setNavigationParams () {
+  setNavigationParams() {
     const { formData, navigation } = this.props
     const names =
       formData.friend && formData.friend.name
@@ -121,7 +121,7 @@ class CelPayEnterAmount extends Component {
         : undefined
     const screenTitle = names
       ? `Send to ${names[0] ? names[0] : ''} ${
-        !!names[1] && !!names[1][0] ? names[1][0] : ''
+      !!names[1] && !!names[1][0] ? names[1][0] : ''
       }`
       : 'CelPay'
 
@@ -265,14 +265,14 @@ class CelPayEnterAmount extends Component {
     }
   }
 
-  render () {
+  render() {
     const { coinSelectItems, activePeriod } = this.state
     const {
       formData,
       actions,
       walletSummary,
       loyaltyInfo,
-      keypadOpen
+      keypadOpen,
     } = this.props
     const style = CelPayEnterAmountStyle()
     if (!formData.coin) return null
@@ -282,24 +282,27 @@ class CelPayEnterAmount extends Component {
     )[0]
 
     return (
-      <RegularLayout padding='20 0 0 0' fabType={'hide'}>
+      <RegularLayout padding='0 0 0 0' fabType={'hide'}>
         <View style={style.container}>
+          <BalanceView
+            opacity={0.65}
+            coin={formData.coin}
+            crypto={coinData.amount}
+            usd={coinData.amount_usd}
+          />
           <View style={style.wrapper}>
-            <BalanceView
-              opacity={0.65}
-              coin={formData.coin}
-              crypto={coinData.amount}
-              usd={coinData.amount_usd}
-            />
             <View style={style.amounts}>
+
               <View style={style.selectWrapper}>
-                <SimpleSelect
-                  items={coinSelectItems}
-                  field='coin'
-                  displayValue={formData.coin}
+
+                <CoinPicker
+                  type={'enterAmount'}
                   updateFormField={actions.updateFormField}
                   onChange={this.handleCoinChange}
-                  placeholder='Choose a coin'
+                  value={formData.coin}
+                  field='coin'
+                  coinCompliance={coinSelectItems}
+                  navigateTo={actions.navigateTo}
                 />
               </View>
 

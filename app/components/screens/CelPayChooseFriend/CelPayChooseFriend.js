@@ -29,10 +29,10 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 30 }}>
     <View style={{ flex: 1, alignItems: 'center' }}>
       <CelText weight='700' type='H2' align="center" margin={"80 0 30 0"} >
-        CelPay with Friends!
+        CelPay Your Way!
     </CelText>
       <CelText weight='300' margin="0 0 10 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
-        Add your contacts or connect your Facebook or Twitter to transfer crypto between you and your friends.
+        Import your contacts to transfer crypto quickly and easily between friends.
       </CelText>
       <CelText weight='300' margin="0 0 40 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H6" align="center">
         *Only friends with the Celsius app will appear in your contacts list.
@@ -63,7 +63,6 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelPayChooseFriend extends Component {
-
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
@@ -76,7 +75,8 @@ class CelPayChooseFriend extends Component {
     super(props);
     this.state = {
       hasContactPermission: false,
-      isLoading: true
+      isLoading: true,
+      isRefreshing: false,
     };
 
     this.subs = [];
@@ -84,29 +84,33 @@ class CelPayChooseFriend extends Component {
 
   async componentDidMount() {
     const { navigation, actions } = this.props;
-    const permission = await hasPermission(Permissions.CONTACTS);
 
-    this.subs = [
-      navigation.addListener('willBlur', () => {
-        actions.updateFormField('search', "")
-      }),
-    ];
+    try {
+      this.subs = [
+        navigation.addListener('willBlur', () => {
+          actions.updateFormField('search', "")
+        }),
+      ];
 
-    if (permission) {
-      const { data } = await Contacts.getContactsAsync();
-      await this.setContacts(data);
-      await this.getContacts();
+      await actions.getConnectedContacts()
+      const permission = await requestForPermission(Permissions.CONTACTS, { goToSettings: false });
+      const hasFriends = this.hasFriends()
+
+      navigation.setParams({
+        title: permission && hasFriends ? "Choose a friend" : "Import Contacts",
+        right: permission && hasFriends ? "search" : "profile"
+      })
+
+      this.setState({
+        hasContactPermission: permission,
+        isLoading: false
+      });
+    } catch (err) {
+      logger.log({ err })
+      this.setState({
+        isLoading: false
+      });
     }
-    const hasFriends = this.hasFriends()
-    navigation.setParams({
-      title: permission && hasFriends ? "Choose a friend" : "No friends?",
-      right: permission && hasFriends ? "search" : "profile"
-    })
-
-    this.setState({
-      hasContactPermission: permission,
-      isLoading: false
-    });
   }
 
   
@@ -118,7 +122,7 @@ class CelPayChooseFriend extends Component {
     if (nextProps.contacts && nextProps.contacts.friendsWithApp && nextProps.contacts.friendsWithApp.length > 0) {
       const permission = await hasPermission(Permissions.CONTACTS);
       navigation.setParams({
-        title: permission ? "Choose a friend" : "No friends?",
+        title: permission ? "Choose a friend" : "Import Contacts",
         right: permission ? "search" : "profile"
       })
     }
@@ -128,46 +132,65 @@ class CelPayChooseFriend extends Component {
     this.subs.forEach(sub => sub.remove());
   }
 
-  setContacts = async (contacts) => {
-    const { actions } = this.props;
-    await actions.connectPhoneContacts(contacts);
-  };
+  importContacts = async () => {
+    const { actions } = this.props
 
-  getContacts = async () => {
-    const { actions } = this.props;
-    await actions.getConnectedContacts();
-  };
+    try {
+      const permission = await requestForPermission(Permissions.CONTACTS, { goToSettings: false });
+      if (permission) {
+        const { data } = await Contacts.getContactsAsync({
+          fields: [Contacts.Fields.Emails, Contacts.Fields.PhoneNumbers]
+        });
+        await actions.connectPhoneContacts(data);
+        await actions.getConnectedContacts();
+      } else {
+        await requestForPermission(Permissions.CONTACTS);
+      }
+
+    } catch (err) {
+      logger.log(err)
+    }
+  }
+
+  refreshContacts = async () => {
+    this.setState({
+      isRefreshing: true
+    })
+    await this.importContacts()
+    this.setState({
+      isRefreshing: false
+    })
+  }
 
   handleContactImport = async () => {
     if (!hasPassedKYC()) return
-    const { navigation, actions } = this.props;
-
-    const permission = await requestForPermission(Permissions.CONTACTS);
+    const { navigation } = this.props;
 
     this.setState({
       isLoading: true
     });
 
-    if (permission) {
-      try {
-        const { data } = await Contacts.getContactsAsync();
-        await this.setContacts(data);
-        await this.getContacts();
-      } catch (err) {
-        logger.log(err)
-      }
-    } else {
-      actions.showMessage('warning', 'In order to CelPay directly to your friends, go to your phone settings and allow Celsius app to access your contacts.')
-    }
+    try {
+      await this.importContacts()
+      const permission = await requestForPermission(Permissions.CONTACTS, { goToSettings: false });
 
-    navigation.setParams({
-      title: permission && this.props.contacts.length > 0 ? "Choose a friend" : "No friends?",
-      right: permission && this.props.contacts.length > 0 ? "search" : "profile"
-    })
-    this.setState({
-      hasContactPermission: permission,
-      isLoading: false
-    });
+      navigation.setParams({
+        title: permission && this.props.contacts.length > 0 ? "Choose a friend" : "Import Contacts",
+        right: permission && this.props.contacts.length > 0 ? "search" : "profile"
+      })
+
+      this.setState({
+        hasContactPermission: permission,
+        isLoading: false
+      });
+
+    } catch (err) {
+      logger.log(err)
+      this.setState({
+        isLoading: false
+      });
+
+    }
   };
 
   handleSkip = () => {
@@ -192,27 +215,37 @@ class CelPayChooseFriend extends Component {
   hasFriends = () => this.props.contacts && this.props.contacts.friendsWithApp && this.props.contacts.friendsWithApp.length  > 0
 
   renderContent = () => {
-    const { hasContactPermission } = this.state;
+    const { hasContactPermission, isRefreshing } = this.state;
     const { contacts } = this.props;
     const EmptyState = renderEmptyState;
 
+    const hasFriends = this.hasFriends()
+
+    if (!hasContactPermission && !hasFriends) {
+      return <EmptyState onContactImport={this.handleContactImport} onSkip={this.handleSkip} />
+    }
+
     return (
-      !hasContactPermission && !this.hasFriends()
-        ?
-        <EmptyState onContactImport={this.handleContactImport} onSkip={this.handleSkip} />
-        :
-        <View style={{ flex: 1, width: '100%' }}>
-          <TouchableOpacity onPress={this.sendLink} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <CelText color={STYLES.COLORS.CELSIUS_BLUE} type='H4' align='left' margin={'20 0 20 0'}>
-              Send as a link
-              </CelText>
-            <Icon name='IconChevronRight' height={10} width={20} fill={STYLES.COLORS.MEDIUM_GRAY} />
-          </TouchableOpacity>
-          <View style={{ width: '100%' }}>
-            <Separator />
-          </View>
-          <ContactList contacts={contacts} onContactPress={this.handleContactPress} />
+      <View style={{ flex: 1, width: '100%' }}>
+        <TouchableOpacity onPress={this.sendLink} style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <CelText color={STYLES.COLORS.CELSIUS_BLUE} type='H4' align='left' margin={'20 0 20 0'}>
+            Send as a link
+          </CelText>
+          <Icon name='IconChevronRight' height={10} width={20} fill={STYLES.COLORS.MEDIUM_GRAY} />
+        </TouchableOpacity>
+        <View style={{ width: '100%' }}>
+          <Separator />
+          <CelButton
+            basic={!hasFriends}
+            margin="15 0 15 0"
+            loading={isRefreshing}
+            onPress={this.refreshContacts}
+          >
+            Refresh contacts
+          </CelButton>
         </View>
+        <ContactList contacts={contacts} onContactPress={this.handleContactPress} />
+      </View>
     )
   };
 
@@ -225,7 +258,8 @@ class CelPayChooseFriend extends Component {
     const { isLoading } = this.state;
     const hasFriends = this.hasFriends()
 
-    if (kycStatus && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
+    if (kycStatus !== KYC_STATUSES.pending && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
+    if (kycStatus === KYC_STATUSES.pending && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_CELPAY }}/>
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
     if (!celpayCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
 

@@ -13,10 +13,8 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import CelText from '../../atoms/CelText/CelText';
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { hasPassedKYC } from "../../../utils/user-util";
+import appUtil from '../../../utils/app-util';
 
-// Todo(sb): OTA updates
-// const { revisionId } = Constants.manifest;
-const revisionId = ''
 
 @connect(
   (state) => ({
@@ -41,14 +39,22 @@ class Settings extends Component {
     right: "logout"
   });
 
-  componentDidMount() {
+  state = {
+    revisionId: ""
+  }
+
+  async componentDidMount() {
     const {actions} = this.props;
     actions.getUserAppSettings()
+    
+    const appVersion = await appUtil.getRevisionId()
+    this.setState({ revisionId: appVersion.revisionId });
   }
 
   renderContent = () => {
     const { actions } = this.props;
 
+    const { revisionId } = this.state
     return (
       <View>
         <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>

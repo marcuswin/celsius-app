@@ -12,7 +12,8 @@ function initialState() {
     marginCalls: [],
     loan: undefined,
     loanSettings: undefined,
-    amortizationTable: []
+    amortizationTable: [],
+    loanAlerts: [],
   };
 }
 
@@ -63,6 +64,12 @@ export default function loansReducer(state = initialState(), action) {
       return {
         ...state,
         amortizationTable: action.amortizationTable
+      };
+
+    case ACTIONS.CHECK_LOAN_ALERTS:
+      return {
+        ...state,
+        loanAlerts: action.loanAlerts
       };
 
     default:

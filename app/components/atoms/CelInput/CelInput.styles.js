@@ -9,17 +9,14 @@ const base = {
     },
     fullScreen: {
         width: '100%',
-        // borderWidth: 20
     },
     trans: {
         backgroundColor: 'transparent'
     },
     inputWrapper: {
-        // ...StyleSheet.flatten(getPadding("12 16 15 16")),
-        ...StyleSheet.flatten(getPadding("2 16 15 16")),
+        ...StyleSheet.flatten(getPadding("0 16 0 16")),
         height: 50,
         borderRadius: 8,
-        // borderWidth: 20,
         backgroundColor: STYLES.COLORS.WHITE,
         ...Platform.select({
             android: {
@@ -33,18 +30,9 @@ const base = {
 
     },
     input: {
-        // height: 28,
-        height: 48,
+        height: 50,
         fontSize,
         fontFamily: 'Barlow-Light',
-        ...Platform.select({
-            android: {
-                paddingTop: 2
-            },
-            ios: {
-                paddingBottom: 6
-            }
-        })
     },
     disabledInput: {
         opacity: 0.6

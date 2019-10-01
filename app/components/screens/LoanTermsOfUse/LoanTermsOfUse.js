@@ -72,7 +72,7 @@ class LoanTermsOfUse extends Component {
   continue = () => {
     const { actions } = this.props
     actions.navigateTo('VerifyProfile', {
-      onSuccess: () => actions.navigateTo('ConfirmYourLoan')
+      onSuccess: () => actions.applyForALoan()
     })
   }
 
@@ -83,7 +83,7 @@ class LoanTermsOfUse extends Component {
     const styles = LoanTermsOfUseStyle();
     // const termsOfUse = handleCopy();
 
-    const c = theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY : "white";
+    const c = theme === THEMES.LIGHT ? STYLES.COLORS.MEDIUM_GRAY : "white";
     const terms = loanTermsOfUse.split("##").splice(1);
 
     const text = terms.map(t => {
@@ -105,17 +105,36 @@ class LoanTermsOfUse extends Component {
         <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
           {text.map(({ heading, content }, index) => (
             <View key={`${heading}${index}`} style={{marginTop:10}}>
-              <ExpandableItem margin="3 0 3 0" heading={heading}>
+              {index === 0 ?
+                <View>
+                  <Markdown style={{
+                    text: { color: theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY : "white", fontSize: 26, fontWeight: "bold"},
+                  }}
+                  >
+                    {heading}
+                  </Markdown>
+                  <Markdown style={{
+                    text: { color: c, fontSize: 16 },
+                    link: {color: STYLES.COLORS.CELSIUS_BLUE}
+                  }}
+                  >
+                    {content}
+                  </Markdown>
+                </View>
+                :
+                <ExpandableItem margin="3 0 3 0" heading={heading} >
                   <Markdown style={{
                     listOrderedItemIcon: { color: c },
                     listUnorderedItemIcon: { color: c, marginTop: 5 },
-                    text: { color: c },
-                    list: { color: c }
+                    text: { color: c, fontSize: 16 },
+                    list: { color: c },
+                    link: {color: STYLES.COLORS.CELSIUS_BLUE}
                   }}
                   >
                     {content}
                   </Markdown>
                 </ExpandableItem>
+              }
                 {index !== 0 && index % borderValue * count === 0 || index === text.length - 1 ?
                   <Card
                     color={
@@ -161,7 +180,7 @@ class LoanTermsOfUse extends Component {
                   fill={STYLES.COLORS.GRAY}
                   style={styles.iconStyle}
                 />
-                <CelText align={"center"}>Share/Download</CelText>
+                <CelText align={"center"}>Download</CelText>
               </TouchableOpacity>
             </View>
           </Card>
@@ -171,7 +190,7 @@ class LoanTermsOfUse extends Component {
             style={styles.requestButton}
             disabled={!formData.acceptLoanTermsOfUse}
           >
-            Confirm loan
+            Request loan
           </CelButton>
         </View>
       </RegularLayout>

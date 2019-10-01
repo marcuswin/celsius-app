@@ -123,81 +123,84 @@ class WithdrawCreateAddress extends Component {
     const hasTag = addressUtil.hasCoinTag(formData.coin)
 
     return (
-      <RegularLayout>
-        <BalanceView opacity={0.65} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
+      <RegularLayout padding='0 0 0 0'>
+        <View style={style.container}>
+          <BalanceView opacity={0.65} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
+          <View style={style.wrapper}>
+            <View style={style.coinAmountContainer}>
+              <CelText type={"H2"}>{formData.coin}</CelText>
+              <CelText type={"H1"} weight={"semi-bold"}>{formatter.getEllipsisAmount(formData.amountCrypto, -5)}</CelText>
+              <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
+            </View>
 
-        <View style={style.coinAmountContainer}>
-          <CelText type={"H2"}>{formData.coin}</CelText>
-          <CelText type={"H1"} weight={"semi-bold"}>{formatter.getEllipsisAmount(formData.amountCrypto, -5)}</CelText>
-          <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
-        </View>
+            <View style={style.containerWithMargin}>
+              <CelText type={"H4"}>{explainText}</CelText>
+            </View>
 
-        <View style={style.containerWithMargin}>
-          <CelText type={"H4"}>{explainText}</CelText>
-        </View>
-
-        <CelInput
-          field="withdrawAddress"
-          placeholder={"Withdrawal address"}
-          value={formData.withdrawAddress}
-          type='text-area'
-          multiline
-          numberOfLines={formData.withdrawAddress ? 3 : 1}
-          returnKeyType={hasTag ? "next" : "done"}
-          blurOnSubmiting={!hasTag}
-          onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
-        />
-
-        <View style={style.containerWithMargin}>
-          <TouchableOpacity onPress={this.handleScanClick}>
-            <CelText type={"H5"} style={style.tagText}>Scan QR Code</CelText>
-          </TouchableOpacity>
-        </View>
-
-        {!!hasTag &&
-          <React.Fragment>
             <CelInput
-              placeholder={placeHolderText}
-              value={formData.coinTag}
-              field={`coinTag`}
-              margin={"10 0 10 0"}
-              refs={(input) => { this.tag = input }}
+              field="withdrawAddress"
+              placeholder={"Withdrawal address"}
+              value={formData.withdrawAddress}
+              type='text-area'
+              multiline
+              numberOfLines={formData.withdrawAddress ? 2 : 1}
+              returnKeyType={hasTag ? "next" : "done"}
+              blurOnSubmiting={!hasTag}
+              onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
             />
-            <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
-              <TouchableOpacity onPress={() => formData.coin.toLowerCase() === 'xrp' ? actions.openModal(MODALS.DESTINATION_TAG_MODAL) : actions.openModal(MODALS.MEMO_ID_MODAL)}>
-                <CelText type={"H5"} style={style.tagText} >{tagText}</CelText>
+
+            <View style={style.containerWithMargin}>
+              <TouchableOpacity onPress={this.handleScanClick}>
+                <CelText type={"H5"} style={style.tagText}>Scan QR Code</CelText>
               </TouchableOpacity>
             </View>
-          </React.Fragment>
-        }
-        {formData.coin && cryptoUtil.isERC20(formData.coin.toLowerCase()) ?
-          <InfoBox
-            color={"white"}
-            backgroundColor={STYLES.COLORS.ORANGE}
-            titleText={"Note: we use a smart-contract to send ERC20 tokens, some wallets do not support such transactions."}
-            left
-          />
-          :
-          <InfoBox
-            color={"white"}
-            backgroundColor={STYLES.COLORS.ORANGE}
-            titleText={"Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours."}
-            left
-          />
-        }
-        <View style={style.button}>
-          <CelButton
-            disabled={!formData.withdrawAddress}
-            onPress={this.handeConfirmWithdrawal}
-          >
-            Confirm withdrawal
+
+            {!!hasTag &&
+              <React.Fragment>
+                <CelInput
+                  placeholder={placeHolderText}
+                  value={formData.coinTag}
+                  field={`coinTag`}
+                  margin={"10 0 10 0"}
+                  refs={(input) => { this.tag = input }}
+                />
+                <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
+                  <TouchableOpacity onPress={() => formData.coin.toLowerCase() === 'xrp' ? actions.openModal(MODALS.DESTINATION_TAG_MODAL) : actions.openModal(MODALS.MEMO_ID_MODAL)}>
+                    <CelText type={"H5"} style={style.tagText} >{tagText}</CelText>
+                  </TouchableOpacity>
+                </View>
+              </React.Fragment>
+            }
+            {formData.coin && cryptoUtil.isERC20(formData.coin.toLowerCase()) ?
+              <InfoBox
+                color={"white"}
+                backgroundColor={STYLES.COLORS.ORANGE}
+                titleText={"Note: we use a smart-contract to send ERC20 tokens, some wallets do not support such transactions."}
+                left
+              />
+              :
+              <InfoBox
+                color={"white"}
+                backgroundColor={STYLES.COLORS.ORANGE}
+                titleText={"Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours."}
+                left
+              />
+            }
+            <View style={style.button}>
+              <CelButton
+                disabled={!formData.withdrawAddress}
+                onPress={this.handeConfirmWithdrawal}
+              >
+                Confirm withdrawal
           </CelButton>
+            </View>
+
+
+            <WithdrawWarningModal coin={formData.coin} navigateNext={this.handleConfirmWithdrawalFromModal} />
+            <MemoIdModal closeModal={actions.closeModal} coin={formData.coin} />
+            <DestinationTagModal closeModal={actions.closeModal} />
+          </View>
         </View>
-
-
-        <WithdrawWarningModal coin={formData.coin} navigateNext={this.handleConfirmWithdrawalFromModal} />
-        <MemoIdModal closeModal={actions.closeModal} coin={formData.coin} />
-        <DestinationTagModal closeModal={actions.closeModal} />
       </RegularLayout>
     );
   }
