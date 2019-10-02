@@ -16,7 +16,7 @@ import STYLES from "../../../constants/STYLES";
 import Icon from "../../atoms/Icon/Icon";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { THEMES } from "../../../constants/UI";
-import CoinPicker from "../../molecules/CoinPicker/CoinPicker";
+import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 
 @connect(
   state => ({
@@ -356,13 +356,13 @@ class BorrowCalculator extends Component {
             fill={themeColors.iconColor}
           />
           <View style={style.selectWrapper}>
-            <CoinPicker
-              type={'enterAmount'}
-              updateFormField={actions.updateFormField}
-              value={formData.coin}
+            <SimpleSelect
+              items={coinSelectItems}
               field='coin'
-              coinCompliance={coinSelectItems}
-              navigateTo={actions.navigateTo}
+              displayValue={formData.coin}
+              value={formData.coin}
+              updateFormField={actions.updateFormField}
+              placeholder='Choose a coin'
             />
           </View>
         </View>

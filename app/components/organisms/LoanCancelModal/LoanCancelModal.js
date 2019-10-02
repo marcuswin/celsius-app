@@ -15,7 +15,7 @@ class LoanCancelModal extends React.Component {
   }
 
   cancelLoan = async () => {
-    const {actions } = this.props;
+    const { actions } = this.props;
     this.setState({
       isLoading: true
     });
@@ -33,10 +33,10 @@ class LoanCancelModal extends React.Component {
     return (
       <CelModal name={MODALS.LOAN_CANCEL_MODAL}>
         <CelText align='center' type='H2' weight='bold' margin='0 0 32 0'>
-          You are about to cancel your loan request
+          Confirm Loan Request Cancelation
         </CelText>
         <CelText align='center' type='H4' margin='0 0 24 0'>
-          By doing this you won't be receiving any funds and your loan status will change to canceled
+          Your pending loan request will be terminated and you will not receive any funds. Once confirmed, this action cannot be undone.
         </CelText>
 
         <CelButton
@@ -45,10 +45,10 @@ class LoanCancelModal extends React.Component {
           color="red"
           loading={isLoading}
         >
-          Cancel loan request
+          Cancel Loan Request
         </CelButton>
         <CelButton basic onPress={actions.closeModal}>
-          Close
+          Go Back
         </CelButton>
       </CelModal>
     )

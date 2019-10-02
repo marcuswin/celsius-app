@@ -19,19 +19,19 @@ function provideLink(currency) {
   let link;
   switch (currency) {
     case "BCH":
-      link = "https://buy.bitcoin.com/bch/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-bch";
+      link = "https://buy.moonpay.io/celsius";
       break;
     case "BTC":
-      link = "https://buy.bitcoin.com/btc/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-btc";
+      link = "https://buy.moonpay.io/celsius";
       break;
     case "ETH":
-      link = "https://buy.bitcoin.com/eth/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-eth";
+      link = "https://buy.moonpay.io/celsius";
       break;
     case "LTC":
-      link = "https://buy.bitcoin.com/ltc/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-ltc";
+      link = "https://buy.moonpay.io/celsius";
       break;
     case "XRP":
-      link = "https://buy.bitcoin.com/xrp/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-xrp";
+      link = "https://buy.moonpay.io/celsius";
       break;
     case "TUSD":
       link = "https://www.trusttoken.com/trueusd";
@@ -82,19 +82,19 @@ function provideText(currency) {
   let text
   switch (currency) {
     case "BCH":
-      text = `Buy ${currency} from bitcoin.com`;
+      text = `Buy ${currency} on MoonPay`;
       break
     case "BTC":
-      text = `Buy ${currency} from bitcoin.com`;
+      text = `Buy ${currency} on MoonPay`;
       break
     case "ETH":
-      text = `Buy ${currency} from bitcoin.com`;
+      text = `Buy ${currency} on MoonPay`;
       break
     case "LTC":
-      text = `Buy ${currency} from bitcoin.com`;
+      text = `Buy ${currency} on MoonPay`;
       break
     case "XRP":
-      text = `Buy ${currency} from bitcoin.com`;
+      text = `Buy ${currency} on MoonPay`;
       break
     case "TUSD":
       text = `Buy ${currency} from TrustToken`;

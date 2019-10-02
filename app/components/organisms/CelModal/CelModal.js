@@ -256,7 +256,7 @@ class CelModal extends Component {
     let size
     if (picture) size = { paddingVertical: heightPercentageToDP('18%') }
     else if (!picture && modalType === 'withdraw') size = { paddingVertical: heightPercentageToDP('14%'), }
-    else size = { paddingVertical: heightPercentageToDP('1%') }
+    else size = { paddingVertical: heightPercentageToDP('8%') }
 
     const childrenWithProps = addThemeToComponents(
       children,
