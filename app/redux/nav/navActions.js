@@ -76,14 +76,14 @@ function navigateBack(backScreenName) {
   }
 }
 
-function resetToFlow(flow) {
+function resetToFlow(flow, params) {
   return () => {
     _navigator.dispatch(
       StackActions.reset({
         index: 0,
         key: null,
         actions: [
-          NavigationActions.navigate({ routeName: flow })
+          NavigationActions.navigate({ routeName: flow, params })
         ]
       })
     )

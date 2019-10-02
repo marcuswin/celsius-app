@@ -20,6 +20,7 @@ import ContactSupport from '../../atoms/ContactSupport/ContactSupport'
     formData: state.forms.formData,
     is2FAEnabled: state.user.profile.two_factor_enabled,
     previousScreen: state.user.screen,
+    activeScreen: state.nav.activeScreen,
     theme: state.user.appSettings.theme,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -58,6 +59,14 @@ class VerifyProfile extends Component {
     const activeScreen = navigation.getParam('activeScreen')
     actions.getPreviousPinScreen(activeScreen)
     if (activeScreen) this.props.navigation.setParams({ hideBack: true })
+  }
+
+  componentWillUpdate(nextProps) {
+    const { activeScreen } = this.props
+
+    if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'VerifyProfile') {
+      this.setState({ value: '' })
+    }
   }
 
   componentWillUnmount () {
