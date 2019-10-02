@@ -60,7 +60,7 @@ function initInterceptors () {
 
       if(!revisionId) {
         CodePush.getUpdateMetadata().then((metadata) =>{
-          revisionId = `${metadata.appVersion}@${metadata.label}`
+          revisionId = metadata ? `${metadata.appVersion}@${metadata.label}` : 'local'
         });
       }
 

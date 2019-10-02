@@ -185,6 +185,13 @@ async function getRevisionId() {
     metadata = await CodePush.getUpdateMetadata();
   }
 
+  if (!metadata) {
+    return {
+      codePushVersion: {},
+      revisionId: 'local',
+    }
+  }
+
   const codePushVersion = {
       label: metadata.label,
       version: metadata.appVersion,
