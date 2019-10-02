@@ -17,7 +17,7 @@ const loansService = {
   payPrincipal,
   payMonthlyInterest,
   getAmortizationTable,
-  getBankDetailsEmail
+  sendBankDetailsEmail
 };
 
 /**
@@ -227,7 +227,7 @@ function getAmortizationTable(id) {
  *
  * @returns {Promise}
  */
-function getBankDetailsEmail() {
+function sendBankDetailsEmail() {
   return axios.get(`${apiUrl}/loans/bank-details`)
 }
 

@@ -115,7 +115,7 @@ class WiringBankInformation extends Component {
         )}
 
         <CelButton
-          onPress={() => actions.getBankDetailsEmail()}
+          onPress={() => actions.sendBankDetailsEmail()}
         >
           Get Bank Wiring Info on Email
         </CelButton>

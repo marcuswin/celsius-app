@@ -24,7 +24,7 @@ export {
   payMonthlyInterest,
   getAmortizationTable,
   checkForLoanAlerts,
-  getBankDetailsEmail
+  sendBankDetailsEmail
 }
 
 /**
@@ -445,11 +445,11 @@ function checkForLoanAlerts() {
   }
 }
 
-function getBankDetailsEmail() {
-  return (dispatch) => {
+function sendBankDetailsEmail() {
+  return async (dispatch) => {
     startApiCall(API.SEND_BANK_WIRING_INFO_DETAIL);
 
-    loansService.getBankDetailsEmail();
+    await loansService.sendBankDetailsEmail();
     dispatch(showMessage("success", "You should receive email with wiring bank info shortly" ));
     dispatch(navigateTo("BorrowLanding"))
   }
