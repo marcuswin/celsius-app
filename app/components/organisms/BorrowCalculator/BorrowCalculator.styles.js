@@ -57,7 +57,7 @@ const themed = {
       color: STYLES.COLORS.MEDIUM_GRAY
     },
     interestCardText: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.RED
     }
   },
 

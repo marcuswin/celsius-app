@@ -52,7 +52,7 @@ class RegisterPromoCodeModal extends Component {
 
   closeModal = () => {
     const { actions } = this.props;
-    this.setState({confirmed: false})
+    this.setState({ confirmed: false })
     actions.closeModal();
   }
 
@@ -70,36 +70,36 @@ class RegisterPromoCodeModal extends Component {
 
   renderUnconfirmedReferralCode = () => {
     const { formData, formErrors } = this.props
-      return (
-          <View>
-            <CelText
-                margin={"40 0 10 0"}
-                align={"center"}
-                type={"H2"}
-                weight='bold'
-            >
-              Have a referral code?
+    return (
+      <View>
+        <CelText
+          margin={"40 0 10 0"}
+          align={"center"}
+          type={"H2"}
+          weight='bold'
+        >
+          Have a referral code?
             </CelText>
-            <CelText
-                margin={"0 0 10 0"}
-                align={"center"}
-                type={"H6"}
-                weight={"300"}
-            >
-              Enter your referral code below and follow the instructions on the next screen to receive your reward.
+        <CelText
+          margin={"0 0 10 0"}
+          align={"center"}
+          type={"H6"}
+          weight={"300"}
+        >
+          Enter your referral code below and follow the instructions on the next screen to receive your reward.
             </CelText>
-            <CelInput type="text" field="promoCode" placeholder="Enter Referral Code"
-                      value={formData.promoCode} error={ formErrors.promoCode } border
-            />
+        <CelInput type="text" field="promoCode" placeholder="Enter Referral Code" returnKeyType={"send"}
+          value={formData.promoCode} error={formErrors.promoCode} border onSubmitEditing={() => this.confirm()}
+        />
 
-            <CelButton
-                onPress={() => this.confirm()}
-                disabled={formData.promoCode === null || formData.promoCode === ''}
-            >
-              Confirm
+        <CelButton
+          onPress={() => this.confirm()}
+          disabled={formData.promoCode === null || formData.promoCode === ''}
+        >
+          Confirm
             </CelButton>
-          </View>
-      )
+      </View>
+    )
   }
 
   renderConfirmedReferralCode = () => {
@@ -126,117 +126,117 @@ class RegisterPromoCodeModal extends Component {
     }
 
     return (
-        <View>
-          <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Congrats!</CelText>
-          <CelText margin={"0 0 30 0"} align={"center"} type={"H5"} weight={"300"}>{congratsText}</CelText>
-          <Card
-              color={ STYLES.COLORS.LIGHT_GRAY }
+      <View>
+        <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Congrats!</CelText>
+        <CelText margin={"0 0 30 0"} align={"center"} type={"H5"} weight={"300"}>{congratsText}</CelText>
+        <Card
+          color={STYLES.COLORS.LIGHT_GRAY}
+        >
+          <CelText
+            margin={"10 0 10 0"}
+            type={"H6"}
+            weight={"300"}
           >
-            <CelText
-                margin={"10 0 10 0"}
-                type={"H6"}
-                weight={"300"}
-            >
-              1. Complete KYC (Identity Verification).
+            1. Complete KYC (Identity Verification).
             </CelText>
-            <CelText
-                margin={"10 0 10 0"}
-                type={"H6"}
-                weight={"300"}
-            >
-              2. Receive confirmation of account verification.
+          <CelText
+            margin={"10 0 10 0"}
+            type={"H6"}
+            weight={"300"}
+          >
+            2. Receive confirmation of account verification.
             </CelText>
-            <CelText
-                margin={"10 0 10 0"}
-                type={"H6"}
-                weight={"300"}
-            >
-              3. Deposit $200 or more worth of coins to your Celsius wallet.
+          <CelText
+            margin={"10 0 10 0"}
+            type={"H6"}
+            weight={"300"}
+          >
+            3. Deposit $200 or more worth of coins to your Celsius wallet.
             </CelText>
-          </Card>
+        </Card>
 
-          <CelButton
-              onPress={() => {
-               this.closeModal()
-              }}
-          >
-            Done
+        <CelButton
+          onPress={() => {
+            this.closeModal()
+          }}
+        >
+          Done
           </CelButton>
-        </View>
+      </View>
     )
   }
 
   renderUnconfirmedPromoCode = () => {
     const { formData, formErrors } = this.props;
-      return (
-          <View>
-            <CelText
-                margin={"40 0 10 0"}
-                align={"center"}
-                type={"H2"}
-                weight='bold'
-            >
-              Have a promo code?
+    return (
+      <View>
+        <CelText
+          margin={"40 0 10 0"}
+          align={"center"}
+          type={"H2"}
+          weight='bold'
+        >
+          Have a promo code?
             </CelText>
-            <CelText
-                margin={"0 0 10 0"}
-                align={"center"}
-                type={"H6"}
-                weight={"300"}
-            >
-              Enter your promo code below and follow the instructions on the next screen to receive your reward.
+        <CelText
+          margin={"0 0 10 0"}
+          align={"center"}
+          type={"H6"}
+          weight={"300"}
+        >
+          Enter your promo code below and follow the instructions on the next screen to receive your reward.
             </CelText>
-            <CelInput type="text" field="promoCode" placeholder="Enter Promo Code"
-                      value={formData.promoCode} error={ formErrors.promoCode } border
-            />
+        <CelInput type="text" field="promoCode" placeholder="Enter Promo Code" returnKeyType={"send"}
+          value={formData.promoCode} error={formErrors.promoCode} border onSubmitEditing={() => this.confirm()}
+        />
 
-            <CelButton
-                onPress={() => this.confirm()}
-                disabled={formData.promoCode === null || formData.promoCode === ''}
-            >
-              Confirm
+        <CelButton
+          onPress={() => this.confirm()}
+          disabled={formData.promoCode === null || formData.promoCode === ''}
+        >
+          Confirm
             </CelButton>
-          </View>
-      )
+      </View>
+    )
   }
 
   renderConfirmedPromoCode = () => {
     const { promoCode } = this.props;
     const code = {};
 
-      code.amount = promoCode.referred_award_amount;
-      code.coin = promoCode.referred_award_coin;
-      code.maximumDays = promoCode.maximum_days_to_claim;
-      code.minimumAmount = promoCode.minimum_deposit_for_reward;
+    code.amount = promoCode.referred_award_amount;
+    code.coin = promoCode.referred_award_coin;
+    code.maximumDays = promoCode.maximum_days_to_claim;
+    code.minimumAmount = promoCode.minimum_deposit_for_reward;
 
-      const congratsText =  'You’ve successfully activated your promo code!'
-      const messageText = `You’ll receive $${code.amount} in ${code.coin} when you deposit $${code.minimumAmount} or more within the next ${code.maximumDays} days.`
+    const congratsText = 'You’ve successfully activated your promo code!'
+    const messageText = `You’ll receive $${code.amount} in ${code.coin} when you deposit $${code.minimumAmount} or more within the next ${code.maximumDays} days.`
 
-      return (
-          <View>
-            <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Congrats!</CelText>
-            <CelText margin={"0 0 30 0"} align={"center"} type={"H5"} weight={"300"}>{congratsText}</CelText>
-            <Card
-                color={ STYLES.COLORS.LIGHT_GRAY }
-            >
-              <CelText
-                  margin={"10 0 10 0"}
-                  type={"H6"}
-                  weight={"300"}
-              >
-                {messageText}
-              </CelText>
-            </Card>
+    return (
+      <View>
+        <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Congrats!</CelText>
+        <CelText margin={"0 0 30 0"} align={"center"} type={"H5"} weight={"300"}>{congratsText}</CelText>
+        <Card
+          color={STYLES.COLORS.LIGHT_GRAY}
+        >
+          <CelText
+            margin={"10 0 10 0"}
+            type={"H6"}
+            weight={"300"}
+          >
+            {messageText}
+          </CelText>
+        </Card>
 
-            <CelButton
-                onPress={() => {
-                  this.closeModal()
-                }}
-            >
-              Done
+        <CelButton
+          onPress={() => {
+            this.closeModal()
+          }}
+        >
+          Done
             </CelButton>
-          </View>
-      )
+      </View>
+    )
   }
 
   renderModal = () => {
@@ -257,16 +257,16 @@ class RegisterPromoCodeModal extends Component {
   render() {
     const { confirmed } = this.state;
     const style = RegisterPromoCodeModalStyle();
-    return(
-        <CelModal
-            noScroll
-            onClose={()=>{this.setState({confirmed: false})}}
-            picture={confirmed ? require("../../../../assets/images/checkmark-circle.png") : require("../../../../assets/images/gift-circle.png")}
-            name={MODALS.REGISTER_PROMO_CODE_MODAL}
-            style={style.container}
-        >
-          {this.renderModal()}
-        </CelModal>
+    return (
+      <CelModal
+        noScroll
+        onClose={() => { this.setState({ confirmed: false }) }}
+        picture={confirmed ? require("../../../../assets/images/checkmark-circle.png") : require("../../../../assets/images/gift-circle.png")}
+        name={MODALS.REGISTER_PROMO_CODE_MODAL}
+        style={style.container}
+      >
+        {this.renderModal()}
+      </CelModal>
     )
   }
 

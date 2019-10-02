@@ -16,7 +16,9 @@ import STYLES from "../../../constants/STYLES";
 import Icon from "../../atoms/Icon/Icon";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { THEMES } from "../../../constants/UI";
-import CoinPicker from "../../molecules/CoinPicker/CoinPicker";
+import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
+
+let timeout;
 
 @connect(
   state => ({
@@ -174,11 +176,15 @@ class BorrowCalculator extends Component {
   changeAmount = (field, value) => {
     const { actions, minimumLoanAmount } = this.props;
 
+    if (timeout) clearTimeout(timeout);
+
     if (Number(value) < minimumLoanAmount) {
-      actions.showMessage(
-        "warning",
-        `Minimum amount for a loan is ${formatter.usd(minimumLoanAmount)}`
-      );
+      timeout = setTimeout(() => {
+        actions.showMessage(
+          "warning",
+          `Minimum amount for a loan is ${formatter.usd(minimumLoanAmount)}`
+        );
+      }, 3000)
     }
 
     actions.updateFormField(field, value);
@@ -356,13 +362,13 @@ class BorrowCalculator extends Component {
             fill={themeColors.iconColor}
           />
           <View style={style.selectWrapper}>
-            <CoinPicker
-              type={'enterAmount'}
-              updateFormField={actions.updateFormField}
-              value={formData.coin}
+            <SimpleSelect
+              items={coinSelectItems}
               field='coin'
-              coinCompliance={coinSelectItems}
-              navigateTo={actions.navigateTo}
+              displayValue={formData.coin}
+              value={formData.coin}
+              updateFormField={actions.updateFormField}
+              placeholder='Choose a coin'
             />
           </View>
         </View>

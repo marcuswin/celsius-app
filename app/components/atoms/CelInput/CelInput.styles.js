@@ -53,7 +53,7 @@ const base = {
     rightText: {
       position: 'absolute',
       right: 10,
-      top: 14,
+      top: 12,
       height: 23,
       color: STYLES.COLORS.MEDIUM_GRAY
     }

@@ -21,6 +21,8 @@ import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
 import { LOAN_TYPES } from '../../../constants/DATA';
 import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
 
+let timeout;
+
 @connect(
   state => ({
     loanCompliance: state.compliance.loan,
@@ -92,11 +94,15 @@ class BorrowEnterAmount extends Component {
   handleAmountChange = (newValue, predefined = '') => {
     const { actions, formData, minimumLoanAmount } = this.props
 
+    if (timeout) clearTimeout(timeout);
+
     if (newValue < minimumLoanAmount) {
-      actions.showMessage(
-        'warning',
-        `$${minimumLoanAmount} is currently the minimum loan amount. Please adjust your loan amount to proceed.`
-      )
+      timeout = setTimeout(() => {
+        actions.showMessage(
+          'warning',
+          `$${minimumLoanAmount} is currently the minimum loan amount. Please adjust your loan amount to proceed.`
+        )
+      }, 3000)
     }
 
     if (newValue > formData.maxAmount) {

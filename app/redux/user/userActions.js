@@ -276,7 +276,7 @@ function getConnectedContacts() {
       const newFriendsWithApp = res.data.contacts.friendsWithApp
 
       if (friendsWithApp.length !== newFriendsWithApp.length) {
-        const action = activeScreen === 'CelPayChooseFriend' ? null : { text: 'Go to CelPay', action: () => dispatch(navigateTo('CelPayChooseFriend')) }
+        const action = activeScreen === 'CelPayChooseFriend' ? { text: 'Go to CelPay', action: () => dispatch(navigateTo('CelPayChooseFriend')) } : null;
         dispatch(showMessage(
           'success',
           'Congrats! Your contacts have been added to your wallet. Get started with CelPay and transfer crypto between friends faster and easier than ever before.',

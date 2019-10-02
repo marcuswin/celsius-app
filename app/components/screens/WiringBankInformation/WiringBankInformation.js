@@ -58,8 +58,9 @@ class WiringBankInformation extends Component {
 
   }
 
+
   render() {
-    const { navigation } = this.props;
+    const { navigation, actions } = this.props;
     const { isLoading } = this.state;
     const copy = this.getCopy()
     const reason = navigation.getParam('reason')
@@ -69,7 +70,7 @@ class WiringBankInformation extends Component {
         <CelText align={"center"}>
           { copy }
         </CelText>
-        <Separator text="Wiring Information" />
+        <Separator margin={"20 0 20 0"} text="Wiring Information" />
         <View style={{ marginBottom: 30 }}>
           <CelText weight={"bold"}>Beneficiary Account:</CelText>
           <CelText>1503222589</CelText>
@@ -84,7 +85,7 @@ class WiringBankInformation extends Component {
             35 GREAT ST HELENS, LONDON, UNITED KINGDOM, EC3A 6AP
           </CelText>
         </View>
-        <Separator text="Beneficiary bank details" />
+        <Separator margin={"0 0 20 0"} text="Beneficiary bank details" />
         <View style={{ marginBottom: 30 }}>
           <CelText weight={"bold"}>Beneficiary Bank:</CelText>
           <CelText>Signature Bank</CelText>
@@ -112,6 +113,12 @@ class WiringBankInformation extends Component {
             Pay with Dollars
           </CelButton>
         )}
+
+        <CelButton
+          onPress={() => actions.sendBankDetailsEmail()}
+        >
+          Get Bank Wiring Info on Email
+        </CelButton>
 
         {/* <Card>
           <View style={{ flex: 1 }}>

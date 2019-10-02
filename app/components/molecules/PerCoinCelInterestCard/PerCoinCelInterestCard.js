@@ -85,7 +85,8 @@ class PerCoinCelInterestCard extends Component {
     if (!coinsInCel) return
     const { formData, actions, appSettings } = this.props
     let countCoinsTrue = 0
-    const totalCoins = Object.keys(appSettings.interest_in_cel_per_coin).length
+    // cel is in the appSettings list and set to false, but IN REALITY it is true :)
+    const totalCoins = Object.keys(appSettings.interest_in_cel_per_coin).length - 1;
 
     Object.keys(coinsInCel).forEach(key => {
       if (coinsInCel[key] === true) return countCoinsTrue++

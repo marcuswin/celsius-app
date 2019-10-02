@@ -41,10 +41,10 @@ const themed = {
 
   dark: {
     inputAndroid: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.DARK_GRAY
     },
     inputIOS: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.DARK_GRAY
     }
   },
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Keyboard } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as Permissions from 'expo-permissions';
@@ -145,8 +145,8 @@ class WithdrawCreateAddress extends Component {
               multiline
               numberOfLines={formData.withdrawAddress ? 2 : 1}
               returnKeyType={hasTag ? "next" : "done"}
-              blurOnSubmiting={!hasTag}
-              onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
+              blurOnSubmit={!hasTag}
+              onSubmitEditing={() => hasTag ? this.tag.focus() : Keyboard.dismiss() }
             />
 
             <View style={style.containerWithMargin}>

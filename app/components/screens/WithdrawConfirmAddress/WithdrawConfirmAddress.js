@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -113,8 +113,8 @@ class WithdrawConfirmAddress extends Component {
               multiline
               numberOfLines={2}
               returnKeyType={hasTag ? "next" : "done"}
-              blurOnSubmiting={!hasTag}
-              onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
+              blurOnSubmit={!hasTag}
+              onSubmitEditing={() => hasTag ? this.tag.focus() : Keyboard.dismiss() }
             />
 
             <InfoBox
