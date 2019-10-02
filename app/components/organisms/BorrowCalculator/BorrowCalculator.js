@@ -18,6 +18,8 @@ import { KYC_STATUSES } from "../../../constants/DATA";
 import { THEMES } from "../../../constants/UI";
 import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 
+let timeout;
+
 @connect(
   state => ({
     ltv: state.loans.ltvs,
@@ -174,11 +176,15 @@ class BorrowCalculator extends Component {
   changeAmount = (field, value) => {
     const { actions, minimumLoanAmount } = this.props;
 
+    if (timeout) clearTimeout(timeout);
+
     if (Number(value) < minimumLoanAmount) {
-      actions.showMessage(
-        "warning",
-        `Minimum amount for a loan is ${formatter.usd(minimumLoanAmount)}`
-      );
+      timeout = setTimeout(() => {
+        actions.showMessage(
+          "warning",
+          `Minimum amount for a loan is ${formatter.usd(minimumLoanAmount)}`
+        );
+      }, 3000)
     }
 
     actions.updateFormField(field, value);
