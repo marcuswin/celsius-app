@@ -24,6 +24,7 @@ export {
   payMonthlyInterest,
   getAmortizationTable,
   checkForLoanAlerts,
+  sendBankDetailsEmail
 }
 
 /**
@@ -441,5 +442,15 @@ function checkForLoanAlerts() {
     if (loanAlerts.length) {
       dispatch(openModal(MODALS.LOAN_ALERT_MODAL))
     }
+  }
+}
+
+function sendBankDetailsEmail() {
+  return async (dispatch) => {
+    startApiCall(API.SEND_BANK_WIRING_INFO_DETAIL);
+
+    await loansService.sendBankDetailsEmail();
+    dispatch(showMessage("success", "You should receive email with wiring bank info shortly" ));
+    dispatch(navigateTo("BorrowLanding"))
   }
 }
