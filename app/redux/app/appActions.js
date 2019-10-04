@@ -19,10 +19,10 @@ import branchUtil from "../../utils/branch-util";
 import { disableAccessibilityFontScaling } from "../../utils/styles-util";
 import ASSETS from "../../constants/ASSETS";
 import loggerUtil from "../../utils/logger-util";
-import analytics from "../../utils/analytics";
 import { requestForPermission } from "../../utils/device-permissions";
 import { hasPassedKYC } from "../../utils/user-util";
 import { showMessage } from "../ui/uiActions";
+import userBehaviorUtil from "../../utils/user-behavior-util";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
 
@@ -178,7 +178,7 @@ function handleAppStateChange(nextAppState) {
           startOfBackgroundTimer = null;
           dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
         }
-        analytics.sessionStarted();
+        userBehaviorUtil.sessionStarted()
         dispatch(getGeolocation());
       }
 
@@ -199,7 +199,7 @@ function handleAppStateChange(nextAppState) {
           startOfBackgroundTimer = new Date().getTime();
         }
 
-        analytics.sessionEnded();
+        userBehaviorUtil.sessionEnded();
       }
     }
 
@@ -243,7 +243,7 @@ function initAppData(initToken = null) {
     const { expiredSession } = getState().user;
 
     if (token && !expiredSession) {
-      analytics.sessionStarted();
+      userBehaviorUtil.sessionStarted()
       registerForPushNotificationsAsync();
       dispatch(actions.claimAllBranchTransfers());
 

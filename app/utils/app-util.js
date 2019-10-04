@@ -27,7 +27,7 @@ const {
   // APPSFLYER_KEY_ANDROID,
   // APPSFLYER_KEY_IOS,
   SEGMENT_ANDROID_KEY,
-  SEGMENT_IOS_KEY
+  SEGMENT_IOS_KEY,
 } = Constants.extra;
 
 export default {
@@ -75,6 +75,7 @@ async function initializeThirdPartyServices() {
       loggerUtil.err(error);
     }
   );
+
   // console.log("AFTER init");
 }
 

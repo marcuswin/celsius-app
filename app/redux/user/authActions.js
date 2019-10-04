@@ -24,6 +24,7 @@ import { setFormErrors, updateFormField } from '../forms/formsActions'
 import meService from '../../services/me-service'
 import analytics from '../../utils/analytics'
 import branchUtil from '../../utils/branch-util'
+import userBehaviorUtil from '../../utils/user-behavior-util';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra
 
@@ -111,7 +112,7 @@ function registerUser () {
       )
       await dispatch(initAppData())
 
-      analytics.sessionStarted()
+      userBehaviorUtil.sessionStarted()
       dispatch(claimAllBranchTransfers())
       dispatch({
         type: ACTIONS.REGISTER_USER_SUCCESS,
@@ -202,7 +203,7 @@ function logoutUser () {
       await dispatch(navigateTo('Auth'))
       dispatch(showVerifyScreen(false))
 
-      analytics.sessionEnded()
+      userBehaviorUtil.sessionEnded();
     } catch (err) {
       logger.err(err)
     }

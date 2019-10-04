@@ -3,6 +3,7 @@ import Constants from '../../constants';
 import store from '../redux/store'
 import API_URL from '../services/api-url'
 import appUtil from './app-util';
+import userBehaviorUtil from './user-behavior-util';
 
 const { ENV } = Constants.extra
 
@@ -99,5 +100,6 @@ async function err(e, isFatal = false) {
     }
 
     axios.post(`${API_URL}/graylog`, errorObject)
+    userBehaviorUtil.sendEvent("App crushed", errorObject)
   }
 }

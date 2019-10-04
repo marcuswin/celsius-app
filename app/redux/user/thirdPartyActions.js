@@ -12,8 +12,9 @@ import { setSecureStoreKey } from '../../utils/expo-storage'
 import usersService from '../../services/users-service'
 import { initAppData } from '../app/appActions'
 import { claimAllBranchTransfers } from '../transfers/transfersActions'
-import analytics from '../../utils/analytics'
+// import analytics from '../../utils/analytics'
 import branchUtil from '../../utils/branch-util'
+import userBehaviorUtil from '../../utils/user-behavior-util';
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
@@ -430,7 +431,7 @@ function registerSocialSuccess (network, token, user) {
       user
     })
 
-    analytics.sessionStarted()
+    userBehaviorUtil.sessionStarted()
     dispatch(claimAllBranchTransfers())
 
     await dispatch(initAppData(token))

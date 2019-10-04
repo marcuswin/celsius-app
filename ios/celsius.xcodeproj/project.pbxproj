@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -71,7 +70,6 @@
 		B3B1857522BCF125002777AE /* Barlow-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3B1856322BCF125002777AE /* Barlow-ThinItalic.ttf */; };
 		B3B1857622BCF125002777AE /* Barlow-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3B1856422BCF125002777AE /* Barlow-Italic.ttf */; };
 		B3B1857722BCF125002777AE /* Barlow-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3B1856522BCF125002777AE /* Barlow-ExtraLight.ttf */; };
-		B3B3F75722DC7E09003DFEDF /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B3F75122DC7DD5003DFEDF /* libRNMixpanel.a */; };
 		D642C74F446041FDA5BAB6E7 /* libAppCenterReactNativeCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A15DE21279A4B22B3431936 /* libAppCenterReactNativeCrashes.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
@@ -352,20 +350,6 @@
 			remoteGlobalIDString = 323A12871E5F266B004975B8;
 			remoteInfo = "ART-tvOS";
 		};
-		B3B3F75022DC7DD5003DFEDF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FDC64AF01BF1690D0044C1B4;
-			remoteInfo = RNMixpanel;
-		};
-		B3B3F75222DC7DD5003DFEDF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5EAEEA411F0555B100C6FED8;
-			remoteInfo = "RNMixpanel-tvOS";
-		};
 		B3BE726322BA617900915202 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -522,7 +506,6 @@
 		B3B1856322BCF125002777AE /* Barlow-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Barlow-ThinItalic.ttf"; path = "celsius/fonts/Barlow-ThinItalic.ttf"; sourceTree = "<group>"; };
 		B3B1856422BCF125002777AE /* Barlow-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Barlow-Italic.ttf"; path = "celsius/fonts/Barlow-Italic.ttf"; sourceTree = "<group>"; };
 		B3B1856522BCF125002777AE /* Barlow-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Barlow-ExtraLight.ttf"; path = "celsius/fonts/Barlow-ExtraLight.ttf"; sourceTree = "<group>"; };
-		B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
 		B876908CC68C6CC9438FB73C /* libPods-celsius.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-celsius.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2557D82008048A786E3B96D /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		EA42A07F92DF9ABF31FD7FA1 /* Pods-celsiusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celsiusTests.debug.xcconfig"; path = "Target Support Files/Pods-celsiusTests/Pods-celsiusTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -547,7 +530,6 @@
 			files = (
 				2CA2A6D522F2FB3C00424542 /* AdSupport.framework in Frameworks */,
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
-				B3B3F75722DC7E09003DFEDF /* libRNMixpanel.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -763,7 +745,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */,
 				B3948C9322C38113006DB930 /* RCTCameraRoll.xcodeproj */,
 				B3948CDA22C3969D006DB930 /* ART.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -874,15 +855,6 @@
 				B3B1856322BCF125002777AE /* Barlow-ThinItalic.ttf */,
 			);
 			name = fonts;
-			sourceTree = "<group>";
-		};
-		B3B3F71E22DC7DD5003DFEDF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B3B3F75122DC7DD5003DFEDF /* libRNMixpanel.a */,
-				B3B3F75322DC7DD5003DFEDF /* libRNMixpanel-tvOS.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		B3BE723522BA614D00915202 /* Recovered References */ = {
@@ -1169,10 +1141,6 @@
 					ProjectRef = 4C4E56AA016A4CA7ADE6752F /* RNGestureHandler.xcodeproj */;
 				},
 				{
-					ProductGroup = B3B3F71E22DC7DD5003DFEDF /* Products */;
-					ProjectRef = B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */;
-				},
-				{
 					ProductGroup = B3BE723822BA614E00915202 /* Products */;
 					ProjectRef = 49A4DCBD04424C83A2604493 /* RNSVG.xcodeproj */;
 				},
@@ -1449,13 +1417,6 @@
 			fileType = archive.ar;
 			path = "libART-tvOS.a";
 			remoteRef = B3948CE122C3969D006DB930 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B3B3F75122DC7DD5003DFEDF /* libRNMixpanel.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNMixpanel.a;
-			remoteRef = B3B3F75022DC7DD5003DFEDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B3B3F75322DC7DD5003DFEDF /* libRNMixpanel-tvOS.a */ = {
@@ -1824,16 +1785,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1871,16 +1822,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2011,16 +1952,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2060,16 +1991,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2108,16 +2029,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2156,16 +2067,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

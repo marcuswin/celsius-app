@@ -1,6 +1,6 @@
 import { NavigationActions, StackActions } from 'react-navigation';
 import ACTIONS from '../../constants/ACTIONS'
-import analytics from "../../utils/analytics";
+import userBehavior from "../../utils/user-behavior-util";
 
 let _navigator;
 
@@ -46,7 +46,7 @@ function navigateTo(routeName, params) {
       })
     );
 
-    analytics.navigated(routeName)
+    userBehavior.navigated(routeName)
   }
 }
 
@@ -58,7 +58,7 @@ function navigateBack(backScreenName) {
 
     // If back button leads to VerifyProfile, skip it and go back one more screen
     if (backScreenName === 'VerifyProfile') {
-      analytics.navigated('Back')
+      userBehavior.navigated('Back')
       // n: 2 indicates we want to navigate 2 screens back
       // return () => {
         _navigator.dispatch(
@@ -67,7 +67,7 @@ function navigateBack(backScreenName) {
       // }
     }
 
-    analytics.navigated(backScreenName)
+    userBehavior.navigated(backScreenName)
     // return () => {
       _navigator.dispatch(
         NavigationActions.back()

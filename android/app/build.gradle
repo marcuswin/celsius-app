@@ -142,7 +142,6 @@ android {
 dependencies {
     implementation project(':react-native-branch')
     implementation project(':react-native-advertising')
-    implementation project(':react-native-mixpanel')
     implementation project(':react-native-code-push')
     implementation project(':react-native-appsflyer')
     implementation project(':appcenter-crashes')

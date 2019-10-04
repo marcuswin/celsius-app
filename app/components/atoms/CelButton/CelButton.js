@@ -9,7 +9,7 @@ import { getMargins } from '../../../utils/styles-util';
 import CelText from '../CelText/CelText';
 import Spinner from '../Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
-import analytics from "../../../utils/analytics";
+import userBehaviorUtil from '../../../utils/user-behavior-util';
 
 const buttonSizes = ['small', 'medium'];
 
@@ -73,7 +73,7 @@ class CelButton extends Component {
   handlePress = () => {
     const { onPress, children } = this.props
 
-    analytics.buttonPressed(children)
+    userBehaviorUtil.buttonPressed(children)
     onPress()
   }
 
