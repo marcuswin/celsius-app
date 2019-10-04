@@ -196,7 +196,7 @@ class TransactionDetails extends Component {
         return (
           <ChangePaymentCard
             key={sectionType}
-            heading={`You would have saved ${ formatter.percentageDisplay(loyaltyInfo.tier.loanInterestBonus) } if you paid your interest in CEL.`}
+            heading={`You would have saved ${ formatter.percentageDisplay(loyaltyInfo.tier.loanInterestBonus) } if you paid your interest in CEL. Please go to Loan Setting to change your payment method.`}
             text="Change payment"
             navigateTo={actions.navigateTo}
             loan={transaction.loan_data}

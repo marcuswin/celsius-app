@@ -56,6 +56,7 @@ class ConfirmYourLoan extends Component {
     const style = ConfirmYourLoanStyle();
     let iso
     let country
+
     Object.keys(countries).forEach((key) => {
       if(countries[key].name === countryName){
         country = countries[key]
@@ -93,7 +94,7 @@ class ConfirmYourLoan extends Component {
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_city }</CelText>
 
           <CelText type="H6" weight="300" margin={'0 0 3 0'}>Bank Country</CelText>
-          { this.showCountry(loan.bank_country) }
+          { this.showCountry(loan.bank_location) }
 
           { this.renderBankAccountInfo() }
 
