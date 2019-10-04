@@ -3,25 +3,17 @@ import appsFlyer from "react-native-appsflyer";
 
 import store from "../redux/store";
 import appUtil from "./app-util";
+import userBehaviorUtil from "./user-behavior-util";
+import loggerUtil from "./logger-util";
 
-const advertisingId = store.getState().app.advertisingId;
+let advertisingId;
 
 let revisionId = "";
 let version = "";
-appUtil.getRevisionId().then(metadata => {
-  version = metadata.codePushVersion.version;
-  revisionId = metadata.codePushVersion.label;
-});
 
-const appInfo = {
-  revisionId,
-  appVersion: version,
-  os: Platform.OS,
-  advertisingId
-};
+const appInfo = { os: Platform.OS };
 
-// TODO probably destroy
-const analytics = {
+const appsFlyerUtil = {
   registrationCompleted,
   kycStarted,
   withdrawCompleted,
@@ -29,7 +21,40 @@ const analytics = {
   loanApplied
 };
 
-// Apps flyer
+/**
+ * Send event attribution to appsflyer and forwared the event with response to mixpanel
+ *
+ * @param {string} event - name of the event
+ * @param {Object} payload - payload
+ */
+async function appsFlyerEvent(event, payload) {
+  if (!advertisingId) {
+    advertisingId = store.getState().app.advertisingId;
+    appInfo.advertisingId = advertisingId;
+  }
+  if (!revisionId || !version) {
+    try {
+      const metadata = await appUtil.getRevisionId();
+      version = metadata.codePushVersion.version;
+      revisionId = metadata.codePushVersion.label;
+
+      appInfo.revisionId = revisionId;
+      appInfo.appVersion = version;
+    } catch (error) {
+      loggerUtil.err(error);
+    }
+  }
+  const response = await appsFlyer.trackEvent("SPEND_CREDITS", {
+    ...appInfo,
+    ...payload
+  });
+  userBehaviorUtil.sendEvent("Appsflyer event", {
+    event,
+    payload,
+    response
+  });
+}
+
 /**
  * Fires an event when a users completes the registration process (sets PIN number)
  *
@@ -46,8 +71,7 @@ async function registrationCompleted(user) {
   if (user.google_id) method = "google";
   if (user.twitter_id) method = "twitter";
 
-  await appsFlyer.trackEvent("ACHIEVE_LEVEL", {
-    ...appInfo,
+  await appsFlyerEvent("ACHIEVE_LEVEL", {
     user_data: { developer_identity: user.id },
     method,
     referral_link_id: user.referral_link_id,
@@ -68,8 +92,7 @@ async function kycStarted() {
   const userId = user.id;
   const description = "1";
 
-  await appsFlyer.trackEvent("COMPLETE_TUTORIAL", {
-    ...appInfo,
+  await appsFlyerEvent("COMPLETE_TUTORIAL", {
     user_data: { developer_identity: userId },
     products: {
       $og_description: description,
@@ -98,8 +121,7 @@ async function withdrawCompleted(withdrawTransaction) {
       withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin]
   };
 
-  await appsFlyer.trackEvent("ADD_TO_WISHLIST", {
-    ...appInfo,
+  await appsFlyerEvent("ADD_TO_WISHLIST", {
     revenue: Number(payload.amountUsd),
     currency: "USD",
     amount_usd: payload.amountUsd.toString(),
@@ -125,8 +147,7 @@ async function celpayCompleted(celPayTransfer) {
     celPayTransfer.amount *
     currencyRatesShort[celPayTransfer.coin.toLowerCase()];
 
-  await appsFlyer.trackEvent("SPEND_CREDITS", {
-    ...appInfo,
+  await appsFlyerEvent("SPEND_CREDITS", {
     revenue: Number(amountUsd),
     currency: "USD",
     amount_usd: amountUsd.toString(),
@@ -143,9 +164,7 @@ async function celpayCompleted(celPayTransfer) {
  * @param {object} loanData
  */
 async function loanApplied(loanData) {
-  await appsFlyer.trackEvent("Product Added", {
-    // ADD_TO_CART
-    ...appInfo,
+  await appsFlyerEvent("ADD_TO_CART", {
     revenue: Number(loanData.loan_amount),
     currency: "USD",
     coin: loanData.coin,
@@ -159,4 +178,4 @@ async function loanApplied(loanData) {
   });
 }
 
-export default analytics;
+export default appsFlyerUtil;

@@ -6,7 +6,7 @@ import { clearForm } from '../forms/formsActions'
 import transactions from '../../services/transactions-service'
 import walletService from '../../services/wallet-service'
 import { navigateTo } from '../nav/navActions'
-import analytics from '../../utils/analytics'
+import appsFlyerUtil from '../../utils/appsflyer-util'
 import celUtilityUtil from '../../utils/cel-utility-util'
 import { getWalletSummary } from "../wallet/walletActions";
 import { TRANSACTION_TYPES } from "../../constants/DATA";
@@ -132,7 +132,7 @@ function withdrawCrypto () {
       dispatch(showMessage('success', 'An email verification has been sent.'))
       dispatch(clearForm())
 
-      analytics.withdrawCompleted(res.data.transaction)
+      appsFlyerUtil.withdrawCompleted(res.data.transaction)
     } catch (err) {
       dispatch(showMessage('error', err.msg))
       dispatch(apiError(API.WITHDRAW_CRYPTO, err))
