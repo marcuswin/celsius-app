@@ -70,7 +70,8 @@ class BorrowEnterAmount extends Component {
     props.actions.initForm({
       loanAmount: minimumLoanAmount.toString(),
       maxAmount,
-      coin: 'USD'
+      coin: 'USD',
+      loanType: LOAN_TYPES.USD_LOAN
     })
   }
 
