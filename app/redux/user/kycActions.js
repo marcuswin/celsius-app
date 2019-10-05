@@ -9,7 +9,7 @@ import apiUtil from "../../utils/api-util";
 import logger from '../../utils/logger-util';
 import { setFormErrors } from "../forms/formsActions";
 import { KYC_STATUSES } from "../../constants/DATA";
-import analytics from "../../utils/analytics";
+import appsFlyerUtil from "../../utils/appsflyer-util";
 import complianceService from "../../services/compliance-service";
 import { getUserKYCStatus, isUserLoggedIn } from "../../utils/user-util"
 
@@ -303,7 +303,7 @@ function verifyKYCDocs() {
       clearTimeout(timeout);
       dispatch(showMessage('success', 'KYC verification proccess has started!'));
 
-      analytics.kycStarted()
+      appsFlyerUtil.kycStarted()
     } catch (err) {
       clearTimeout(timeout);
       logger.err({ err });
