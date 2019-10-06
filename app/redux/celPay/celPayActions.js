@@ -8,7 +8,7 @@ import { clearForm } from '../forms/formsActions'
 import transfersService from '../../services/transfer-service'
 import formatter from '../../utils/formatter'
 import { navigateTo } from '../nav/navActions'
-import analytics from '../../utils/analytics'
+import appsFlyerUtil from '../../utils/appsflyer-util'
 import celUtilityUtil from '../../utils/cel-utility-util'
 
 export {
@@ -72,7 +72,7 @@ function celPayFriend () {
 
       await celUtilityUtil.refetchMembershipIfChanged(transfer.coin)
 
-      analytics.celpayCompleted(transferData)
+      appsFlyerUtil.celpayCompleted(transferData)
     } catch (err) {
       dispatch(apiError(API.CREATE_TRANSFER, err))
       dispatch(showMessage('error', err.msg))
@@ -128,7 +128,7 @@ function celPayShareLink () {
 
       await celUtilityUtil.refetchMembershipIfChanged(transfer.coin)
 
-      analytics.celpayCompleted(transferData)
+      appsFlyerUtil.celpayCompleted(transferData)
     } catch (err) {
       dispatch(apiError(API.CREATE_TRANSFER, err))
       dispatch(showMessage('error', err.msg))

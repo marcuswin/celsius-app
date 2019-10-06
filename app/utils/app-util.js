@@ -1,4 +1,3 @@
-import * as Segment from "expo-analytics-segment";
 import * as Font from "expo-font";
 import { Asset } from "expo-asset";
 import React from "react";
@@ -24,10 +23,9 @@ const {
   SECURITY_STORAGE_AUTH_KEY,
   TWITTER_CUSTOMER_KEY,
   TWITTER_SECRET_KEY,
-  // APPSFLYER_KEY_ANDROID,
-  // APPSFLYER_KEY_IOS,
-  SEGMENT_ANDROID_KEY,
-  SEGMENT_IOS_KEY,
+  APPSFLYER_KEY_ANDROID,
+  APPSFLYER_KEY_IOS,
+  APPSFLYER_IOS_APP_ID
 } = Constants.extra;
 
 export default {
@@ -50,22 +48,15 @@ async function initializeThirdPartyServices() {
 
   apiUtil.initInterceptors();
   twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
-  await Segment.initialize({
-    androidWriteKey: SEGMENT_ANDROID_KEY,
-    iosWriteKey: SEGMENT_IOS_KEY
-  });
   const appsFlyerOptions = {
     devKey:
-      Platform.OS === "android"
-        ? "kc52L3ZYK35BuHAum9iVJj"
-        : "3KiLr9QhtGzZ8QxHfkW9nL",
+      Platform.OS === "android" ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
     isDebug: true
   };
 
   if (Platform.OS === "ios") {
-    appsFlyerOptions.appId = "1387885523";
+    appsFlyerOptions.appId = APPSFLYER_IOS_APP_ID;
   }
-  // console.log("BEFORE init");
   await appsFlyer.initSdk(
     appsFlyerOptions,
     result => {
@@ -75,8 +66,6 @@ async function initializeThirdPartyServices() {
       loggerUtil.err(error);
     }
   );
-
-  // console.log("AFTER init");
 }
 
 /**
@@ -176,27 +165,27 @@ function recursiveMap(children, fn) {
   });
 }
 
-let metadata
+let metadata;
 
 /**
  * Get the current app verision from CodePush
  */
 async function getRevisionId() {
-  if(!metadata) {
+  if (!metadata) {
     metadata = await CodePush.getUpdateMetadata();
   }
 
   if (!metadata) {
     return {
       codePushVersion: {},
-      revisionId: 'local',
-    }
+      revisionId: "local"
+    };
   }
 
   const codePushVersion = {
-      label: metadata.label,
-      version: metadata.appVersion,
-      description: metadata.description
+    label: metadata.label,
+    version: metadata.appVersion,
+    description: metadata.description
   };
 
   return {

@@ -12,7 +12,6 @@ import { setSecureStoreKey } from '../../utils/expo-storage'
 import usersService from '../../services/users-service'
 import { initAppData } from '../app/appActions'
 import { claimAllBranchTransfers } from '../transfers/transfersActions'
-// import analytics from '../../utils/analytics'
 import branchUtil from '../../utils/branch-util'
 import userBehaviorUtil from '../../utils/user-behavior-util';
 

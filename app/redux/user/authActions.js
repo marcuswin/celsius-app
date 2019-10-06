@@ -22,7 +22,7 @@ import apiUtil from '../../utils/api-util'
 import logger from '../../utils/logger-util'
 import { setFormErrors, updateFormField } from '../forms/formsActions'
 import meService from '../../services/me-service'
-import analytics from '../../utils/analytics'
+import appsFlyerUtil from '../../utils/appsflyer-util'
 import branchUtil from '../../utils/branch-util'
 import userBehaviorUtil from '../../utils/user-behavior-util';
 
@@ -263,7 +263,7 @@ function setPin () {
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS })
       dispatch({ type: ACTIONS.CLEAR_FORM })
 
-      analytics.registrationCompleted(user)
+      appsFlyerUtil.registrationCompleted(user)
       return true
     } catch (err) {
       dispatch(showMessage('error', err.msg))
