@@ -15,7 +15,7 @@ import Spinner from '../../atoms/Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
 import ChangeAvatarStyle from './ChangeAvatar.styles';
 
-const { API_URL } = Constants.extra;
+const { API_URL } = Constants;
 
 const images = [
   { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/bear/profile-bear.png` },

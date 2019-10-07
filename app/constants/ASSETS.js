@@ -1,6 +1,6 @@
 import Constants from '../../constants'
 
-const { API_URL } = Constants.extra
+const { API_URL } = Constants
 
 const FONTS = [
     { 'Barlow-Thin': require('../../assets/fonts/Barlow/Barlow-Thin.ttf') },

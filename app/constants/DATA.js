@@ -1,6 +1,6 @@
 import Constants from '../../constants';
 
-const { ENV } = Constants.extra
+const { ENV } = Constants
 
 const KYC_STATUSES = {
   collecting: 'collecting',

@@ -5,7 +5,7 @@ import API_URL from '../services/api-url'
 import appUtil from './app-util';
 import userBehaviorUtil from './user-behavior-util';
 
-const { ENV } = Constants.extra
+const { ENV } = Constants
 
 export default {
   logme, // TODO check better way to log stuff from app

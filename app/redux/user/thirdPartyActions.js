@@ -1,5 +1,7 @@
-import * as GoogleSignIn from 'expo-google-sign-in'
-import * as Facebook from 'expo-facebook'
+import * as GoogleSignInAndroid from "expo-google-sign-in";
+import { GoogleSignin } from "react-native-google-signin";
+import { Platform } from "react-native";
+import * as Facebook from "expo-facebook";
 
 import Constants from '../../../constants'
 import ACTIONS from '../../constants/ACTIONS'
@@ -19,8 +21,9 @@ const {
   SECURITY_STORAGE_AUTH_KEY,
   FACEBOOK_APP_ID,
   FACEBOOK_URL,
-  GOOGLE_CLIENT_ID
-} = Constants.extra
+  GOOGLE_ANDROID_ID,
+  GOOGLE_IOS_ID,
+} = Constants;
 
 export {
   authTwitter,
@@ -31,30 +34,29 @@ export {
   authFacebook,
   registerUserFacebook,
   authGoogle,
-  registerUserGoogle,
-}
-
+  registerUserGoogle
+};
 
 /**
  * Handles response after twitter login
  * @param {string} type - one of login|register
  * @param {Object} twitterUser - response from twitter success
  */
-function authTwitter (type, twitterUser) {
+function authTwitter(type, twitterUser) {
   return (dispatch, getState) => {
-    const user = getState().user.profile
+    const user = getState().user.profile;
 
-    const twitterNames = twitterUser.name.split(' ')
-    user.firstName = twitterNames.shift()
-    user.lastName = twitterNames.join(' ')
+    const twitterNames = twitterUser.name.split(" ");
+    user.firstName = twitterNames.shift();
+    user.lastName = twitterNames.join(" ");
 
-    if (type === 'login') {
+    if (type === "login") {
       dispatch(
         loginTwitter({
           ...user,
           ...twitterUser
         })
-      )
+      );
     } else {
       dispatch(
         updateFormFields({
@@ -67,19 +69,19 @@ function authTwitter (type, twitterUser) {
           secretToken: user.twitter_oauth_secret,
           profilePicture: twitterUser.profile_image_url
         })
-      )
+      );
     }
-  }
+  };
 }
 
 /**
  * Registers a new user through Twitter
  */
-function registerUserTwitter () {
+function registerUserTwitter() {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState().forms
-      const referralLinkId = branchUtil.getReferralId()
+      const { formData } = getState().forms;
+      const referralLinkId = branchUtil.getReferralId();
 
       const twitterUser = {
         email: formData.email,
@@ -91,18 +93,18 @@ function registerUserTwitter () {
         secret_token: formData.secretToken,
         twitter_screen_name: formData.twitter_screen_name,
         referral_link_id: referralLinkId || undefined
-      }
+      };
 
-      dispatch(startApiCall(API.REGISTER_USER_TWITTER))
-      const res = await usersService.registerTwitter(twitterUser)
+      dispatch(startApiCall(API.REGISTER_USER_TWITTER));
+      const res = await usersService.registerTwitter(twitterUser);
 
-      const { id_token: idToken, user } = res.data
-      dispatch(registerSocialSuccess('twitter', idToken, user))
+      const { id_token: idToken, user } = res.data;
+      dispatch(registerSocialSuccess("twitter", idToken, user));
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.REGISTER_USER_TWITTER, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.REGISTER_USER_TWITTER, err));
     }
-  }
+  };
 }
 
 /**
@@ -114,10 +116,10 @@ function registerUserTwitter () {
  * @param {string} twitterUser.twitter_oauth_token
  * @param {string} twitterUser.twitter_oauth_secret
  */
-function loginTwitter (twitterUser) {
+function loginTwitter(twitterUser) {
   return async dispatch => {
     try {
-      dispatch(startApiCall(API.LOGIN_USER_TWITTER))
+      dispatch(startApiCall(API.LOGIN_USER_TWITTER));
 
       const user = {
         email: twitterUser.email,
@@ -125,36 +127,36 @@ function loginTwitter (twitterUser) {
         twitter_id: twitterUser.id_str,
         access_token: twitterUser.twitter_oauth_token,
         secret_token: twitterUser.twitter_oauth_secret
-      }
+      };
 
-      const res = await usersService.twitterLogin(user)
+      const res = await usersService.twitterLogin(user);
 
-      await dispatch(loginSocialSuccess('twitter', res.data.id_token))
+      await dispatch(loginSocialSuccess("twitter", res.data.id_token));
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.LOGIN_USER_TWITTER, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.LOGIN_USER_TWITTER, err));
     }
-  }
+  };
 }
 
 /**
  * Closes Twitter modal
  * @returns {Object} - Action
  */
-function twitterClose () {
+function twitterClose() {
   return {
     type: ACTIONS.TWITTER_CLOSE
-  }
+  };
 }
 
 /**
  * Opens Twitter Modal
  * @returns {Object} - Action
  */
-function twitterOpen () {
+function twitterOpen() {
   return {
     type: ACTIONS.TWITTER_OPEN
-  }
+  };
 }
 
 /**
@@ -162,40 +164,39 @@ function twitterOpen () {
  * @param {Object} tokens
  * @returns {Object} - Action
  */
-function twitterGetAccessToken (tokens) {
+function twitterGetAccessToken(tokens) {
   return {
     type: ACTIONS.TWITTER_GET_ACCESS_TOKEN,
     twitter_tokens: tokens
-  }
+  };
 }
-
 
 /**
  * Authorizes user on Facebook
  *
  * @param {string} authReason - one of login|register
  */
-function authFacebook (authReason) {
+function authFacebook(authReason) {
   return async dispatch => {
-    if (!['login', 'register'].includes(authReason)) return
+    if (!["login", "register"].includes(authReason)) return;
 
     try {
       const { type, token } = await Facebook.logInWithReadPermissionsAsync(
         FACEBOOK_APP_ID.toString(),
         {
-          permissions: ['public_profile', 'email'],
-          behavior: 'system'
+          permissions: ["public_profile", "email"],
+          behavior: "system"
         }
-      )
+      );
 
-      if (type === 'success') {
-        const response = await fetch(`${FACEBOOK_URL}${token}`)
+      if (type === "success") {
+        const response = await fetch(`${FACEBOOK_URL}${token}`);
 
-        const user = await response.json()
-        user.accessToken = token
+        const user = await response.json();
+        user.accessToken = token;
 
-        if (authReason === 'login') {
-          dispatch(loginFacebook(user))
+        if (authReason === "login") {
+          dispatch(loginFacebook(user));
         } else {
           dispatch(
             updateFormFields({
@@ -205,23 +206,23 @@ function authFacebook (authReason) {
               facebookId: user.id,
               accessToken: user.accessToken
             })
-          )
+          );
         }
       }
     } catch (e) {
-      dispatch(showMessage('error', e.message))
+      dispatch(showMessage("error", e.message));
     }
-  }
+  };
 }
 
 /**
  * Creates new user through Facebook
  */
-function registerUserFacebook () {
+function registerUserFacebook() {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState().forms
-      const referralLinkId = branchUtil.getReferralId()
+      const { formData } = getState().forms;
+      const referralLinkId = branchUtil.getReferralId();
 
       const facebookUser = {
         email: formData.email,
@@ -230,18 +231,18 @@ function registerUserFacebook () {
         facebook_id: formData.facebookId,
         access_token: formData.accessToken,
         referral_link_id: referralLinkId
-      }
+      };
 
-      dispatch(startApiCall(API.REGISTER_USER_FACEBOOK))
-      const res = await usersService.registerFacebook(facebookUser)
+      dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
+      const res = await usersService.registerFacebook(facebookUser);
 
-      const { id_token: idToken, user } = res.data
-      dispatch(registerSocialSuccess('facebook', idToken, user))
+      const { id_token: idToken, user } = res.data;
+      dispatch(registerSocialSuccess("facebook", idToken, user));
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.REGISTER_USER_FACEBOOK, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
     }
-  }
+  };
 }
 
 /**
@@ -253,10 +254,10 @@ function registerUserFacebook () {
  * @param {string} facebookUser.id - facebook id
  * @param {string} facebookUser.accessToken - facebook access token
  */
-function loginFacebook (facebookUser) {
+function loginFacebook(facebookUser) {
   return async dispatch => {
     try {
-      dispatch(startApiCall(API.LOGIN_USER_FACEBOOK))
+      dispatch(startApiCall(API.LOGIN_USER_FACEBOOK));
 
       const user = {
         email: facebookUser.email,
@@ -264,16 +265,16 @@ function loginFacebook (facebookUser) {
         last_name: facebookUser.last_name,
         facebook_id: facebookUser.id,
         access_token: facebookUser.accessToken
-      }
+      };
 
-      const res = await usersService.facebookLogin(user)
+      const res = await usersService.facebookLogin(user);
 
-      await dispatch(loginSocialSuccess('facebook', res.data.id_token))
+      await dispatch(loginSocialSuccess("facebook", res.data.id_token));
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.LOGIN_USER_FACEBOOK, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.LOGIN_USER_FACEBOOK, err));
     }
-  }
+  };
 }
 
 /**
@@ -281,52 +282,73 @@ function loginFacebook (facebookUser) {
  *
  * @param {string} authReason - one of login|register
  */
-function authGoogle (authReason) {
+function authGoogle(authReason) {
   return async dispatch => {
-    if (!['login', 'register'].includes(authReason)) return
+    if (!["login", "register"].includes(authReason)) return;
 
     try {
-      await GoogleSignIn.initAsync({
-        clientId: GOOGLE_CLIENT_ID
-      })
-      await GoogleSignIn.askForPlayServicesAsync()
-      const isSignedIn = await GoogleSignIn.isSignedInAsync()
-      if (isSignedIn) await GoogleSignIn.signOutAsync()
-      const result = await GoogleSignIn.signInAsync()
+      let user
+      if (Platform.OS === "android") {
+        await GoogleSignInAndroid.initAsync({ clientId: GOOGLE_ANDROID_ID });
+        await GoogleSignInAndroid.askForPlayServicesAsync();
+        const isSignedIn = await GoogleSignInAndroid.isSignedInAsync();
+        if (isSignedIn) await GoogleSignInAndroid.signOutAsync();
+        const result = await GoogleSignInAndroid.signInAsync();
 
-      if (result.type === 'success') {
-        // NOTE: different response for Expo and for standalone app
-        const user = result.user
-        user.email = user.email
-        user.firstName = user.givenName || user.firstName
-        user.lastName = user.familyName || user.lastName
-        user.googleId = user.id || user.uid
-        user.profilePicture = user.photoURL
-        user.accessToken = result.access_token || result.accessToken
-        user.accessToken = !user.accessToken && user.auth ? user.auth.accessToken : user.accessToken
+        if (result.type === "success") {
+          // NOTE: different response for Expo and for standalone app
+          user = result.user;
+          user.email = user.email;
+          user.firstName = user.givenName || user.firstName;
+          user.lastName = user.familyName || user.lastName;
+          user.googleId = user.id || user.uid;
+          user.profilePicture = user.photoURL;
+          user.accessToken = result.access_token || result.accessToken;
+          user.accessToken =
+            !user.accessToken && user.auth
+              ? user.auth.accessToken
+              : user.accessToken;
 
-        if (authReason === 'login') {
-          dispatch(loginGoogle(user))
         } else {
-          dispatch(updateFormFields(user))
+          return { cancelled: true };
         }
       } else {
-        return { cancelled: true }
+        GoogleSignin.configure({ webClientId: GOOGLE_IOS_ID });
+        await GoogleSignin.hasPlayServices();
+        const isSignedIn = await GoogleSignin.isSignedIn();
+        if (isSignedIn) await GoogleSignin.signOut();
+        const result = await GoogleSignin.signIn();
+        const tokens = await GoogleSignin.getTokens();
+
+        user = result.user;
+        user.email = user.email;
+        user.firstName = user.givenName || user.firstName;
+        user.lastName = user.familyName || user.lastName;
+        user.googleId = user.id || user.uid;
+        user.profilePicture = user.photo;
+        user.accessToken = tokens.accessToken;
+
+      }
+
+      if (authReason === "login") {
+        dispatch(loginGoogle(user));
+      } else {
+        dispatch(updateFormFields(user));
       }
     } catch (e) {
-      return { error: true }
+      return { error: true };
     }
-  }
+  };
 }
 
 /**
  * Creates a new user through Google
  */
-function registerUserGoogle () {
+function registerUserGoogle() {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState().forms
-      const referralLinkId = branchUtil.getReferralId()
+      const { formData } = getState().forms;
+      const referralLinkId = branchUtil.getReferralId();
 
       const googleUser = {
         email: formData.email,
@@ -336,19 +358,19 @@ function registerUserGoogle () {
         profile_picture: formData.profilePicture,
         access_token: formData.accessToken,
         referral_link_id: referralLinkId
-      }
+      };
 
-      dispatch(startApiCall(API.REGISTER_USER_GOOGLE))
-      const res = await usersService.registerGoogle(googleUser)
+      dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
+      const res = await usersService.registerGoogle(googleUser);
 
-      const { id_token: idToken, user } = res.data
+      const { id_token: idToken, user } = res.data;
 
-      dispatch(registerSocialSuccess('google', idToken, user))
+      dispatch(registerSocialSuccess("google", idToken, user));
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.REGISTER_USER_GOOGLE, err));
     }
-  }
+  };
 }
 
 /**
@@ -361,9 +383,9 @@ function registerUserGoogle () {
  * @param {string} googleUser.photoURL
  * @param {string} googleUser.access_token
  */
-function loginGoogle (googleUser) {
+function loginGoogle(googleUser) {
   return async dispatch => {
-    dispatch(startApiCall(API.LOGIN_USER_GOOGLE))
+    dispatch(startApiCall(API.LOGIN_USER_GOOGLE));
     try {
       const user = {
         email: googleUser.email,
@@ -372,16 +394,16 @@ function loginGoogle (googleUser) {
         google_id: googleUser.googleId,
         profile_picture: googleUser.profilePicture,
         access_token: googleUser.accessToken
-      }
+      };
 
-      const res = await usersService.googleLogin(user)
+      const res = await usersService.googleLogin(user);
 
-      await dispatch(loginSocialSuccess('google', res.data.id_token))
+      await dispatch(loginSocialSuccess("google", res.data.id_token));
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.REGISTER_USER_GOOGLE, err));
     }
-  }
+  };
 }
 
 /**
@@ -390,26 +412,26 @@ function loginGoogle (googleUser) {
  * @param {string} network - one of twitter|facebook|google
  * @param {string} token - auth token from social network
  */
-function loginSocialSuccess (network, token) {
+function loginSocialSuccess(network, token) {
   return async (dispatch, getState) => {
-    await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token)
+    await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token);
 
-    const userRes = await usersService.getPersonalInfo()
-    const user = userRes.data
+    const userRes = await usersService.getPersonalInfo();
+    const user = userRes.data;
 
-    const { showVerifyScreen } = getState().app
+    const { showVerifyScreen } = getState().app;
     if (!showVerifyScreen) {
-      await dispatch(initAppData())
-      dispatch(navigateTo('WalletFab'))
+      await dispatch(initAppData());
+      dispatch(navigateTo("WalletFab"));
     }
 
     dispatch({
       type: ACTIONS[`LOGIN_USER_${network.toUpperCase()}_SUCCESS`],
       user
-    })
+    });
 
     // dispatch(claimAllBranchTransfers());
-  }
+  };
 }
 
 /**
@@ -419,28 +441,28 @@ function loginSocialSuccess (network, token) {
  * @param {string} token - auth token from social network
  * @param {string} user - registered user on Celsius
  */
-function registerSocialSuccess (network, token, user) {
+function registerSocialSuccess(network, token, user) {
   return async (dispatch, getState) => {
-    await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token)
+    await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token);
 
-    dispatch(startApiCall(API.SOCIAL_REGISTER))
+    dispatch(startApiCall(API.SOCIAL_REGISTER));
 
     dispatch({
       type: ACTIONS[`REGISTER_USER_${network.toUpperCase()}_SUCCESS`],
       user
-    })
+    });
 
     userBehaviorUtil.sessionStarted()
     dispatch(claimAllBranchTransfers())
 
-    await dispatch(initAppData(token))
-    const { profile } = getState().user
+    await dispatch(initAppData(token));
+    const { profile } = getState().user;
     if (!profile.has_pin) {
-      dispatch(navigateTo('RegisterSetPin'))
+      dispatch(navigateTo("RegisterSetPin"));
     } else {
-      dispatch(navigateTo('WalletFab'))
+      dispatch(navigateTo("WalletFab"));
     }
 
-    dispatch({ type: ACTIONS.SOCIAL_REGISTER_SUCCESS })
-  }
+    dispatch({ type: ACTIONS.SOCIAL_REGISTER_SUCCESS });
+  };
 }

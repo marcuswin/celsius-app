@@ -41,7 +41,7 @@ class Login extends Component {
     ], callsInProgress);
 
     // Disabling forgot pass on Staging regarding to its bug on Staging environment
-    const { ENV } = Constants.extra
+    const { ENV } = Constants
     return (
       <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>

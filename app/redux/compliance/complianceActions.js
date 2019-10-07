@@ -7,7 +7,7 @@ import { showMessage } from "../ui/uiActions";
 import complianceService from "../../services/compliance-service";
 import { navigateTo } from "../nav/navActions";
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants;
 
 
 export {

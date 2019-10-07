@@ -164,6 +164,11 @@ PODS:
     - React/RCTBlob
   - RNDeviceInfo (2.3.2):
     - React
+  - RNGoogleSignin (2.0.0):
+    - GoogleSignIn (~> 4.4.0)
+    - React
+  - RNSVG (9.5.1):
+    - React
   - SSZipArchive (2.2.2)
   - UMBarCodeScannerInterface (2.0.1)
   - UMCameraInterface (2.0.1)
@@ -221,6 +226,8 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNGoogleSignin (from `../node_modules/react-native-google-signin`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
   - UMConstantsInterface (from `../node_modules/unimodules-constants-interface/ios`)
@@ -323,6 +330,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNGoogleSignin:
+    :path: "../node_modules/react-native-google-signin"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   UMBarCodeScannerInterface:
     :path: !ruby/object:Pathname
     path: "../node_modules/unimodules-barcode-scanner-interface/ios"
@@ -404,6 +415,8 @@ SPEC CHECKSUMS:
   react-native-idfa: 7a029b76f4d5dff76efa6fe4b86be8fadd71c49f
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   RNDeviceInfo: 17e34f6dd902f08d88cbe2c0b7a01be948d43641
+  RNGoogleSignin: d030c6c6591db24c3cee649f64c7babf0a1699a0
+  RNSVG: 0eb087cfb5d7937be93c45b163b26352a647e681
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   UMBarCodeScannerInterface: d5602e23de37f95bb4ee49ee3b2711e128058ae9
   UMCameraInterface: dde8491778ed062348e569bad33a890e60c32c9d
@@ -419,6 +432,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 296793ab2a7e181fe5ebe2ba9b40ae208ab4b8fa
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: 67c7c4f4323705336c2697cc3b9c3725f07403e2
+PODFILE CHECKSUM: 35163cea31aff96625dd3c42126d94028baf8616
 
 COCOAPODS: 1.7.5

@@ -18,7 +18,7 @@ const {
   CLIENT_VERSION,
   ENV,
   PUBLIC_KEY
-} = Constants.extra
+} = Constants
 let token
 let deviceModel
 let osVersion

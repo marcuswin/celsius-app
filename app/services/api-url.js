@@ -2,6 +2,6 @@
 
 import Constants from '../../constants';
 
-const {API_URL} = Constants.extra;
+const {API_URL} = Constants;
 
 export default API_URL;
