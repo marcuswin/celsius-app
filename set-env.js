@@ -13,16 +13,22 @@ const ALL_CONFIGS = {
   PRODUCTION: 'PRODUCTION'
 };
 
-const filesToCopy = [
-  'app.json',
-  'google-services.json',
-  'celsius.jks',
-  'constants.js',
-  'branch.json',
-]
+const ENV_FILES = {
+  APP_JSON: 'app.json',
+  CONSTANTS: 'constants.js',
+  BRANCH: 'branch.json',
+  // ANDROID_KEYSTORE: 'celsius.jks', // check if we need this
+
+  GOOGLE_SERVICES: 'google-services.json',
+  GOOGLE_INFO_PLIST: 'GoogleService-Info.plist',
+
+  // These will be removed when we fix google packages
+  GOOGLE_SERVICES_FALLBACK: 'google-services.json',
+  GOOGLE_INFO_PLIST_FALLBACK: 'GoogleService-Info.plist',
+}
 
 if (Object.keys(ALL_CONFIGS).indexOf(CONFIG) !== -1) {
-  filesToCopy.forEach(copyFileFromCelsiusCreds)
+  Object.keys(ENV_FILES).forEach(copyFileFromCelsiusCreds)
 
   // eslint-disable-next-line no-console
   console.log(`Generated all env specific files for ${CONFIG} environment successfully`);
@@ -30,12 +36,28 @@ if (Object.keys(ALL_CONFIGS).indexOf(CONFIG) !== -1) {
 }
 
 // eslint-disable-next-line no-console
-console.log(`Plese specify correct CONFIG variable, one of ${ Object.keys(ALL_CONFIGS).join(', ') }`);
+console.log(`Please specify correct CONFIG variable, one of ${ Object.keys(ALL_CONFIGS).join(', ') }`);
 return false;
 
-function copyFileFromCelsiusCreds(pathToFile) {
+function getDestination(fileKey) {
+  const pathToFile = ENV_FILES[fileKey]
+
+  switch (fileKey) {
+    case 'GOOGLE_SERVICES':
+      return path.resolve(__dirname, `android/app/${pathToFile}`)
+
+    case 'GOOGLE_INFO_PLIST':
+      return path.resolve(__dirname, `ios/${pathToFile}`)
+
+    default:
+      return path.resolve(__dirname, pathToFile)
+  }
+}
+
+function copyFileFromCelsiusCreds(fileKey) {
   let src;
-  const dest = path.resolve(__dirname, pathToFile);
+  const pathToFile = ENV_FILES[fileKey]
+  const dest = getDestination(fileKey);
   const directoryPath = DIRECTORY_PATH || DEFAULT_CREDS_DIR
 
   switch (CONFIG) {
@@ -59,5 +81,5 @@ function copyFileFromCelsiusCreds(pathToFile) {
   fs.writeFileSync(dest, data);
 
   // eslint-disable-next-line no-console
-  console.log(`${pathToFile} was copied to project`)
+  console.log(`${pathToFile} was copied to ${dest}`)
 }

@@ -17,7 +17,7 @@ import { MODALS } from "../../constants/UI";
 import apiUtil from "../../utils/api-util";
 import { getWalletSummary } from "../wallet/walletActions";
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants;
 
 export {
   // User & Profile Actions

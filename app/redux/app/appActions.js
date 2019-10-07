@@ -24,7 +24,7 @@ import { hasPassedKYC } from "../../utils/user-util";
 import { showMessage } from "../ui/uiActions";
 import userBehaviorUtil from "../../utils/user-behavior-util";
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants;
 
 // TODO add more JSDoc description
 // TODO add more JSDoc description

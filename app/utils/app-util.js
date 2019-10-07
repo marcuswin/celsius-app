@@ -26,7 +26,7 @@ const {
   APPSFLYER_KEY_ANDROID,
   APPSFLYER_KEY_IOS,
   APPSFLYER_IOS_APP_ID
-} = Constants.extra;
+} = Constants;
 
 export default {
   initializeThirdPartyServices,

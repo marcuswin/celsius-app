@@ -26,7 +26,7 @@ import appsFlyerUtil from '../../utils/appsflyer-util'
 import branchUtil from '../../utils/branch-util'
 import userBehaviorUtil from '../../utils/user-behavior-util';
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra
+const { SECURITY_STORAGE_AUTH_KEY } = Constants
 
 export {
   createAccount,
