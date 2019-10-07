@@ -107,7 +107,7 @@ android {
         applicationId "network.celsius.wallet"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 49
+        versionCode 50
         versionName "4.0.0"
     }
     splits {
