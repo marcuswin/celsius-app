@@ -333,22 +333,34 @@ function payPrincipal(id) {
 
 function lockMarginCallCollateral(id, coin) {
   return async (dispatch, getState) => {
-    startApiCall(API.PAY_MARGIN_CALL)
-
+    let apiCallName
     try {
       const { formData } = getState().forms
+
       const verification = {
         pin: formData.pin,
         twoFactorCode: formData.code
       };
 
+      apiCallName = API.PAY_MARGIN_CALL
+      startApiCall(apiCallName)
       const res = await loansService.lockMarginCallCollateral(id, coin, verification);
 
       const transactionId = res.data.transaction_id;
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
+
+      apiCallName = API.GET_ALL_LOANS
+      startApiCall(API.GET_ALL_LOANS);
+      const allLoans = await loansService.getAllLoans();
+
+      dispatch({
+        type: ACTIONS.GET_ALL_LOANS_SUCCESS,
+        callName: API.GET_ALL_LOANS,
+        allLoans
+      });
     } catch (err) {
       dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.PAY_MARGIN_CALL, err));
+      dispatch(apiError(apiCallName, err));
     }
   }
 }

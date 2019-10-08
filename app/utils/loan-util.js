@@ -13,7 +13,6 @@ function mapLoan(loan) {
   newLoan.uiProps = getLoanStatusDetails(loan);
   newLoan.uiSections = getLoanSections(loan);
   newLoan.amortization_table = flagPaidPayments(loan);
-  newLoan.margin_call = getMarginCallParams(loan)
 
   if (newLoan.id) {
     // NOTE should probably be removed or updated once BE is done
@@ -25,6 +24,9 @@ function mapLoan(loan) {
     newLoan.max_possible_prepayment_period = getMaxPossiblePrepaymentPeriod(newLoan)
     newLoan.maxPossiblePrepaymentPeriod = getMaxPossiblePrepaymentPeriod(newLoan)
     newLoan.canPrepayInterest = [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && newLoan.can_pay_interest && newLoan.maxPossiblePrepaymentPeriod >= 6
+
+    newLoan.margin_call = getMarginCallParams(loan)
+    newLoan.margin_call_activated = !!newLoan.margin_call
   }
 
 
