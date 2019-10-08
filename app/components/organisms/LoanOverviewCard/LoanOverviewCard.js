@@ -269,7 +269,7 @@ class LoanOverviewCard extends Component {
             onPress={this.openCancelModal}
             color="red"
           >
-            Cancel loan
+            Cancel Loan
           </CelButton>
         )}
 
