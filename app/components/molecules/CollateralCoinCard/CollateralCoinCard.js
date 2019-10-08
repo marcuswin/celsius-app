@@ -21,6 +21,7 @@ import Separator from '../../atoms/Separator/Separator';
   state => ({
     coins: state.compliance.loan.coins,
     currencies: state.currencies.rates,
+    currencyRatesShort: state.currencies.currencyRatesShort,
     formData: state.forms.formData,
     walletSummary: state.wallet.summary.coins
   }),
@@ -32,6 +33,8 @@ class CollateralCoinCard extends Component {
     coin: PropTypes.instanceOf(Object).isRequired,
     type: PropTypes.oneOf('Collateral', 'PrincipalPayment'),
     isLoading: PropTypes.bool,
+    isMarginCall: PropTypes.bool,
+    marginCall: PropTypes.instanceOf(Object)
   };
 
   constructor (props) {
@@ -55,7 +58,7 @@ class CollateralCoinCard extends Component {
   }
 
   setValues = async () => {
-    const {type, formData, coin, currencies, walletSummary, isMarginCall, marginCall} = this.props
+    const {type, formData, coin, currencies, walletSummary, isMarginCall, marginCall, currencyRatesShort} = this.props
     let value
     let cryptoAmount
     let amountUsd
@@ -120,15 +123,20 @@ class CollateralCoinCard extends Component {
         color
         // TODO when API is completed add state: additionalCryptoAmount
       })
+
     } else if ( type === COIN_CARD_TYPE.MARGIN_COLLATERAL_COIN_CARD) {
-      isAllowed = coin.amount >= marginCall.allCoins[coin.short]
+      const amountNeededInCoin = Number(marginCall.margin_call_usd_amount) / currencyRatesShort[coin.short.toLowerCase()]
+      isAllowed = coin.amount >= amountNeededInCoin
       color = !isAllowed ? STYLES.COLORS.RED : STYLES.COLORS.MEDIUM_GRAY
 
       // additionalCryptoAmount - margin call value
       let marginCallValue
-      if (isMarginCall && marginCall.allCoins[coin.short] > coin.amount) {
-        marginCallValue = formatter.crypto(marginCall.allCoins[coin.short] - coin.amount, coin.short, {precision: 4});
-      } else  marginCallValue =  formatter.crypto(marginCall.allCoins[coin.short], coin.short, {precision: 4});
+
+      if (isMarginCall && amountNeededInCoin > Number(coin.amount)) {
+        marginCallValue = formatter.crypto(amountNeededInCoin - Number(coin.amount), coin.short, {precision: 4});
+      } else {
+        marginCallValue =  formatter.crypto(amountNeededInCoin, coin.short, {precision: 4});
+      }
 
 
       await this.setState({
@@ -144,13 +152,15 @@ class CollateralCoinCard extends Component {
 
   // only when open margin call
   renderMarginCall = () => {
-    const { marginCall, coin } = this.props
+    const { coin } = this.props
+    const { additionalCryptoAmount } = this.state
+
     const style = CollateralCoinCardStyle();
     return(
       <View style={style.marginRequired}>
         <CelText align="left" weight="300" type="H6">
           <CelText align="left" weight="600" type="H6">
-           { `${formatter.crypto(marginCall.allCoins[coin.short], coin.short,{precision: 4})} `}
+           { `${formatter.crypto(additionalCryptoAmount, coin.short,{precision: 4})} `}
           </CelText>required to cover margin call
         </CelText>
       </View>

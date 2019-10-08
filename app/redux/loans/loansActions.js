@@ -7,7 +7,6 @@ import loansService from "../../services/loans-service";
 import formatter from "../../utils/formatter";
 import loanUtil from "../../utils/loan-util";
 import { MODALS } from "../../constants/UI";
-import appsFlyerUtil from '../../utils/appsflyer-util';
 
 export {
   applyForALoan,
@@ -15,7 +14,6 @@ export {
   confirmLoanInfo,
   setActiveLoan,
   cancelLoan,
-  getMarginCalls,
   lockMarginCollateral,
   updateLoanSettings,
   loanApplyPreviewData,
@@ -25,7 +23,8 @@ export {
   payMonthlyInterest,
   getAmortizationTable,
   checkForLoanAlerts,
-  sendBankDetailsEmail
+  sendBankDetailsEmail,
+  lockMarginCallCollateral
 }
 
 /**
@@ -72,7 +71,7 @@ function applyForALoan() {
         dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL))
       }
 
-      appsFlyerUtil.loanApplied(res.data);
+      // analytics.loanApplied(res.data);
     } catch (err) {
       dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));
@@ -152,29 +151,6 @@ function confirmLoanInfo(data) {
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_ALL_LOANS, err));
-    }
-  }
-}
-
-/**
- * Get margin call warnings
- */
-function getMarginCalls() {
-  return async (dispatch) => {
-    try {
-      startApiCall(API.GET_MARGIN_CALLS);
-
-      const marginCalls = await loansService.getMarginCalls();
-
-      dispatch({
-        type: ACTIONS.GET_MARGIN_CALLS_SUCCESS,
-        callName: API.GET_MARGIN_CALLS,
-        marginCalls,
-      });
-    } catch (err) {
-
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_MARGIN_CALLS, err));
     }
   }
 }
@@ -355,6 +331,28 @@ function payPrincipal(id) {
   }
 }
 
+function lockMarginCallCollateral(id, coin) {
+  return async (dispatch, getState) => {
+    startApiCall(API.PAY_MARGIN_CALL)
+
+    try {
+      const { formData } = getState().forms
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code
+      };
+
+      const res = await loansService.lockMarginCallCollateral(id, coin, verification);
+
+      const transactionId = res.data.transaction_id;
+      dispatch(navigateTo('TransactionDetails', { id: transactionId }));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.PAY_MARGIN_CALL, err));
+    }
+  }
+}
+
 /**
  * Pay monthly interest for specific loan
  *
@@ -420,19 +418,13 @@ function checkForLoanAlerts() {
 
     const loanAlerts = []
     allLoans.forEach(l => {
-      // TODO: missing designs
-      // if (l.can_pay_interest) {
-      //   loanAlerts.push({ id: l.id, type: LOAN_ALERTS.INTEREST_ALERT })
-      // }
+      if (l.margin_call_activated) {
+        loanAlerts.push({ id: l.id, type: LOAN_ALERTS.MARGIN_CALL_ALERT })
+      }
 
       if (l.hasInterestPaymentFinished && !l.isPrincipalPaid) {
         loanAlerts.push({ id: l.id, type: LOAN_ALERTS.PRINCIPAL_ALERT })
       }
-
-      // TODO: wait for margin call logic on BE
-      // if (l.margin_call_activated) {
-      //   loanAlerts.push({ id: l.id, type: LOAN_ALERTS.MARGIN_CALL_ALERT })
-      // }
     })
 
     dispatch({

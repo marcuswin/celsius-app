@@ -55,9 +55,10 @@ function getTransactionType(transaction) {
     if (transaction.state === "locked") return TRANSACTION_TYPES.COLLATERAL_LOCKED;
     if (transaction.state === "unlocked") return TRANSACTION_TYPES.COLLATERAL_UNLOCKED;
     if (transaction.state === "liquidated") return TRANSACTION_TYPES.COLLATERAL_LIQUIDATED;
+    if (transaction.state === "confirmed") return TRANSACTION_TYPES.MARGIN_CALL;
   }
 
-  if (transaction.nature === "margin_call") return TRANSACTION_TYPES.MARGIN_CALL;
+  // if (transaction.nature === "margin_call") return TRANSACTION_TYPES.MARGIN_CALL;
   if (transaction.nature === "pending_interest") return TRANSACTION_TYPES.PENDING_INTEREST;
 
 

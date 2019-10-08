@@ -6,29 +6,14 @@ import store from "../redux/store";
 
 const loanUtil = {
   mapLoan,
-  mapMarginCall
 };
-
-function mapMarginCall(marginCall) {
-  if (!marginCall) return
-
-  const newMarginCall = { ...marginCall }
-  newMarginCall.allCoins = {}
-  const walletSummary = store.getState().wallet.summary
-  const  currenciesRates = store.getState().currencies.rates
-  walletSummary.coins.forEach(coin => {
-    const currenciesRateForCoin = currenciesRates.find((currenciesRate) => currenciesRate.short === coin.short).market_quotes_usd.price
-    newMarginCall.allCoins[coin.short] = marginCall.margin_call_usd_amount / currenciesRateForCoin
-  })
-  return newMarginCall;
-}
 
 function mapLoan(loan) {
   const newLoan = { ...loan };
   newLoan.uiProps = getLoanStatusDetails(loan);
   newLoan.uiSections = getLoanSections(loan);
   newLoan.amortization_table = flagPaidPayments(loan);
-  newLoan.margin_call = mapMarginCall(newLoan.margin_call)
+  newLoan.margin_call = getMarginCallParams(loan)
 
   if (newLoan.id) {
     // NOTE should probably be removed or updated once BE is done
@@ -185,6 +170,20 @@ function isPrincipalPaid(loan) {
     .find(row => row.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK)
 
   return principalPayment.isPaid
+}
+
+function getMarginCallParams(loan) {
+  if (!loan.margin_call_activated) return;
+
+  const walletSummary = store.getState().wallet.summary;
+  const hasEnoughOriginalCoin = !!walletSummary.coins.find(coin => coin.short === loan.margin_call.collateral_coin && Number(coin.amount) >= Number(loan.margin_call.margin_call_amount));
+  const hasEnoughOtherCoins = !!walletSummary.coins.find(coin => Number(loan.margin_call.margin_call_amount) <= Number(coin.amount));
+
+ return {
+    ...loan.margin_call,
+    hasEnoughOriginalCoin,
+    hasEnoughOtherCoins
+  }
 }
 
 export default loanUtil

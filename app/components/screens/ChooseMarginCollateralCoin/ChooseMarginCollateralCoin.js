@@ -16,8 +16,6 @@ import {COIN_CARD_TYPE} from "../../../constants/UI";
   state => ({
     coins: state.compliance.loan.collateral_coins,
     walletCoins: state.wallet.summary.coins,
-    formData: state.forms.formData,
-    marginCalls: state.loans.marginCalls
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -30,20 +28,19 @@ class ChooseMarginCollateralCoin extends Component {
     right: "profile"
   });
 
-  handleSelectCoin = (coin, amount) => {
+  handleSelectCoin = async (coin) => {
     const { actions, navigation } = this.props;
-    const marginCall = navigation.getParam("marginCall");
-    actions.lockMarginCollateral(marginCall.id, {
-      coin,
-      amount_collateral_crypto: amount,
-      amount_collateral_usd: marginCall.margin_call_usd_amount
-    });
-    actions.navigateTo("BorrowLanding");
+    const loan = navigation.getParam("loan");
+
+    actions.navigateTo('VerifyProfile', {
+      onSuccess: () => actions.lockMarginCallCollateral(loan.id, coin)
+    })
   };
 
   render() {
-    const { actions, coins, walletCoins, marginCalls } = this.props;
+    const { actions, coins, walletCoins, navigation } = this.props;
     const style = ChooseMarginCollateralCoinStyle();
+    const loan = navigation.getParam("loan");
 
     const availableCoins = walletCoins
       .filter(coin => coins.includes(coin.short))
@@ -70,14 +67,14 @@ class ChooseMarginCollateralCoin extends Component {
                 handleSelectCoin={this.handleSelectCoin}
                 coin={coin}
                 type={COIN_CARD_TYPE.MARGIN_COLLATERAL_COIN_CARD}
-                isMarginCall
-                marginCall={marginCalls[0]}
+                isMarginCall={loan.margin_call_activated}
+                marginCall={loan.margin_call}
               />
             ))}
           </View>
           <TouchableOpacity
             style={style.addMoreCoinsList}
-            onPress={() => actions.navigateTo("Deposit")}
+            onPress={() => actions.navigateTo("Deposit", { coin: loan.margin_call.collateral_coin, loan, isMarginWarning: true })}
           >
             <Icon fill={"gray"} width="17" height="17" name="CirclePlus" />
             <CelText type="H5" margin={"0 0 0 5"}>

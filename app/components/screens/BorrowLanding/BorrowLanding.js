@@ -43,7 +43,6 @@ const cardWidth = widthPercentageToDP("70%");
       kycStatus: state.user.profile.kyc
         ? state.user.profile.kyc.status
         : KYC_STATUSES.collecting,
-      marginCalls: state.loans.marginCalls,
       eligibleCoins,
       maxAmount,
       loyaltyInfo: state.user.loyaltyInfo,
@@ -196,14 +195,7 @@ class BorrowLanding extends Component {
 
   renderDefaultView() {
     const { xOffset } = this.state;
-    const { actions, allLoans, walletSummary, marginCalls, loyaltyInfo } = this.props;
-
-    let hasEnoughOriginalCoin;
-    let hasEnoughOtherCoins;
-    if (marginCalls[0]) {
-      hasEnoughOriginalCoin = !!walletSummary.coins.find(coin => coin.short === marginCalls[0].collateral_coin && coin.amount >= marginCalls[0].margin_call_amount);
-      hasEnoughOtherCoins = !!walletSummary.coins.find(coin => marginCalls[0].allCoins[coin.short] <= coin.amount);
-    }
+    const { actions, allLoans, loyaltyInfo } = this.props;
 
     return (
       <RegularLayout padding={"20 0 100 0"}>
@@ -235,6 +227,7 @@ class BorrowLanding extends Component {
                   outputRange: [0.3, 1, 0.15],
                   extrapolate: "clamp"
                 });
+
                 return (
                   <Animated.View key={loan.id} style={[this.transitionAnimation(index), { opacity }]}>
                     <LoanOverviewCard
@@ -243,8 +236,6 @@ class BorrowLanding extends Component {
                       length={allLoans.length - 1}
                       navigateTo={actions.navigateTo}
                       actions={actions}
-                      hasOriginalCoin={hasEnoughOriginalCoin}
-                      hasEnoughOtherCoins={hasEnoughOtherCoins}
                       celDiscount={loyaltyInfo.tier.loanInterestBonus}
                     />
                   </Animated.View>

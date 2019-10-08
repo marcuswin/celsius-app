@@ -8,8 +8,7 @@ const loansService = {
   getAllLoans,
   setConfirmLoanInfo,
   cancelLoan,
-  getMarginCalls,
-  lockMarginCollateral,
+  lockMarginCallCollateral,
   updateLoanSettings,
   loanApplyPreviewData,
   getLoanSettings,
@@ -17,7 +16,7 @@ const loansService = {
   payPrincipal,
   payMonthlyInterest,
   getAmortizationTable,
-  sendBankDetailsEmail
+  sendBankDetailsEmail,
 };
 
 /**
@@ -114,37 +113,6 @@ function cancelLoan(id) {
 }
 
 /**
- * Gets all margin calls
- *
- * @returns {Promise}
- */
-async function getMarginCalls() {
-  let marginCalls
-    if(mocks.USE_MOCK_MARGIN_CALLS) {
-      marginCalls = require("../mock-data/margincalls.mock").default
-    } else {
-      const res = await axios.get(`${apiUrl}/loans/margin_calls`)
-      marginCalls = res.data
-    }
-
-   return marginCalls.map(m => loanUtil.mapMarginCall(m))
-}
-
-/**
- * Lock margin call collateral
- *
- * @param {String} marginCallID
- * @param {String} marginCallData.coin
- * @param {String} marginCallData.amount_collateral_usd
- * @param {String} marginCallData.amount_collateral_crypto
- *
- * @returns {Promise}
- */
-function lockMarginCollateral(marginCallID, marginCallData) {
-  return axios.post(`${apiUrl}/loans/margin_calls/${marginCallID}/lock`, marginCallData)
-}
-
-/**
  *
  * Update Loan Settings
  *
@@ -194,6 +162,19 @@ function prepayInterest(numberOfInstallments, coin, id, verification) {
  */
 function payPrincipal(id, verification) {
   return axios.post(`${apiUrl}/loans/${id}/payment/receiving_principal_back`, verification)
+}
+
+/**
+ * @param {Number} id - loan id
+ * @param {string} coin - selected collateral coin
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+ */
+function lockMarginCallCollateral(id, coin,  verification) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/margin_call_collateral`, {
+    ...verification,
+    coin
+  })
 }
 
 /**

@@ -40,7 +40,7 @@ import formatter from "../../../utils/formatter"
       : KYC_STATUSES.collecting,
     depositCompliance: state.compliance.deposit,
     walletSummary: state.wallet.summary,
-    marginCalls: state.loans.marginCalls
+    currencyRatesShort: state.currencies.currencyRatesShort,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -175,17 +175,17 @@ class Deposit extends Component {
     }
   };
 
-  renderMarginCallCard = () => {
-    const { formData, marginCalls, walletSummary, navigation } = this.props
+  renderPayCard = () => {
+    const { formData, walletSummary, navigation, currencyRatesShort } = this.props
     const initialCollateral = navigation.getParam('coin')
+    const loan = navigation.getParam('loan')
     const collateralCoin = formData.selectedCoin || initialCollateral
 
     let collateralMissing
     const collateralObj = walletSummary.coins.find(c => c.short === formData.selectedCoin)
 
-
     if (collateralObj) {
-      collateralMissing = formatter.crypto((marginCalls[0].allCoins[collateralCoin] - collateralObj.amount), collateralCoin)
+      collateralMissing = formatter.crypto(loan.margin_call.margin_call_usd_amount / currencyRatesShort[collateralCoin.toLowerCase()], collateralCoin, {precision: 4})
     }
 
     return (
@@ -343,7 +343,7 @@ class Deposit extends Component {
           navigateTo={actions.navigateTo}
         />
 
-        {navigation.getParam('isMarginWarning') ? this.renderMarginCallCard() : null}
+        {navigation.getParam('isMarginWarning') ? this.renderPayCard() : null}
 
         {address && !isFetchingAddress ? (
           <View style={styles.container}>
