@@ -23,8 +23,8 @@ function getProps(purpose, componentProps) {
       return {
         ...props,
         image: require('../../assets/images/monkey-on-a-laptop-illustration.png'),
-        heading: "Apply For Your First Loan",
-        paragraphs: ["Take out a dollar, crypto or stablecoin loan at the lowest interest rates."],
+        heading: "Apply for a loan",
+        paragraphs: ["Get a USD or stablecoin loan at the best interest rates on the block!"],
         onPress: () => actions.navigateTo("BorrowEnterAmount"),
         button: 'Apply for a loan',
         secondaryOnPress: () => actions.openModal(MODALS.BORROW_CALCULATOR_MODAL),
