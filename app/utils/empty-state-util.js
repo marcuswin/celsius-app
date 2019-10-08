@@ -77,8 +77,8 @@ function getProps(purpose, componentProps) {
     case EMPTY_STATES.NON_VERIFIED_DEPOSIT:
       return {
         ...props,
-        heading: "Start earning interest",
-        paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by verifying your profile."],
+        heading: "You’re missing out on returns!",
+        paragraphs: ["You must verify your identity to deposit coins and earn interest. Complete your profile today and let your coins work for you!"],
         onPress: () => actions.navigateTo("KYCProfileDetails")
       };
 
