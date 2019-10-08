@@ -57,9 +57,9 @@ function initCelsiusApp() {
       dispatch({ type: ACTIONS.APP_INIT_START });
 
       timeout = setTimeout (() => {
-        dispatch(showMessage('info', "Please be patient, this may take a bit longer."));
+        dispatch(showMessage('info', "Hmm… this is taking a bit longer than usual. If your app doesn’t load shortly, try restarting or checking back in a few minutes."));
         clearTimeout(timeout);
-      }, 20000);
+      }, 30000);
       await appUtil.logoutOnEnvChange();
 
       disableAccessibilityFontScaling();
@@ -149,7 +149,7 @@ function handleAppStateChange(nextAppState) {
       }
     }
 
-    // if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") { 
+    // if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
     if (nextAppState.match(/inactive|background/) && appState === "active") { // ONLY FOR DEBUG PURPOSE
       if (onInstallConversionDataCanceller) {
         onInstallConversionDataCanceller();
