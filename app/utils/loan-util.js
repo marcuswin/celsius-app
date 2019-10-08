@@ -175,6 +175,9 @@ function isPrincipalPaid(loan) {
 function getMarginCallParams(loan) {
   if (!loan.margin_call_activated) return;
 
+  // Fix for loans before margin call
+  if (loan.margin_call.margin_call_amount === 'NaN' || loan.margin_call.margin_call_usd_amount === 'NaN') return;
+
   const walletSummary = store.getState().wallet.summary;
   const hasEnoughOriginalCoin = !!walletSummary.coins.find(coin => coin.short === loan.margin_call.collateral_coin && Number(coin.amount) >= Number(loan.margin_call.margin_call_amount));
   const hasEnoughOtherCoins = !!walletSummary.coins.find(coin => Number(loan.margin_call.margin_call_amount) <= Number(coin.amount));
