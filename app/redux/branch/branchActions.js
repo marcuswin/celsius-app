@@ -152,13 +152,13 @@ function registrationPromoCode(onSuccess) {
 
         if(onSuccess) onSuccess()
       } else {
-        throw new Error("That is not a valid referral code.")
+        throw new Error('Uh oh! The referral code you entered is either invalid or can only be redeemed after registration in the "promo code" section of your profile page.')
       }
     } catch (err) {
       dispatch(apiError(API.SUBMIT_PROMO_CODE, err));
       // dispatch(uiActions.showMessage("warning", "Sorry, but this promo code is not valid!"));
       dispatch(formsActions.setFormErrors({
-        promoCode: "That is not a valid referral code."
+        promoCode: 'Uh oh! The referral code you entered is either invalid or can only be redeemed after registration in the "promo code" section of your profile page.'
       }));
     }
   }

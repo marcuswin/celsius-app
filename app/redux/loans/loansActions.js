@@ -437,7 +437,7 @@ function checkForLoanAlerts() {
         loanAlerts.push({ id: l.id, type: LOAN_ALERTS.MARGIN_CALL_ALERT })
       }
 
-      if (l.hasInterestPaymentFinished && !l.isPrincipalPaid) {
+      if (l.hasInterestPaymentFinished && !l.isPrincipalPaid && l.coin_loan_asset !== 'USD') {
         loanAlerts.push({ id: l.id, type: LOAN_ALERTS.PRINCIPAL_ALERT })
       }
     })
