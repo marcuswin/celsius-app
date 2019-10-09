@@ -44,6 +44,7 @@ function initCelsiusApp() {
     try {
       dispatch({ type: ACTIONS.APP_INIT_START });
       await appUtil.logoutOnEnvChange();
+      // dispatch(actions.logoutUser())
 
       disableAccessibilityFontScaling();
       dispatch(getGeolocation());
@@ -176,7 +177,7 @@ function initAppData(initToken = null) {
 
     // get user token
     const token = initToken || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    
+
     // fetch user
     if (token) await dispatch(actions.getProfileInfo());
 
@@ -202,7 +203,8 @@ function initAppData(initToken = null) {
 
         // get wallet details for verified users
         if (profile.kyc && hasPassedKYC()) {
-          await dispatch(actions.getWalletSummary());
+          await dispatch(actions.getWalletSummary())
+
         }
       }
     } else if (token) {

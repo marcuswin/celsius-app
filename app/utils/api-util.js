@@ -99,7 +99,7 @@ function initInterceptors () {
       }
 
       /* eslint-disable no-underscore-dangle */
-      logger.log({ [req.method.toUpperCase()]: newRequest })
+      // console.log({ [req.method.toUpperCase()]: newRequest })
       /* eslint-enable no-underscore-dangle */
 
       return newRequest
@@ -114,7 +114,7 @@ function initInterceptors () {
 
       if (verifyKey(data, sign)) {
         /* eslint-disable no-underscore-dangle */
-        logger.log({ RESPONSE: res })
+        // console.log({ RESPONSE: res })
         /* eslint-enable no-underscore-dangle */
 
         return res
@@ -126,7 +126,7 @@ function initInterceptors () {
       }
 
       /* eslint-disable no-underscore-dangle */
-      logger.log({ API_ERROR: err })
+      // console.log({ API_ERROR: err })
       /* eslint-enable no-underscore-dangle */
 
       return Promise.reject(err)
@@ -177,7 +177,7 @@ function initInterceptors () {
       }
 
       /* eslint-disable no-underscore-dangle */
-      logger.log({ API_ERROR: err })
+      // console.log({ API_ERROR: err })
       /* eslint-enable no-underscore-dangle */
 
       return Promise.reject(err)
