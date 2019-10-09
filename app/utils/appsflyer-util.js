@@ -162,19 +162,27 @@ async function celpayCompleted(celPayTransfer) {
  * Fires an event when a user applies for a loan
  *
  * @param {object} loanData
+ * @param {object} loanData.loan
+ * @param {uuid} loanData.transaction_id
  */
-async function loanApplied(loanData) {
+async function loanApplied({ loan, transaction_id: transactionId }) {
   await appsFlyerEvent("ADD_TO_CART", {
-    revenue: Number(loanData.loan_amount),
+    transaction_id: transactionId,
+    id: loan.id,
+    type: loan.type,
+    revenue: Number(loan.loan_amount),
     currency: "USD",
-    coin: loanData.coin,
-    amount_usd: loanData.amount_collateral_usd.toString(),
-    amount_crypto: loanData.amount_collateral_crypto.toString(),
-    ltv: loanData.ltv.toString(),
-    interest: loanData.interest.toString(),
-    monthly_payment: loanData.monthly_payment.toString(),
-    id: loanData.id,
-    action: "Applied for loan"
+    coin: loan.coin,
+    amount_usd: loan.amount_collateral_usd.toString(),
+    amount_crypto: loan.amount_collateral_crypto.toString(),
+    ltv: loan.ltv.toString(),
+    interest: loan.interest.toString(),
+    monthly_payment: loan.monthly_payment.toString(),
+    action: "Applied for loan",
+    originating_date: loan.originating_date,
+    collateral_usd_rate: loan.collateral_usd_rate,
+    term_of_loan: loan.term_of_loan,
+    total_interest: loan.total_interest
   });
 }
 

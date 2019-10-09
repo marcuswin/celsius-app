@@ -12,6 +12,7 @@ import { KYC_STATUSES } from "../../constants/DATA";
 import appsFlyerUtil from "../../utils/appsflyer-util";
 import complianceService from "../../services/compliance-service";
 import { getUserKYCStatus, isUserLoggedIn } from "../../utils/user-util"
+import userBehaviorUtil from '../../utils/user-behavior-util';
 
 
 export {
@@ -304,6 +305,7 @@ function verifyKYCDocs() {
       dispatch(showMessage('success', 'KYC verification proccess has started!'));
 
       appsFlyerUtil.kycStarted()
+      userBehaviorUtil.kycStarted()
     } catch (err) {
       clearTimeout(timeout);
       logger.err({ err });
