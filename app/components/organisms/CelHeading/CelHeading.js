@@ -73,6 +73,7 @@ class CelHeading extends Component {
   getRightContent = (sceneProps) => {
     const { right, onInfo } = sceneProps;
     const { profilePicture, formData, actions } = this.props;
+    const scene = this.props.scene.descriptor
 
     const rightType = formData.activeSearch ? "cancel" : right;
     const style = CelHeadingStyle()
@@ -112,7 +113,7 @@ class CelHeading extends Component {
       ,
       "logout": <CelButton basic onPress={() => this.props.actions.logoutUser()}>Logout</CelButton>,
       "close": <CelButton basic onPress={() => { this.props.actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
-      "cancel": <CelButton basic onPress={() => { actions.updateFormField('activeSearch', false); this.props.actions.updateFormField('search', "") }}>Cancel</CelButton>,
+      "cancel": scene.state.routeName !== 'VerifyProfile' && <CelButton basic onPress={() => { actions.updateFormField('activeSearch', false); this.props.actions.updateFormField('search', "") }}>Cancel</CelButton>,
     }[rightType];
   }
 
@@ -162,9 +163,17 @@ class CelHeading extends Component {
       <View style={[style.content, paddings]}>
         <View style={leftStyle}>
           {this.getLeftContent(scene.options)}
-          {formData.activeSearch && (
+          {formData.activeSearch && scene.state.routeName !== 'VerifyProfile' && (
             <View style={[{ width: '100%', justifyContent: 'center', paddingTop: 20, alignSelf: 'center', marginLeft: 12 }]}>
-              <CelInput debounce autoFocus={formData.activeSearch} basic margin="0 0 0 0" field="search" placeholder={scene.state.routeName === 'SelectCoin' ? "Select a coin" : "Dialing code, country…"} type='text' value={this.props.formData.search} />
+              <CelInput
+                debounce
+                autoFocus={formData.activeSearch}
+                basic
+                margin="0 0 0 0"
+                field="search"
+                placeholder={scene.state.routeName === 'SelectCoin' ? "Select a coin" : "Dialing code, country…"}
+                type='text'
+                value={this.props.formData.search} />
             </View>
           )}
         </View>
