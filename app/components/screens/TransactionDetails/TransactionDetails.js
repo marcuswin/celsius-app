@@ -194,6 +194,7 @@ class TransactionDetails extends Component {
         return <MarginCallCard key={sectionType} />;
       case "change:payment:card":
         return (
+          transaction.coin !== 'cel' &&
           <ChangePaymentCard
             key={sectionType}
             heading={`You would have saved ${ formatter.percentageDisplay(loyaltyInfo.tier.loanInterestBonus) } if you paid your interest in CEL. Please go to Loan Setting to change your payment method.`}
