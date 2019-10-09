@@ -251,6 +251,7 @@ class CelModal extends Component {
 
     if (modalType === 'withdraw') scrollWrapper = style.contentWrapperWithdraw
     else if (modalType === 'deposit') scrollWrapper = style.contentWrapperDeposit
+    else if (modalType === 'celPay') scrollWrapper = style.contentWrapperCelPay
     else scrollWrapper = style.contentWrapper
 
     let size

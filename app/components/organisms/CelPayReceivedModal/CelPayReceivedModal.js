@@ -20,6 +20,7 @@ const CelPayReceivedModal = ({
     <CelModal
       name={MODALS.CELPAY_RECEIVED_MODAL}
       picture={require('../../../../assets/images/frenchy.png')}
+      modalType={'celPay'}
     >
       <CelText type="H2" align="center" weight='bold' margin="5 0 15 0">Congrats!</CelText>
 

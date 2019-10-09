@@ -48,6 +48,13 @@ const base = {
     paddingLeft: 20,
     marginBottom: 20
   },
+  contentWrapperCelPay: {
+    marginTop: 100,
+    paddingRight: 20,
+    paddingLeft: 20,
+    marginBottom: 20,
+    paddingTop: 40
+  },
   contentWrapperWithdraw: {
     height: width * 0.8,
     marginTop: 100,
@@ -56,7 +63,7 @@ const base = {
     marginBottom: 20
   },
   contentWrapperDeposit: {
-    height: width * 0.7,
+    height: width * 0.75,
     marginTop: 100,
     paddingRight: 20,
     paddingLeft: 20,
