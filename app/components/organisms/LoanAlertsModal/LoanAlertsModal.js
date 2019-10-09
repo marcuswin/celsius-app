@@ -63,20 +63,11 @@ class LoanAlertsModal extends React.Component {
     actions.closeModal()
   }
 
-  useOtherCoinForMarginCall = () => {
+  depositCoin = () => {
     const { actions } = this.props
     const { loan } = this.state
-
-    actions.closeModal()
-    actions.navigateTo('ChooseMarginCollateralCoin', { loan })
-  }
-
-  depositCoin = () => () => {
-    const { actions } = this.props
-    const { loan } = this.state
-
-    actions.closeModal();
     actions.navigateTo('Deposit', { coin: loan.margin_call.collateral_coin, loan, isMarginWarning: true })
+    actions.closeModal();
   }
 
   renderPrincipalPaymentAlert = () => {
@@ -98,28 +89,21 @@ class LoanAlertsModal extends React.Component {
 
   renderMarginCallCollateralAlert = () => {
     const { loan } = this.state;
-    let copy; let yesCopy; let onYes; let noCopy; let onNo;
+    let copy; let yesCopy; let onYes;
 
-    if (loan.margin_call.hasEnoughOriginalCoin) {
+    if (loan.margin_call && loan.margin_call.hasEnoughOriginalCoin) {
       copy = `The value of your collateral has dropped significantly. To match the value with the current
-              market prices, we will need to lock an additional ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)} from your wallet balance. You can also deposit more funds or choose other coins from your wallet.`
+              market prices, we will need to lock an additional ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)} from your wallet balance. You can also deposit more funds from your wallet.`
       yesCopy = `Lock ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)}`
       onYes = this.lockAdditionalCollateral
-      noCopy = `Use other coins`
-      onNo = this.useOtherCoinForMarginCall
     }
 
-    if (!loan.margin_call.hasEnoughOriginalCoin && loan.margin_call.hasEnoughOtherCoins) {
-      copy = `The value of your collateral dropped significantly. To match the value with the market prices please choose a coin from your wallet with enough balance, or deposit more coins.`
-      yesCopy = `Choose a coin`
-      onYes = this.useOtherCoinForMarginCall
-    }
-
-    if (!loan.margin_call.hasEnoughOriginalCoin && !loan.margin_call.hasEnoughOtherCoins) {
+    if (loan.margin_call && !loan.margin_call.hasEnoughOriginalCoin && loan.margin_call.hasEnoughOtherCoins) {
       copy = `The value of your collateral dropped significantly. To match the value with the market prices please deposit enough coins to use as collateral.`
       yesCopy = `Deposit coins`
-      onYes = () => this.depositCoin
+      onYes = this.depositCoin
     }
+
 
     return (
       <InfoModal
@@ -129,8 +113,6 @@ class LoanAlertsModal extends React.Component {
         paragraphs={[copy]}
         yesCopy={yesCopy}
         onYes={onYes}
-        noCopy={noCopy}
-        onNo={onNo}
       />
     )
   };

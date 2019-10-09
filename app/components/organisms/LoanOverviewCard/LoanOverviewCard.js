@@ -75,16 +75,9 @@ class LoanOverviewCard extends Component {
     this.setState({ isLoading: false });
   }
 
-  useOtherCoinForMarginCall = () => {
-    const { actions, loan } = this.props
-    actions.closeModal()
-    actions.navigateTo('ChooseMarginCollateralCoin', { loan })
-  }
-
-  depositCoin = () => () => {
+  depositCoin = () => {
     const { actions, loan } = this.props
     actions.navigateTo('Deposit', { coin: loan.margin_call.collateral_coin, loan, isMarginWarning: true })
-    actions.closeModal();
   }
 
   render() {
@@ -150,22 +143,16 @@ class LoanOverviewCard extends Component {
           <Card styles={{ alignSelf: "center" }} size={"twoThirds"} color={STYLES.COLORS.RED}>
             <CelText weight={"500"} type={"H5"} color={STYLES.COLORS.WHITE}>Margin Call Warning</CelText>
             <CelText weight={"300"} type={"H6"} color={STYLES.COLORS.WHITE}
-                     margin={"10 0 0 0"}>{`The value of your collateral has dropped significantly. To match the value with the current market prices, we will need to lock an additional ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)} from your wallet balance. You can also deposit more funds or choose other coins from your wallet.`}</CelText>
-            {loan.margin_call.hasEnoughOriginalCoin &&
+                     margin={"10 0 0 0"}>{`The value of your collateral has dropped significantly. To match the value with the current market prices, we will need to lock an additional ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)} from your wallet balance. You can also deposit more funds from your wallet.`}</CelText>
+            {loan.margin_call && loan.margin_call.hasEnoughOriginalCoin &&
             <View>
               <CelButton onPress={this.lockMarginCollateral} size={"small"} margin={"10 0 10 0"}
                          textColor={STYLES.COLORS.RED} basic color={"red"}>{`Approve ${loan.margin_call.collateral_coin} Lock`}</CelButton>
-              <CelButton onPress={this.useOtherCoinForMarginCall} size={"small"}
-                         textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
             </View>
             }
-            {!loan.margin_call.hasEnoughOriginalCoin && loan.margin_call.hasEnoughOtherCoins &&
-            <CelButton onPress={this.useOtherCoinForMarginCall} size={"small"}
-                       textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
-            }
-            {!loan.margin_call.hasEnoughOriginalCoin && !loan.margin_call.hasEnoughOtherCoins &&
-            <CelButton onPress={this.depositCoin} size={"small"} margin={"10 0 10 0"}
-                       textColor={STYLES.COLORS.RED} basic color={"red"}>Deposit Coins</CelButton>
+            {loan.margin_call && !loan.margin_call.hasEnoughOriginalCoin && loan.margin_call.hasEnoughOtherCoins &&
+            <CelButton onPress={this.depositCoin} size={"small"}
+                       textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Deposit coins</CelButton>
             }
           </Card>
           }
