@@ -7,6 +7,8 @@ import loansService from "../../services/loans-service";
 import formatter from "../../utils/formatter";
 import loanUtil from "../../utils/loan-util";
 import { MODALS } from "../../constants/UI";
+import userBehaviorUtil from '../../utils/user-behavior-util';
+import appsFlyerUtil from '../../utils/appsflyer-util';
 
 export {
   applyForALoan,
@@ -71,7 +73,8 @@ function applyForALoan() {
         dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL))
       }
 
-      // analytics.loanApplied(res.data);
+      appsFlyerUtil.loanApplied(res.data);
+      userBehaviorUtil.loanApplied(res.data)
     } catch (err) {
       dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));
@@ -434,7 +437,7 @@ function checkForLoanAlerts() {
         loanAlerts.push({ id: l.id, type: LOAN_ALERTS.MARGIN_CALL_ALERT })
       }
 
-      if (l.hasInterestPaymentFinished && !l.isPrincipalPaid) {
+      if (l.hasInterestPaymentFinished && !l.isPrincipalPaid && l.coin_loan_asset !== 'USD') {
         loanAlerts.push({ id: l.id, type: LOAN_ALERTS.PRINCIPAL_ALERT })
       }
     })

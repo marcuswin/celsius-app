@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-
+import { countries } from "country-data";
 
 import * as appActions from "../../../redux/actions";
-// import EnterPhoneStyle from "./EnterPhone.styles";
 import CelText from '../../atoms/CelText/CelText';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 import CelInput from '../../atoms/CelInput/CelInput';
@@ -25,6 +24,11 @@ class CellphoneEnter extends Component {
       customCenterComponent: <ProgressBar steps={5} currentStep={2}/>
     }
   );
+
+  componentDidMount() {
+    const { actions } = this.props
+    actions.updateFormField('cellphone', countries.US)
+  }
 
   updateCellphoneNumber = async (phone) => {
     const {actions, formData, user} = this.props;

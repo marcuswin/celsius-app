@@ -181,27 +181,36 @@ class CelSelect extends Component {
       );
     }
 
+    const countryInput = type === 'country' && showCountryFlag && this.state.value && this.state.value.alpha2
+
     return (
       <TouchableOpacity
         onPress={onPress}
-        style={[inputStyle, {flexDirection: 'row', alignItems: 'center'}]}
+        style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}
       >
-        {type === 'country' && showCountryFlag && this.state.value && this.state.value.alpha2 ?
-          this.renderImage([cmpStyle.flagImage, {marginRight: 5}], this.state.value.alpha2)
+        {countryInput ?
+          this.renderImage([cmpStyle.flagImage, { marginRight: 5 }], this.state.value.alpha2)
           : null
         }
-        <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-        <CelText
+        <View style={{ flexDirection: "row"}}>
+          <CelText
             type="H4"
             color={textColor}
 
-        >
-          {value ? (value.label || value.name) : labelText}</CelText>
-        {!disabled &&
-          <View style={cmpStyle.iconRight}>
-            <Icon name='CaretDown' height='9' width='15' fill={iconColor} />
-          </View>
-        }
+          >
+            {value ? (value.label || value.name) : labelText}</CelText>
+          {!disabled &&
+            <View style={{
+              flex: 1,
+              marginTop: countryInput ? 9 : 2,
+              position: countryInput ? 'absolute' : 'relative',
+              marginLeft: countryInput ? 253 : 0,
+              justifyContent: 'center',
+              alignItems: countryInput ? 'center' : 'flex-end',
+            }}>
+              <Icon name='CaretDown' height='9' width='15' fill={iconColor} />
+            </View>
+          }
         </View>
       </TouchableOpacity>
     );
@@ -213,7 +222,7 @@ class CelSelect extends Component {
     const { type, flex, disabled, onChange, error, style } = this.props;
     const { items, value } = this.state;
 
-   return (
+    return (
       <View style={[flex ? { flex } : {}, style]}>
         {type !== 'country' && type !== 'phone' ?
           <RNPickerSelect

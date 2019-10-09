@@ -10,7 +10,12 @@ const userBehaviorUtil = {
   buttonPressed,
   navigated,
   sessionStarted,
-  sessionEnded
+  sessionEnded,
+  registrationCompleted,
+  kycStarted,
+  withdrawCompleted,
+  celpayCompleted,
+  loanApplied
 };
 
 let userData = {};
@@ -105,6 +110,103 @@ function sessionStarted() {
 function sessionEnded() {
   userData = {};
   sendEvent("Session ended");
+}
+
+/**
+ * Fires an event when a users completes the registration process (sets PIN number)
+ *
+ * @param {object} user
+ * @param {object} user.facebook_id - indicates user registered through facebook
+ * @param {object} user.google_id - indicates user registered through google
+ * @param {object} user.twitter_id - indicates user registered through twitter
+ * @param {object} user.id
+ * @param {object} user.referral_link_id - id of the person who referred the user
+ */
+async function registrationCompleted(user) {
+  let method = "email";
+  if (user.facebook_id) method = "facebook";
+  if (user.google_id) method = "google";
+  if (user.twitter_id) method = "twitter";
+
+  await sendEvent("Registration completed", {
+    method,
+    referral_link_id: user.referral_link_id
+  });
+}
+
+/**
+ * Fires an event when a user starts KYC verification
+ */
+async function kycStarted() {
+  await sendEvent("KYC verification started");
+}
+
+/**
+ * Fires an event when a user finishes a withdrawal
+ *
+ * @param {object} withdrawTransaction
+ */
+async function withdrawCompleted(withdrawTransaction) {
+  const { currencyRatesShort } = store.getState().currencies;
+  const amountUsd =
+    withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin];
+
+  await sendEvent("Withdrawal completed", {
+    id: withdrawTransaction.id,
+    coin: withdrawTransaction.coin,
+    amount_crypto: withdrawTransaction.amount.toString(),
+    amount_usd: amountUsd.toString()
+  });
+}
+
+/**
+ * Fires an event when a user finishes a CelPay
+ *
+ * @param {object} celPayTransfer
+ * @param {string} celPayTransfer.amount
+ * @param {string} celPayTransfer.coin - eg. BTC|ETH
+ * @param {uuid} celPayTransfer.id
+ * @param {uuid} friendId
+ */
+async function celpayCompleted(celPayTransfer, friendId) {
+  const { currencyRatesShort } = store.getState().currencies;
+
+  const amountUsd =
+    celPayTransfer.amount *
+    currencyRatesShort[celPayTransfer.coin.toLowerCase()];
+
+  await sendEvent("CelPay completed", {
+    id: celPayTransfer.id,
+    coin: celPayTransfer.coin,
+    amount_crypto: celPayTransfer.amount.toString(),
+    amount_usd: amountUsd.toString(),
+    friendId
+  });
+}
+
+/**
+ * Fires an event when a user applies for a loan
+ *
+ * @param {object} loanData
+ * @param {object} loanData.loan
+ * @param {uuid} loanData.transaction_id
+ */
+async function loanApplied({ loan, transaction_id: transactionId }) {
+  await sendEvent("Loan applied", {
+    transactionId,
+    id: loan.id,
+    type: loan.type,
+    coin: loan.coin,
+    amount_crypto: loan.amount_collateral_crypto.toString(),
+    amount_usd: loan.amount_collateral_usd.toString(),
+    ltv: loan.ltv.toString(),
+    interest: loan.interest.toString(),
+    total_interest: loan.total_interest,
+    monthly_payment: loan.monthly_payment.toString(),
+    term_of_loan: loan.term_of_loan,
+    originating_date: loan.originating_date,
+    collateral_usd_rate: loan.collateral_usd_rate
+  });
 }
 
 export default userBehaviorUtil;

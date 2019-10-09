@@ -11,6 +11,7 @@ import celUtilityUtil from '../../utils/cel-utility-util'
 import { getWalletSummary } from "../wallet/walletActions";
 import { TRANSACTION_TYPES } from "../../constants/DATA";
 import mockTransactions from "../../mock-data/transactions.mock"
+import userBehaviorUtil from '../../utils/user-behavior-util';
 
 export {
   getAllTransactions,
@@ -133,6 +134,7 @@ function withdrawCrypto () {
       dispatch(clearForm())
 
       appsFlyerUtil.withdrawCompleted(res.data.transaction)
+      userBehaviorUtil.withdrawCompleted(res.data.transaction)
     } catch (err) {
       dispatch(showMessage('error', err.msg))
       dispatch(apiError(API.WITHDRAW_CRYPTO, err))

@@ -264,6 +264,7 @@ function setPin () {
       dispatch({ type: ACTIONS.CLEAR_FORM })
 
       appsFlyerUtil.registrationCompleted(user)
+      userBehaviorUtil.registrationCompleted(user)
       return true
     } catch (err) {
       dispatch(showMessage('error', err.msg))

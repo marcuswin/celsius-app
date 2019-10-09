@@ -87,7 +87,7 @@ class PrincipalPaymentType extends Component {
               Make sure you have enough coins
             </CelText>
             <CelText type='H5' margin={'0 0 0 5'}>
-              Add more coins to make sure you have enough in your wallet for your monthly interest payment.
+              Add more coins to make sure you have enough in your wallet for your principal payment.
             </CelText>
           </Card>
         </RegularLayout>

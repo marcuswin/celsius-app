@@ -112,9 +112,9 @@ class Profile extends Component {
                 resizeMethod="resize"
               />
             )}
-          <View style={{ marginLeft: 20 }}>
-            <CelText weight="600" type="H2">{user.first_name}</CelText>
-            <CelText weight="600" type="H2">{user.last_name}</CelText>
+          <View style={{ marginLeft: 20, flex: 1 }}>
+            <CelText weight="600" type="H3">{user.first_name}</CelText>
+            <CelText weight="600" type="H3">{user.last_name}</CelText>
             <TouchableOpacity onPress={() => actions.navigateTo("ChangeAvatar")}>
               <CelText color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">Change photo</CelText>
             </TouchableOpacity>
