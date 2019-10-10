@@ -63,6 +63,9 @@ class BorrowBankAccount extends Component {
     const { actions, formData } = this.props;
     const isAmerican = this.isAmerican();
 
+    const hasErrors = this.validateBankInfo()
+    if (hasErrors) return
+
     const bankAccountInfo = {
       bank_name: formData.bank_name,
       bank_routing_number: formData.bank_routing_number,
@@ -86,9 +89,36 @@ class BorrowBankAccount extends Component {
 
     this.setState({ isLoading: true });
     await actions.linkBankAccount(bankAccountInfo);
-    actions.navigateTo('ConfirmYourLoan')
     this.setState({ isLoading: false });
   };
+
+  validateBankInfo = () => {
+    const { formData, actions } = this.props
+    const formErrors = {}
+
+    if (!formData.bank_name) formErrors.bank_name = 'Field is required!'
+    if (!formData.bank_routing_number) formErrors.bank_routing_number = 'Field is required!'
+    if (!formData.selectedAccountType) formErrors.selectedAccountType = 'Field is required!'
+    if (!formData.bank_city) formErrors.bank_city = 'Field is required!'
+    if (!formData.bank_street_and_number) formErrors.bank_street_and_number = 'Field is required!'
+    if (!formData.bank_zip) formErrors.bank_zip = 'Field is required!'
+    if (!formData.bank_account_number) formErrors.bank_account_number = 'Field is required!'
+    if (!formData.swift) formErrors.swift = 'Field is required!'
+    if (!formData.iban) formErrors.iban = 'Field is required!'
+    if (!formData.bank_location.name) formErrors.bank_location = 'Field is required!'
+
+    if (this.isAmerican()) {
+      delete formErrors.swift;
+      delete formErrors.iban;
+    } else {
+      delete formErrors.bank_account_number;
+      delete formErrors.bank_routing_number;
+    }
+
+    actions.setFormErrors(formErrors)
+
+    return Object.keys(formErrors).length
+  }
 
   isAmerican = () => {
     const { formData } = this.props;
