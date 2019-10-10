@@ -475,8 +475,8 @@ export const UnlockReason = ({ transaction }) => {
 export const MarginCallCard = () => (
   <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
     <Card>
-      <CelText type="H5" weight="500" margin={"10 0 10 0"}>Margin Call Liquidation</CelText>
-      <CelText type="H6" style={{ opacity: 0.7 }} margin={"0 0 10 0"}>Your collateral was liquidated due to the latest Margin Call outbreak.</CelText>
+      <CelText type="H5" weight="500" margin={"10 0 10 0"}>Collateral Liquidation</CelText>
+      <CelText type="H6" style={{ opacity: 0.7 }} margin={"0 0 10 0"}>Additional collateral was locked due to the latest margin call outbreak.</CelText>
     </Card>
   </View>
 )
