@@ -14,13 +14,18 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 import CelInput from "../../atoms/CelInput/CelInput";
 import SocialSecurityNumber from "../../molecules/SocialSecurityNumber/SocialSecurityNumber";
+import { KYC_STATUSES } from "../../../constants/DATA";
+import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger";
 
 @connect(
   state => ({
     user: state.user.profile,
     profilePicture: state.user.profile.profile_picture,
     formData: state.forms.formData,
-    formErrors: state.forms.formErrors
+    formErrors: state.forms.formErrors,
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -76,14 +81,15 @@ class PersonalInformation extends Component {
   };
 
   render() {
-    const { user, actions, formErrors } = this.props;
+    const { user, actions, formErrors, kycStatus } = this.props;
     const { updatingTaxInfo } = this.state;
     const style = PersonalInformationStyle();
     const dateOfBirth = user.date_of_birth ? user.date_of_birth.split("-") : {};
     const userSetCountry = user.country !== null
-    
+
     return (
       <RegularLayout>
+        <KYCandPromotionsTrigger actions={actions} kycType={kycStatus}/>
         <CelText margin={"0 0 20 0"} align={"center"} weight={"300"} type={"H4"}>
           To make changes on your personal information
           <CelText weight={"300"} type={"H4"} color={STYLES.COLORS.CELSIUS_BLUE}

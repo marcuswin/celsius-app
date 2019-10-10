@@ -14,7 +14,7 @@ import CelText from '../../atoms/CelText/CelText';
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { hasPassedKYC } from "../../../utils/user-util";
 import appUtil from '../../../utils/app-util';
-
+import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger";
 
 @connect(
   (state) => ({
@@ -56,22 +56,24 @@ class Settings extends Component {
 
     const { revisionId } = this.state
     return (
-      <View>
-        <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>
-        { hasPassedKYC() && <IconButton onPress={() => actions.navigateTo("WalletSettings")} margin="0 0 20 0" icon="WalletSettings">Wallet</IconButton> }
-        { hasPassedKYC() && <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton> }
-        <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton>
-        <CelButton basic onPress={() => {actions.navigateTo('TermsOfUse')}} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
-        <CelText margin="30 0 0 0" weight="light" align='center' type="H7">Celsius App version: { revisionId }</CelText>
-      </View>
+          <View>
+            <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>
+            { hasPassedKYC() && <IconButton onPress={() => actions.navigateTo("WalletSettings")} margin="0 0 20 0" icon="WalletSettings">Wallet</IconButton> }
+            { hasPassedKYC() && <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton> }
+            <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton>
+            <CelButton basic onPress={() => {actions.navigateTo('TermsOfUse')}} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
+            <CelText margin="30 0 0 0" weight="light" align='center' type="H7">Celsius App version: { revisionId }</CelText>
+          </View>
     )
   }
 
   render() {
+    const { actions, kycStatus } = this.props;
     const Content = this.renderContent
 
     return (
       <RegularLayout>
+        <KYCandPromotionsTrigger actions={actions} kycType={kycStatus}/>
         <Content />
       </RegularLayout>
     );

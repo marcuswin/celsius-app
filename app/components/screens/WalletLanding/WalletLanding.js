@@ -22,6 +22,7 @@ import ComingSoonCoins from "../../molecules/ComingSoonCoins/ComingSoonCoins";
 import CoinCards from "../../organisms/CoinCards/CoinCards";
 import WalletLandingStyle from "./WalletLanding.styles";
 import LoanAlertsModal from "../../organisms/LoanAlertsModal/LoanAlertsModal";
+import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger";
 
 let counter = 0;
 
@@ -173,7 +174,7 @@ class WalletLanding extends Component {
 
   render() {
     const { activeView } = this.state;
-    const { actions, walletSummary, currenciesRates, currenciesGraphs, user, branchTransfer, depositCompliance } = this.props;
+    const { actions, walletSummary, currenciesRates, currenciesGraphs, user, branchTransfer, depositCompliance, kycStatus } = this.props;
     const style = WalletLandingStyle();
 
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) {
@@ -182,6 +183,7 @@ class WalletLanding extends Component {
 
     return (
       <RegularLayout>
+        <KYCandPromotionsTrigger actions={actions} kycType={kycStatus}/>
         <View>
           <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
           <WalletDetailsCard

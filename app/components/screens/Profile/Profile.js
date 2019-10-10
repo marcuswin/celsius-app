@@ -17,13 +17,18 @@ import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/Regis
 import CelButton from "../../atoms/CelButton/CelButton";
 import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
 import appUtil from "../../../utils/app-util";
+import { KYC_STATUSES } from "../../../constants/DATA";
+import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger";
 
 @connect(
   state => ({
     user: state.user.profile,
     profilePicture: state.user.profile.profile_picture,
     formData: state.forms.formData,
-    formErrors: state.forms.formErrors
+    formErrors: state.forms.formErrors,
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -87,63 +92,66 @@ class Profile extends Component {
   };
 
   render() {
-    const { profilePicture, user, actions } = this.props;
+    const { profilePicture, user, actions, kycStatus } = this.props;
     const { revisionId } = this.state
 
     return (
       <RegularLayout>
+        <KYCandPromotionsTrigger actions={actions} kycType={kycStatus}/>
         <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
 
-        <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-          {profilePicture ? (
-            <Image
-              style={{
-                width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
-              }}
-              uri={profilePicture}
-              resizeMethod="resize"
-            />
-          ) : (
-              <RNImage
-                style={{
-                  width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
-                }}
-                source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-                resizeMethod="resize"
-              />
-            )}
-          <View style={{ marginLeft: 20, flex: 1 }}>
-            <CelText weight="600" type="H3">{user.first_name}</CelText>
-            <CelText weight="600" type="H3">{user.last_name}</CelText>
-            <TouchableOpacity onPress={() => actions.navigateTo("ChangeAvatar")}>
-              <CelText color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">Change photo</CelText>
-            </TouchableOpacity>
-          </View>
-        </View>
+       <View>
+         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+           {profilePicture ? (
+             <Image
+               style={{
+                 width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
+               }}
+               uri={profilePicture}
+               resizeMethod="resize"
+             />
+           ) : (
+             <RNImage
+               style={{
+                 width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
+               }}
+               source={require("../../../../assets/images/empty-profile/empty-profile.png")}
+               resizeMethod="resize"
+             />
+           )}
+           <View style={{ marginLeft: 20 }}>
+             <CelText weight="600" type="H2">{user.first_name}</CelText>
+             <CelText weight="600" type="H2">{user.last_name}</CelText>
+             <TouchableOpacity onPress={() => actions.navigateTo("ChangeAvatar")}>
+               <CelText color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">Change photo</CelText>
+             </TouchableOpacity>
+           </View>
+         </View>
 
-        <IconButton onPress={this.openReferralSendModal} icon="Refer" color="blue">Refer your friends</IconButton>
-        <IconButton
-          onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
-          margin="0 0 20 0"
-          icon="Present"
-        >
-          Enter a promo code
-        </IconButton>
+         <IconButton onPress={this.openReferralSendModal} icon="Refer" color="blue">Refer your friends</IconButton>
+         <IconButton
+           onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
+           margin="0 0 20 0"
+           icon="Present"
+         >
+           Enter a promo code
+         </IconButton>
 
-        <Separator />
+         <Separator />
 
-        <IconButton icon={"Couple"} onPress={() => actions.navigateTo("PersonalInformation")}>Personal Information</IconButton>
+         <IconButton icon={"Couple"} onPress={() => actions.navigateTo("PersonalInformation")}>Personal Information</IconButton>
 
-        <CelButton
-          onPress={() => actions.navigateTo("TermsOfUse")}
-          basic
-          margin={"20 0 0 0"}
-        >
-          See Terms of use
-        </CelButton>
-        <CelText margin="20 0 0 0" weight="light" align='center' type="H7">
-          Celsius App version: {revisionId}
-        </CelText>
+         <CelButton
+           onPress={() => actions.navigateTo("TermsOfUse")}
+           basic
+           margin={"20 0 0 0"}
+         >
+           See Terms of use
+         </CelButton>
+         <CelText margin="20 0 0 0" weight="light" align='center' type="H7">
+           Celsius App version: {revisionId}
+         </CelText>
+       </View>
 
         <ReferralSendModal />
         <RegisterPromoCodeModal type={"celsius"} />
