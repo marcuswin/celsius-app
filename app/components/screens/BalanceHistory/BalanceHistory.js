@@ -51,8 +51,15 @@ class BalanceHistory extends Component {
     };
   }
 
+  handleGetAllTransactions = async () => {
+    const { actions } = this.props;
+
+    await actions.navigateTo("AllTransactions")
+    await actions.getAllTransactions()
+  }
+
   render() {
-    const { actions, walletSummary } = this.props;
+    const { walletSummary } = this.props;
     const style = BalanceHistoryStyle();
 
     if (!hasPassedKYC()) {
@@ -87,11 +94,7 @@ class BalanceHistory extends Component {
 
             <CelButton
               basic
-              onPress={() => {
-                  actions.navigateTo("AllTransactions")
-                  actions.getAllTransactions()
-                }
-              }
+              onPress={ () => this.handleGetAllTransactions() }
             >
               See all
             </CelButton>
