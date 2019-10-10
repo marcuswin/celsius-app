@@ -14,7 +14,7 @@ class KYCandPromotionsTrigger extends Component {
 
   static propTypes = {
     kycType: PropTypes.string.isRequired,
-    actions: PropTypes.func.isRequired
+    actions: PropTypes.instanceOf(Object).isRequired
   };
   static defaultProps = {};
 
