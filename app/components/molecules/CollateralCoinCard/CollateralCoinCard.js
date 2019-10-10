@@ -34,7 +34,8 @@ class CollateralCoinCard extends Component {
     type: PropTypes.oneOf('Collateral', 'PrincipalPayment'),
     isLoading: PropTypes.bool,
     isMarginCall: PropTypes.bool,
-    marginCall: PropTypes.instanceOf(Object)
+    marginCall: PropTypes.instanceOf(Object),
+    amountNeededUsd: PropTypes.string,
   };
 
   constructor (props) {
@@ -58,7 +59,7 @@ class CollateralCoinCard extends Component {
   }
 
   setValues = async () => {
-    const {type, formData, coin, currencies, walletSummary, isMarginCall, marginCall, currencyRatesShort} = this.props
+    const {type, formData, coin, currencies, walletSummary, isMarginCall, marginCall, currencyRatesShort, amountNeededUsd} = this.props
     let value
     let cryptoAmount
     let amountUsd
@@ -103,14 +104,18 @@ class CollateralCoinCard extends Component {
       )
 
     } else if ( type === COIN_CARD_TYPE.PRINCIPAL_PAYMENT_COIN_CARD ) {
+      isAllowed = walletCoin ? walletCoin.amount_usd > amountNeededUsd : false
       color = !isAllowed ? STYLES.COLORS.RED : STYLES.COLORS.MEDIUM_GRAY
+      value = (amountNeededUsd - walletCoin.amount_usd) / currencyRatesShort[coin.short.toLowerCase()]
+      additionalCryptoAmount = formatter.crypto(value, coin.short, {precision: 2})
+
       await this.setState({
-        additionalInfoExplanation: 'required for a first month of loan interest payment.',
+        additionalInfoExplanation: 'required for a principal payout.',
         cryptoAmount,
         amountUsd,
         isAllowed,
-        color
-        // TODO when API is completed add state: additionalCryptoAmount
+        color,
+        additionalCryptoAmount
       })
 
     } else if ( type === COIN_CARD_TYPE.LOAN_PAYMENT_COIN_CARD ) {
@@ -169,22 +174,22 @@ class CollateralCoinCard extends Component {
 
   renderAdditionalInformation = () => {
     const {additionalCryptoAmount, additionalInfoExplanation} = this.state
-      return (
+    return (
+      <View>
+        <Separator size={2} margin={"10 0 5 0"}/>
         <View>
-          <Separator size={2} margin={"10 0 5 0"}/>
-          <View>
-            <CelText weight={"300"} align="left">
-              Additional
-              <CelText weight={"500"} align="left">
-                {` ${additionalCryptoAmount} `}
-                <CelText weight={"300"} align="left">
-                  {`${additionalInfoExplanation}`}
-                </CelText>
+          <CelText weight={"300"} align="left">
+            Additional
+            <CelText weight={"500"} align="left">
+              {` ${additionalCryptoAmount} `}
+              <CelText weight={"300"} align="left">
+                {`${additionalInfoExplanation}`}
               </CelText>
             </CelText>
-          </View>
+          </CelText>
         </View>
-      )
+      </View>
+    )
   }
 
   renderDepositMore = () => {

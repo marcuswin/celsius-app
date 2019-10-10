@@ -19,6 +19,7 @@ import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoi
     walletCoins: state.wallet.summary.coins,
     formData: state.forms.formData,
     allLoans: state.loans.allLoans,
+    activeLoan: state.loans.activeLoan,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -26,6 +27,15 @@ class PrincipalPaymentType extends Component {
   static navigationOptions = () => ({
     title: "Principal Payment Type",
   });
+
+  constructor(props) {
+    super(props)
+
+    const { actions, navigation } = props;
+    const id = navigation.getParam("id");
+
+    actions.setActiveLoan(id)
+  }
 
   handleSelectCoin = async (coin) => {
     const { actions, navigation } = this.props;
@@ -43,8 +53,10 @@ class PrincipalPaymentType extends Component {
   }
 
   render() {
-    const { actions, coins, walletCoins } = this.props;
+    const { actions, coins, walletCoins, activeLoan } = this.props;
     const style = PrincipalPaymentTypeStyle();
+
+    if (!activeLoan) return null
 
     const availableCoins = walletCoins
       .filter(coin => coins.includes(coin.short))
@@ -67,6 +79,7 @@ class PrincipalPaymentType extends Component {
                 handleSelectCoin={this.handleSelectCoin}
                 coin={coin}
                 type={COIN_CARD_TYPE.PRINCIPAL_PAYMENT_COIN_CARD}
+                amountNeededUsd={activeLoan.loan_amount_usd}
               />
             ))
             }
