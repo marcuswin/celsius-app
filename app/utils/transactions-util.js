@@ -464,9 +464,9 @@ function getTransactionSections(transaction) {
       return ["info", "date", "time", "status", "type", "note", "button:celpay:friend", "button:back"];
 
     case TRANSACTION_TYPES.COLLATERAL_PENDING:
-      return ["info", "disclaimer", "collateral:loan:card", "margin", "liquidation", "button:back"];
+      return ["info", "disclaimer", "collateral:loan:card", "button:back"];
     case TRANSACTION_TYPES.COLLATERAL_LOCKED:
-      return ["info", "collateral:loan:card", "margin", "liquidation", "button:back"];
+      return ["info", "collateral:loan:card", "button:back"];
     case TRANSACTION_TYPES.COLLATERAL_UNLOCKED:
       return ["info", "collateral:loan:card", "collateral:date:unlocked", "collateral:time:unlocked", "collateral:unlock:reason", "button:back"];
     case TRANSACTION_TYPES.COLLATERAL_LIQUIDATED:
