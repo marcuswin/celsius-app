@@ -395,6 +395,7 @@ function payMonthlyInterest(id, coin) {
   }
 }
 
+// TODO: remove
 function getAmortizationTable(id) {
   return async (dispatch) => {
     startApiCall(API.GET_AMORTIZATION_TABLE)

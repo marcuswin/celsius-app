@@ -199,6 +199,7 @@ function payMonthlyInterest(id, coin, verification) {
  * @param id
  * @returns {Promise}
  */
+// TODO: remove
 function getAmortizationTable(id) {
   return axios.get(`${apiUrl}/loans/${id}/amortization-table`)
 }
