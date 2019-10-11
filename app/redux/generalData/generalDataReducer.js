@@ -7,7 +7,7 @@ function initialState() {
   return {
     interestRates: undefined,
     minimumLoanAmount: undefined,
-    automaticLoanLimit: 1000, // TODO: should be set from BO
+    automaticLoanLimit: undefined,
     celUtilityTiers: undefined,
     withdrawalSettings: undefined,
 
@@ -49,13 +49,14 @@ export default function generalDataReducer(state = initialState(), action) {
         interestRates[coinShort] = interestRates[coinShort] || {}
         interestRates[coinShort].rate = action.interestRates[coinShort].rate
       })
-  
+
       return {
         ...state,
         interestRates,
         minimumLoanAmount: action.minimumLoanAmount,
         celUtilityTiers: action.celUtilityTiers,
         withdrawalSettings: action.withdrawalSettings,
+        automaticLoanLimit: action.automaticLoanLimit
       };
 
     case ACTIONS.GET_LOYALTY_INFO_SUCCESS:
