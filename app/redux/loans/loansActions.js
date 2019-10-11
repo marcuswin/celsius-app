@@ -48,7 +48,6 @@ function applyForALoan() {
       bank_info_id: formData.bankInfo ? formData.bankInfo.id : undefined,
       loan_asset_short: formData.coin
     };
-
     try {
       const verification = {
         pin: formData.pin,
@@ -69,7 +68,7 @@ function applyForALoan() {
       dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id, hideBack: true }));
       dispatch(showMessage('success', 'Loan created successfully!'))
 
-      if (formData.loanAmount <= automaticLoanLimit && formData.coin !== 'USD') {
+      if (Number(formData.loanAmount) <= Number(automaticLoanLimit) && formData.coin !== 'USD') {
         dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL))
       }
 
@@ -396,6 +395,7 @@ function payMonthlyInterest(id, coin) {
   }
 }
 
+// TODO: remove
 function getAmortizationTable(id) {
   return async (dispatch) => {
     startApiCall(API.GET_AMORTIZATION_TABLE)

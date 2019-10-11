@@ -25,17 +25,17 @@ class VerticalSlider extends Component {
   }
 
   handleChangeSlideValue = (value) => {
-    const { onChange, field } = this.props
+    const { onChange, field, updateFormField } = this.props
 
     if (onChange) {
       onChange(field, value)
     } else {
-      this.setState({sliderValue: value})
+      this.setState({sliderValue: value}, () => updateFormField(field, value))
     }
   }
 
   render() {
-    const { items, field, updateFormField } = this.props;
+    const { items } = this.props;
     const { sliderValue } = this.state
     const style = VerticalSliderStyle();
 
@@ -56,8 +56,9 @@ class VerticalSlider extends Component {
               maximumValue={items.length - 1}
               step={1}
               value={values.indexOf(sliderValue)}
-              onSlidingComplete={()=> { updateFormField(field, sliderValue)}}
-              onValueChange={(step) => this.handleChangeSlideValue(values[step])}
+              onSlidingComplete={(step)=> {
+                this.handleChangeSlideValue(values[step])
+              }}
             />
           </View>
         </View>

@@ -186,25 +186,22 @@ class CelSelect extends Component {
     return (
       <TouchableOpacity
         onPress={onPress}
-        style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}
+        style={[inputStyle, { flexDirection: 'row', alignItems: 'center'}]}
       >
         {countryInput ?
           this.renderImage([cmpStyle.flagImage, { marginRight: 5 }], this.state.value.alpha2)
           : null
         }
-        <View style={{ flexDirection: "row"}}>
-          <CelText
-            type="H4"
-            color={textColor}
-
-          >
-            {value ? (value.label || value.name) : labelText}</CelText>
+        <View style={{ flexDirection: "row" }}>
+            <CelText type="H4" color={textColor}>
+              {value ? (value.label || value.name) : labelText}
+            </CelText>
           {!disabled &&
             <View style={{
               flex: 1,
-              marginTop: countryInput ? 9 : 2,
+              marginTop: countryInput ? 11 : 2,
               position: countryInput ? 'absolute' : 'relative',
-              marginLeft: countryInput ? 253 : 0,
+              marginLeft: countryInput ? 292 : 0,
               justifyContent: 'center',
               alignItems: countryInput ? 'center' : 'flex-end',
             }}>

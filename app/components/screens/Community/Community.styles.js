@@ -1,4 +1,6 @@
 // import STYLES from '../../../constants/STYLES';
+import { Platform } from 'react-native'
+
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
@@ -49,7 +51,12 @@ const base = {
     height: widthPercentageToDP("20.4%"),
     overflow: "hidden"
   },
-  graphMargin: {marginTop: heightPercentageToDP("5%")}
+  graphMargin: {
+    marginTop: Platform.OS === 'android' ?  heightPercentageToDP("-15%") : heightPercentageToDP("5%")
+  },
+  coinLabel: {
+    marginTop: -15
+  }
 };
 
 

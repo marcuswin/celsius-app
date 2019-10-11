@@ -266,9 +266,15 @@ class Graph extends React.Component {
           </View>
 
           <View ref={this.cursor.label} style={[style.pointer]}>
-            <View style={[style.label, style.labelBoxBackgroundColor]}>
-              <TextInput ref={this.cursor.labelText} style={style.labelText} editable={false} />
-              <TextInput ref={this.cursor.dateText} style={style.labelText} editable={false} />
+            <View style={[style.label]}>
+              <TextInput ref={this.cursor.labelText} style={{
+                fontFamily: "Barlow-Regular",
+                color: 'white',
+              }}  editable={false} />
+              <TextInput ref={this.cursor.dateText} style={{
+                fontFamily: "Barlow-Regular",
+                color: 'white',
+              }} editable={false} />
             </View>
             <View style={[style.triangle, style.triangleBackgroundColor]} />
           </View>

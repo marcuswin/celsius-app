@@ -29,15 +29,10 @@ const base = {
     borderRadius: 8,
     width: widthPercentageToDP("21.33%"),
     height: heightPercentageToDP("6.2%"),
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "rgba(61,72,83,1)",
-  },
-  labelText: {
-    fontFamily: "Barlow-Regular",
-    color: "white",
-    height: heightPercentageToDP("2.7%"),
-  },
+},
   triangle: {
     width: 0,
     height: 0,

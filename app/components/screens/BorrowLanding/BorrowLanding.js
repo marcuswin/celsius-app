@@ -28,8 +28,8 @@ const cardWidth = widthPercentageToDP("70%");
   state => {
     const loanCompliance = state.compliance.loan
     const walletSummary =state.wallet.summary
-    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short))
-    const maxAmount = eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0)
+    const eligibleCoins = walletSummary && walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short))
+    const maxAmount = walletSummary && eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0)
 
     return {
       user: state.user.profile,
@@ -270,7 +270,7 @@ class BorrowLanding extends Component {
     if (!loanCompliance.allowed) return <BorrowCalculatorScreen emitParams={this.emitParams}
                                                                 purpose={EMPTY_STATES.COMPLIANCE}/>;
 
-    if (isLoading) return <LoadingScreen/>;
+    if (isLoading && allLoans.length !== 0) return <LoadingScreen/>;
 
     if (allLoans.length === 0) return this.renderNoLoans();
 

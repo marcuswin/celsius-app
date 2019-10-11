@@ -49,7 +49,7 @@ class BorrowBankAccount extends Component {
       bank_name: bankAccountInfo.bank_name,
       bank_account_number: bankAccountInfo.bank_account_number,
       bank_routing_number: bankAccountInfo.bank_routing_number,
-      selectedAccountType: bankAccountInfo.account_type === "checking" ? "Checking" : "Savings",
+      selectedAccountType: "Checking",
       bank_city: bankAccountInfo.bank_city,
       bank_street_and_number: bankAccountInfo.bank_street_and_number,
       bank_zip: bankAccountInfo.bank_zip,
@@ -248,35 +248,35 @@ class BorrowBankAccount extends Component {
               />
             </>
           ) : (
-            <>
-              <CelInput
-                placeholder="Account Number (IBAN)"
-                field={"iban"}
-                value={formData.iban}
-                error={formErrors.iban}
-                returnKeyType={"next"}
-                blurOnSubmiting={false}
-                refs={input => {
-                  this.iban = input;
-                }}
-                onSubmitEditing={() => {
-                  this.swift.focus();
-                }}
-              />
+              <>
+                <CelInput
+                  placeholder="Account Number (IBAN)"
+                  field={"iban"}
+                  value={formData.iban}
+                  error={formErrors.iban}
+                  returnKeyType={"next"}
+                  blurOnSubmiting={false}
+                  refs={input => {
+                    this.iban = input;
+                  }}
+                  onSubmitEditing={() => {
+                    this.swift.focus();
+                  }}
+                />
 
-              <CelInput
-                placeholder="SWIFT (Bank Identifier Code)"
-                field={"swift"}
-                value={formData.swift}
-                error={formErrors.swift}
-                returnKeyType={"next"}
-                blurOnSubmiting={false}
-                refs={input => {
-                  this.swift = input;
-                }}
-              />
-            </>
-          )}
+                <CelInput
+                  placeholder="SWIFT (Bank Identifier Code)"
+                  field={"swift"}
+                  value={formData.swift}
+                  error={formErrors.swift}
+                  returnKeyType={"next"}
+                  blurOnSubmiting={false}
+                  refs={input => {
+                    this.swift = input;
+                  }}
+                />
+              </>
+            )}
 
           <CelText
             weight="300"
@@ -286,7 +286,6 @@ class BorrowBankAccount extends Component {
           >
             Account type:
           </CelText>
-
           <CelSelect
             items={BANK_ACCOUNT_TYPE}
             field={"selectedAccountType"}

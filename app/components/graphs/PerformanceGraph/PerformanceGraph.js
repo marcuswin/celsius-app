@@ -1,5 +1,5 @@
 import React from "react";
-import { View, SafeAreaView, Animated, TextInput } from "react-native";
+import { View, SafeAreaView, Animated, TextInput, Platform } from "react-native";
 import PropTypes from "prop-types";
 
 import Svg, { Path } from 'react-native-svg';
@@ -32,7 +32,7 @@ class PerformanceGraph extends React.Component {
     height: heightPercentageToDP("20.21%"),
     width: widthPercentageToDP("88%"),
     verticalPadding: heightPercentageToDP("2%"),
-    labelWidth: widthPercentageToDP("20.33%"),
+    labelWidth: widthPercentageToDP("25%"),
     cursorRadius: heightPercentageToDP("1.06%")
   };
 
@@ -98,6 +98,7 @@ class PerformanceGraph extends React.Component {
   lineLengthBtc = this.linePropertiesBtc.getTotalLength();
 
   moveCursor(value) {
+    const {width, labelWidth} = this.props;
     const ratio = value/this.lineLengthCel;
     const { x, y } = this.linePropertiesCel.getPointAtLength((1 - ratio) * this.lineLengthCel);
     const ethY = this.linePropertiesEth.getPointAtLength((1 - ratio) * this.lineLengthEth).y;
@@ -114,7 +115,14 @@ class PerformanceGraph extends React.Component {
     });
     const date = moment(label).format("MMM D, YYYY")
     this.cursor.labelText.current.setNativeProps({ text: `${date}` });
-    this.cursor.label.current.setNativeProps({ top: -heightPercentageToDP("3.5%"), left: x - widthPercentageToDP("12%") });
+
+    if (x <= width / x + widthPercentageToDP("2%")) {
+      this.cursor.label.current.setNativeProps({ top: -heightPercentageToDP("3.5%"), left: x});
+    } else if (x >= width - widthPercentageToDP("5%")) {
+      this.cursor.label.current.setNativeProps({ top: -heightPercentageToDP("3.5%"), left: x - labelWidth});
+    } else {
+      this.cursor.label.current.setNativeProps({ top: -heightPercentageToDP("3.5%"), left: x - labelWidth / 2});
+    }
 
     this.label.celPercent.current.setNativeProps({ text: `${formatter.percentage(cel)} %` });
     this.label.ethPercent.current.setNativeProps({ text: `${formatter.percentage(eth)} %` });
@@ -142,7 +150,9 @@ class PerformanceGraph extends React.Component {
                     style={{
                       color: 'white',
                       height: heightPercentageToDP("5.7%"),
-                      fontSize: 12
+                      fontSize: 12,
+                      width: widthPercentageToDP("25.73%"),
+                      textAlign: "center"
                     }} // TextInput issue- styles cannot override and need to be inline
                     editable={false}
                 />
@@ -186,7 +196,7 @@ class PerformanceGraph extends React.Component {
                     />
                   <View>
                     <View>
-                      <View>
+                      <View style={ Platform.OS === 'android' ? { marginTop: -15 } : { marginTop: 1 } }>
                         <TextInput
                             style={{ color }}
                             editable={false}
@@ -194,7 +204,7 @@ class PerformanceGraph extends React.Component {
                           {`${c.toUpperCase()} Change `}
                         </TextInput>
                       </View>
-                      <View>
+                      <View  style={ Platform.OS === 'android' ? { marginTop: -25 } : { marginTop: 5 } }>
                         <TextInput
                             style={{ color }}
                             ref={this.label[`${c}Percent`]}

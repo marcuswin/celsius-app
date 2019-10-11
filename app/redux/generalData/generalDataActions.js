@@ -17,21 +17,18 @@ export {
  * Gets all general app data (interest rates, borrow ltvs, ...)
  */
 function getInitialCelsiusData() {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     dispatch(startApiCall(API.GET_INITIAL_CELSIUS_DATA));
-
-    const { profile } = getState().user;
-    const isCelsiusOrMVP = profile && profile.email && (!!profile.email.includes("@celsius.network") || !!profile.email.includes("@mvpworkshop.co"));
 
     try {
       const res = await generalDataService.getCelsiusInitialData();
-      const minimumLoanAmount = isCelsiusOrMVP ? 5 : res.data.minimum_usd_amount
 
       dispatch({
         type: ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS,
         interestRates: res.data.interest_rates,
         ltvs: res.data.borrow_ltvs,
-        minimumLoanAmount,
+        minimumLoanAmount: res.data.minimum_usd_amount,
+        automaticLoanLimit: res.data.auto_maximum_threshold,
         celUtilityTiers: res.data.cel_utility_tiers,
         withdrawalSettings: res.data.withdrawal_settings,
       });

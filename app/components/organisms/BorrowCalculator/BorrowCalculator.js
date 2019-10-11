@@ -177,8 +177,7 @@ class BorrowCalculator extends Component {
     const { actions, minimumLoanAmount } = this.props;
 
     if (timeout) clearTimeout(timeout);
-
-    if (Number(value) < minimumLoanAmount) {
+    if (Number(value) < Number(minimumLoanAmount)) {
       timeout = setTimeout(() => {
         actions.showMessage(
           "warning",
