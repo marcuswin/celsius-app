@@ -5,6 +5,7 @@ import android.app.Application;
 import io.branch.rnbranch.RNBranchModule;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.slider.ReactSliderPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.branch.rnbranch.RNBranchPackage;
 import info.applike.advertisingid.RNAdvertisingIdPackage;
@@ -49,6 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactSliderPackage(),
             new RNGoogleSigninPackage(),
             new RNBranchPackage(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),

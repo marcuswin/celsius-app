@@ -24,6 +24,7 @@
   ],
   "dependencies": {
     "@react-native-community/netinfo": "^3.2.1",
+    "@react-native-community/slider": "^1.1.4",
     "appcenter": "2.1.0",
     "appcenter-analytics": "2.1.0",
     "appcenter-crashes": "2.1.0",

@@ -36,11 +36,42 @@ class BorrowLoanTerm extends Component {
   constructor(props) {
     super(props);
     props.actions.updateFormField('termOfLoan', 6)
+
+    this.state = {
+      sliderItems: []
+    }
+  }
+
+  componentDidMount() {
+    this.handleSliderItems()
   }
 
   changeSelectedLoan = (selectedStep) => {
     const { actions } = this.props;
     actions.updateFormField('termOfLoan', selectedStep)
+  }
+
+  handleSliderItems = () => {
+
+    const { formData } = this.props;
+    const months = [6, 12, 18, 24, 30, 36]
+    const sliderItems = months.map( m => ({
+      value: m,
+      label:
+        <>
+          <CelText type='H6' weight="semi-bold" color={formData.termOfLoan === m ? STYLES.COLORS.CELSIUS_BLUE : null}>
+            {m} MONTHS
+          </CelText>
+          <CelText style={{marginBottom: 10}} type='H6'>
+            Total interest: {formatter.usd(Number(formData.monthlyPayment * m)) }  USD
+          </CelText>
+        </>
+      })
+    )
+
+    this.setState({
+      sliderItems
+    })
   }
 
   renderButton () {
@@ -65,15 +96,8 @@ class BorrowLoanTerm extends Component {
 
   render() {
     const { actions, formData } = this.props;
+    const { sliderItems } = this.state
 
-    const sliderItems = [
-      { value: 6, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null}>6 MONTHS</CelText><CelText style={{marginBottom: 10}} type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 6)) }  USD </CelText></>},
-      { value: 12, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null}>12 MONTHS</CelText><CelText style={{marginBottom: 10}} type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 12)) }  USD</CelText></>},
-      { value: 18, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 18 ? STYLES.COLORS.CELSIUS_BLUE : null}>18 MONTHS</CelText><CelText style={{marginBottom: 10}} type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 18)) }  USD</CelText></>},
-      { value: 24, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null}>24 MONTHS</CelText><CelText style={{marginBottom: 10}} type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 24)) }  USD</CelText></>},
-      { value: 30, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 30 ? STYLES.COLORS.CELSIUS_BLUE : null}>30 MONTHS</CelText><CelText style={{marginBottom: 10}} type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 30)) } USD</CelText></>},
-      { value: 36, label: <><CelText type='H6' weight="semi-bold" color={formData.termOfLoan === 36 ? STYLES.COLORS.CELSIUS_BLUE : null}>36 MONTHS</CelText><CelText style={{marginBottom: 10}} type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 36)) }  USD</CelText></>},
-    ]
 
     return (
       <View style={{flex: 1}}>

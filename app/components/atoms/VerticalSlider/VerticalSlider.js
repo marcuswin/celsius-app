@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import { View, TouchableOpacity, Slider } from 'react-native';
-
+import { View, TouchableOpacity } from 'react-native';
+import Slider from '@react-native-community/slider'
 
 
 import VerticalSliderStyle from "./VerticalSlider.styles";
@@ -17,24 +17,31 @@ class VerticalSlider extends Component {
   };
   static defaultProps = {}
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      sliderValue: ''
+    }
+  }
+
   handleChangeSlideValue = (value) => {
-    const { onChange, updateFormField, field } = this.props
+    const { onChange, field } = this.props
 
     if (onChange) {
       onChange(field, value)
     } else {
-      updateFormField(field, value)
+      this.setState({sliderValue: value})
     }
   }
 
   render() {
-    const { items, value } = this.props;
+    const { items, field, updateFormField } = this.props;
+    const { sliderValue } = this.state
     const style = VerticalSliderStyle();
 
     // Vertical slider height
     const height = (items.length - 1) * 61
     const values = items.map(i => i.value);
-
     return (
       <View style={style.container}>
         <View style={{ height, width: 40, paddingVertical: 10, marginRight: 15 }}>
@@ -48,7 +55,8 @@ class VerticalSlider extends Component {
               minimumValue={0}
               maximumValue={items.length - 1}
               step={1}
-              value={values.indexOf(value)}
+              value={values.indexOf(sliderValue)}
+              onSlidingComplete={()=> { updateFormField(field, sliderValue)}}
               onValueChange={(step) => this.handleChangeSlideValue(values[step])}
             />
           </View>

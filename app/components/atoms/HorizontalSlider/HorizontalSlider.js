@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Slider, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
+import Slider from '@react-native-community/slider'
 
 
 

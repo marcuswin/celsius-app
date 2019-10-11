@@ -116,6 +116,8 @@ PODS:
     - React
   - react-native-netinfo (3.2.1):
     - React
+  - react-native-slider (1.1.4):
+    - React
   - React/Core (0.59.9):
     - yoga (= 0.59.9.React)
   - React/CxxBridge (0.59.9):
@@ -216,6 +218,7 @@ DEPENDENCIES:
   - react-native-branch (from `../node_modules/react-native-branch`)
   - react-native-idfa (from `../node_modules/react-native-idfa`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -243,23 +246,24 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - Analytics
+  https://github.com/CocoaPods/Specs.git:
     - AppCenter
     - AppCenterReactNativeShared
     - AppsFlyerFramework
     - Base64
-    - Bolts
     - boost-for-react-native
     - Branch
-    - FBSDKCoreKit
-    - FBSDKLoginKit
     - GoogleSignIn
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - JWT
     - Mixpanel
     - SSZipArchive
+  trunk:
+    - Analytics
+    - Bolts
+    - FBSDKCoreKit
+    - FBSDKLoginKit
 
 EXTERNAL SOURCES:
   CodePush:
@@ -328,6 +332,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-idfa"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNGoogleSignin:
@@ -414,6 +420,7 @@ SPEC CHECKSUMS:
   react-native-branch: b95430177fc90d4a5d414b33c6bc7b1e8e3a2ea5
   react-native-idfa: 7a029b76f4d5dff76efa6fe4b86be8fadd71c49f
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
+  react-native-slider: 754abcdae695545c5875c2150cb2a502d24b7bed
   RNDeviceInfo: 17e34f6dd902f08d88cbe2c0b7a01be948d43641
   RNGoogleSignin: d030c6c6591db24c3cee649f64c7babf0a1699a0
   RNSVG: 0eb087cfb5d7937be93c45b163b26352a647e681
@@ -432,6 +439,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 296793ab2a7e181fe5ebe2ba9b40ae208ab4b8fa
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: 35163cea31aff96625dd3c42126d94028baf8616
+PODFILE CHECKSUM: 762260bb667c6dfb65c95856f38d4d195300641a
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.3
