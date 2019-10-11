@@ -15,8 +15,8 @@ function mapLoan(loan) {
   newLoan.amortization_table = flagPaidPayments(loan);
 
   if (newLoan.id) {
-    newLoan.total_interest = newLoan.total_interest.toFixed(2);
-    newLoan.total_interest_paid = newLoan.total_interest_paid.toFixed(2);
+    newLoan.total_interest = Number(newLoan.total_interest).toFixed(2);
+    newLoan.total_interest_paid = Number(newLoan.total_interest_paid).toFixed(2);
     newLoan.hasInterestPaymentFinished = isInterestPaid(newLoan) && !!Number(newLoan.total_interest_paid)
     newLoan.isPrincipalPaid = isPrincipalPaid(newLoan)
 
