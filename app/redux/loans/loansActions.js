@@ -301,6 +301,7 @@ function prepayInterest(id) {
     } catch(err){
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.PREPAY_LOAN_INTEREST, err));
+      dispatch(navigateTo("BorrowLanding"))
     }
   }
 }
