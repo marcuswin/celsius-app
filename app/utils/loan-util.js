@@ -15,9 +15,8 @@ function mapLoan(loan) {
   newLoan.amortization_table = flagPaidPayments(loan);
 
   if (newLoan.id) {
-    // NOTE should probably be removed or updated once BE is done
-    newLoan.total_interest = getTotalInterest(newLoan);
-    newLoan.total_interest_paid = getInterestPaid(newLoan);
+    newLoan.total_interest = newLoan.total_interest.toFixed(2);
+    newLoan.total_interest_paid = newLoan.total_interest_paid.toFixed(2);
     newLoan.hasInterestPaymentFinished = isInterestPaid(newLoan) && !!Number(newLoan.total_interest_paid)
     newLoan.isPrincipalPaid = isPrincipalPaid(newLoan)
 
@@ -130,28 +129,28 @@ function isInterestPaid(loan) {
   return areAllPaymentsMade
 }
 
-function getTotalInterest(loan) {
-  let totalInterest = 0
-  loan.amortization_table
-    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
-    .forEach(row => {
-      totalInterest += Number(row.amountToPay)
-    })
-
-  return totalInterest.toFixed(2)
-}
-
-
-function getInterestPaid(loan) {
-  let interestPaid = 0
-  loan.amortization_table
-    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
-    .forEach(row => {
-      interestPaid += Number(row.amountPaid)
-    })
-
-  return interestPaid.toFixed(2)
-}
+// function getTotalInterest(loan) {
+//   let totalInterest = 0
+//   loan.amortization_table
+//     .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+//     .forEach(row => {
+//       totalInterest += Number(row.amountToPay)
+//     })
+//
+//   return totalInterest.toFixed(2)
+// }
+//
+//
+// function getInterestPaid(loan) {
+//   let interestPaid = 0
+//   loan.amortization_table
+//     .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+//     .forEach(row => {
+//       interestPaid += Number(row.amountPaid)
+//     })
+//
+//   return interestPaid.toFixed(2)
+// }
 
 function getMaxPossiblePrepaymentPeriod(loan) {
   const numOfInterestPayments = loan.amortization_table
