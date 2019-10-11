@@ -1,6 +1,6 @@
 
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
@@ -10,6 +10,8 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import Separator from "../../atoms/Separator/Separator";
 import formatter from "../../../utils/formatter";
 import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
+import Card from "../../atoms/Card/Card";
+import WiringBankInfomationStyle from "./WiringBankInformation.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
@@ -38,7 +40,7 @@ class WiringBankInformation extends Component {
     const { formData } = this.props
 
     if (formData.amountUsd) {
-      return `Use the wire transfer details provided below to complete your prepayment of ${ formatter.usd(formData.amountUsd) }.`
+      return `Use the wire transfer details provided below to complete your prepayment of ${formatter.usd(formData.amountUsd)}.`
     }
 
     return `Use the wire transfer details provided below to complete your prepayment in USD.`
@@ -50,25 +52,23 @@ class WiringBankInformation extends Component {
     const reason = navigation.getParam('reason')
 
     this.setState({ isLoading: true })
-    await actions.updateLoanSettings(id, {interest_payment_asset: "USD"})
+    await actions.updateLoanSettings(id, { interest_payment_asset: "USD" })
     actions.showMessage("success", `You have successfully changed interest payment method to USD`)
     actions.navigateTo('ChoosePaymentMethod', { id, reason })
     this.setState({ isLoading: false })
-
-
   }
-
 
   render() {
     const { navigation, actions } = this.props;
     const { isLoading } = this.state;
+    const style = WiringBankInfomationStyle()
     const copy = this.getCopy()
     const reason = navigation.getParam('reason')
 
     return (
       <RegularLayout>
         <CelText align={"center"}>
-          { copy }
+          {copy}
         </CelText>
         <Separator margin={"20 0 20 0"} text="Wiring Information" />
         <View style={{ marginBottom: 30 }}>
@@ -104,8 +104,34 @@ class WiringBankInformation extends Component {
           <CelText>SIGNUS33XXX</CelText>
         </View>
 
-        { reason === LOAN_PAYMENT_REASONS.INTEREST && (
+        <Card padding='12 12 12 12'>
+          <View style={style.buttonsWrapper}>
+            <View style={style.buttonsIconText}>
+
+              {reason === LOAN_PAYMENT_REASONS.INTEREST && (
+                <TouchableOpacity
+                  style={style.buttonIconText}
+                  onPress={() => actions.sendBankDetailsEmail()}
+                >
+                  <View
+                    style={style.buttonItself}>
+                    <Image
+                      style={style.buttonIconEmail}
+                      source={require("../../../../assets/images/icons/icon-email.png")}
+                    />
+                    <CelText align='center'>
+                      Email Info
+                </CelText>
+                  </View>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+        </Card>
+
+        {reason === LOAN_PAYMENT_REASONS.INTEREST && (
           <CelButton
+            margin='20 0 0 0'
             onPress={this.setInterestInDollars}
             loading={isLoading}
             disabled={isLoading}
@@ -113,12 +139,6 @@ class WiringBankInformation extends Component {
             Pay with Dollars
           </CelButton>
         )}
-
-        <CelButton
-          onPress={() => actions.sendBankDetailsEmail()}
-        >
-          Get Bank Wiring Info on Email
-        </CelButton>
 
         {/* <Card>
           <View style={{ flex: 1 }}>

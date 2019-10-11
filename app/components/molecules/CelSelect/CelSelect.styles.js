@@ -6,7 +6,7 @@ import { getPadding, getThemedStyle } from '../../../utils/styles-util';
 const base = {
   container: {
     height: 50,
-    ...StyleSheet.flatten(getPadding("12 16 13 16")),
+    ...StyleSheet.flatten(getPadding("10 16 13 16")),
     backgroundColor: STYLES.COLORS.WHITE,
     borderRadius: 8,
     ...Platform.select({
