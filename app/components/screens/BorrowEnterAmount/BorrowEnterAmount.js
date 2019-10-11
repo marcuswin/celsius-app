@@ -96,8 +96,7 @@ class BorrowEnterAmount extends Component {
     const { actions, formData, minimumLoanAmount } = this.props
 
     if (timeout) clearTimeout(timeout);
-
-    if (newValue < minimumLoanAmount) {
+    if (Number(newValue) < Number(minimumLoanAmount)) {
       timeout = setTimeout(() => {
         actions.showMessage(
           'warning',
