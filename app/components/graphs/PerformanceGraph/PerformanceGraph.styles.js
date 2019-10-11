@@ -3,30 +3,15 @@ import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../..
 
 const height = heightPercentageToDP("25%");
 const {width} = Dimensions.get("window");
-const cursorRadius = 10;
 
 const base = {
   root: {
     flex: 1,
-    paddingTop: heightPercentageToDP("20%")
+    paddingTop: heightPercentageToDP("20%"),
   },
   container: {
     height,
     width
-  },
-  cursor: {
-    width: cursorRadius * 2,
-    height: cursorRadius * 2,
-    borderRadius: cursorRadius,
-    borderWidth: 1.5,
-  },
-  circle: {
-    width: cursorRadius,
-    height: cursorRadius,
-    borderRadius: cursorRadius / 2,
-    position: "absolute",
-    top: "20%",
-    left: "20%"
   },
   pointer: {
     position: "absolute",
@@ -76,6 +61,7 @@ const base = {
   },
   singlePercent: {
     flexDirection: "row",
+    marginTop: -20,
     alignItems: 'flex-start',
   }
 }
