@@ -122,7 +122,7 @@ class LoanTermsOfUse extends Component {
                   </Markdown>
                 </View>
                 :
-                <ExpandableItem margin="3 0 3 0" heading={heading} >
+                <ExpandableItem margin="3 0 3 0" heading={`${index}. ${heading}`} >
                   <Markdown style={{
                     listOrderedItemIcon: { color: c },
                     listUnorderedItemIcon: { color: c, marginTop: 5 },
@@ -155,7 +155,7 @@ class LoanTermsOfUse extends Component {
                       uncheckedCheckBoxColor={STYLES.COLORS.GRAY}
                       checkedCheckBoxColor={STYLES.COLORS.GREEN}
                       rightText={
-                        "I have read, understood and agree to the above mentioned in Celsius Loan Terms and Conditions"
+                        `I have read, understood and agree to the above mentioned in sections ${Math.ceil(index - borderValue + index % 3.3)} - ${index}`
                       }
                     />
                   </Card>
