@@ -460,6 +460,5 @@ function sendBankDetailsEmail() {
 
     await loansService.sendBankDetailsEmail();
     dispatch(showMessage("success", "You should receive email with wiring bank info shortly" ));
-    dispatch(navigateTo("BorrowLanding"))
   }
 }
