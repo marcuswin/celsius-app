@@ -89,7 +89,7 @@ class LoanOverviewCard extends Component {
 
     if (loan.amortization_table) {
       previousPayments = loan.amortization_table.filter(p => p.isPaid);
-      previous5Payments = previousPayments.slice(0, 5);
+      previous5Payments = previousPayments.slice(-5);
     }
 
     return (
@@ -292,11 +292,11 @@ class LoanOverviewCard extends Component {
           </Card>
         )}
 
-        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && previousPayments && !!previousPayments.length && (
+        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED, LOAN_STATUS.COMPLETED].includes(loan.status) && previousPayments && !!previousPayments.length && (
           <View>
             <CelText>Payment History</CelText>
 
-            {previous5Payments.map((p, i) => (
+            {previous5Payments.reverse().map((p, i) => (
               <PaymentListItem key={`${p.dueDate}${i}`} payment={p}/>
             ))}
 
