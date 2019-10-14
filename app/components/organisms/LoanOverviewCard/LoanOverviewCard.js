@@ -229,7 +229,7 @@ class LoanOverviewCard extends Component {
             )}
           </View>
 
-          { loan.hasInterestPaymentFinished && !loan.isPrincipalPaid &&
+          { loan.can_pay_principal &&
             <View>
               <Separator size={2} margin={"0 0 0 0"}/>
               <CelButton
