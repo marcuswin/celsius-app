@@ -119,13 +119,13 @@ class LoanOverviewCard extends Component {
 
             {[LOAN_STATUS.APPROVED, LOAN_STATUS.ACTIVE].includes(loan.status) && (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                <CelText type={"H6"}>Loan Approved:</CelText>
+                <CelText type={"H6"}>Loan Approved: </CelText>
                 <CelText type={"H6"}>{moment(loan.approved_at).format("MMM DD, YYYY")}</CelText>
               </View>
             )}
 
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 5 }}>
-              <CelText type={"H6"}>Loan Requested:</CelText>
+              <CelText type={"H6"}>Loan Requested: </CelText>
               <CelText type={"H6"}>{moment(loan.created_at).format("MMM DD, YYYY")}</CelText>
             </View>
 
@@ -302,6 +302,7 @@ class LoanOverviewCard extends Component {
 
             {previousPayments.length > 5 && (
               <CelButton
+                margin={'10 0 0 0'}
                 basic
                 onPress={() => navigateTo("LoanPaymentHistory", { id: loan.id })}
               >
@@ -315,7 +316,7 @@ class LoanOverviewCard extends Component {
         { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) &&
           (!loan.hasInterestPaymentFinished || !loan.isPrincipalPaid) && (
           <View>
-            <Separator margin="10 0 10 0"/>
+            <Separator margin="10 0 20 0"/>
             <CelButton
               onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}
             >
