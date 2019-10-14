@@ -199,7 +199,7 @@ function getTransactionProps(transaction) {
       return {
         title: () => "Principal Payment",
         color: STYLES.COLORS.GREEN,
-        iconName: "TransactionSent",
+        iconName: "TransactionReceived",
         statusText: "Loan Principal Payment"
       };
     case TRANSACTION_TYPES.LOAN_INTEREST:
