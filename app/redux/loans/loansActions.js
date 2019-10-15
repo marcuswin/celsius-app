@@ -33,6 +33,7 @@ function applyForALoan() {
       }
 
       dispatch(navigateTo("VerifyProfile", {onSuccess: async () =>  {
+        try {
           const verification = {
             pin: getState().forms.formData.pin,
             twoFactorCode: getState().forms.formData.code,
@@ -42,8 +43,11 @@ function applyForALoan() {
           analytics.loanApplied(res.data.loan)
           dispatch(navigateTo('TransactionDetails', { id: res.data.transaction_id }));
           dispatch(openModal(MODALS.BORROW_CONFIRM))
+        } catch (error) {
+          dispatch(showMessage('error', error.msg));
+          dispatch(navigateTo("BorrowLanding"))
+        }
       }}));
-
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));

@@ -95,7 +95,8 @@ function initInterceptors () {
       if (ENV === 'PRODUCTION' || ENV === 'PREPROD') {
         newRequest.headers['X-Client-Version'] = CLIENT_VERSION
       } else {
-        newRequest.headers['X-Client-Version'] = ENV
+        // newRequest.headers['X-Client-Version'] = ENV
+        newRequest.headers['X-Client-Version'] = '3.1.0'
       }
 
       /* eslint-disable no-underscore-dangle */
