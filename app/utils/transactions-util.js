@@ -380,7 +380,9 @@ function getTransactionSections(transaction) {
     case TRANSACTION_TYPES.CELPAY_EXPIRED: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_ONHOLD: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
 
-    case TRANSACTION_TYPES.REFERRED_HODL: return ['info', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator']
+    case TRANSACTION_TYPES.REFERRED_HODL: 
+      // return ['info', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator']
+      return ["info", "date:deposited", "time", "status:noSeparator"]; // "hodl:info" removed until the backend return us needed data
 
     case TRANSACTION_TYPES.REFERRED: return ['info', 'referred', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
     case TRANSACTION_TYPES.REFERRED_PENDING: return ['info', 'referred:pending', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // unconfirmed
