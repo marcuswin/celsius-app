@@ -89,7 +89,7 @@ class LoanOverviewCard extends Component {
 
     if (loan.amortization_table) {
       previousPayments = loan.amortization_table.filter(p => p.isPaid);
-      previous5Payments = previousPayments.slice(0, 5);
+      previous5Payments = previousPayments.slice(-5);
     }
 
     return (
@@ -119,13 +119,13 @@ class LoanOverviewCard extends Component {
 
             {[LOAN_STATUS.APPROVED, LOAN_STATUS.ACTIVE].includes(loan.status) && (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                <CelText type={"H6"}>Loan Approved:</CelText>
+                <CelText type={"H6"}>Loan Approved: </CelText>
                 <CelText type={"H6"}>{moment(loan.approved_at).format("MMM DD, YYYY")}</CelText>
               </View>
             )}
 
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 5 }}>
-              <CelText type={"H6"}>Loan Requested:</CelText>
+              <CelText type={"H6"}>Loan Requested: </CelText>
               <CelText type={"H6"}>{moment(loan.created_at).format("MMM DD, YYYY")}</CelText>
             </View>
 
@@ -229,7 +229,7 @@ class LoanOverviewCard extends Component {
             )}
           </View>
 
-          { loan.hasInterestPaymentFinished && !loan.isPrincipalPaid &&
+          { loan.can_pay_principal &&
             <View>
               <Separator size={2} margin={"0 0 0 0"}/>
               <CelButton
@@ -292,16 +292,17 @@ class LoanOverviewCard extends Component {
           </Card>
         )}
 
-        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && previousPayments && !!previousPayments.length && (
+        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED, LOAN_STATUS.COMPLETED].includes(loan.status) && previousPayments && !!previousPayments.length && (
           <View>
             <CelText>Payment History</CelText>
 
-            {previous5Payments.map((p, i) => (
+            {previous5Payments.reverse().map((p, i) => (
               <PaymentListItem key={`${p.dueDate}${i}`} payment={p}/>
             ))}
 
             {previousPayments.length > 5 && (
               <CelButton
+                margin={'10 0 0 0'}
                 basic
                 onPress={() => navigateTo("LoanPaymentHistory", { id: loan.id })}
               >
@@ -315,7 +316,7 @@ class LoanOverviewCard extends Component {
         { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) &&
           (!loan.hasInterestPaymentFinished || !loan.isPrincipalPaid) && (
           <View>
-            <Separator margin="10 0 10 0"/>
+            <Separator margin="10 0 20 0"/>
             <CelButton
               onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}
             >

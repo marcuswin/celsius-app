@@ -143,6 +143,7 @@ class LoanTermsOfUse extends Component {
                         : STYLES.COLORS.SEMI_GRAY
                     }
                     margin={"20 0 20 0"}
+                    padding={"15 15 0 15"}
                   >
                     <CelCheckbox
                       onChange={(field, value) => {

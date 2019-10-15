@@ -69,8 +69,10 @@ function getTransactionType(transaction) {
   if (transaction.nature === "referrer_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRER;
   if (transaction.nature === "referrer_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRER_PENDING;
 
-  if (transaction.nature === "loan") return TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED;
-  if (transaction.nature === "loan_principal_payment") return TRANSACTION_TYPES.LOAN_PRINCIPAL;
+  if (transaction.nature === "loan_principal_payment") {
+    if (transaction.type === "outgoing") return TRANSACTION_TYPES.LOAN_PRINCIPAL_PAYMENT;
+    if (transaction.type === "incoming") return TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED;
+  }
   if (transaction.nature === "loan_interest_payment") return TRANSACTION_TYPES.LOAN_INTEREST;
   if (transaction.nature === "loan_prepayment") return TRANSACTION_TYPES.LOAN_INTEREST;
 
@@ -195,7 +197,7 @@ function getTransactionProps(transaction) {
         iconName: "TransactionReceived",
         statusText: "Loan Received"
       };
-    case TRANSACTION_TYPES.LOAN_PRINCIPAL:
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL_PAYMENT:
       return {
         title: () => "Principal Payment",
         color: STYLES.COLORS.GREEN,
@@ -475,7 +477,7 @@ function getTransactionSections(transaction) {
       return ["info", "collateral:loan:card", "date", "time", "margin:call:card", "button:back"];
     case TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED:
       return ["info", "collateral:loan:card", "date", "time", "button:back"];
-    case TRANSACTION_TYPES.LOAN_PRINCIPAL:
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL_PAYMENT:
       return ["info", "collateral:loan:card", "date", "time", "button:back"];
     case TRANSACTION_TYPES.LOAN_INTEREST:
       return ["info", "collateral:loan:card", "date", "time", "change:payment:card", "button:back"];

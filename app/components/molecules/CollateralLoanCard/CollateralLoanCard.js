@@ -38,7 +38,7 @@ function getPropsFromTransaction(transaction) {
         status: "Active Loan",
         color: STYLES.COLORS.CELSIUS_BLUE
       };
-    case TRANSACTION_TYPES.LOAN_PRINCIPAL:
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL_PAYMENT:
       return {
         status: "Completed Loan",
         color: STYLES.COLORS.GREEN

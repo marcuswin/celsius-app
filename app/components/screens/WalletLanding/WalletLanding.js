@@ -24,8 +24,6 @@ import WalletLandingStyle from "./WalletLanding.styles";
 import LoanAlertsModal from "../../organisms/LoanAlertsModal/LoanAlertsModal";
 import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger";
 
-let counter = 0;
-
 @connect(
   state => {
     const branchTransfer =
@@ -146,7 +144,6 @@ class WalletLanding extends Component {
   }
 
   componentWillUnmount() {
-    counter = 0;
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
     clearInterval(this.walletFetchingInterval);
   }
@@ -159,14 +156,7 @@ class WalletLanding extends Component {
     }, 5000);
   };
 
-
-  handleBackButton = () => {
-    const { actions } = this.props;
-    counter++;
-    if (counter === 1) actions.showMessage("info", "Clicking the hardware back button twice will exit the app.");
-    if (counter === 2) BackHandler.exitApp();
-    return true;
-  };
+  handleBackButton = () => {}
 
   toggleView = viewType => {
     this.setState({ activeView: viewType });

@@ -9,7 +9,6 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import { hasPassedKYC } from "../../../utils/user-util";
 import { EMPTY_STATES, MODALS } from "../../../constants/UI";
 import formatter from "../../../utils/formatter";
-import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import BorrowCalculatorScreen from "../../organisms/BorrowCalculatorScreen/BorrowCalculatorScreen";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { widthPercentageToDP } from "../../../utils/styles-util";
@@ -259,7 +258,6 @@ class BorrowLanding extends Component {
 
   // slavija intersection
   renderIntersection() {
-    const { isLoading } = this.state;
     const { user, kycStatus, loanCompliance, minimumLoanAmount, allLoans, maxAmount } = this.props;
     const minLtv = this.getMinLtv();
 
@@ -270,7 +268,7 @@ class BorrowLanding extends Component {
     if (!loanCompliance.allowed) return <BorrowCalculatorScreen emitParams={this.emitParams}
                                                                 purpose={EMPTY_STATES.COMPLIANCE}/>;
 
-    if (isLoading && allLoans.length !== 0) return <LoadingScreen/>;
+    // if (isLoading && allLoans.length !== 0) return <LoadingScreen/>;
 
     if (allLoans.length === 0) return this.renderNoLoans();
 

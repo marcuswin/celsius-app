@@ -96,12 +96,12 @@ class InterestPaymentSettings extends Component {
             <CelText weight={"300"} type={"H6"} margin={"10 0 0 0"}>By enabling automatic interest payments, your
               monthly payment will be automatically deducted from your total wallet balance.</CelText>
           </Card>
-          < IconButton margin={"20 0 0 0"} right={loading ? <Spinner size={30}/> : <Switcher/>} hideIconRight>
+          < IconButton margin={"20 0 0 0"} right={loading ? <Spinner size={30} /> : <Switcher />} hideIconRight>
             Automatic Interest Payment
           </IconButton>
 
-          { !isAutomaticInterestPaymentEnabled ?
-            <Card color={STYLES.COLORS.ORANGE}>
+          {!isAutomaticInterestPaymentEnabled ?
+            <Card margin={'20 0 0 0'} color={STYLES.COLORS.ORANGE}>
               <CelText
                 weight='300'
                 alignItems='center'
@@ -113,7 +113,7 @@ class InterestPaymentSettings extends Component {
             : null
           }
 
-          { isAutomaticInterestPaymentEnabled && (
+          {isAutomaticInterestPaymentEnabled && (
             <IconButton
               margin={"20 0 0 0"}
               onPress={() => actions.navigateTo("ChoosePaymentMethod", { reason: LOAN_PAYMENT_REASONS.INTEREST, id })}

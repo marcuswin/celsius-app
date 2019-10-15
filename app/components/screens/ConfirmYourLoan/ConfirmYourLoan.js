@@ -283,11 +283,11 @@ class ConfirmYourLoan extends Component {
 
             <Card>
               <CelText type="H6" weight="300" align="center">{loan.coin}
-                <CelText type="H6" weight="300" align="center"> margin call</CelText>
+                <CelText type="H6" weight="300" align="center"> Margin Call at</CelText>
               </CelText>
               <CelText type="H3" weight="700" align="center" margin= '5 0 10 0'>{formatter.usd(loan.margin_call_price)}</CelText>
                 <Card color={style.grayCard.color}>
-                  <CelText type="H6" weight="300">{`If ${loan.coin} drops bellow ${formatter.usd(loan.margin_call_price,)}, you will receive a notification to review your borrowing options.`}</CelText>
+                  <CelText type="H6" weight="300">{`If ${loan.coin} drops bellow ${formatter.usd(loan.margin_call_price,)}, you will be required to add collateral to meet the minimum LTV.`}</CelText>
                 </Card>
             </Card>
 
@@ -295,7 +295,7 @@ class ConfirmYourLoan extends Component {
               <CelText type="H6" weight="300" align="center">Liquidation at</CelText>
               <CelText type="H3" weight="700" align="center" margin= '5 0 10 0'>{ formatter.usd(loan.liquidation_call_price) }</CelText>
                 <Card color={style.grayCard.color}>
-                  <CelText type="H6" weight="300">{`If ${loan.coin} drops below ${formatter.usd(loan.liquidation_call_price)} we will sell some of your collateral to cover the margin.`}</CelText>
+                  <CelText type="H6" weight="300">{`If ${loan.coin} drops below ${formatter.usd(loan.liquidation_call_price)} and margin call has not been met we will liquidate a portion of your collateral to cover the Margin Call.`}</CelText>
                 </Card>
             </Card>
 

@@ -101,8 +101,7 @@ class WithdrawAddressOverview extends Component {
               </View>
               <View style={{ flex: 6 }}>
                 <CelText type={"H5"} weight={"300"} color={STYLES.COLORS.WHITE}>
-                  For your security, changing a withdrawal address will place a lock on withdrawals of the coin for 24
-                  hours.
+                For your security, if changes are made to a withdrawal address, withdrawals of that coin will be unavailable for 24 hours.
                 </CelText>
               </View>
             </View>

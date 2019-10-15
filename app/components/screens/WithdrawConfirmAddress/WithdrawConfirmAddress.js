@@ -172,8 +172,8 @@ class WithdrawConfirmAddress extends Component {
               name={MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL}
               yesCopy={"Change address"}
               onYes={() => this.navigate()}
-              heading={"Changing withdrawal address"}
-              paragraphs={["Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours."]}
+              heading={"Changing a withdrawal address"}
+              paragraphs={[`If changes are made to your current withdrawal address for ${coin}, making a withdraw of ${coin} will be unavailable for the next 24 hours.`]}
             />
           </View>
         </View>

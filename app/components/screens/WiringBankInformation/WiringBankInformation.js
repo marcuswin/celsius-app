@@ -107,24 +107,21 @@ class WiringBankInformation extends Component {
         <Card padding='12 12 12 12'>
           <View style={style.buttonsWrapper}>
             <View style={style.buttonsIconText}>
-
-              {reason === LOAN_PAYMENT_REASONS.INTEREST && (
-                <TouchableOpacity
-                  style={style.buttonIconText}
-                  onPress={() => actions.sendBankDetailsEmail()}
-                >
-                  <View
-                    style={style.buttonItself}>
-                    <Image
-                      style={style.buttonIconEmail}
-                      source={require("../../../../assets/images/icons/icon-email.png")}
-                    />
-                    <CelText align='center'>
-                      Email Info
+              <TouchableOpacity
+                style={style.buttonIconText}
+                onPress={() => actions.sendBankDetailsEmail()}
+              >
+                <View
+                  style={style.buttonItself}>
+                  <Image
+                    style={style.buttonIconEmail}
+                    source={require("../../../../assets/images/icons/icon-email.png")}
+                  />
+                  <CelText align='center'>
+                    Send Bank Info via Email
                 </CelText>
-                  </View>
-                </TouchableOpacity>
-              )}
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         </Card>

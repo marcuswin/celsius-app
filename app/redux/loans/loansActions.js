@@ -301,6 +301,7 @@ function prepayInterest(id) {
     } catch(err){
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.PREPAY_LOAN_INTEREST, err));
+      dispatch(navigateTo("BorrowLanding"))
     }
   }
 }
@@ -437,7 +438,7 @@ function checkForLoanAlerts() {
         loanAlerts.push({ id: l.id, type: LOAN_ALERTS.MARGIN_CALL_ALERT })
       }
 
-      if (l.hasInterestPaymentFinished && !l.isPrincipalPaid && l.coin_loan_asset !== 'USD') {
+      if (l.can_pay_principal && l.coin_loan_asset !== 'USD') {
         loanAlerts.push({ id: l.id, type: LOAN_ALERTS.PRINCIPAL_ALERT })
       }
     })
@@ -459,6 +460,5 @@ function sendBankDetailsEmail() {
 
     await loansService.sendBankDetailsEmail();
     dispatch(showMessage("success", "You should receive email with wiring bank info shortly" ));
-    dispatch(navigateTo("BorrowLanding"))
   }
 }

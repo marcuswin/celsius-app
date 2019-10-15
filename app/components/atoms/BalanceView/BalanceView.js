@@ -15,10 +15,10 @@ const BalanceView = props => {
     <View style={style.view}>
       <CelText align='right' type='H7' weight={"300"} style={style.text} >
         Balance:{' '}
-        {`${formatter.getEllipsisAmount(
+        {`${formatter.crypto(formatter.getEllipsisAmount(
           formatter.removeDecimalZeros(crypto),
           -8
-        )} ${coin}  |   ${formatter.usd(formatter.floor10(usd, -2))} USD`}
+        ))} ${coin}  |   ${formatter.usd(formatter.floor10(usd, -2))} USD`}
       </CelText>
     </View>
   )
