@@ -66,7 +66,7 @@ class KYCandPromotionsTrigger extends Component {
       case KYC_STATUSES.sent:
         title = "Your Profile Verification Is In Progress";
         content = "It typically takes just a few minutes to verify your identity. Please contact support if you do not receive verification within the next 24 hours.";
-        info = "STARTED 2 HOURS AGO";
+        info = "STARTED FEW MOMENTS AGO";
         break;
       case KYC_STATUSES.permanently_rejected:
       case KYC_STATUSES.rejected:
