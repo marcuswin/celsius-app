@@ -118,7 +118,7 @@ class WiringBankInformation extends Component {
                     source={require("../../../../assets/images/icons/icon-email.png")}
                   />
                   <CelText align='center'>
-                    Email Info
+                    Send Bank Info via Email
                 </CelText>
                 </View>
               </TouchableOpacity>

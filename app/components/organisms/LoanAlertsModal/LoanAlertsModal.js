@@ -74,14 +74,14 @@ class LoanAlertsModal extends React.Component {
     const { loan } = this.state;
 
     const amountToPay = formatter.crypto(loan.loan_amount, loan.coin_loan_asset, { noPrecision: true });
-    const copy = `You have a principal of ${amountToPay} which you can payout of your wallet.`;
+    const copy = `You have a principal balance of  ${amountToPay} remaining. You can use the funds held in your Celsius wallet to complete this repayment.`;
 
     return (
       <InfoModal
         name={MODALS.LOAN_ALERT_MODAL}
-        heading="You are almost done with your loan payout!"
+        heading="Your loan repayment is almost complete! "
         paragraphs={[copy]}
-        yesCopy="Payout principal"
+        yesCopy="Repay Principal"
         onYes={() => this.payPrincipal()}
       />
     );
