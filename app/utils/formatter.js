@@ -15,6 +15,8 @@ export default {
   capitalize,
   percentage, // TODO check if we need both or a flag will do
   percentageDisplay, // TODO check if we need both or a flag will do
+  hideTextExceptedFirstNLetters,
+  maskEmail
 }
 
 /**
@@ -290,4 +292,38 @@ deepmerge.all = function deepmergeAll(array, optionsArgument) {
 
   // we are sure there are at least 2 values, so it is safe to have no initial value
   return array.reduce((prev, next) => deepmerge(prev, next, optionsArgument))
+}
+
+/**
+ * Hide all letters except first n letters
+ *
+ * @param {string} text
+ * @param {number} n - number of the first letters that will be showen
+ * @returns {string}
+ */
+function hideTextExceptedFirstNLetters(text, n = 1) {
+  let hiddenText = ""
+  for (let i = n; i < text.length; i++) {
+    hiddenText += 'x'
+  }
+
+  return text[0] + hiddenText
+}
+
+/**
+ * Mask email in format Nxxxxxx@gxxxx.com
+ *
+ * @param {string} email
+ * @returns {string}
+ */
+function maskEmail(email) {
+  const splitedEmail = email.split("@")
+
+  const splitedEmailProvider = splitedEmail[1].split(".")
+
+  return `${hideTextExceptedFirstNLetters(
+    splitedEmail[0]
+  )}@${hideTextExceptedFirstNLetters(splitedEmailProvider[0])}.${
+    splitedEmailProvider[1]
+  }`
 }

@@ -161,15 +161,15 @@ class TransactionDetails extends Component {
       case 'sentFrom':
         return <SentFrom key={sectionType} transaction={transaction} text="From:" actions={actions} />;
       case 'referrerHODL':
-        return <ReferrerHODL key={sectionType} lockedValue={moment(transaction.time).format("D MMM YYYY")} transaction={transaction} text="Friend referred:" actions={actions} />;
+        return <ReferrerHODL key={sectionType} lockedValue={moment(transaction.time).format("D MMM YYYY")} transaction={transaction} text="Referral Details:" actions={actions} />;
       case 'referrer':
-        return <Referrer key={sectionType} transaction={transaction} text="Friend referred:" actions={actions} />;
+        return <Referrer key={sectionType} transaction={transaction} text="Referral Details:" actions={actions} />;
       case 'referred':
-        return <Referred key={sectionType} transaction={transaction} text="From:" actions={actions} />;
+        return <Referred key={sectionType} transaction={transaction} text="Referral Details:" actions={actions} />;
       case 'referrer:pending':
-        return <ReferrerPending key={sectionType} transaction={transaction} text="Friend referred:" actions={actions} />;
+        return <ReferrerPending key={sectionType} transaction={transaction} text="Referral Details:" actions={actions} />;
       case 'referred:pending':
-        return <ReferredPending key={sectionType} transaction={transaction} text="From:" actions={actions} />;
+        return <ReferredPending key={sectionType} transaction={transaction} text="Referral Details:" actions={actions} />;
       case "collateral:loan:card":
         return <CollateralLoanCard key={sectionType} transaction={transaction} navigateTo={actions.navigateTo} />;
       case "disclaimer":

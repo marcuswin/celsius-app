@@ -243,9 +243,9 @@ export const ReferrerHODL = ({ transaction, text, lockedValue }) => (
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-            type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+            type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
+            {transaction.referral_data.referred.email ? formatter.maskEmail(transaction.referral_data.referred.email) : null}
           </CelText>
         </View>
       </View>
@@ -274,9 +274,9 @@ export const Referrer = ({ transaction, text }) => (
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-            type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+            type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
+            {transaction.referral_data.referred.email ? formatter.maskEmail(transaction.referral_data.referred.email) : null}
           </CelText>
         </View>
       </View>
@@ -299,9 +299,9 @@ export const Referred = ({ transaction, text }) => (
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-            type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
+            type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referrer.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referrer.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referrer.email ? transaction.referral_data.referrer.email : null}
+            {transaction.referral_data.referrer.email ? formatter.maskEmail(transaction.referral_data.referrer.email) : null}
           </CelText>
         </View>
       </View>
@@ -324,9 +324,9 @@ export const ReferrerPending = ({ transaction, text }) => (
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-            type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+            type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
+            {transaction.referral_data.referred.email ? formatter.maskEmail(transaction.referral_data.referred.email) : null}
           </CelText>
         </View>
       </View>
@@ -353,9 +353,9 @@ export const ReferredPending = ({ transaction, text }) => (
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-            type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
+            type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referrer.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referrer.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referrer.email ? transaction.referral_data.referrer.email : null}
+            {transaction.referral_data.referrer.email ? formatter.maskEmail(transaction.referral_data.referrer.email) : null}
           </CelText>
         </View>
       </View>
