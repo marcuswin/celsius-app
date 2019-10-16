@@ -108,6 +108,10 @@ class ChoosePaymentMethod extends Component {
       }
     ];
 
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
+      cardProps.pop()
+    }
+
     return cardProps;
   };
 

@@ -47,6 +47,7 @@ class LoanRequestDetails extends Component {
     const { navigation, actions } = props;
     const loanId = navigation.getParam("id");
     actions.setActiveLoan(loanId)
+    actions.getLoanById(loanId)
   }
 
   componentDidUpdate(prevProps) {

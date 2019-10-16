@@ -13,6 +13,7 @@ import appsFlyerUtil from '../../utils/appsflyer-util';
 export {
   applyForALoan,
   getAllLoans,
+  getLoanById,
   confirmLoanInfo,
   setActiveLoan,
   cancelLoan,
@@ -125,6 +126,28 @@ function getAllLoans() {
         type: ACTIONS.GET_ALL_LOANS_SUCCESS,
         callName: API.GET_ALL_LOANS,
         allLoans
+      });
+
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_ALL_LOANS, err));
+    }
+  }
+}
+
+
+/**
+ * Get loans by id
+ */
+function getLoanById(id) {
+  return async (dispatch) => {
+    try {
+      startApiCall(API.GET_LOAN);
+      const res = await loansService.getLoanById(id);
+
+      dispatch({
+        type: ACTIONS.GET_LOAN_SUCCESS,
+        loan: loanUtil.mapLoan(res.data),
       });
 
     } catch (err) {
@@ -456,9 +479,15 @@ function checkForLoanAlerts() {
 
 function sendBankDetailsEmail() {
   return async (dispatch) => {
-    startApiCall(API.SEND_BANK_WIRING_INFO_DETAIL);
+    try {
+      startApiCall(API.SEND_BANK_WIRING_INFO_DETAIL);
 
-    await loansService.sendBankDetailsEmail();
-    dispatch(showMessage("success", "You should receive email with wiring bank info shortly" ));
+      await loansService.sendBankDetailsEmail();
+      dispatch(showMessage("success", "You should receive email with wiring bank info shortly" ));
+
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SEND_BANK_WIRING_INFO_DETAIL, err));
+    }
   }
 }

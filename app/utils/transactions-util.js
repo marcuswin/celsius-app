@@ -483,7 +483,8 @@ function getTransactionSections(transaction) {
       return ["info", "collateral:loan:card", "date", "time", "change:payment:card", "button:back"];
 
     case TRANSACTION_TYPES.REFERRED_HODL:
-      return ["info", "hodl:info", "date:deposited", "time", "status:noSeparator"];
+      // return ["info", "hodl:info", "date:deposited", "time", "status:noSeparator"];
+      return ["info", "date:deposited", "time", "status:noSeparator"]; // "hodl:info" removed until the backend return us needed data
     case TRANSACTION_TYPES.REFERRED:
       return ["info", "referred", "date", "time", "status:noSeparator", "button:refer", "button:back"];
     case TRANSACTION_TYPES.REFERRED_PENDING:

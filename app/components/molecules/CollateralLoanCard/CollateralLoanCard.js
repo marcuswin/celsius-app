@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import moment from "moment";
+import _ from 'lodash'
 
 import Card from "../../atoms/Card/Card";
 import Separator from "../../atoms/Separator/Separator";
@@ -77,9 +78,10 @@ function getPropsFromTransaction(transaction) {
 const CollateralLoanCard = ({ transaction, navigateTo }) => {
   const { status, color } = getPropsFromTransaction(transaction);
 
+  // note(srdjan) card is hidden for loan_data is empty object in BE
   return (
     <View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
-      <Card padding="15 15 15 15">
+      {  !_.isEmpty(transaction.loan_data) ? <Card padding="15 15 15 15">
         <View
           style={{
             flexDirection: "row",
@@ -92,7 +94,7 @@ const CollateralLoanCard = ({ transaction, navigateTo }) => {
         </View>
 
         <CelText type="H2" align="center" weight="600" margin="10 0 10 0">
-          {formatter.usd(transaction.amount_usd)}
+          { formatter.crypto(transaction.loan_data.loan_amount, transaction.loan_data.loan_asset_short, { precision: 2 }) }
         </CelText>
         <CelText type="H6" align="center">
           Loan initiated: {moment(transaction.time).format("D MMM YYYY")}
@@ -103,7 +105,7 @@ const CollateralLoanCard = ({ transaction, navigateTo }) => {
         <CelButton basic onPress={() => navigateTo("LoanRequestDetails", { id: transaction.loan_data.loan_number })}>
           See Loan Overview
         </CelButton>
-      </Card>
+      </Card> : null }
     </View>
   );
 };

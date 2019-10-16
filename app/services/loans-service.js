@@ -6,6 +6,7 @@ import loanUtil from "../utils/loan-util";
 const loansService = {
   apply,
   getAllLoans,
+  getLoanById,
   setConfirmLoanInfo,
   cancelLoan,
   lockMarginCallCollateral,
@@ -99,6 +100,17 @@ async function getAllLoans () {
     loans = res.data
   }
   return loans.map(l => loanUtil.mapLoan(l))
+}
+
+
+/**
+* Get loan by id
+*
+* @param {Number} id
+* @returns {Promise}
+*/
+async function getLoanById (id) {
+  return axios.get(`${apiUrl}/loans/${id}`);
 }
 
 
