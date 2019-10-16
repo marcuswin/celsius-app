@@ -130,10 +130,11 @@ class BorrowLanding extends Component {
       const arrayOfAmountUsd = eligibleCoins.map(c => c.amount_usd);
 
       const indexOfLargestAmount = arrayOfAmountUsd.indexOf(Math.max(...arrayOfAmountUsd));
+
       loanParams.largestAmountCrypto = eligibleCoins[indexOfLargestAmount].amount;
       loanParams.largestShortCrypto = eligibleCoins[indexOfLargestAmount].short;
       loanParams.minimumLoanAmountCrypto = minimumLoanAmount / (currencies.find(c => c.short === eligibleCoins[indexOfLargestAmount].short)).market_quotes_usd.price;
-      loanParams.missingCollateral = (loanParams.largestAmountCrypto - loanParams.minimumLoanAmountCrypto) / loanParams.bestLtv;
+      loanParams.missingCollateral = Math.abs((loanParams.largestAmountCrypto - loanParams.minimumLoanAmountCrypto) / loanParams.bestLtv);
 
     }
     return loanParams;
