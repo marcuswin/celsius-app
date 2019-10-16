@@ -155,27 +155,28 @@ class BorrowLanding extends Component {
       >
         <View style={style.buttonsWrapper}>
           <View style={style.buttonsIconText}>
-            { !this.hasEnoughForLoan() && (
-              <View>
-                <TouchableOpacity
-                  style={style.buttonIconText}
-                  onPress={() => actions.navigateTo("BorrowEnterAmount")}>
-                  <View style={style.buttonItself}>
-                    <Image
-                      style={style.buttonIconHand}
-                      source={require("../../../../assets/images/icon-apply-for-a-new-loan.png")}
-                    />
-                    <CelText align='center'>
-                      Apply for a loan
-                    </CelText>
-                  </View>
-                </TouchableOpacity>
-                <Separator
-                  vertical
-                  height={"35%"}
-                  top={42}
+            { this.hasEnoughForLoan() && (
+              <TouchableOpacity
+                style={style.buttonIconText}
+                onPress={() => actions.navigateTo("BorrowEnterAmount")}>
+                <View style={style.buttonItself}>
+                  <Image
+                    style={style.buttonIconHand}
+                    source={require("../../../../assets/images/icon-apply-for-a-new-loan.png")}
+                  />
+                  <CelText align='center'>
+                    Apply for a loan
+                  </CelText>
+                </View>
+              </TouchableOpacity>
+            )}
+
+            { this.hasEnoughForLoan() && (
+              <Separator
+                vertical
+                height={"35%"}
+                top={42}
                 />
-              </View>
             )}
 
             <TouchableOpacity
@@ -281,10 +282,10 @@ class BorrowLanding extends Component {
 
     // if (isLoading && allLoans.length !== 0) return <LoadingScreen/>;
 
-    if (allLoans.length === 0) return this.renderNoLoans();
-
     if (!hasLoans && !this.hasEnoughForLoan()) return <BorrowCalculatorScreen emitParams={this.emitParams}
                                                                                purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}/>;
+
+    if (allLoans.length === 0) return this.renderNoLoans();
 
     return this.renderDefaultView();
   }
