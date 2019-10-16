@@ -48,10 +48,12 @@ class LoanSettings extends Component {
                     onPress={() => actions.navigateTo("InterestPaymentSettings", { id })}>
           Interest Payment
         </IconButton>
-        <IconButton margin={"20 0 0 0"}
-                    onPress={() => actions.navigateTo("PrincipalPayment", { id })}>
-          Principal Payment
-        </IconButton>
+        { false && (
+          <IconButton margin={"20 0 0 0"}
+                      onPress={() => actions.navigateTo("PrincipalPayment", { id })}>
+            Principal Payment
+          </IconButton>
+        )}
       </RegularLayout>
     );
   }
