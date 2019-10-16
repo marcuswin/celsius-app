@@ -70,7 +70,7 @@ class SelectCountry extends Component {
 
     const text = nextProps.formData && nextProps.formData.search || "";
     if (text) {
-      newState.filteredCountries = allCountries.filter(c => c.name.toLowerCase().includes(text.toLowerCase()))
+      newState.filteredCountries = allCountries.filter(c => c.name.toLowerCase().includes(text.toLowerCase()) || c.countryCallingCodes[0].includes(text))
     } else {
       newState.filteredCountries = allCountries
     }
