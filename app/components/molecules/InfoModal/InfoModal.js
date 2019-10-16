@@ -22,7 +22,7 @@ const InfoModal = props => {
   } = props;
   return (
     <CelModal name={name} picture={picture}>
-      <CelText margin="20 0 15 0" align="center" type="H2" weight="bold">
+      <CelText margin={picture ? "50 0 15 0" : "20 0 15 0"} align="center" type="H2" weight="bold">
         {heading}
       </CelText>
 

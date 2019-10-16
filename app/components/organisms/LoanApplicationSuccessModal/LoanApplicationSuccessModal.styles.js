@@ -10,7 +10,7 @@ const base = {
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 10,
-        paddingTop: 20
+        paddingTop: 60
       },
       description: {
         textAlign: 'center',

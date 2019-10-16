@@ -32,7 +32,7 @@ class LoanCancelModal extends React.Component {
 
     return (
       <CelModal name={MODALS.LOAN_CANCEL_MODAL}>
-        <CelText align='center' type='H2' weight='bold' margin='0 0 32 0'>
+        <CelText align='center' type='H2' weight='bold' margin='20 0 20 0'>
           Confirm Loan Request Cancelation
         </CelText>
         <CelText align='center' type='H4' margin='0 0 24 0'>
