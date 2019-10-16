@@ -34,7 +34,7 @@ class PredefinedAmounts extends Component {
             style={[style.periodButton, activePeriod.value === value ? style.selectedAmount : null]}
             onPress={() => onSelect({ label, value })}
           >
-            <CelText style={activePeriod === label ? style.selectedAmountText : null}>{label === "ALL" ? "ALL" : formatter.round(label, {precision: 0})}</CelText>
+            <CelText style={activePeriod === label ? style.selectedAmountText : null}>{label === "ALL" ? "ALL" : `$${formatter.round(label, {precision: 0})}`}</CelText>
           </TouchableOpacity>
         )}
       </View >
