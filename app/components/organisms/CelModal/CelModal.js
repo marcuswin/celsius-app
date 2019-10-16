@@ -130,7 +130,6 @@ class CelModal extends Component {
 
   }
 
-
   renderModalContent() {
     const { xOffset } = this.state;
     const { modalInfo, actions } = this.props
@@ -152,17 +151,15 @@ class CelModal extends Component {
             pagingEnabled
             showsHorizontalScrollIndicator={false}
           >
-            {modalInfo.map((step, index) => (
+            {modalInfo.map((step, index) =>
               <View>
                 <Animated.View key={index} style={[style.screen, this.transitionAnimation(index)]}>
                   <CelText type='H2' weight='bold' style={style.title}>{step.title}</CelText>
                   <CelText type='H4' style={style.description}>{step.description}</CelText>
-                  <CelButton margin={'20 0 20 0'} onPress={() => actions.closeModal()}>{step.buttonText}</CelButton>
+                  {step.buttonText.toLowerCase() !== 'continue' ? <CelButton margin={'20 0 20 0'} onPress={() => actions.closeModal()}>{step.buttonText}</CelButton>: null}
                 </Animated.View>
               </View>
-            )
-            )
-            }
+            )}
           </Animated.ScrollView>
         </ScrollView>
       </View>
@@ -221,7 +218,7 @@ class CelModal extends Component {
               style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
             />
           );
-        })
+         })
         }
       </View>
     );
@@ -302,12 +299,13 @@ class CelModal extends Component {
               null}
             {noScroll ? (
               <View style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('8%') }, paddingStyle]}>
+                {!!modalInfo && this.renderModalContent()}
                 {childrenWithProps}
               </View>
             ) : (
                 <View>
                   <ScrollView
-                    style={[scrollWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('5%') }, paddingStyle]}
+                    style={[scrollWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('2%') }, paddingStyle]}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ flexGrow: 1 }}
                   >

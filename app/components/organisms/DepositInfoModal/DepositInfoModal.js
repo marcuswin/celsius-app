@@ -131,9 +131,9 @@ class DepositInfoModal extends Component {
 
   render() {
     const { steps, currentStep } = this.state;
-
     return (
       <CelModal
+        noScroll={steps.length < 2}
         name={MODALS.DEPOSIT_INFO_MODAL}
         picture={steps[currentStep].image}
         pictureCircle

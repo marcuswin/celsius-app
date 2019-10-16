@@ -56,14 +56,14 @@ const base = {
     paddingTop: 40
   },
   contentWrapperWithdraw: {
-    height: width * 0.8,
+    height: width * 0.95,
     marginTop: 100,
     paddingRight: 20,
     paddingLeft: 20,
     marginBottom: 20
   },
   contentWrapperDeposit: {
-    height: width * 0.75,
+    // height: width * 0.85,
     marginTop: 100,
     paddingRight: 20,
     paddingLeft: 20,
@@ -111,9 +111,9 @@ const base = {
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 10,
     paddingTop: 20,
     paddingHorizontal: 10,
+    paddingBottom: 10,
     color: STYLES.COLORS.DARK_GRAY
 
   },
@@ -133,6 +133,7 @@ const base = {
     flexDirection: 'row',
     justifyContent: 'center',
     paddingTop: 120,
+    paddingBottom: 10
   },
   dotsDeposit: {
     flex: 1,

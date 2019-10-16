@@ -32,7 +32,7 @@ class BecameCelMemberModal extends Component {
         picture={require('../../../../assets/images/illustrations-v3/stamp3x.png')}
         title={title}
       >
-        <CelText margin='16 0 10 0' type='H4' weight='300' align='center'>
+        <CelText margin='60 0 10 0' type='H4' weight='300' align='center'>
           This CEL token allows you to take advantage of Celsius' products. Without any CEL you will be unable to earn, borrow, or pay, so keep HODLing!
         </CelText>
         <CelButton onPress={this.closeAndGoToDeposit} margin='30 0 20 0'>
