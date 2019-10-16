@@ -479,9 +479,15 @@ function checkForLoanAlerts() {
 
 function sendBankDetailsEmail() {
   return async (dispatch) => {
-    startApiCall(API.SEND_BANK_WIRING_INFO_DETAIL);
+    try {
+      startApiCall(API.SEND_BANK_WIRING_INFO_DETAIL);
 
-    await loansService.sendBankDetailsEmail();
-    dispatch(showMessage("success", "You should receive email with wiring bank info shortly" ));
+      await loansService.sendBankDetailsEmail();
+      dispatch(showMessage("success", "You should receive email with wiring bank info shortly" ));
+
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SEND_BANK_WIRING_INFO_DETAIL, err));
+    }
   }
 }
