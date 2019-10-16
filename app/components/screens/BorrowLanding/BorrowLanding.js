@@ -139,6 +139,13 @@ class BorrowLanding extends Component {
     return loanParams;
   };
 
+  hasEnoughForLoan = () => {
+    const { minimumLoanAmount, maxAmount } = this.props;
+    const minLtv = this.getMinLtv();
+
+    return maxAmount > minimumLoanAmount / minLtv
+  }
+
   renderCard = () => {
     const style = BorrowLandingStyle();
     const { actions } = this.props;
@@ -148,24 +155,29 @@ class BorrowLanding extends Component {
       >
         <View style={style.buttonsWrapper}>
           <View style={style.buttonsIconText}>
-            <TouchableOpacity
-              style={style.buttonIconText}
-              onPress={() => actions.navigateTo("BorrowEnterAmount")}>
-              <View style={style.buttonItself}>
-                <Image
-                  style={style.buttonIconHand}
-                  source={require("../../../../assets/images/icon-apply-for-a-new-loan.png")}
+            { !this.hasEnoughForLoan() && (
+              <View>
+                <TouchableOpacity
+                  style={style.buttonIconText}
+                  onPress={() => actions.navigateTo("BorrowEnterAmount")}>
+                  <View style={style.buttonItself}>
+                    <Image
+                      style={style.buttonIconHand}
+                      source={require("../../../../assets/images/icon-apply-for-a-new-loan.png")}
+                    />
+                    <CelText align='center'>
+                      Apply for a loan
+                    </CelText>
+                  </View>
+                </TouchableOpacity>
+                <Separator
+                  vertical
+                  height={"35%"}
+                  top={42}
                 />
-                <CelText align='center'>
-                  Apply for a loan
-                </CelText>
               </View>
-            </TouchableOpacity>
-            <Separator
-              vertical
-              height={"35%"}
-              top={42}
-            />
+            )}
+
             <TouchableOpacity
               style={style.buttonIconText}
               onPress={() => {
@@ -256,8 +268,9 @@ class BorrowLanding extends Component {
 
   // slavija intersection
   renderIntersection() {
-    const { user, kycStatus, loanCompliance, minimumLoanAmount, allLoans, maxAmount } = this.props;
-    const minLtv = this.getMinLtv();
+    const { user, kycStatus, loanCompliance, allLoans } = this.props;
+
+    const hasLoans = !!allLoans.length
 
     if (kycStatus && !hasPassedKYC()) return <BorrowCalculatorScreen emitParams={this.emitParams}
                                                                      purpose={EMPTY_STATES.NON_VERIFIED_BORROW}/>;
@@ -270,7 +283,7 @@ class BorrowLanding extends Component {
 
     if (allLoans.length === 0) return this.renderNoLoans();
 
-    if (maxAmount < minimumLoanAmount / minLtv) return <BorrowCalculatorScreen emitParams={this.emitParams}
+    if (!hasLoans && !this.hasEnoughForLoan()) return <BorrowCalculatorScreen emitParams={this.emitParams}
                                                                                purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}/>;
 
     return this.renderDefaultView();
