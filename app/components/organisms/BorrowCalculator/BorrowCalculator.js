@@ -259,7 +259,7 @@ class BorrowCalculator extends Component {
         <Separator />
         <CelText
           type={'H4'}
-          margin={'20 auto 20 auto'}
+          margin={'20 0 20 0'}
           weight={'300'}>
           How much would you like to borrow?
         </CelText>
