@@ -62,22 +62,28 @@ class CoinPicker extends Component {
     const { type, value, onCoinSelect, navigateTo, field, coinCompliance, onChange } = this.props;
     const { coinListFormated } = this.state
     const iconColor = this.getIconColor(CoinPickerStyle());
+    const style = CoinPickerStyle()
 
     switch (type) {
       case "depositAmount":
         return (
           <>
             <CelText align='center' weight="regular" type="H4">Choose coin to deposit</CelText>
-            <TouchableOpacity onPress={() => navigateTo('SelectCoin', { coinList: coinListFormated, onCoinSelect, onChange, field })}>
+            <TouchableOpacity
+              onPress={() => navigateTo('SelectCoin', { coinList: coinListFormated, onCoinSelect, onChange, field })}
+              style={ style.coinPicking }
+            >
+              <View>
+                <CircleButton
+                  iconSize={30}
+                  style={ style.circleButton }
+                  type="coin"
+                  icon={`Icon${value}`}
+                  onPress={() => navigateTo('SelectCoin', { coinList: coinListFormated, onCoinSelect, onChange, field })}
+                />
+              </View>
 
-              <CircleButton
-                iconSize={30}
-                style={{ marginBottom: 5, marginTop: 20 }}
-                type="coin"
-                icon={`Icon${value}`}
-              />
-
-              <View style={{ alignContent: 'center', alignItems: 'center', alignSelf: 'center', flexDirection: 'row' }}>
+              <View style={ style.iconStyle }>
                 <CelText type="H3" style={{ paddingRight: 10, }}>
                   {value}
                 </CelText>

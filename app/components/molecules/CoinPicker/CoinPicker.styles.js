@@ -5,6 +5,20 @@ import STYLES from "../../../constants/STYLES";
 const base = {
   container: {
     flex: 1
+  },
+  coinPicking: {
+    width: 100,
+    alignSelf: 'center'
+  },
+  circleButton: {
+    marginBottom: 5,
+    marginTop: 20
+  },
+  iconStyle: {
+    alignContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    flexDirection: 'row'
   }
 };
 
