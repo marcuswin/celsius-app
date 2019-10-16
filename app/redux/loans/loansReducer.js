@@ -49,6 +49,13 @@ export default function loansReducer(state = initialState(), action) {
         ...state,
         allLoans: action.allLoans,
       };
+
+    case ACTIONS.GET_LOAN_SUCCESS:
+      return {
+        ...state,
+        allLoans: state.allLoans.map(l => l.id === action.loan.id ? action.loan : l),
+        activeLoan: action.loan,
+      };
     case ACTIONS.GET_CONFIRM_LOAN_INFO_SUCCESS:
       return {
         ...state,
