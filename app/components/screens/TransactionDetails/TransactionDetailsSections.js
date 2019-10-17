@@ -185,13 +185,13 @@ export const ReferrerHODL = ({ transaction, text, lockedValue }) => (
           <Image source={{ uri: transaction.referral_data.referred.profile_picture }}
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
-          <CelText weight='600' type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+          <CelText weight='600' type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
+            {transaction.referral_data.referred.email ? formatter.maskEmail(transaction.referral_data.referred.email) : null}
           </CelText>
         </View>
       </View>
-      <CelText style={{ marginTop: 20 }} type="H5" color={STYLES.COLORS.MEDIUM_GRAY}>If {transaction.referral_data.referred.first_name} keeps initial deposit until
+      <CelText style={{ marginTop: 20 }} type="H5" color={STYLES.COLORS.MEDIUM_GRAY}>If {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.first_name)} keeps initial deposit until
           <CelText type="H5" color={STYLES.COLORS.DARK_GRAY} weight='600'>{` ${lockedValue} `}</CelText>, your referral reward will unlock.
         </CelText>
     </Card>
@@ -212,9 +212,9 @@ export const Referrer = ({ transaction, text }) => (
           <Image source={{ uri: transaction.referral_data.referred.profile_picture }}
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
-          <CelText weight='600' type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+          <CelText weight='600' type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
+            {transaction.referral_data.referred.email ? formatter.maskEmail(transaction.referral_data.referred.email) : null}
           </CelText>
         </View>
       </View>
@@ -236,9 +236,9 @@ export const Referred = ({ transaction, text }) => (
           <Image source={{ uri: transaction.referral_data.referrer.profile_picture }}
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
-          <CelText weight='600' type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
+          <CelText weight='600' type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referrer.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referrer.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referrer.email ? transaction.referral_data.referrer.email : null}
+            {transaction.referral_data.referrer.email ? formatter.maskEmail(transaction.referral_data.referrer.email) : null}
           </CelText>
         </View>
       </View>
@@ -260,9 +260,9 @@ export const ReferrerPending = ({ transaction, text }) => (
           <Image source={{ uri: transaction.referral_data.referred.profile_picture }}
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
-          <CelText weight='600' type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+          <CelText weight='600' type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
+            {transaction.referral_data.referred.email ? formatter.maskEmail(transaction.referral_data.referred.email) : null}
           </CelText>
         </View>
       </View>
@@ -287,9 +287,9 @@ export const ReferredPending = ({ transaction, text }) => (
           <Image source={{ uri: transaction.referral_data.referrer.profile_picture }}
             style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
-          <CelText weight='600' type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
+          <CelText weight='600' type='H4'>{formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referrer.first_name)} {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referrer.last_name)}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-            {transaction.referral_data.referrer.email ? transaction.referral_data.referrer.email : null}
+            {transaction.referral_data.referrer.email ? formatter.maskEmail(transaction.referral_data.referrer.email) : null}
           </CelText>
         </View>
       </View>
