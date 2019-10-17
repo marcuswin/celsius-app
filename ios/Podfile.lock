@@ -9,12 +9,6 @@ PODS:
     - AppCenter/Core (= 2.1.0)
   - AppsFlyerFramework (4.8.12)
   - Base64 (1.1.2)
-  - Bolts (1.9.0):
-    - Bolts/AppLinks (= 1.9.0)
-    - Bolts/Tasks (= 1.9.0)
-  - Bolts/AppLinks (1.9.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.9.0)
   - boost-for-react-native (1.63.0)
   - Branch (0.27.1):
     - Branch/Core (= 0.27.1)
@@ -45,9 +39,9 @@ PODS:
     - UMCore
     - UMFileSystemInterface
     - UMPermissionsInterface
-  - EXFacebook (5.0.1):
-    - FBSDKCoreKit (~> 4.0)
-    - FBSDKLoginKit (~> 4.0)
+  - EXFacebook (7.0.0):
+    - FBSDKCoreKit (~> 5.5)
+    - FBSDKLoginKit (~> 5.5)
     - UMConstantsInterface
     - UMCore
   - EXFileSystem (5.0.1):
@@ -79,10 +73,14 @@ PODS:
     - Analytics (~> 3.5)
     - UMConstantsInterface
     - UMCore
-  - FBSDKCoreKit (4.44.1):
-    - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.44.1):
-    - FBSDKCoreKit
+  - FBSDKCoreKit (5.5.0):
+    - FBSDKCoreKit/Basics (= 5.5.0)
+    - FBSDKCoreKit/Core (= 5.5.0)
+  - FBSDKCoreKit/Basics (5.5.0)
+  - FBSDKCoreKit/Core (5.5.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.5.0):
+    - FBSDKCoreKit (~> 5.0)
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
@@ -246,24 +244,22 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
+    - Analytics
     - AppCenter
     - AppCenterReactNativeShared
     - AppsFlyerFramework
     - Base64
     - boost-for-react-native
     - Branch
+    - FBSDKCoreKit
+    - FBSDKLoginKit
     - GoogleSignIn
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - JWT
     - Mixpanel
     - SSZipArchive
-  trunk:
-    - Analytics
-    - Bolts
-    - FBSDKCoreKit
-    - FBSDKLoginKit
 
 EXTERNAL SOURCES:
   CodePush:
@@ -385,7 +381,6 @@ SPEC CHECKSUMS:
   AppCenterReactNativeShared: 6e856a993f022a2a7afaa1bc21834d4dded708b2
   AppsFlyerFramework: 726f063384d8dc763d7b423e48cbc8cbe10989ab
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
-  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Branch: 1ace77c04b6e3efbf982bf4364f0662bfac156a0
   CodePush: 300e90b3481fa82569090406165b83745de3613a
@@ -396,7 +391,7 @@ SPEC CHECKSUMS:
   EXCamera: 2f0087efe2bf3c59f78405bcb766f5d938bf4d56
   EXConstants: 9fe56eec8bf0a3ee9beb8f3381fa91340a5b1e57
   EXContacts: e1031c9104bfc7174445e81e6a3d5b7f58a4c542
-  EXFacebook: b80942eb6248398296456ed8ccbd99695d18d976
+  EXFacebook: 70a53dc6456a2cb21586148e488404f2825885db
   EXFileSystem: 96624bd4b93a0684335c421a6567a92b25bd7ddb
   EXFont: 3e55fdd433fe24717f61315fbb07e8f71ddd98bc
   EXGoogleSignIn: c9ca75d6f3e1058bf2329a64d9db112538461db6
@@ -406,8 +401,8 @@ SPEC CHECKSUMS:
   EXPermissions: 8e05008ed4fc8c9be6c17ea95301fc3f3f005a7b
   EXSecureStore: 32410487aae714d3fd4d4afb9b3208490fc19a37
   EXSegment: b413562b37825f8f8f2addc22a675f566c2b3ad8
-  FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
-  FBSDKLoginKit: 54ae59987f2a8703021557c90a9aebb9e5c2bef6
+  FBSDKCoreKit: 7ade9cfea30eef2f6cf105a1aa904f89ea68fb7d
+  FBSDKLoginKit: bb28062f24e79590c44ba03297ca9bea4b6436d2
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
@@ -441,4 +436,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 762260bb667c6dfb65c95856f38d4d195300641a
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.7.5

@@ -17,7 +17,7 @@
     "set:version": "yarn plop version",
     "lint": "eslint app test *.js",
     "plop": "plop",
-    "postinstall": "node set-facebook-pods && node ./fixAndroid/android-release-fix.js"
+    "postinstall": "node ./fixAndroid/android-release-fix.js"
   },
   "pre-commit": [
     "lint"
@@ -43,7 +43,7 @@
     "expo-camera": "^5.0.1",
     "expo-constants": "^5.0.1",
     "expo-contacts": "^5.0.2",
-    "expo-facebook": "^5.0.1",
+    "expo-facebook": "^7.0.0",
     "expo-font": "^5.0.1",
     "expo-google-sign-in": "^5.0.1",
     "expo-image-manipulator": "^5.0.1",
