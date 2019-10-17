@@ -19,6 +19,10 @@ const ENV_FILES = {
   BRANCH: 'branch.json',
   // ANDROID_KEYSTORE: 'celsius.jks', // check if we need this
 
+  // Key for codePush
+  INFO_PLIST: 'info.plist',
+  ANDROID_STRINGS: 'strings.xml',
+
   GOOGLE_SERVICES: 'google-services.json',
   GOOGLE_INFO_PLIST: 'GoogleService-Info.plist',
 
@@ -43,6 +47,12 @@ function getDestination(fileKey) {
   const pathToFile = ENV_FILES[fileKey]
 
   switch (fileKey) {
+    case 'INFO_PLIST':
+      return path.resolve(__dirname, `ios/celsius/${pathToFile}`)
+
+    case 'ANDROID_STRINGS':
+      return path.resolve(__dirname, `android/app/src/main/res/values/${pathToFile}`)
+
     case 'GOOGLE_SERVICES':
       return path.resolve(__dirname, `android/app/${pathToFile}`)
 

@@ -1,7 +1,0 @@
-<resources>
-    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">sVMGwaKKDZJKD7oDqbaplbKRjwQuSyjh8Ncer</string>
-    <string name="app_name">Celsius Network</string>
-    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
-    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
-    <string name="fb_sdk_id">193373551389215</string>
-</resources>

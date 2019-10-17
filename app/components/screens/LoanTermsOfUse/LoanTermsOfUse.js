@@ -32,139 +32,118 @@ class LoanTermsOfUse extends Component {
     title: "Terms and Conditions"
   });
 
-  constructor(props) {
-    super(props);
+  getToUProps = () => {
+    const { loanTermsOfUse } = this.props;
 
-    this.state = {
-      accept: [false, false, false],
-      pdf: undefined
-    };
+    const textArray = loanTermsOfUse.split('\n')
+    const textArrayParsed = textArray.map(s => ({
+      text: s,
+      type: s.includes('## ') ? 'heading' : 'paragraph'
+    }))
 
-    props.actions.updateFormFields({
-      acceptLoanTermsOfUse: false
-    });
-  }
-
-  componentDidMount() {
-    const { pdf } = this.props;
-    this.setState({
-      pdf
-    });
-  }
-
-  handleAcceptance = () => {
-    const { accept } = this.state;
-    const { actions } = this.props;
-    let acceptedCount = 0;
-    accept.forEach(accepted => {
-        if (accepted) {
-          acceptedCount++;
-        }
+    const sections = []
+    textArrayParsed.forEach(el => {
+      if (el.type === 'heading') {
+        sections.push([el])
+      } else {
+        sections[sections.length - 1].push(el)
       }
-    );
-    if (acceptedCount === 3) {
-      actions.updateFormField("acceptLoanTermsOfUse", true);
-    } else {
-      actions.updateFormField("acceptLoanTermsOfUse", false);
+    })
+
+    const sectionsMerged = sections.map(s => ({
+      heading: s[0].text.replace('## ', ''),
+      text: s.splice(1).map(text => text.text).join('\n')
+    }))
+
+    const introSection = sectionsMerged[0]
+    const otherSections = sectionsMerged.splice(1)
+
+    const checkboxes = [6, 13, otherSections.length - 1]
+    const checkboxTexts = [
+      `I have read, understood and agree to the above mentioned in sections 1 - 7`,
+      `I have read, understood and agree to the above mentioned in sections 8 - 14`,
+      `I have read, understood and agree to the above mentioned in sections 15 - ${ otherSections.length }`,
+    ]
+
+    return {
+      introSection,
+      otherSections,
+      checkboxes,
+      checkboxTexts,
     }
-  };
+  }
 
   continue = () => {
     const { actions } = this.props
+
     actions.navigateTo('VerifyProfile', {
       onSuccess: () => actions.applyForALoan()
     })
   }
 
-
   render() {
-    const { formData, loanTermsOfUse, theme } = this.props;
-    const { pdf, accept } = this.state;
+    const { formData, theme, pdf, actions } = this.props;
     const styles = LoanTermsOfUseStyle();
-    // const termsOfUse = handleCopy();
 
-    const c = theme === THEMES.LIGHT ? STYLES.COLORS.MEDIUM_GRAY : "white";
-    const terms = loanTermsOfUse.split("##").splice(1);
+    const { introSection, otherSections, checkboxes, checkboxTexts } = this.getToUProps()
 
-    const text = terms.map(t => {
-      const tempTerm = t.split(/\r?\n/g);
+    const canContinue = formData.loansToU0 && formData.loansToU1 && formData.loansToU2
+    const textColor = theme === THEMES.LIGHT ? STYLES.COLORS.MEDIUM_GRAY : "white";
 
-      const data = tempTerm.slice(1);
-      return {
-        heading: tempTerm[0],
-        content: data
-      };
-    });
-
-    const borderValue = text.length / 3;
-    const count = 1;
+    const markdownStyle = {
+      text: { color: textColor, fontSize: 16 },
+      link: {color: STYLES.COLORS.CELSIUS_BLUE},
+      listOrderedItemIcon: { color: textColor, marginLeft: 10, marginRight: 10, lineHeight: 40 },
+      listUnorderedItemIcon: { color: textColor, marginLeft: 10, marginRight: 10, lineHeight: 40 },
+    }
 
     return (
       <RegularLayout fabType={"hide"} padding="0 0 100 0">
         <HeadingProgressBar steps={6} currentStep={6} />
+
+        <View style={{ padding: 20 }}>
+          <CelText color={textColor} weight="bold" type="H3" align="center">
+            { introSection.heading }
+          </CelText>
+          <Markdown style={markdownStyle}>
+            { introSection.text }
+          </Markdown>
+        </View>
+
         <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
-          {text.map(({ heading, content }, index) => (
-            <View key={`${heading}${index}`} style={{marginTop:10}}>
-              {index === 0 ?
-                <View>
-                  <Markdown style={{
-                    text: { color: theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY : "white", fontSize: 26, fontWeight: "bold"},
-                  }}
-                  >
-                    {heading}
-                  </Markdown>
-                  <Markdown style={{
-                    text: { color: c, fontSize: 16 },
-                    link: {color: STYLES.COLORS.CELSIUS_BLUE}
-                  }}
-                  >
-                    {content}
-                  </Markdown>
-                </View>
-                :
-                <ExpandableItem margin="3 0 3 0" heading={`${index}. ${heading}`} >
-                  <Markdown style={{
-                    listOrderedItemIcon: { color: c },
-                    listUnorderedItemIcon: { color: c, marginTop: 5 },
-                    text: { color: c, fontSize: 16 },
-                    list: { color: c },
-                    link: {color: STYLES.COLORS.CELSIUS_BLUE}
-                  }}
-                  >
-                    {content}
-                  </Markdown>
-                </ExpandableItem>
-              }
-                {index !== 0 && index % borderValue * count === 0 || index === text.length - 1 ?
-                  <Card
-                    color={
-                      theme === THEMES.LIGHT
-                        ? STYLES.COLORS.WHITE
-                        : STYLES.COLORS.SEMI_GRAY
-                    }
-                    margin={"20 0 20 0"}
-                    padding={"15 15 0 15"}
-                  >
-                    <CelCheckbox
-                      onChange={(field, value) => {
-                        const acceptIndex = (!(index !== 0 && index % borderValue * count === 0) && index === text.length - 1 ? 2 : index % 3 - 1);
-                        accept[acceptIndex] = value;
-                        this.setState({ accept }, this.handleAcceptance);
-                      }}
-                      field={"accept"}
-                      value={accept[(!(index !== 0 && index % borderValue * count === 0) && index === text.length - 1 ? 2 : index % 3 - 1)]}
-                      uncheckedCheckBoxColor={STYLES.COLORS.GRAY}
-                      checkedCheckBoxColor={STYLES.COLORS.GREEN}
-                      rightText={
-                        `I have read, understood and agree to the above mentioned in sections ${Math.ceil(index - borderValue + index % 3.3)} - ${index}`
-                      }
-                    />
-                  </Card>
-                  : null
-                }
-              </View>
-            )
-          )}
+          { otherSections.map((s, i) => (
+            <View>
+              <ExpandableItem heading={`${ i + 1}. ${ s.heading }`} margin="5 0 5 0">
+                <Markdown style={markdownStyle}>
+                  { s.text }
+                </Markdown>
+              </ExpandableItem>
+
+              { checkboxes.includes(i) && (
+                <Card
+                  color={
+                    theme === THEMES.LIGHT
+                      ? STYLES.COLORS.WHITE
+                      : STYLES.COLORS.SEMI_GRAY
+                  }
+                  margin={"20 0 20 0"}
+                  padding={"15 15 0 15"}
+                >
+                  <CelCheckbox
+                    onChange={(field, value) => actions.updateFormField(field, value)}
+                    field={`loansToU${checkboxes.indexOf(i)}`}
+                    value={formData[`loansToU${checkboxes.indexOf(i)}`]}
+                    uncheckedCheckBoxColor={STYLES.COLORS.GRAY}
+                    checkedCheckBoxColor={STYLES.COLORS.GREEN}
+                    rightText={checkboxTexts[checkboxes.indexOf(i)]}
+                  />
+                </Card>
+              )}
+            </View>
+          )) }
+        </View>
+
+        <View style={{ padding: 20}}>
           <Card
             color={
               theme === THEMES.LIGHT
@@ -185,17 +164,17 @@ class LoanTermsOfUse extends Component {
               </TouchableOpacity>
             </View>
           </Card>
-
-          <CelButton
-            onPress={this.continue}
-            style={styles.requestButton}
-            disabled={!formData.acceptLoanTermsOfUse}
-          >
-            Request loan
-          </CelButton>
         </View>
+
+        <CelButton
+          onPress={this.continue}
+          style={styles.requestButton}
+          disabled={!canContinue}
+        >
+          Request loan
+        </CelButton>
       </RegularLayout>
-    );
+    )
   }
 }
 

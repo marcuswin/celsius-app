@@ -80,3 +80,5 @@ android/java_pid47028.hprof
 yarn-error.log
 GoogleService-Info.plist
 ios/GoogleService-Info.plist
+android/app/src/main/res/values/strings.xml
+ios/celsius/Info.plist

@@ -172,7 +172,7 @@ class BorrowCalculatorScreen extends Component {
 
   render() {
     const style = BorrowCalculatorScreenStyle()
-    const { formData, purpose, emitParams } = this.props
+    const { formData, purpose, emitParams, kycStatus } = this.props
     const purposeProps = this.getPurposeSpecificProps()
 
     if (!formData.ltv) return null;
@@ -217,12 +217,15 @@ class BorrowCalculatorScreen extends Component {
             </CelText>
           )}
 
+
+          {![KYC_STATUSES.pending, KYC_STATUSES.sending, KYC_STATUSES.sent].includes(kycStatus) &&
           <CelButton
             onPress={purposeProps.onPress}
             margin='20 0 20 0'
           >
             {purposeProps.buttonCopy}
           </CelButton>
+          }
         </View>
       </RegularLayout>
     );

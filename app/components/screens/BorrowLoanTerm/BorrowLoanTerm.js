@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-// import { View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { View } from 'react-native'
 
 
 import * as appActions from "../../../redux/actions";
-// import BorrowLoanTermStyle from "./BorrowLoanTerm.styles";
 import formatter from "../../../utils/formatter";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
@@ -37,13 +34,6 @@ class BorrowLoanTerm extends Component {
     super(props);
     props.actions.updateFormField('termOfLoan', 6)
 
-    this.state = {
-      sliderItems: []
-    }
-  }
-
-  componentDidMount() {
-    this.handleSliderItems()
   }
 
   changeSelectedLoan = (selectedStep) => {
@@ -55,6 +45,7 @@ class BorrowLoanTerm extends Component {
 
     const { formData } = this.props;
     const months = [6, 12, 18, 24, 30, 36]
+
     const sliderItems = months.map( m => ({
       value: m,
       label:
@@ -69,9 +60,7 @@ class BorrowLoanTerm extends Component {
       })
     )
 
-    this.setState({
-      sliderItems
-    })
+   return sliderItems
   }
 
   renderButton () {
@@ -96,8 +85,7 @@ class BorrowLoanTerm extends Component {
 
   render() {
     const { actions, formData } = this.props;
-    const { sliderItems } = this.state
-
+    const sliderItems = this.handleSliderItems()
 
     return (
       <View style={{flex: 1}}>

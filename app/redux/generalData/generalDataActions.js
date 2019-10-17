@@ -114,7 +114,7 @@ function getLoanTermsOfUse() {
        dispatch({
         type: ACTIONS.GET_LOAN_TERMS_OF_USE_SUCCESS,
         callName: API.GET_LOAN_TERMS_OF_USE,
-        lToU,
+        lToU: lToU.document,
          pdf,
       })
 
