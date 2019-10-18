@@ -34,7 +34,7 @@ class WithdrawConfirm extends Component {
     title: 'Confirm withdrawal details '
   })
 
-  componentDidMount () {
+  componentDidMount() {
     const { actions, formData } = this.props
     if (formData.coin === 'CEL') actions.getLoyaltyInfo()
   }
@@ -94,7 +94,7 @@ class WithdrawConfirm extends Component {
     return null
   }
 
-  render () {
+  render() {
     const { walletSummary, actions, formData, callsInProgress, withdrawalSettings } = this.props
 
     const styles = WithdrawConfirmStyle()
@@ -174,9 +174,7 @@ class WithdrawConfirm extends Component {
           >
             Send email verification
           </CelButton>
-          <Card margin='20 0 0 0'>
-            <CelText margin='0 0 0 0' color='gray'>{ disclaimerText }</CelText>
-          </Card>
+          <CelText align="center" margin='20 0 20 0' color='gray'>{disclaimerText}</CelText>
         </Card>
       </RegularLayout>
     )
