@@ -135,27 +135,27 @@ class PersonalInformation extends Component {
             }
           </View>
         }
-      
+
 
         <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4}
           text={"PROFILE DETAILS"} />
 
-        <View>
+        { !!user.first_name && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>First name</CelText>
           <CelInput field={"profileFirst"} disabled value={user.first_name} />
-        </View>
+        </View> }
 
-        <View>
+        { !!user.lastName && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Last name</CelText>
           <CelInput field={"profileLast"} disabled value={user.last_name} />
-        </View>
+        </View>}
 
-        <View>
+        { !!user.email && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Email</CelText>
           <CelInput field={"profileEmail"} disabled type="text" value={user.email} />
-        </View>
+        </View>}
 
-        {user.date_of_birth &&
+        {!!user.date_of_birth &&
           <View>
             <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Date of birth</CelText>
             <View style={style.addressInfo}>
@@ -169,14 +169,14 @@ class PersonalInformation extends Component {
           </View>
         }
 
-        {user.gender &&
+        {!!user.gender &&
           <View>
             <CelText margin={"10 0 10 0"} type={"H4"} weight={"300"}>Gender</CelText>
             <CelInput field={"profileGender"} disabled type="text" value={user.gender} />
           </View>
         }
 
-        {user.citizenship && <View>
+        {!!user.citizenship && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Citizenship</CelText>
           <CelInput field={"profileCitizenship"} disabled type="text" value={user.citizenship} />
         </View>}
@@ -198,37 +198,37 @@ class PersonalInformation extends Component {
         <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4}
           text={"ADDRESS INFO"} />
 
-        <View>
+        {!!user.street && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Street address</CelText>
           <CelInput field={"profileStreet"} disabled type="text" value={user.street} />
-        </View>
+        </View>}
 
-        {user.building_number &&
+        {!!user.building_number &&
           <View>
             <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Building number</CelText>
             <CelInput field={"buildingNumber"} disabled type="text" value={user.building_number} />
           </View>
         }
 
-        <View>
+        {!!user.flat_number && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Apartment number</CelText>
           <CelInput field={"profileApartment"} disabled type="text" value={user.flat_number} />
-        </View>
+        </View> }
 
-        <View>
+        {!!user.city && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>City</CelText>
           <CelInput field={"profileCity"} disabled type="text" value={user.city} />
-        </View>
+        </View>}
 
-        <View>
+        { !!user.zip && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>ZIP / Postal Code</CelText>
           <CelInput field={"profileZip"} disabled type="text" value={user.zip} />
-        </View>
+        </View> }
 
-        <View>
+        { !!user.country && <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Country</CelText>
           <CelInput field={"profileCountry"} disabled type="text" value={user.country} />
-        </View>
+        </View> }
 
       </RegularLayout>
     );
