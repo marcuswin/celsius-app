@@ -250,7 +250,7 @@ export const ReferrerHODL = ({ transaction, text, lockedValue }) => (
         </View>
       </View>
       <CelText style={{ marginTop: 20 }} type="H5"
-        color={STYLES.COLORS.MEDIUM_GRAY}>If {transaction.referral_data.referred.first_name} keeps initial
+        color={STYLES.COLORS.MEDIUM_GRAY}>If {formatter.hideTextExceptedFirstNLetters(transaction.referral_data.referred.first_name)} keeps initial
  deposit until
         <CelText type="H5" color={STYLES.COLORS.DARK_GRAY} weight='600'>{` ${lockedValue} `}</CelText>, your referral
         reward will unlock.
