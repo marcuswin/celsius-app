@@ -5,6 +5,7 @@ import android.app.Application;
 import io.branch.rnbranch.RNBranchModule;
 
 import com.facebook.react.ReactApplication;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.branch.rnbranch.RNBranchPackage;
@@ -32,8 +33,16 @@ import org.unimodules.core.interfaces.SingletonModule;
 import java.util.Arrays;
 import java.util.List;
 
+import com.facebook.CallbackManager;
+
+
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(new BasePackageList().getPackageList(), Arrays.<SingletonModule>asList());
+  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
+
+  protected static CallbackManager getCallbackManager() {
+    return mCallbackManager;
+  }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -50,6 +59,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FBSDKPackage(mCallbackManager),
             new ReactSliderPackage(),
             new RNGoogleSigninPackage(),
             new RNBranchPackage(),

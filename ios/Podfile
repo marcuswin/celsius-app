@@ -53,6 +53,8 @@ target 'celsius' do
 
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
   pre_install do |installer|
     # workaround for https://github.com/CocoaPods/CocoaPods/issues/3289
     Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}

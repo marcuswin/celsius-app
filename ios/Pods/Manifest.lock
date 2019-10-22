@@ -9,12 +9,6 @@ PODS:
     - AppCenter/Core (= 2.1.0)
   - AppsFlyerFramework (4.8.12)
   - Base64 (1.1.2)
-  - Bolts (1.9.0):
-    - Bolts/AppLinks (= 1.9.0)
-    - Bolts/Tasks (= 1.9.0)
-  - Bolts/AppLinks (1.9.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.9.0)
   - boost-for-react-native (1.63.0)
   - Branch (0.27.1):
     - Branch/Core (= 0.27.1)
@@ -45,11 +39,6 @@ PODS:
     - UMCore
     - UMFileSystemInterface
     - UMPermissionsInterface
-  - EXFacebook (5.0.1):
-    - FBSDKCoreKit (~> 4.0)
-    - FBSDKLoginKit (~> 4.0)
-    - UMConstantsInterface
-    - UMCore
   - EXFileSystem (5.0.1):
     - UMCore
     - UMFileSystemInterface
@@ -79,10 +68,16 @@ PODS:
     - Analytics (~> 3.5)
     - UMConstantsInterface
     - UMCore
-  - FBSDKCoreKit (4.44.1):
-    - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.44.1):
-    - FBSDKCoreKit
+  - FBSDKCoreKit (5.0.2):
+    - FBSDKCoreKit/Basics (= 5.0.2)
+    - FBSDKCoreKit/Core (= 5.0.2)
+  - FBSDKCoreKit/Basics (5.0.2)
+  - FBSDKCoreKit/Core (5.0.2):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.0.2):
+    - FBSDKCoreKit (~> 5.0)
+  - FBSDKShareKit (5.0.2):
+    - FBSDKCoreKit (~> 5.0)
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
@@ -111,6 +106,20 @@ PODS:
     - React
   - react-native-branch (3.1.1):
     - Branch (= 0.27.1)
+    - React
+  - react-native-fbsdk (0.10.0):
+    - React
+    - react-native-fbsdk/Core (= 0.10.0)
+    - react-native-fbsdk/Login (= 0.10.0)
+    - react-native-fbsdk/Share (= 0.10.0)
+  - react-native-fbsdk/Core (0.10.0):
+    - FBSDKCoreKit (~> 5.0.0)
+    - React
+  - react-native-fbsdk/Login (0.10.0):
+    - FBSDKLoginKit (~> 5.0.0)
+    - React
+  - react-native-fbsdk/Share (0.10.0):
+    - FBSDKShareKit (~> 5.0.0)
     - React
   - react-native-idfa (4.1.0):
     - React
@@ -201,7 +210,6 @@ DEPENDENCIES:
   - EXCamera (from `../node_modules/expo-camera/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXContacts (from `../node_modules/expo-contacts/ios`)
-  - EXFacebook (from `../node_modules/expo-facebook/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXGoogleSignIn (from `../node_modules/expo-google-sign-in/ios`)
@@ -216,6 +224,7 @@ DEPENDENCIES:
   - Mixpanel
   - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
   - react-native-branch (from `../node_modules/react-native-branch`)
+  - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-idfa (from `../node_modules/react-native-idfa`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
@@ -246,24 +255,23 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
+    - Analytics
     - AppCenter
     - AppCenterReactNativeShared
     - AppsFlyerFramework
     - Base64
     - boost-for-react-native
     - Branch
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
     - GoogleSignIn
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - JWT
     - Mixpanel
     - SSZipArchive
-  trunk:
-    - Analytics
-    - Bolts
-    - FBSDKCoreKit
-    - FBSDKLoginKit
 
 EXTERNAL SOURCES:
   CodePush:
@@ -288,9 +296,6 @@ EXTERNAL SOURCES:
   EXContacts:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-contacts/ios"
-  EXFacebook:
-    :path: !ruby/object:Pathname
-    path: "../node_modules/expo-facebook/ios"
   EXFileSystem:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-file-system/ios"
@@ -328,6 +333,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-appsflyer"
   react-native-branch:
     :path: "../node_modules/react-native-branch"
+  react-native-fbsdk:
+    :path: "../node_modules/react-native-fbsdk"
   react-native-idfa:
     :path: "../node_modules/react-native-idfa"
   react-native-netinfo:
@@ -385,7 +392,6 @@ SPEC CHECKSUMS:
   AppCenterReactNativeShared: 6e856a993f022a2a7afaa1bc21834d4dded708b2
   AppsFlyerFramework: 726f063384d8dc763d7b423e48cbc8cbe10989ab
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
-  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Branch: 1ace77c04b6e3efbf982bf4364f0662bfac156a0
   CodePush: 300e90b3481fa82569090406165b83745de3613a
@@ -396,7 +402,6 @@ SPEC CHECKSUMS:
   EXCamera: 2f0087efe2bf3c59f78405bcb766f5d938bf4d56
   EXConstants: 9fe56eec8bf0a3ee9beb8f3381fa91340a5b1e57
   EXContacts: e1031c9104bfc7174445e81e6a3d5b7f58a4c542
-  EXFacebook: b80942eb6248398296456ed8ccbd99695d18d976
   EXFileSystem: 96624bd4b93a0684335c421a6567a92b25bd7ddb
   EXFont: 3e55fdd433fe24717f61315fbb07e8f71ddd98bc
   EXGoogleSignIn: c9ca75d6f3e1058bf2329a64d9db112538461db6
@@ -406,8 +411,9 @@ SPEC CHECKSUMS:
   EXPermissions: 8e05008ed4fc8c9be6c17ea95301fc3f3f005a7b
   EXSecureStore: 32410487aae714d3fd4d4afb9b3208490fc19a37
   EXSegment: b413562b37825f8f8f2addc22a675f566c2b3ad8
-  FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
-  FBSDKLoginKit: 54ae59987f2a8703021557c90a9aebb9e5c2bef6
+  FBSDKCoreKit: 3e41c402eb64ea7799c71833ff9e5690f27b9c42
+  FBSDKLoginKit: a88f36da648e4c5d60eb261c63eac067abb97130
+  FBSDKShareKit: 8695bbb97c18a381bbf2851a3f24f95a59121b82
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
@@ -418,6 +424,7 @@ SPEC CHECKSUMS:
   React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
   react-native-appsflyer: 421820ddd543accd2ca13f62040c39f931ffabd1
   react-native-branch: b95430177fc90d4a5d414b33c6bc7b1e8e3a2ea5
+  react-native-fbsdk: bc1d3e321e8a710feaf8763d747707972d6c4299
   react-native-idfa: 7a029b76f4d5dff76efa6fe4b86be8fadd71c49f
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-slider: 754abcdae695545c5875c2150cb2a502d24b7bed
@@ -439,6 +446,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 296793ab2a7e181fe5ebe2ba9b40ae208ab4b8fa
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: 762260bb667c6dfb65c95856f38d4d195300641a
+PODFILE CHECKSUM: bc20a145b0edb0652b6f3aea8b5625cb53a31f02
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.7.5

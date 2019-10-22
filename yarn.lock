@@ -3423,10 +3423,6 @@ expo-contacts@^5.0.2:
   dependencies:
     uuid-js "^0.7.5"
 
-expo-facebook@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/expo-facebook/-/expo-facebook-5.0.1.tgz#a339ae21c3748185ad583ab3c1979c0d5637afa9"
-
 expo-file-system@~5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-5.0.1.tgz#c26054e512c3bb2e256325b48e603957a24e6210"
@@ -3463,9 +3459,10 @@ expo-permissions@^5.0.1, expo-permissions@~5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-5.0.1.tgz#cc6af49a37ea3ab73e780a8a19f22b7662379941"
 
-expo-secure-store@^5.0.1:
+expo-secure-store@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-5.0.1.tgz#451d61e9519bb964e315c2be336e2aa5f130b8a4"
+  integrity sha512-iA0/MJCHZk9z5OdxEXH5TYEDKq5sEIdASBr/7XkdCl+gB7+3peSeEXsXPRK+TK/Tzo9JGgfYrXha/CsVC9nD5A==
 
 extend-shallow@^1.1.2:
   version "1.1.4"
@@ -6862,6 +6859,11 @@ react-native-expo-image-cache@^4.0.4:
   dependencies:
     crypto-js "^3.1.9-1"
     lodash "^4.17.4"
+
+react-native-fbsdk@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-0.10.0.tgz#6f672ccceee9e2d25cc45a9b92342c9b1efadaf9"
+  integrity sha512-h0hTCj2ZBIbIKlKUvBmF+j3mtpb/KQOmIPcUGDLqSJqA188Z0JmAxfrL43KeNFsGX3PPEmbF/Aygp8XkyIk6LA==
 
 react-native-fit-image@^1.5.2:
   version "1.5.4"
