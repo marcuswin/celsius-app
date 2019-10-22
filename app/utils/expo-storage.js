@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo-secure-store';
+import { AsyncStorage } from "react-native";
 import loggerUtil from './logger-util';
 
 export {
@@ -18,7 +18,7 @@ export {
  * */
 async function setSecureStoreKey(key, value) {
   try {
-    return await SecureStore.setItemAsync(key, value);
+    return await AsyncStorage.setItem(key, value)
   } catch (error) {
     loggerUtil.err(error);
     return null;
@@ -35,7 +35,7 @@ async function setSecureStoreKey(key, value) {
  * */
 async function getSecureStoreKey(key) {
   try {
-    return await SecureStore.getItemAsync(key);
+    return await AsyncStorage.getItem(key);
   } catch (error) {
     loggerUtil.err(error);
     return null;
@@ -51,7 +51,7 @@ async function getSecureStoreKey(key) {
  * */
 async function deleteSecureStoreKey(key) {
   try {
-    return await SecureStore.deleteItemAsync(key);
+    return await AsyncStorage.removeItem(key);
   } catch (error) {
     loggerUtil.err(error);
     return null;
