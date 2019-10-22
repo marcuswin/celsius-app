@@ -53,7 +53,7 @@ class CommunityDashboard extends Component {
     const {name, communityStats} = this.props;
     if (name === "CELPAY") {
       this.setState({
-        primaryNumber: formatter.usd(communityStats.highest_celpay_transaction_usd),
+        primaryNumber: formatter.usd(communityStats.total_celpay_sent_usd),
         explanation: "Sent via CelPay in total"
       })
     }
@@ -71,7 +71,6 @@ class CommunityDashboard extends Component {
     const { name, communityStats } = this.props;
     let number;
     let explanationText;
-
 
     if (name === "BORROW" && button === "Loans") {
       number = 20000;
@@ -123,6 +122,7 @@ class CommunityDashboard extends Component {
     const style = CommunityDashboardStyle();
     const theme = getTheme()
     const separatorColor = THEMES.LIGHT === theme ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.SEMI_GRAY
+
     return (
       <View style={style.container}>
         <Separator margin={"30 0 20 0"} color={separatorColor} text={name}/>

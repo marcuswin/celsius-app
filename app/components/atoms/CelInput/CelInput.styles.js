@@ -68,7 +68,7 @@ const themed = {
             color: STYLES.COLORS.DARK_GRAY
         },
         textPlaceholderColor: {
-            color: STYLES.COLORS.MEDIUM_GRAY
+            color: STYLES.COLORS.MEDIUM_GRAY5
         }
     },
 
@@ -92,7 +92,7 @@ const themed = {
             color: STYLES.COLORS.DARK_GRAY
         },
         textPlaceholderColor: {
-            color: STYLES.COLORS.MEDIUM_GRAY
+            color: STYLES.COLORS.MEDIUM_GRAY5
         }
     }
 }

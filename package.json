@@ -50,7 +50,6 @@
     "expo-image-picker": "^5.0.2",
     "expo-location": "^5.0.1",
     "expo-permissions": "^5.0.1",
-    "expo-secure-store": "^5.0.1",
     "js-base64": "^2.4.9",
     "jsrsasign": "^8.0.12",
     "lodash": "^4.17.11",

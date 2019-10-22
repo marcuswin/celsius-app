@@ -259,10 +259,11 @@ function initAppData(initToken = null) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
+        const {allowed}  = getState().compliance.loan;
         // get wallet details for verified users
         if (profile.kyc && hasPassedKYC()) {
           await dispatch(actions.getWalletSummary())
-          await dispatch(actions.getAllLoans())
+          if (allowed) await dispatch(actions.getAllLoans())
         }
 
       }

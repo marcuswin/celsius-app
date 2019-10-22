@@ -32,8 +32,13 @@ class CellphoneEnter extends Component {
 
   updateCellphoneNumber = async (phone) => {
     const {actions, formData, user} = this.props;
+    let count = 0
+    const charArray = `${phone.countryCallingCodes[0]}${formData["cellphone.text"]}`.split("").map(c => {
+      if (["+", ",", ";", "*", "#" ].includes(c)) count++;
+      return charArray
+    })
 
-    if (!phone || !formData["cellphone.text"]) {
+    if (!phone || !formData["cellphone.text"] || count > 1) {
       return actions.showMessage('error', 'You must enter a valid phone to continue.')
     }
 
