@@ -28,7 +28,7 @@ import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYC
   state => {
     const branchTransfer =
       state.branch.transferHash &&
-        state.transfers.transfers[state.branch.transferHash]
+      state.transfers.transfers[state.branch.transferHash]
         ? state.transfers.transfers[state.branch.transferHash]
         : null;
 
@@ -42,8 +42,8 @@ import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYC
       kycStatus: state.user.profile.kyc
         ? state.user.profile.kyc.status
         : KYC_STATUSES.collecting,
-      depositCompliance: state.compliance.deposit,
-    }
+      depositCompliance: state.compliance.deposit
+    };
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -71,7 +71,8 @@ class WalletLanding extends Component {
     });
 
     this.state = {
-      activeView: props.appSettings.default_wallet_view
+      activeView: props.appSettings.default_wallet_view,
+      refreshing: false
     };
 
     // NOTE (fj): quickfix for CN-2763
@@ -96,9 +97,11 @@ class WalletLanding extends Component {
       });
     }
 
-    await actions.getWalletSummary()
-    if (!currenciesRates) actions.getCurrencyRates()
-    if (!currenciesGraphs) actions.getCurrencyGraphs()
+    // Remove this call as it is called on initApp
+    await actions.getWalletSummary();
+
+    if (!currenciesRates) actions.getCurrencyRates();
+    if (!currenciesGraphs) actions.getCurrencyGraphs();
 
     // NOTE (fj): quickfix for CN-2763
     // if (user.celsius_member) {
@@ -112,7 +115,7 @@ class WalletLanding extends Component {
     }
 
     this.setWalletFetchingInterval();
-    actions.checkForLoanAlerts()
+    actions.checkForLoanAlerts();
   };
 
   componentDidUpdate(prevProps) {
@@ -153,17 +156,29 @@ class WalletLanding extends Component {
 
     this.walletFetchingInterval = setInterval(() => {
       actions.getWalletSummary();
-    }, 5000);
+    }, 300000);
   };
 
-  handleBackButton = () => {}
+  handleBackButton = () => {
+  };
 
   toggleView = viewType => {
     this.setState({ activeView: viewType });
   };
 
+  refresh = async () => {
+    const { actions } = this.props;
+    this.setState({
+      refreshing: true
+    });
+    await actions.getWalletSummary();
+    this.setState({
+      refreshing: false
+    });
+  };
+
   render() {
-    const { activeView } = this.state;
+    const { activeView, refreshing } = this.state;
     const { actions, walletSummary, currenciesRates, currenciesGraphs, user, branchTransfer, depositCompliance, kycStatus } = this.props;
     const style = WalletLandingStyle();
 
@@ -172,7 +187,7 @@ class WalletLanding extends Component {
     }
 
     return (
-      <RegularLayout>
+      <RegularLayout refreshing={refreshing} pullToRefresh={this.refresh}>
         <KYCandPromotionsTrigger actions={actions} kycType={kycStatus}/>
         <View>
           <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
@@ -218,9 +233,9 @@ class WalletLanding extends Component {
           closeModal={actions.closeModal}
           transfer={branchTransfer}
         />
-        <BecameCelMemberModal title={'Congrats! You have earned 1 CEL token!'} />
-        <EarnInterestCelModal />
-        <LoanAlertsModal />
+        <BecameCelMemberModal title={"Congrats! You have earned 1 CEL token!"}/>
+        <EarnInterestCelModal/>
+        <LoanAlertsModal/>
       </RegularLayout>
     );
   }
