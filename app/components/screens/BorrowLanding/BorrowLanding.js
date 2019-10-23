@@ -26,7 +26,7 @@ const cardWidth = widthPercentageToDP("70%");
 @connect(
   state => {
     const loanCompliance = state.compliance.loan
-    const walletSummary =state.wallet.summary
+    const walletSummary = state.wallet.summary
     const eligibleCoins = walletSummary && walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short))
     const maxAmount = walletSummary && eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0)
 
@@ -156,30 +156,24 @@ class BorrowLanding extends Component {
       >
         <View style={style.buttonsWrapper}>
           <View style={style.buttonsIconText}>
-            { this.hasEnoughForLoan() && (
-              <TouchableOpacity
-                style={style.buttonIconText}
-                onPress={() => actions.navigateTo("BorrowEnterAmount")}>
-                <View style={style.buttonItself}>
-                  <Image
-                    style={style.buttonIconHand}
-                    source={require("../../../../assets/images/icon-apply-for-a-new-loan.png")}
-                  />
-                  <CelText align='center'>
-                    Apply for a loan
-                  </CelText>
-                </View>
-              </TouchableOpacity>
-            )}
-
-            { this.hasEnoughForLoan() && (
-              <Separator
-                vertical
-                height={"35%"}
-                top={42}
+            <TouchableOpacity
+              style={style.buttonIconText}
+              onPress={() => actions.navigateTo("BorrowEnterAmount")}>
+              <View style={style.buttonItself}>
+                <Image
+                  style={style.buttonIconHand}
+                  source={require("../../../../assets/images/icon-apply-for-a-new-loan.png")}
                 />
-            )}
-
+                <CelText align='center'>
+                  Apply for a loan
+                  </CelText>
+              </View>
+            </TouchableOpacity>
+            <Separator
+              vertical
+              height={"35%"}
+              top={42}
+            />
             <TouchableOpacity
               style={style.buttonIconText}
               onPress={() => {
@@ -254,8 +248,8 @@ class BorrowLanding extends Component {
               })
             }
           </Animated.ScrollView>
-          <BorrowCalculatorModal emitParams={this.emitParams}/>
-          <LoanCancelModal actions={actions}/>
+          <BorrowCalculatorModal emitParams={this.emitParams} />
+          <LoanCancelModal actions={actions} />
         </View>
       </RegularLayout>
     );
@@ -264,7 +258,7 @@ class BorrowLanding extends Component {
   renderNoLoans = () => (
     <RegularLayout>
       <EmptyState purpose={EMPTY_STATES.NO_LOANS} />
-      <BorrowCalculatorModal emitParams={this.emitParams}/>
+      <BorrowCalculatorModal emitParams={this.emitParams} />
     </RegularLayout>
   );
 
@@ -275,16 +269,16 @@ class BorrowLanding extends Component {
     const hasLoans = !!allLoans.length
 
     if (kycStatus && !hasPassedKYC()) return <BorrowCalculatorScreen emitParams={this.emitParams}
-                                                                     purpose={EMPTY_STATES.NON_VERIFIED_BORROW}/>;
+      purpose={EMPTY_STATES.NON_VERIFIED_BORROW} />;
     if (!user.celsius_member) return <BorrowCalculatorScreen emitParams={this.emitParams}
-                                                             purpose={EMPTY_STATES.NON_MEMBER_BORROW}/>;
+      purpose={EMPTY_STATES.NON_MEMBER_BORROW} />;
     if (!loanCompliance.allowed) return <BorrowCalculatorScreen emitParams={this.emitParams}
-                                                                purpose={EMPTY_STATES.COMPLIANCE}/>;
+      purpose={EMPTY_STATES.COMPLIANCE} />;
 
     // if (isLoading && allLoans.length !== 0) return <LoadingScreen/>;
 
     if (!hasLoans && !this.hasEnoughForLoan()) return <BorrowCalculatorScreen emitParams={this.emitParams}
-                                                                               purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}/>;
+      purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS} />;
 
     if (allLoans.length === 0) return this.renderNoLoans();
 
