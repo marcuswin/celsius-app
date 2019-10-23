@@ -83,14 +83,15 @@ class Deposit extends Component {
 
     // If currency is ERC20 get ETH address because it's the same for all ERC20, else
     // find the address in wallet for specific currency
-    if (cryptoUtil.isERC20(currency)) {
-      fullAddress = walletAddresses.ETHAddress
-      alternateAddress = walletAddresses.ETHAlternateAddress
-    } else {
-      fullAddress = walletAddresses[`${currency}Address`]
-      alternateAddress = walletAddresses[`${currency}AlternateAddress`]
-    }
-
+    // if (cryptoUtil.isERC20(currency)) {
+    //   fullAddress = walletAddresses.ETHAddress
+    //   alternateAddress = walletAddresses.ETHAlternateAddress
+    // } else {
+    //   fullAddress = walletAddresses[`${currency}Address`]
+    //   alternateAddress = walletAddresses[`${currency}AlternateAddress`]
+    // }
+    fullAddress = walletAddresses[`${currency}Address`]
+    alternateAddress = walletAddresses[`${currency}AlternateAddress`]
     // Because getAddress is called in render method, it might happen that currency is defined and
     // walletAddresses is still not defined because those 2 are fetched from different APIs
     if (!fullAddress) {
