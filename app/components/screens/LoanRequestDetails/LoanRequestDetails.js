@@ -82,15 +82,15 @@ class LoanRequestDetails extends Component {
       case "initiation:date":
         return <BasicSection key={sectionType} label={"Loan Initiation Date"} value={moment(activeLoan.created_at).format("D MMM YYYY")}/>;
       case "unlocked:collateral":
-        return <BasicSection key={sectionType} label={"Unlocked Collateral"} value={formatter.crypto(activeLoan.amount_collateral_crypto, activeLoan.collateral_coin)}/>;
+        return <BasicSection key={sectionType} label={"Unlocked Collateral"} value={formatter.crypto(activeLoan.amount_collateral_crypto, activeLoan.coin)}/>;
       case "estimated:collateral":
         return <CardSection key={sectionType}
           title={activeLoan.uiProps.collateral}
           cardText={[LOAN_STATUS.PENDING].includes(activeLoan.status) && "Exact collateral amount would be determined upon approval"}
-          coin={activeLoan.collateral_coin}
-          coinAmount={activeLoan.loan_collateral_crypto}/>;
+          coin={activeLoan.coin}
+          coinAmount={activeLoan.amount_collateral_crypto}/>;
       case "collateral":
-        return <BasicSection key={sectionType} label={"Locked Collateral"} value={[formatter.crypto(activeLoan.amount_collateral_crypto, activeLoan.collateral_coin), activeLoan.coin]}/>;
+        return <BasicSection key={sectionType} label={"Locked Collateral"} value={formatter.crypto(activeLoan.amount_collateral_crypto, activeLoan.coin)}/>;
       case "term":
         return <BasicSection key={sectionType} label={"Term Length"} value={`${activeLoan.term_of_loan} months`}/>;
       case "annualInterest":

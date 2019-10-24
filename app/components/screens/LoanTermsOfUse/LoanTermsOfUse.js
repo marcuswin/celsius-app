@@ -112,7 +112,7 @@ class LoanTermsOfUse extends Component {
 
         <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
           { otherSections.map((s, i) => (
-            <View>
+            <View key={`${ i + 1}. ${ s.heading }`}>
               <ExpandableItem heading={`${ i + 1}. ${ s.heading }`} margin="5 0 5 0">
                 <Markdown style={markdownStyle}>
                   { s.text }
