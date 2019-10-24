@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { View, Image, ScrollView, SafeAreaView, StatusBar } from 'react-native'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {View, Image, ScrollView, SafeAreaView, StatusBar} from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import * as appActions from '../../../redux/actions'
 import Loader from '../../atoms/Loader/Loader'
@@ -11,8 +11,8 @@ import {
   getPadding
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
-import { THEMES, WELCOME_MESSAGES } from "../../../constants/UI";
-import { isKYCRejectedForever } from "../../../utils/user-util";
+import {THEMES, WELCOME_MESSAGES} from "../../../constants/UI";
+import {isKYCRejectedForever} from "../../../utils/user-util";
 
 const apiCalls = []
 
@@ -23,21 +23,21 @@ const apiCalls = []
     callsInProgress: state.api.callsInProgress,
     appSettings: state.user.appSettings,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
+  dispatch => ({actions: bindActionCreators(appActions, dispatch)})
 )
 class Home extends Component {
-  static getDerivedStateFromProps (nextProps, prevState) {
-    const { callsInProgress } = nextProps
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {callsInProgress} = nextProps
 
     if (callsInProgress[0] && apiCalls.indexOf(callsInProgress[0]) === -1) {
       apiCalls.push(callsInProgress[0])
-      return { progress: prevState.progress + 1 / 6 }
+      return {progress: prevState.progress + 1 / 6}
       // six is current number of calls being called while loading app
     }
     return null
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -46,18 +46,18 @@ class Home extends Component {
     }
   }
 
-  async componentDidMount () {
-    const { actions, appInitialized } = this.props
+  async componentDidMount() {
+    const {actions, appInitialized} = this.props
     if (!appInitialized) await actions.initCelsiusApp()
   }
 
-  componentDidUpdate (prevProps) {
-    const { user } = this.props;
+  componentDidUpdate(prevProps) {
+    const {user, appInitialized} = this.props;
     SplashScreen.hide()
 
     if (
       prevProps.appInitialized === false &&
-      this.props.appInitialized === true
+      appInitialized === true
     ) {
       if (user.id) {
         if (!user.has_pin) {
@@ -67,23 +67,24 @@ class Home extends Component {
         if (user.kyc) {
           if (isKYCRejectedForever()) {
             return prevProps.actions.navigateTo('VerifyProfile', {
-              activeScreen: 'KYCFinalRejection' })
+              activeScreen: 'KYCFinalRejection'
+            })
           }
         }
-        return prevProps.actions.navigateTo('VerifyProfile', { activeScreen: 'WalletLanding' })
+        return prevProps.actions.navigateTo('VerifyProfile', {activeScreen: 'WalletLanding', showLogOutBtn: true})
       }
       return prevProps.actions.navigateTo('Welcome')
     }
   }
 
-  render () {
-    const { randomMsg } = this.state
+  render() {
+    const {randomMsg} = this.state
     const paddings = getPadding('0 20 0 20')
 
     return (
-      <ScrollView contentContainerStyle={[{ flexGrow: 1 }, paddings]}>
-        <SafeAreaView style={{ flex: 1, justifyContent: 'space-between' }}>
-          <StatusBar barStyle='dark-content' />
+      <ScrollView contentContainerStyle={[{flexGrow: 1}, paddings]}>
+        <SafeAreaView style={{flex: 1, justifyContent: 'space-between'}}>
+          <StatusBar barStyle='dark-content'/>
           <View
             style={{
               marginTop: heightPercentageToDP('15%'),
@@ -117,9 +118,9 @@ class Home extends Component {
             >
               {randomMsg.text}
             </CelText>
-            <Loader progress={this.state.progress} />
+            <Loader progress={this.state.progress}/>
           </View>
-          <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-between', width: '100%' }}>
+          <View style={{flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-between', width: '100%'}}>
             <Image
               source={require('../../../../assets/images/PartnerLogos/BitGo.png')}
               style={{
