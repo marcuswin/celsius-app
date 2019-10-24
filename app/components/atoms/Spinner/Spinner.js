@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Animated } from 'react-native';
-import Svg, { Circle } from 'react-native-svg';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { Animated } from "react-native";
+import Svg, { Circle } from "react-native-svg";
+import PropTypes from "prop-types";
 
 
 import { THEMES } from "../../../constants/UI";
@@ -12,10 +12,10 @@ class Spinner extends Component {
   static propTypes = {
     size: PropTypes.number,
     color: PropTypes.string,
-    opacity: PropTypes.number,
+    opacity: PropTypes.number
   };
   static defaultProps = {
-    size: 50
+    size: 40
   };
 
   constructor(props) {
@@ -25,7 +25,7 @@ class Spinner extends Component {
     this.state = {
       spinValue: new Animated.Value(0),
       strokeColor: this.getColor(theme),
-      opacity: this.getOpacity(theme),
+      opacity: this.getOpacity(theme)
     };
     this.animation = null;
   }
@@ -39,14 +39,14 @@ class Spinner extends Component {
   };
 
   getOpacity = (theme) => {
-    const { opacity } = this.props
-    if (!isNaN(opacity)) return opacity
+    const { opacity } = this.props;
+    if (!isNaN(opacity)) return opacity;
 
-    return theme === THEMES.DARK ? 0.7 : 0.3
-  }
+    return theme === THEMES.DARK ? 0.7 : 0.3;
+  };
 
   getColor = (theme) => {
-    const { color } = this.props
+    const { color } = this.props;
     if (color) return color;
 
     switch (theme) {
@@ -90,11 +90,12 @@ class Spinner extends Component {
     return (
       <Animated.View style={style}>
         <Svg width={size} height={size} viewBox="0 0 100 100">
-          <Circle cx="50" cy="50" r="40" stroke={strokeColor} strokeWidth="5" strokeLinecap="round" strokeDasharray="62.83185307179586" fill="transparent" />
+          <Circle cx="50" cy="50" r="40" stroke={strokeColor} strokeWidth="5" strokeLinecap="round"
+                  strokeDasharray="62.83185307179586" fill="transparent"/>
         </Svg>
       </Animated.View>
     );
   }
 }
 
-export default Spinner
+export default Spinner;
