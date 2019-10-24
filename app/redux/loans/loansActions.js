@@ -88,7 +88,7 @@ function applyForALoan() {
 function loanApplyPreviewData() {
   return async (dispatch, getState) => {
     const { formData } = getState().forms;
-    startApiCall(API.APPLY_FOR_LOAN_PREVIEW_DATA);
+    dispatch(startApiCall(API.APPLY_FOR_LOAN_PREVIEW_DATA));
 
     const loanApplication = {
       coin: formData.collateralCoin,
