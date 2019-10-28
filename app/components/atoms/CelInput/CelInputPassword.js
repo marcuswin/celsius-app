@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 
 import STYLES from '../../../constants/STYLES';
-import Icon from '../Icon/Icon';
 import CelInputText from './CelInputText';
 import { THEMES } from '../../../constants/UI';
+import CelText from '../CelText/CelText';
 
 class CelInputPassword extends Component {
 
@@ -58,15 +58,14 @@ class CelInputPassword extends Component {
   render() {
     const { theme, value, disabled } = this.props
     const { visible } = this.state;
-    const fillColor = theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.WHITE;
-    const iconName = visible ? 'EyeHide' : 'EyeShow';
-    const paddingTop = visible ? 10 : 13;
+    const fillColor = theme !== THEMES.DARK ? STYLES.COLORS.GRAY : STYLES.COLORS.WHITE;
+    const iconName = visible ? 'HIDE' : 'SHOW';
     return (
       <React.Fragment>
         <CelInputText {...this.props} secureTextEntry={!visible} style={{ paddingRight: 15 }} />
         {!!value && !disabled && (
-          <TouchableOpacity style={{ position: 'absolute', right: 10, top: paddingTop, justifyContent: 'center', alignItems: 'center' }} onPress={() => this.setState({ visible: !visible })}>
-            <Icon name={iconName} fill={fillColor} height="25" width="25" />
+          <TouchableOpacity style={{ position: 'absolute', right: 10, top: 13, justifyContent: 'center', alignItems: 'center' }} onPress={() => this.setState({ visible: !visible })}>
+            <CelText type='H5' align={'center'} color={fillColor}>{iconName}</CelText>
           </TouchableOpacity>
         )}
       </React.Fragment>

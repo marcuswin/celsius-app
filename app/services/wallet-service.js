@@ -57,7 +57,7 @@ function setCoinWithdrawalAddress(coin, address, verification) {
  *
  * @param {string} label - choosen or entered wallet address label
  * @param {string} coin - eg. eth|ETH
- 
+
  * @return {Promise}
  */
 function setCoinWithdrawalAddressLabel(coin, label) {
@@ -78,7 +78,7 @@ function setCoinWithdrawalAddressLabel(coin, label) {
  * @return {Promise}
  */
 function withdrawCrypto(coin, amount, verification) {
-  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, { amount, ...verification });
+  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, {amount, ...verification});
 }
 
 export default walletService;
@@ -87,6 +87,6 @@ export default walletService;
  *  Get all coin withdrawal adresses
  * @return {Promise}
  */
-function getAllCoinWithdrawalAddresses () {
+function getAllCoinWithdrawalAddresses() {
   return axios.get(`${apiUrl}/wallet/withdrawal_addresses`);
 }

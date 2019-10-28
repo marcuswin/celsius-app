@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import moment from 'moment';
-
+import {Share} from "react-native";
 
 import * as appActions from "../../../redux/actions";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
@@ -72,26 +72,40 @@ class TransactionDetails extends Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { actions, navigation } = this.props;
     const transactionId = navigation.getParam('id');
-    actions.getTransactionDetails(transactionId);
+    await actions.getTransactionDetails(transactionId);
+
   };
 
   componentDidUpdate(prevProps) {
+    const { transaction, actions, user } = this.props;
     if (prevProps.transaction !== this.props.transaction) {
       const transactionProps = this.props.transaction.uiProps
       this.props.navigation.setParams({
         title: transactionProps.title(this.props.transaction.coin.toUpperCase())
       })
+      if (transaction && !user.individual_referral_link && transaction.type.includes('REFER')){
+        actions.getBranchIndividualLink()
+      }
     }
   }
+
+
+  handleShareLink = async () => {
+    const { user } = this.props
+
+    await Share.share({message: `Join Celsius Network using my referral code ${user.individual_referral_link && user.individual_referral_link.split("/")[user.individual_referral_link.split("/").length - 1]} when signing up and earn $10 in BTC with your first deposit of $200 or more! #UnbankYourself \n \n${user.individual_referral_link}`})
+  }
+
 
   renderSection = (sectionType) => {
     const { actions, transaction, user, totalInterestEarned, appSettings, loyaltyInfo, navigation } = this.props;
     const transactionProps = transaction.uiProps;
     const kycPassed = user.kyc && (hasPassedKYC())
     const transactionId = navigation.getParam('id')
+
 
     switch (sectionType) {
       case 'info':
@@ -128,7 +142,7 @@ class TransactionDetails extends Component {
       case 'button:applyForLoan':
         return <CelButton margin="12 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for another loan</CelButton>
       case 'button:refer':
-        return <CelButton margin="12 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Refer more friends</CelButton> // TODO(sb): link to refer a friend
+        return <CelButton margin="12 0 10 0" key={sectionType} onPress={() => { this.handleShareLink() }}>Refer more friends</CelButton>
       case 'note':
         return <NoteSection key={sectionType} text={transaction.transfer_data.message} />;
       case 'interest':

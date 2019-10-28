@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Contacts from 'expo-contacts';
 import * as Permissions from 'expo-permissions';
-import { TouchableOpacity, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 import * as appActions from '../../../redux/actions';
 
@@ -15,7 +15,6 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import Spinner from '../../atoms/Spinner/Spinner';
 import ContactList from '../../molecules/ContactList/ContactList';
 import Separator from '../../atoms/Separator/Separator';
-import Icon from '../../atoms/Icon/Icon';
 import { getFilteredContacts } from '../../../redux/custom-selectors';
 import StaticScreen from "../StaticScreen/StaticScreen";
 import { EMPTY_STATES } from "../../../constants/UI";
@@ -24,6 +23,7 @@ import logger from "../../../utils/logger-util";
 import cryptoUtil from '../../../utils/crypto-util';
 import { hasPassedKYC } from "../../../utils/user-util";
 import ContactsLoader from "../../organisms/ContactsLoader/ContactsLoader";
+import IconButton from '../../organisms/IconButton/IconButton';
 
 const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 30 }}>
@@ -113,7 +113,7 @@ class CelPayChooseFriend extends Component {
     }
   }
 
-  
+
   // lifecycle methods
   async componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
@@ -212,7 +212,7 @@ class CelPayChooseFriend extends Component {
     actions.navigateTo('CelPayEnterAmount');
   };
 
-  hasFriends = () => this.props.contacts && this.props.contacts.friendsWithApp && this.props.contacts.friendsWithApp.length  > 0
+  hasFriends = () => this.props.contacts && this.props.contacts.friendsWithApp && this.props.contacts.friendsWithApp.length > 0
 
   renderContent = () => {
     const { hasContactPermission, isRefreshing } = this.state;
@@ -227,12 +227,7 @@ class CelPayChooseFriend extends Component {
 
     return (
       <View style={{ flex: 1, width: '100%' }}>
-        <TouchableOpacity onPress={this.sendLink} style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <CelText color={STYLES.COLORS.CELSIUS_BLUE} type='H4' align='left' margin={'20 0 20 0'}>
-            Send as a link
-          </CelText>
-          <Icon name='IconChevronRight' height={10} width={20} fill={STYLES.COLORS.MEDIUM_GRAY} />
-        </TouchableOpacity>
+        <IconButton onPress={this.sendLink} margin="20 0 20 0"> Send as a link</IconButton>
         <View style={{ width: '100%' }}>
           <Separator />
           <CelButton
@@ -258,12 +253,12 @@ class CelPayChooseFriend extends Component {
     const { isLoading } = this.state;
     const hasFriends = this.hasFriends()
 
-    if (kycStatus !== KYC_STATUSES.pending && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
-    if (kycStatus === KYC_STATUSES.pending && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_CELPAY }}/>
-    if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
+    if (kycStatus !== KYC_STATUSES.pending && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }} />
+    if (kycStatus === KYC_STATUSES.pending && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.VERIFICATION_IN_PROCESS_CELPAY }} />
+    if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }} />
     if (!celpayCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
 
-    if (isLoading && !hasFriends) return <ContactsLoader navigateTo={actions.navigateTo}/>
+    if (isLoading && !hasFriends) return <ContactsLoader navigateTo={actions.navigateTo} />
     if (!cryptoUtil.isGreaterThan(walletSummary.total_amount_usd, 0)) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }} />
 
     const RenderContent = this.renderContent;
