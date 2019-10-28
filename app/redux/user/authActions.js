@@ -77,7 +77,12 @@ function loginUser () {
         tokens: res.data.auth0,
         user
       })
-      dispatch(navigateTo('WalletFab'))
+
+      if (!user.has_pin) {
+        dispatch(navigateTo('RegisterSetPin'))
+      } else {
+        dispatch(navigateTo('WalletFab'))
+      }
     } catch (err) {
       dispatch(showMessage('error', err.msg))
       dispatch(apiError(API.LOGIN_USER, err))
