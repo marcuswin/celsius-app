@@ -3463,9 +3463,10 @@ expo-permissions@^5.0.1, expo-permissions@~5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-5.0.1.tgz#cc6af49a37ea3ab73e780a8a19f22b7662379941"
 
-expo-secure-store@^5.0.1:
+expo-secure-store@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-5.0.1.tgz#451d61e9519bb964e315c2be336e2aa5f130b8a4"
+  integrity sha512-iA0/MJCHZk9z5OdxEXH5TYEDKq5sEIdASBr/7XkdCl+gB7+3peSeEXsXPRK+TK/Tzo9JGgfYrXha/CsVC9nD5A==
 
 extend-shallow@^1.1.2:
   version "1.1.4"

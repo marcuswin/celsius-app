@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, View } from "react-native";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {TouchableOpacity, View} from "react-native";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
 
@@ -12,7 +12,7 @@ import formatter from "../../../utils/formatter";
 import CelText from "../../atoms/CelText/CelText";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
-import { THEMES } from "../../../constants/UI"
+import {THEMES} from "../../../constants/UI"
 import Icon from "../../atoms/Icon/Icon";
 import {getTheme} from "../../../utils/styles-util";
 
@@ -21,7 +21,7 @@ import {getTheme} from "../../../utils/styles-util";
   state => ({
     communityStats: state.community.stats,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
 )
 class CommunityDashboard extends Component {
 
@@ -37,7 +37,7 @@ class CommunityDashboard extends Component {
   constructor(props) {
     super(props);
 
-    const { buttonTypes } = this.props;
+    const {buttonTypes} = this.props;
 
     this.state = {
       // initial state
@@ -68,7 +68,7 @@ class CommunityDashboard extends Component {
   // event hanlders
   // rendering methods
   handlePress = (button) => {
-    const { name, communityStats } = this.props;
+    const {name, communityStats} = this.props;
     let number;
     let explanationText;
 
@@ -117,11 +117,11 @@ class CommunityDashboard extends Component {
   };
 
   render() {
-    const { name, buttonTypes, info, children } = this.props;
-    const { activeButton, primaryNumber, explanation } = this.state;
+    const {name, buttonTypes, info, children} = this.props;
+    const {activeButton, primaryNumber, explanation} = this.state;
     const style = CommunityDashboardStyle();
     const theme = getTheme()
-    const separatorColor = THEMES.LIGHT === theme ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.SEMI_GRAY
+    const separatorColor = THEMES.LIGHT === theme ? STYLES.COLORS.DARK_GRAY1 : null
 
     return (
       <View style={style.container}>
@@ -135,7 +135,7 @@ class CommunityDashboard extends Component {
                   name={button}
                   height={18}
                   width={18}
-                  fill={ activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
+                  fill={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
                   strokeWidth={0.5}
                 />
                 <CelText

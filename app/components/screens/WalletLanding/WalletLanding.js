@@ -23,6 +23,7 @@ import CoinCards from "../../organisms/CoinCards/CoinCards";
 import WalletLandingStyle from "./WalletLanding.styles";
 import LoanAlertsModal from "../../organisms/LoanAlertsModal/LoanAlertsModal";
 import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger";
+import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 
 @connect(
   state => {
@@ -42,8 +43,8 @@ import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYC
       kycStatus: state.user.profile.kyc
         ? state.user.profile.kyc.status
         : KYC_STATUSES.collecting,
-      depositCompliance: state.compliance.deposit
-    };
+      depositCompliance: state.compliance.deposit,
+    }
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -158,7 +159,7 @@ class WalletLanding extends Component {
   };
 
   handleBackButton = () => {
-  };
+  }
 
   toggleView = viewType => {
     this.setState({ activeView: viewType });
@@ -224,7 +225,12 @@ class WalletLanding extends Component {
                      currenciesRates={currenciesRates}
                      depositCompliance={depositCompliance}
           />
-          <ComingSoonCoins activeView={activeView}/>
+          <ExpandableItem
+            heading={'COMING SOON'}
+            margin={'10 0 10 0'}
+          >
+            <ComingSoonCoins activeView={activeView}/>
+          </ExpandableItem>
         </View>
         <CelPayReceivedModal
           navigateTo={actions.navigateTo}

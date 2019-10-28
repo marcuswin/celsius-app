@@ -1,9 +1,9 @@
-import { createStackNavigator } from 'react-navigation';
+import {createStackNavigator} from 'react-navigation';
 import Profile from '../../components/screens/Profile/Profile';
-import Settings from "../../components/screens/Settings/Settings";
 import TermsOfUse from "../../components/screens/TermsOfUse/TermsOfUse";
 import Appearance from "../../components/screens/Appearance/Appearance";
-import ApiAuthorizationPermissions from "../../components/screens/ApiAuthorizationPermissions/ApiAuthorizationPermissions";
+import ApiAuthorizationPermissions
+  from "../../components/screens/ApiAuthorizationPermissions/ApiAuthorizationPermissions";
 import WalletSettings from "../../components/screens/WalletSettings/WalletSettings";
 import SecuritySettings from "../../components/screens/SecuritySettings/SecuritySettings";
 import SecurityOverview from "../../components/screens/SecurityOverview/SecurityOverview";
@@ -16,8 +16,9 @@ import ChangeAvatar from "../../components/screens/ChangeAvatar/ChangeAvatar";
 import CameraScreen from "../../components/screens/CameraScreen/CameraScreen";
 import ApiAuthorization from "../../components/screens/ApiAuthorization/ApiAuthorization";
 import ConfirmCamera from "../../components/screens/ConfirmCamera/ConfirmCamera";
-import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
-import TwoFaAuthAppConfirmationCode from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
+import {defaultNavigationOptions, transitionConfig} from '../navigationConfig';
+import TwoFaAuthAppConfirmationCode
+  from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
 import LoyaltyProgram from "../../components/screens/LoyaltyProgram/LoyaltyProgram";
 import CellphoneEnter from "../../components/screens/CellphoneEnter/CellphoneEnter";
 import CellphoneVerify from "../../components/screens/CellphoneVerify/CellphoneVerify";
@@ -32,7 +33,6 @@ import Support from "../../components/screens/Support/Support";
 export const profileFlow = {
   screens: {
     Profile,
-    Settings,
     TermsOfUse,
     NotificationsSettings,
     SecuritySettings,

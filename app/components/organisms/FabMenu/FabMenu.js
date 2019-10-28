@@ -1,16 +1,16 @@
-import React, { Component, Fragment } from 'react';
-import { View, StyleSheet, Platform, TouchableOpacity, Animated, Easing } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
-import { BlurView } from 'expo-blur';
+import React, {Component, Fragment} from 'react';
+import {View, StyleSheet, Platform, TouchableOpacity, Animated, Easing} from 'react-native';
+import {connect} from 'react-redux';
+import {bindActionCreators} from "redux";
+import {BlurView} from 'expo-blur';
 import * as appActions from "../../../redux/actions";
 
 import FabMenuStyle from "./FabMenu.styles";
 import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
-import { THEMES } from '../../../constants/UI';
-import { KYC_STATUSES } from "../../../constants/DATA";
-import { hasPassedKYC, isKYCRejectedForever } from "../../../utils/user-util";
+import {THEMES} from '../../../constants/UI';
+import {KYC_STATUSES} from "../../../constants/DATA";
+import {hasPassedKYC, isKYCRejectedForever} from "../../../utils/user-util";
 import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import Icon from "../../atoms/Icon/Icon";
@@ -31,7 +31,7 @@ import STYLES from "../../../constants/STYLES";
     withdrawCompliance: state.compliance.withdraw,
     user: state.user.profile,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
 )
 class FabMenu extends Component {
   constructor(props) {
@@ -46,14 +46,14 @@ class FabMenu extends Component {
   }
 
   componentDidMount = () => {
-    const { fabType } = this.props;
+    const {fabType} = this.props;
     this.setState({
       menuItems: this.getMenuItems(fabType)
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    if((nextProps.appInitialized && nextProps.appInitialized !== this.props.appInitialized && nextProps.user.has_pin) || (nextProps.appInitialized && nextProps.user.has_pin &&  nextProps.user.has_pin !== this.props.user.has_pin)) {
+    if ((nextProps.appInitialized && nextProps.appInitialized !== this.props.appInitialized && nextProps.user.has_pin) || (nextProps.appInitialized && nextProps.user.has_pin && nextProps.user.has_pin !== this.props.user.has_pin)) {
       this.doAnimate()
     }
   }
@@ -67,24 +67,27 @@ class FabMenu extends Component {
   };
 
   getMenuItems(menu) {
-    const {depositCompliance, celpayCompliance, loanCompliance, withdrawCompliance, user,kycStatus} = this.props;
+    const {depositCompliance, celpayCompliance, loanCompliance, withdrawCompliance, user, kycStatus} = this.props;
     const main = [
       [
-        { iconName: 'Wallet',label: 'Wallet', screen: 'WalletLanding' },
+        {iconName: 'Wallet', label: 'Wallet', screen: 'WalletLanding'},
       ],
       [],
       [
-        { iconName:'Settings', label: 'Settings', screen: 'Settings' },
-        { iconName: 'Community', label: 'Community', screen: 'Community' },
+        {iconName: 'Community', label: 'Community', screen: 'Community'},
       ]
     ];
-    if (depositCompliance.allowed) main[0].push({iconName: 'Deposit', label: 'Deposit', screen: 'Deposit' });
-    if ((kycStatus && hasPassedKYC()) && withdrawCompliance.allowed) main[0].push({iconName: 'Withdraw', label: 'Withdraw', screen: 'WithdrawEnterAmount' });
-    if (celpayCompliance.allowed) main[1].push({iconName:'CelPay', label: 'CelPay', screen: 'CelPayChooseFriend' });
-    if (loanCompliance.allowed) main[1].push({iconName: 'Borrow', label: 'Borrow', screen: 'BorrowLanding' });
+    if (depositCompliance.allowed) main[0].push({iconName: 'Deposit', label: 'Deposit', screen: 'Deposit'});
+    if ((kycStatus && hasPassedKYC()) && withdrawCompliance.allowed) main[0].push({
+      iconName: 'Withdraw',
+      label: 'Withdraw',
+      screen: 'WithdrawEnterAmount'
+    });
+    if (celpayCompliance.allowed) main[1].push({iconName: 'CelPay', label: 'CelPay', screen: 'CelPayChooseFriend'});
+    if (loanCompliance.allowed) main[1].push({iconName: 'Borrow', label: 'Borrow', screen: 'BorrowLanding'});
     if (user) main[1].push({iconName: 'Profile', label: 'Profile', screen: 'Profile'});
     // TODO change borrow landing to new screen
-    if (kycStatus && hasPassedKYC()) main[2].splice(1, 0, { iconName: 'MyCel', label: 'My CEL', screen: 'MyCel' })
+    if (kycStatus && hasPassedKYC()) main[2].splice(1, 0, {iconName: 'MyCel', label: 'My CEL', screen: 'MyCel'})
 
     return {
       main,
@@ -93,7 +96,7 @@ class FabMenu extends Component {
   }
 
   getTintColor = () => {
-    const { theme } = this.props;
+    const {theme} = this.props;
 
     switch (theme) {
       case THEMES.DARK:
@@ -105,13 +108,19 @@ class FabMenu extends Component {
     }
   }
 
-  doAnimate () {
-    setTimeout(()=>{ this.spring() }, 1000)
-    setTimeout(()=>{ this.spring() }, 2500)
-    setTimeout(()=>{ this.spring() }, 4000)
+  doAnimate() {
+    setTimeout(() => {
+      this.spring()
+    }, 1000)
+    setTimeout(() => {
+      this.spring()
+    }, 2500)
+    setTimeout(() => {
+      this.spring()
+    }, 4000)
   }
 
-  spring () {
+  spring() {
     this.springValue.setValue(1.1)
     this.pulseValue.setValue(1)
     this.opacityValue.setValue(0.8)
@@ -150,7 +159,7 @@ class FabMenu extends Component {
   }
 
   fabAction = () => {
-    const { fabType } = this.props;
+    const {fabType} = this.props;
     switch (fabType) {
       case 'main':
         this.toggleMenu();
@@ -162,7 +171,7 @@ class FabMenu extends Component {
   }
 
   toggleMenu = () => {
-    const { fabMenuOpen, actions } = this.props;
+    const {fabMenuOpen, actions} = this.props;
     if (fabMenuOpen) {
       actions.closeFabMenu()
     } else {
@@ -188,12 +197,15 @@ class FabMenu extends Component {
   };
 
   renderMenuItem = (item) => {
-    const { theme, actions } = this.props;
+    const {theme, actions} = this.props;
     return (
       <CircleButton
         key={item.label}
         theme={theme}
-        onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }}
+        onPress={() => {
+          actions.resetToFlow(item.screen);
+          actions.closeFabMenu()
+        }}
         type="menu"
         text={item.label}
         icon={item.iconName}
@@ -213,13 +225,13 @@ class FabMenu extends Component {
 
   renderFabMenu = () => {
     const style = FabMenuStyle();
-    const { menuItems } = this.state;
-    const { actions, theme } = this.props;
+    const {menuItems} = this.state;
+    const {actions, theme} = this.props;
     const tintColor = this.getTintColor();
 
     if (Platform.OS !== 'android') {
       return (
-        <BlurView tint={tintColor} intensity={100} style={[StyleSheet.absoluteFill]} >
+        <BlurView tint={tintColor} intensity={100} style={[StyleSheet.absoluteFill]}>
           <Card styles={style.helpCard} size={"half"} onPress={() => {
             actions.navigateTo("Support");
             actions.closeFabMenu()
@@ -228,7 +240,7 @@ class FabMenu extends Component {
               name={"QuestionCircle"}
               width={25}
               height={25}
-              fill={theme === "dark" ?  STYLES.COLORS.WHITE_OPACITY5 : STYLES.COLORS.DARK_GRAY}
+              fill={theme === "dark" ? STYLES.COLORS.WHITE_OPACITY5 : STYLES.COLORS.DARK_GRAY}
             />
             <CelText weight={"300"} type={"H5"}>Need help?</CelText>
           </Card>
@@ -248,12 +260,12 @@ class FabMenu extends Component {
             name={"QuestionCircle"}
             width={25}
             height={25}
-            fill={theme === "dark" ?  STYLES.COLORS.WHITE_OPACITY5 : STYLES.COLORS.DARK_GRAY}
+            fill={theme === "dark" ? STYLES.COLORS.WHITE_OPACITY5 : STYLES.COLORS.DARK_GRAY}
           />
           <CelText weight={"300"} type={"H5"}>Need help?</CelText>
         </Card>
         <View style={style.menuContainer}>
-        {menuItems.map(this.renderMenuRow)}
+          {menuItems.map(this.renderMenuRow)}
         </View>
       </TouchableOpacity>
     )
@@ -262,12 +274,15 @@ class FabMenu extends Component {
 
   renderFab = () => {
     const style = FabMenuStyle();
-    const { fabType } = this.props;
+    const {fabType} = this.props;
     return (
       <Fragment>
-        <Animated.View style={[style.fabButton, style.opacityCircle, {transform: [{scale: this.pulseValue}],  opacity: this.opacityValue} ]}/>
-        <Animated.View style={[style.fabButton, { transform: [{scale: this.springValue} ]} ]}>
-          <Fab onPress={this.fabAction} type={fabType} />
+        <Animated.View style={[style.fabButton, style.opacityCircle, {
+          transform: [{scale: this.pulseValue}],
+          opacity: this.opacityValue
+        }]}/>
+        <Animated.View style={[style.fabButton, {transform: [{scale: this.springValue}]}]}>
+          <Fab onPress={this.fabAction} type={fabType}/>
         </Animated.View>
       </Fragment>
     );
@@ -275,7 +290,7 @@ class FabMenu extends Component {
 
   render() {
     const style = FabMenuStyle();
-    const { fabMenuOpen, fabType } = this.props
+    const {fabMenuOpen, fabType} = this.props
 
     if (isKYCRejectedForever()) return null
 
@@ -287,8 +302,8 @@ class FabMenu extends Component {
 
     return (
       <Fragment>
-        {fabMenuOpen ? <FabMenuCmp style={style.menu} /> : null}
-        <FabButton />
+        {fabMenuOpen ? <FabMenuCmp style={style.menu}/> : null}
+        <FabButton/>
       </Fragment>
     )
   }

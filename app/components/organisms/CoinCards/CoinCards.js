@@ -9,6 +9,7 @@ import { WALLET_LANDING_VIEW_TYPES } from "../../../constants/UI";
 import CoinGridCard from "../../molecules/CoinGridCard/CoinGridCard";
 import CoinListCard from "../../molecules/CoinListCard/CoinListCard";
 import Icon from "../../atoms/Icon/Icon";
+import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 
 class CoinCards extends Component {
 
@@ -22,10 +23,11 @@ class CoinCards extends Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      walletCoins: []
-    };
+      coinsWithAmount: [],
+      coinsWithoutAmount: []
+    }
   }
 
   componentDidMount() {
@@ -79,22 +81,26 @@ class CoinCards extends Component {
         coins.push(coin);
       });
 
+      const coinsWithAmount = _.remove(coins, c => c.amount_usd !== 0)
+      const coinsWithoutAmount = _.remove(coins, c => c.amount_usd === 0)
+
       await this.setState({
-        walletCoins: coins
-      });
+        coinsWithAmount,
+        coinsWithoutAmount
+      })
     }
   };
 
-  renderCoinCards = () => {
-    const { activeView } = this.props;
-    const { walletCoins } = this.state;
+  renderCoinCards = (c) => {
+    const {activeView} = this.props
+
 
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID;
 
     // Render grid item
     if (isGrid) {
       return (
-        walletCoins.map(coin => (
+        c.map(coin => (
             <CoinGridCard
               key={coin.short}
               coin={coin}
@@ -105,11 +111,11 @@ class CoinCards extends Component {
             />
           )
         )
-      );
+      )
     }
     // Render list item
     return (
-      walletCoins.map(coin => (
+      c.map(coin => (
         <CoinListCard
           key={coin.short}
           coin={coin}
@@ -118,15 +124,15 @@ class CoinCards extends Component {
           onCardPress={coin.navigate}
         />
       ))
-    );
-  };
+    )
+  }
 
   renderAddMoreCoins = () => {
     const { navigateTo, activeView } = this.props;
     const style = CoinCardsStyle();
 
-    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID;
-    const gridStyle = isGrid ? style.addMoreCoinsGrid : style.addMoreCoinsList;
+    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
+    const gridStyle = isGrid ? style.addMoreCoinsGrid : style.addMoreCoinsList
 
     return (
       <TouchableOpacity
@@ -145,10 +151,33 @@ class CoinCards extends Component {
 
   render() {
     const style = CoinCardsStyle();
+
+    const {
+      coinsWithAmount,
+      coinsWithoutAmount
+    } = this.state
+
     return (
-      <View style={style.coinCardContainer}>
-        {this.renderCoinCards()}
-        {this.renderAddMoreCoins()}
+      <View>
+        <ExpandableItem
+          heading={'DEPOSITS'}
+          margin={'10 0 10 0'}
+          childrenStyle={style.coinCardContainer}
+          isExpanded
+        >
+          {this.renderCoinCards(coinsWithAmount)}
+          {this.renderAddMoreCoins()}
+        </ExpandableItem>
+
+        <ExpandableItem
+          heading={'AVAILABLE COINS'}
+          margin={'10 0 10 0'}
+          childrenStyle={style.coinCardContainer}
+        >
+          {this.renderCoinCards(coinsWithoutAmount)}
+        </ExpandableItem>
+
+
       </View>
     );
   }

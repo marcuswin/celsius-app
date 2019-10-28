@@ -1,5 +1,5 @@
 import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import {getThemedStyle} from '../../../utils/styles-util';
 
 const base = {
   container: {
@@ -38,36 +38,37 @@ const base = {
 }
 
 const themed = {
-    light: {
-      leftSegment: {
-        borderColor: STYLES.COLORS.GRAY
-      },
-      left: {
-        borderColor: STYLES.COLORS.GRAY,
-      },
-      right: {
-        borderColor: STYLES.COLORS.GRAY,
-      },
-      centralText: {
-        color: STYLES.COLORS.MEDIUM_GRAY
-      }
+  light: {
+    leftSegment: {
+      borderColor: STYLES.COLORS.DARK_GRAY1
     },
-
-    dark: {
-      leftSegment: {
-        borderColor: STYLES.COLORS.WHITE_OPACITY5
-      },
-      left: {
-        borderColor: STYLES.COLORS.WHITE_OPACITY5,
-      },
-      right: {
-        borderColor: STYLES.COLORS.WHITE_OPACITY5,
-      },
-
+    left: {
+      borderColor: STYLES.COLORS.DARK_GRAY1,
     },
-
-    celsius: {
+    right: {
+      borderColor: STYLES.COLORS.DARK_GRAY1,
+    },
+    centralText: {
+      color: STYLES.COLORS.MEDIUM_GRAY
     }
+  },
+
+  dark: {
+    leftSegment: {
+      borderColor: STYLES.COLORS.DARK_GRAY5
+    },
+    left: {
+      borderColor: STYLES.COLORS.DARK_GRAY5,
+    },
+    right: {
+      borderColor: STYLES.COLORS.DARK_GRAY5,
+    },
+    centralText: {
+      color: STYLES.COLORS.DARK_GRAY5
+    }
+  },
+
+  celsius: {}
 }
 
 const ExpandableItemStyle = () => getThemedStyle(base, themed);

@@ -1,10 +1,10 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
+import {getThemedStyle, widthPercentageToDP} from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        flex: 1
-    },
+  container: {
+    flex: 1
+  },
   addMoreCoinsGrid: {
     borderWidth: 1,
     borderStyle: 'dashed',
@@ -36,14 +36,11 @@ const base = {
 }
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
+  celsius: {}
 }
 
 const CoinsCardStyle = () => getThemedStyle(base, themed);

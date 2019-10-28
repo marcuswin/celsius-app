@@ -23,7 +23,10 @@ const COLORS = {
   SEMI_GRAY: '#344352',
   DARK_GRAY: '#3D4853',
   BLUE_GRAY: '#293D51',
+  DARK_GRAY1: 'rgba(61, 72, 83, 0.1)',
+  DARK_GRAY2: 'rgba(61, 72, 83, 0.2)',
   DARK_GRAY3: 'rgba(61, 72, 83, 0.3)',
+  DARK_GRAY5: 'rgba(61, 72, 83, 0.5)',
   DARK_GRAY6: 'rgba(61, 72, 83, 0.6)',
   DARK_GRAY7: 'rgba(61, 72, 83, 0.7)',
   DARK_GRAY_OPACITY: 'rgba(61, 72, 83, 0.15)',
@@ -48,13 +51,13 @@ const CAMERA_MASK_SIZES = {
 }
 
 const SHADOW_STYLES = {
-  shadowOffset: { width: 0, height: 3 },
+  shadowOffset: {width: 0, height: 3},
   shadowOpacity: 0.03,
   shadowRadius: 3,
 }
 
 const ANDROID_SHADOW_STYLES = {
-  shadowOffset: { width: 0, height: 3 },
+  shadowOffset: {width: 0, height: 3},
   borderColor: '#E9E9E9',
   borderRadius: 30,
   borderTopWidth: 0.2,
