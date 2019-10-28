@@ -16,7 +16,8 @@ import STYLES from "../../../constants/STYLES";
 import Card from "../../atoms/Card/Card";
 import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 import Icon from "../../atoms/Icon/Icon";
-import HeadingProgressBar from '../../atoms/HeadingProgressBar/HeadingProgressBar'
+import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 @connect(
   state => ({
@@ -32,94 +33,101 @@ class LoanTermsOfUse extends Component {
     title: "Terms and Conditions"
   });
 
+  componentDidMount() {
+    const { actions } = this.props;
+    actions.getLoanTermsOfUse();
+  }
+
   getToUProps = () => {
     const { loanTermsOfUse } = this.props;
 
-    const textArray = loanTermsOfUse.split('\n')
+    const textArray = loanTermsOfUse.split("\n");
     const textArrayParsed = textArray.map(s => ({
       text: s,
-      type: s.includes('## ') ? 'heading' : 'paragraph'
-    }))
+      type: s.includes("## ") ? "heading" : "paragraph"
+    }));
 
-    const sections = []
+    const sections = [];
     textArrayParsed.forEach(el => {
-      if (el.type === 'heading') {
-        sections.push([el])
+      if (el.type === "heading") {
+        sections.push([el]);
       } else {
-        sections[sections.length - 1].push(el)
+        sections[sections.length - 1].push(el);
       }
-    })
+    });
 
     const sectionsMerged = sections.map(s => ({
-      heading: s[0].text.replace('## ', ''),
-      text: s.splice(1).map(text => text.text).join('\n')
-    }))
+      heading: s[0].text.replace("## ", ""),
+      text: s.splice(1).map(text => text.text).join("\n")
+    }));
 
-    const introSection = sectionsMerged[0]
-    const otherSections = sectionsMerged.splice(1)
+    const introSection = sectionsMerged[0];
+    const otherSections = sectionsMerged.splice(1);
 
-    const checkboxes = [6, 13, otherSections.length - 1]
+    const checkboxes = [6, 13, otherSections.length - 1];
     const checkboxTexts = [
       `I have read, understood and agree to the above mentioned in sections 1 - 7`,
       `I have read, understood and agree to the above mentioned in sections 8 - 14`,
-      `I have read, understood and agree to the above mentioned in sections 15 - ${ otherSections.length }`,
-    ]
+      `I have read, understood and agree to the above mentioned in sections 15 - ${otherSections.length}`
+    ];
 
     return {
       introSection,
       otherSections,
       checkboxes,
-      checkboxTexts,
-    }
-  }
+      checkboxTexts
+    };
+  };
 
   continue = () => {
-    const { actions } = this.props
+    const { actions } = this.props;
 
-    actions.navigateTo('VerifyProfile', {
+    actions.navigateTo("VerifyProfile", {
       onSuccess: () => actions.applyForALoan()
-    })
-  }
+    });
+  };
 
   render() {
-    const { formData, theme, pdf, actions } = this.props;
+    const { formData, theme, pdf, actions, loanTermsOfUse } = this.props;
     const styles = LoanTermsOfUseStyle();
 
-    const { introSection, otherSections, checkboxes, checkboxTexts } = this.getToUProps()
+    if (!loanTermsOfUse || !pdf) return <LoadingScreen/>;
 
-    const canContinue = formData.loansToU0 && formData.loansToU1 && formData.loansToU2
+    const { introSection, otherSections, checkboxes, checkboxTexts } = this.getToUProps();
+
+    const canContinue = formData.loansToU0 && formData.loansToU1 && formData.loansToU2;
     const textColor = theme === THEMES.LIGHT ? STYLES.COLORS.MEDIUM_GRAY : "white";
 
     const markdownStyle = {
       text: { color: textColor, fontSize: 16 },
-      link: {color: STYLES.COLORS.CELSIUS_BLUE},
+      link: { color: STYLES.COLORS.CELSIUS_BLUE },
       listOrderedItemIcon: { color: textColor, marginLeft: 10, marginRight: 10, lineHeight: 40 },
-      listUnorderedItemIcon: { color: textColor, marginLeft: 10, marginRight: 10, lineHeight: 40 },
-    }
+      listUnorderedItemIcon: { color: textColor, marginLeft: 10, marginRight: 10, lineHeight: 40 }
+    };
 
     return (
       <RegularLayout fabType={"hide"} padding="0 0 100 0">
-        <HeadingProgressBar steps={6} currentStep={6} />
+        <HeadingProgressBar steps={6} currentStep={6}/>
 
         <View style={{ padding: 20 }}>
           <CelText color={textColor} weight="bold" type="H3" align="center">
-            { introSection.heading }
+            {introSection.heading}
           </CelText>
           <Markdown style={markdownStyle}>
-            { introSection.text }
+            {introSection.text}
           </Markdown>
         </View>
 
         <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
-          { otherSections.map((s, i) => (
-            <View key={`${ i + 1}. ${ s.heading }`}>
-              <ExpandableItem heading={`${ i + 1}. ${ s.heading }`} margin="5 0 5 0">
+          {otherSections.map((s, i) => (
+            <View>
+              <ExpandableItem heading={`${i + 1}. ${s.heading}`} margin="5 0 5 0">
                 <Markdown style={markdownStyle}>
-                  { s.text }
+                  {s.text}
                 </Markdown>
               </ExpandableItem>
 
-              { checkboxes.includes(i) && (
+              {checkboxes.includes(i) && (
                 <Card
                   color={
                     theme === THEMES.LIGHT
@@ -140,10 +148,10 @@ class LoanTermsOfUse extends Component {
                 </Card>
               )}
             </View>
-          )) }
+          ))}
         </View>
 
-        <View style={{ padding: 20}}>
+        <View style={{ padding: 20 }}>
           <Card
             color={
               theme === THEMES.LIGHT
@@ -174,8 +182,8 @@ class LoanTermsOfUse extends Component {
           Request loan
         </CelButton>
       </RegularLayout>
-    )
+    );
   }
 }
 
-export default LoanTermsOfUse
+export default LoanTermsOfUse;

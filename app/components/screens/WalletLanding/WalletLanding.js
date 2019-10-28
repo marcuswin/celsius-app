@@ -97,9 +97,7 @@ class WalletLanding extends Component {
       });
     }
 
-    // Remove this call as it is called on initApp
     await actions.getWalletSummary();
-
     if (!currenciesRates) actions.getCurrencyRates();
     if (!currenciesGraphs) actions.getCurrencyGraphs();
 

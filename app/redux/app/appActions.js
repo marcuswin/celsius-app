@@ -48,7 +48,7 @@ export {
 /**
  * Initializes Celsius Application
  */
-let timeout
+let timeout;
 
 function initCelsiusApp() {
   return async (dispatch, getState) => {
@@ -179,7 +179,7 @@ function handleAppStateChange(nextAppState) {
           startOfBackgroundTimer = null;
           dispatch(actions.navigateTo("VerifyProfile", {activeScreen, showLogOutBtn: true}));
         }
-        userBehaviorUtil.sessionStarted()
+        userBehaviorUtil.sessionStarted();
         dispatch(getGeolocation());
       }
 
@@ -231,7 +231,6 @@ function initAppData(initToken = null) {
     await dispatch(actions.getCurrencyRates());
     await dispatch(actions.getCurrencyGraphs());
     await dispatch(actions.getInitialCelsiusData());
-    await dispatch(actions.getLoanTermsOfUse())
 
     // get user token
     const token =
@@ -252,7 +251,6 @@ function initAppData(initToken = null) {
       const {profile} = getState().user;
       if (profile) {
         await dispatch(actions.getUserAppSettings());
-        await dispatch(actions.getCommunityStatistics());
         await dispatch(actions.getLoyaltyInfo());
         await dispatch(actions.getComplianceInfo());
 
@@ -263,8 +261,8 @@ function initAppData(initToken = null) {
         const {allowed} = getState().compliance.loan;
         // get wallet details for verified users
         if (profile.kyc && hasPassedKYC()) {
-          await dispatch(actions.getWalletSummary())
-          if (allowed) await dispatch(actions.getAllLoans())
+          await dispatch(actions.getWalletSummary());
+          if (allowed) await dispatch(actions.getAllLoans());
         }
 
       }
