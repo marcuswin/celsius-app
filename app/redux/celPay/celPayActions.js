@@ -21,7 +21,7 @@ export {
 /**
  * TODO add JSDoc
  */
-function celPayFriend () {
+function celPayFriend() {
   return async (dispatch, getState) => {
     try {
       const {
@@ -67,7 +67,8 @@ function celPayFriend () {
       dispatch(
         navigateTo('TransactionDetails', {
           form: 'celPay',
-          id: transferData.transaction_id
+          id: transferData.transaction_id,
+          hideBack: true
         })
       )
 
@@ -86,7 +87,7 @@ function celPayFriend () {
 /**
  * TODO add JSDoc
  */
-function celPayShareLink () {
+function celPayShareLink() {
   return async (dispatch, getState) => {
     try {
       const { amountCrypto, amountUsd, coin, code, pin } = getState().forms.formData
@@ -125,7 +126,7 @@ function celPayShareLink () {
       dispatch(showMessage('success', msg))
       dispatch(clearForm())
       dispatch(
-        navigateTo('TransactionDetails', { id: transferData.transaction_id })
+        navigateTo('TransactionDetails', { id: transferData.transaction_id, hideBack: true })
       )
 
       await celUtilityUtil.refetchMembershipIfChanged(transfer.coin)

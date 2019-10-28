@@ -16,6 +16,7 @@ const base = {
     position: 'absolute',
     right: 0,
     height: '100%',
+    width: '20%',
     alignItems: 'center',
     justifyContent: 'center'
   },

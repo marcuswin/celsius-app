@@ -57,14 +57,12 @@ class CelHeading extends Component {
   }
 
   getLeftContent = (sceneProps) => {
-    const { hideBack, right, headerLeft } = sceneProps;
+    const { hideBack, right } = sceneProps;
     const { actions, scenes, formData } = this.props;
     const backScreenName = scenes[this.props.index - 1] ? scenes[this.props.index - 1].route.routeName : '';
 
     // if search is active and right part of header is type of search
     if (right === "search" && formData.activeSearch) return <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />
-
-    if (headerLeft === "celPay") return <CelButton iconRightColor={STYLES.COLORS.GRAY} basic onPress={() => { actions.navigateTo("CelPayChooseFriend"); }} iconRight="IconChevronLeft" />
 
     // By default if scene prop hideBack is true or it's first screen in the stack, hide back arrow
     return this.props.scene.index === 0 || hideBack === true ? null : <CelButton iconRightColor={STYLES.COLORS.GRAY} basic onPress={() => { actions.navigateBack(backScreenName); }} iconRight="IconChevronLeft" />

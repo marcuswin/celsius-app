@@ -127,7 +127,7 @@ function withdrawCrypto () {
       await celUtilityUtil.refetchMembershipIfChanged(coin.toUpperCase())
 
       dispatch(
-        navigateTo('TransactionDetails', { id: res.data.transaction.id })
+        navigateTo('TransactionDetails', { id: res.data.transaction.id, hideBack: true })
       )
 
       dispatch(showMessage('success', 'An email verification has been sent.'))

@@ -57,11 +57,13 @@ import CollateralLoanCard from "../../molecules/CollateralLoanCard/CollateralLoa
 )
 class TransactionDetails extends Component {
   static navigationOptions = ({ navigation }) => {
+    const hideBack = navigation.getParam("hideBack")
     const { params } = navigation.state
+
     return {
       title: params && params.title ? params.title : 'Transaction details',
       right: 'profile',
-      headerLeft: params && params.form === "celPay" ? "celPay" : "",
+      hideBack,
     }
   };
 
