@@ -63,7 +63,7 @@ class ExpandableItem extends Component {
           width="21"
           fill={
             theme === THEMES.DARK
-              ? STYLES.COLORS.WHITE_OPACITY5
+              ? STYLES.COLORS.DARK_GRAY5
               : STYLES.COLORS.GRAY
           }
         />
@@ -74,7 +74,7 @@ class ExpandableItem extends Component {
   render() {
     const {children, heading, childrenStyle} = this.props;
     const {isExpanded} = this.state;
-    
+
     return (
       <>
         {heading && this.renderSeparator()}

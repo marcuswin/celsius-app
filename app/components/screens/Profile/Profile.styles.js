@@ -5,6 +5,10 @@ const base = {
   container: {
     flex: 1
   },
+  socialIcons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   bottomSegment: {
     flexDirection: 'row',
     justifyContent: 'space-between',

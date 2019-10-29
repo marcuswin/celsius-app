@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import React, {Component} from "react";
 // import Constants from 'expo-constants';
-import {Image as RNImage, TouchableOpacity, View} from "react-native";
+import {Image as RNImage, Linking, TouchableOpacity, View} from "react-native";
 import {Image} from "react-native-expo-image-cache";
 import * as appActions from "../../../redux/actions";
 
@@ -11,7 +11,7 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import STYLES from "../../../constants/STYLES";
 import Separator from "../../atoms/Separator/Separator";
 import IconButton from "../../organisms/IconButton/IconButton";
-import {MODALS} from "../../../constants/UI";
+import {MODALS, THEMES} from "../../../constants/UI";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -22,6 +22,8 @@ import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYC
 import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 import {hasPassedKYC} from "../../../utils/user-util";
 import ProfileStyle from "./Profile.styles";
+import Icon from "../../atoms/Icon/Icon";
+import {getTheme} from "../../../utils/styles-util";
 
 @connect(
   state => ({
@@ -98,6 +100,7 @@ class Profile extends Component {
     const {profilePicture, user, actions, kycStatus} = this.props;
     const {revisionId} = this.state
     const style = ProfileStyle()
+    const theme = getTheme()
 
     return (
       <RegularLayout>
@@ -149,6 +152,7 @@ class Profile extends Component {
           <ExpandableItem
             heading={'SETTINGS'}
             isExpanded
+            margin={'0 0 10 0'}
           >
 
             <IconButton onPress={() => actions.navigateTo("SecuritySettings")}
@@ -179,6 +183,71 @@ class Profile extends Component {
               Appearance
             </IconButton>
           </ExpandableItem>
+          <Separator margin={'0 0 20 0'} text={'FOLLOW US'}/>
+
+          <View style={style.socialIcons}>
+            <TouchableOpacity onPress={() => Linking.openURL('https://twitter.com/CelsiusNetwork')}>
+              <Icon
+                name={'Twitter'}
+                width={45}
+                height={45}
+                fill={theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY5}
+              />
+              <CelText
+                type={'H5'}
+                color={STYLES.COLORS.CELSIUS_BLUE}
+                margin={'5 0 0 0'}
+              >
+                Twitter
+              </CelText>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => Linking.openURL('https://www.facebook.com/CelsiusNetwork/')}>
+              <Icon
+                name={'Facebook'}
+                width={45}
+                height={45}
+                fill={theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY5}
+              />
+              <CelText
+                type={'H5'}
+                color={STYLES.COLORS.CELSIUS_BLUE}
+                margin={'5 0 0 0'}
+              >
+                Facebook
+              </CelText>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => Linking.openURL('https://www.reddit.com/r/CelsiusNetwork/')}>
+              <Icon
+                name={'Reddit'}
+                width={45}
+                height={45}
+                fill={theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY5}
+              />
+              <CelText
+                type={'H5'}
+                color={STYLES.COLORS.CELSIUS_BLUE}
+                margin={'5 0 0 0'}
+              >
+                Reddit
+              </CelText>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => Linking.openURL('https://t.me/celsiusnetwork')}>
+              <Icon
+                name={'Telegram'}
+                width={45}
+                height={45}
+                fill={theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY5}
+              />
+              <CelText
+                type={'H5'}
+                color={STYLES.COLORS.CELSIUS_BLUE}
+                margin={'5 0 0 0'}
+              >
+                Telegram
+              </CelText>
+            </TouchableOpacity>
+          </View>
+          <Separator margin={'20 0 0 0'}/>
 
           <View
             style={style.bottomSegment}
