@@ -1,8 +1,8 @@
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
-import { Platform } from "react-native";
+import {Platform} from "react-native";
 import RNAdvertisingId from "react-native-advertising";
-import { IDFA } from "react-native-idfa";
+import {IDFA} from "react-native-idfa";
 import appsFlyer from "react-native-appsflyer";
 import Constants from "../../../constants";
 import store from "../../redux/store";
@@ -11,20 +11,20 @@ import {
   getSecureStoreKey,
   deleteSecureStoreKey
 } from "../../utils/expo-storage";
-import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../constants/DATA";
+import {BRANCH_LINKS, TRANSFER_STATUSES} from "../../constants/DATA";
 import ACTIONS from "../../constants/ACTIONS";
-import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
+import {registerForPushNotificationsAsync} from "../../utils/push-notifications-util";
 import appUtil from "../../utils/app-util";
 import branchUtil from "../../utils/branch-util";
-import { disableAccessibilityFontScaling } from "../../utils/styles-util";
+import {disableAccessibilityFontScaling} from "../../utils/styles-util";
 import ASSETS from "../../constants/ASSETS";
 import loggerUtil from "../../utils/logger-util";
-import { requestForPermission } from "../../utils/device-permissions";
-import { hasPassedKYC } from "../../utils/user-util";
-import { showMessage } from "../ui/uiActions";
+import {requestForPermission} from "../../utils/device-permissions";
+import {hasPassedKYC} from "../../utils/user-util";
+import {showMessage} from "../ui/uiActions";
 import userBehaviorUtil from "../../utils/user-behavior-util";
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants;
+const {SECURITY_STORAGE_AUTH_KEY} = Constants;
 
 // TODO add more JSDoc description
 // TODO add more JSDoc description
@@ -49,14 +49,15 @@ export {
  * Initializes Celsius Application
  */
 let timeout
+
 function initCelsiusApp() {
   return async (dispatch, getState) => {
     if (getState().app.appInitializing) return;
 
     try {
-      dispatch({ type: ACTIONS.APP_INIT_START });
+      dispatch({type: ACTIONS.APP_INIT_START});
 
-      timeout = setTimeout (() => {
+      timeout = setTimeout(() => {
         dispatch(showMessage('info', "Hmm… this is taking a bit longer than usual. If your app doesn’t load shortly, try restarting or checking back in a few minutes."));
         clearTimeout(timeout);
       }, 30000);
@@ -72,7 +73,7 @@ function initCelsiusApp() {
 
       await dispatch(branchUtil.initBranch());
 
-      dispatch({ type: ACTIONS.APP_INIT_DONE });
+      dispatch({type: ACTIONS.APP_INIT_DONE});
       clearTimeout(timeout)
     } catch (e) {
       clearTimeout(timeout)
@@ -89,7 +90,7 @@ function resetCelsiusApp() {
     try {
       // Logout user
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      dispatch({ type: ACTIONS.RESET_APP });
+      dispatch({type: ACTIONS.RESET_APP});
       // Dev warning message
       dispatch(actions.showMessage("warning", "Reseting Celsius App!"));
 
@@ -105,12 +106,12 @@ function resetCelsiusApp() {
  */
 function loadCelsiusAssets() {
   return async dispatch => {
-    dispatch({ type: ACTIONS.START_LOADING_ASSETS });
+    dispatch({type: ACTIONS.START_LOADING_ASSETS});
 
     await appUtil.cacheFonts(ASSETS.FONTS);
     await appUtil.cacheImages(ASSETS.CACHE_IMAGES);
 
-    dispatch({ type: ACTIONS.FINISH_LOADING_ASSETS });
+    dispatch({type: ACTIONS.FINISH_LOADING_ASSETS});
   };
 }
 
@@ -122,7 +123,7 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
   // console.log('response is: ', res)
-  const { data } = res;
+  const {data} = res;
   switch (data.type) {
     case BRANCH_LINKS.NAVIGATE_TO:
       store.dispatch(actions.navigateTo(data.screen));
@@ -139,9 +140,9 @@ let startOfBackgroundTimer;
 
 function handleAppStateChange(nextAppState) {
   return dispatch => {
-    const { profile } = store.getState().user;
-    const { appState } = store.getState().app;
-    const { activeScreen } = store.getState().nav;
+    const {profile} = store.getState().user;
+    const {appState} = store.getState().app;
+    const {activeScreen} = store.getState().nav;
 
     if (Platform.OS === "ios") {
       if (appState.match(/inactive|background/) && nextAppState === "active") {
@@ -176,10 +177,11 @@ function handleAppStateChange(nextAppState) {
           new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER
         ) {
           startOfBackgroundTimer = null;
-          dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
+          dispatch(actions.navigateTo("VerifyProfile", {activeScreen}));
         }
         userBehaviorUtil.sessionStarted()
-        dispatch(getGeolocation());
+        // Fix for CN-4253, CN-4235, CN-4205
+        // dispatch(getGeolocation());
       }
 
       if (
@@ -190,7 +192,7 @@ function handleAppStateChange(nextAppState) {
       ) {
         if (Platform.OS === "ios") {
           pinTimeout = setTimeout(() => {
-            dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
+            dispatch(actions.navigateTo("VerifyProfile", {activeScreen}));
             clearTimeout(pinTimeout);
           }, ASK_FOR_PIN_AFTER);
         }
@@ -240,7 +242,7 @@ function initAppData(initToken = null) {
     if (token) await dispatch(actions.getProfileInfo());
 
     // get expired session
-    const { expiredSession } = getState().user;
+    const {expiredSession} = getState().user;
 
     if (token && !expiredSession) {
       userBehaviorUtil.sessionStarted()
@@ -248,7 +250,7 @@ function initAppData(initToken = null) {
       dispatch(actions.claimAllBranchTransfers());
 
       // get all KYC document types and claimed transfers for non-verified users
-      const { profile } = getState().user;
+      const {profile} = getState().user;
       if (profile) {
         await dispatch(actions.getUserAppSettings());
         await dispatch(actions.getCommunityStatistics());
@@ -259,7 +261,7 @@ function initAppData(initToken = null) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
-        const {allowed}  = getState().compliance.loan;
+        const {allowed} = getState().compliance.loan;
         // get wallet details for verified users
         if (profile.kyc && hasPassedKYC()) {
           await dispatch(actions.getWalletSummary())
