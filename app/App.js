@@ -5,10 +5,10 @@
 
 // TODO(fj): create offline and no internet screens or a static screen with type?
 
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 // import { AppLoading } from "expo";
-import { Provider } from 'react-redux'
-import { AppState, BackHandler, StyleSheet } from 'react-native'
+import {Provider} from 'react-redux'
+import {AppState, BackHandler, StyleSheet} from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import codePush from 'react-native-code-push'
 import * as Font from 'expo-font'
@@ -23,7 +23,7 @@ import Message from './components/molecules/Message/Message'
 import ErrorBoundary from './ErrorBoundary'
 
 
-function getActiveRouteName (navigationState) {
+function getActiveRouteName(navigationState) {
   if (!navigationState) {
     return null
   }
@@ -34,17 +34,20 @@ function getActiveRouteName (navigationState) {
   }
   return route.routeName
 }
+
 @codePush
 export default class App extends Component {
-  async componentDidMount () {
+  async componentDidMount() {
     appUtil.initializeThirdPartyServices()
 
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       store.dispatch(actions.navigateBack())
       return true
     })
-    AppState.addEventListener('change', nextState =>
-      store.dispatch(actions.handleAppStateChange(nextState))
+    AppState.addEventListener('change', nextState => {
+        store.dispatch(actions.handleAppStateChange(nextState))
+
+      }
     )
 
     await this.initApp()
@@ -55,19 +58,20 @@ export default class App extends Component {
     SplashScreen.hide()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.backHandler.remove()
-    AppState.removeEventListener('change', nextState =>
-      store.dispatch(actions.handleAppStateChange(nextState))
+    AppState.removeEventListener('change', nextState => {
+        store.dispatch(actions.handleAppStateChange(nextState))
+      }
     )
   }
 
   initApp = async () => await store.dispatch(await actions.loadCelsiusAssets())
 
-  render () {
+  render() {
     return (
       <ErrorBoundary>
-        <CelsiusApplication />
+        <CelsiusApplication/>
       </ErrorBoundary>
     )
   }
@@ -87,8 +91,8 @@ const CelsiusApplication = () => (
         }}
         ref={navigatorRef => actions.setTopLevelNavigator(navigatorRef)}
       />
-      <Message />
-      <FabMenu />
+      <Message/>
+      <FabMenu/>
     </React.Fragment>
   </Provider>
 )
