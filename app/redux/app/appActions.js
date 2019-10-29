@@ -180,7 +180,8 @@ function handleAppStateChange(nextAppState) {
           dispatch(actions.navigateTo("VerifyProfile", {activeScreen}));
         }
         userBehaviorUtil.sessionStarted()
-        dispatch(getGeolocation());
+        // Fix for CN-4253, CN-4235, CN-4205
+        // dispatch(getGeolocation());
       }
 
       if (
