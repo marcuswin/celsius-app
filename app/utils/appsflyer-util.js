@@ -44,7 +44,7 @@ async function appsFlyerEvent(event, payload) {
       loggerUtil.err(error);
     }
   }
-  const response = await appsFlyer.trackEvent("SPEND_CREDITS", {
+  const response = await appsFlyer.trackEvent(event, {
     ...appInfo,
     ...payload
   });
