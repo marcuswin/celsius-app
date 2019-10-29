@@ -122,7 +122,6 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
 );
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
-  // console.log('response is: ', res)
   const {data} = res;
   switch (data.type) {
     case BRANCH_LINKS.NAVIGATE_TO:
@@ -180,7 +179,8 @@ function handleAppStateChange(nextAppState) {
           dispatch(actions.navigateTo("VerifyProfile", {activeScreen, showLogOutBtn: true}));
         }
         userBehaviorUtil.sessionStarted();
-        dispatch(getGeolocation());
+        // Fix for CN-4253, CN-4235, CN-4205
+        // dispatch(getGeolocation());
       }
 
       if (
