@@ -122,6 +122,8 @@ async function withdrawCompleted(withdrawTransaction) {
   };
 
   await appsFlyerEvent("ADD_TO_WISHLIST", {
+    af_revenue: Number(payload.amountUsd),
+    af_currency: "USD",
     revenue: Number(payload.amountUsd),
     currency: "USD",
     amount_usd: payload.amountUsd.toString(),
@@ -148,6 +150,8 @@ async function celpayCompleted(celPayTransfer) {
     currencyRatesShort[celPayTransfer.coin.toLowerCase()];
 
   await appsFlyerEvent("SPEND_CREDITS", {
+    af_revenue: Number(amountUsd),
+    af_currency: "USD",
     revenue: Number(amountUsd),
     currency: "USD",
     amount_usd: amountUsd.toString(),
@@ -170,6 +174,8 @@ async function loanApplied({ loan, transaction_id: transactionId }) {
     transaction_id: transactionId,
     id: loan.id,
     type: loan.type,
+    af_revenue: Number(loan.loan_amount),
+    af_currency: "USD",
     revenue: Number(loan.loan_amount),
     currency: "USD",
     coin: loan.coin,
