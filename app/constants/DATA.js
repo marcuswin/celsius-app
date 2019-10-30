@@ -28,7 +28,7 @@ const BLOCKEXPLORERS_STAGING = {
   erc20: "https://rinkeby.etherscan.io/tx/"
 };
 const BLOCKEXPLORERS_PRODUCTION = {
-  btc: "https://blockchain.info/btc/tx/",
+  btc: "https://blockexplorer.com/tx/",
   bch: "https://bchsvexplorer.com/tx/",
   ltc: "https://chainz.cryptoid.info/ltc/tx.dws?",
   xrp: "https://xrpcharts.ripple.com/#/transactions/",
