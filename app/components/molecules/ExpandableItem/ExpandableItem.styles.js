@@ -1,46 +1,46 @@
-import STYLES from '../../../constants/STYLES';
-import {getThemedStyle} from '../../../utils/styles-util';
+import STYLES from "../../../constants/STYLES";
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   left: {
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     borderWidth: 0.5,
     height: 1,
     marginTop: 10,
-    marginRight: 5
+    marginRight: 5,
   },
   leftSegment: {
-    alignItems: 'flex-start',
-    borderColor: 'blue',
+    alignItems: "flex-start",
+    borderColor: "blue",
     borderWidth: 0.5,
     height: 1,
     marginTop: 10,
-    width: 21
+    width: 21,
   },
   right: {
     flex: 1,
-    alignItems: 'flex-start',
-    borderColor: 'red',
+    alignItems: "flex-start",
+    borderColor: "red",
     borderWidth: 0.5,
     height: 1,
     marginTop: 10,
-    marginLeft: 5
+    marginLeft: 5,
   },
   centralText: {
-    maxWidth: '70%',
-    alignContent: 'center'
+    maxWidth: "70%",
+    alignContent: "center",
   },
-}
+};
 
 const themed = {
   light: {
     leftSegment: {
-      borderColor: STYLES.COLORS.DARK_GRAY1
+      borderColor: STYLES.COLORS.DARK_GRAY1,
     },
     left: {
       borderColor: STYLES.COLORS.DARK_GRAY1,
@@ -49,13 +49,13 @@ const themed = {
       borderColor: STYLES.COLORS.DARK_GRAY1,
     },
     centralText: {
-      color: STYLES.COLORS.MEDIUM_GRAY
-    }
+      color: STYLES.COLORS.MEDIUM_GRAY,
+    },
   },
 
   dark: {
     leftSegment: {
-      borderColor: STYLES.COLORS.DARK_GRAY5
+      borderColor: STYLES.COLORS.DARK_GRAY5,
     },
     left: {
       borderColor: STYLES.COLORS.DARK_GRAY5,
@@ -64,13 +64,13 @@ const themed = {
       borderColor: STYLES.COLORS.DARK_GRAY5,
     },
     centralText: {
-      color: STYLES.COLORS.DARK_GRAY5
-    }
+      color: STYLES.COLORS.DARK_GRAY5,
+    },
   },
 
-  celsius: {}
-}
+  celsius: {},
+};
 
 const ExpandableItemStyle = () => getThemedStyle(base, themed);
 
-export default ExpandableItemStyle
+export default ExpandableItemStyle;

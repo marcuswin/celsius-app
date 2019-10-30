@@ -15,18 +15,17 @@ function initialState() {
     assetsLoaded: false,
     showVerifyScreen: false, // TODO move to security
     advertisingId: null,
-    appsFlyerUID: null
+    appsFlyerUID: null,
   };
 }
 
 export default function appReducer(state = initialState(), action) {
-
   switch (action.type) {
     case ACTIONS.APP_INIT_START:
       return {
         ...state,
         appInitialized: false,
-        appInitializing: true
+        appInitializing: true,
       };
 
     case ACTIONS.REGISTER_USER_SUCCESS:
@@ -43,36 +42,36 @@ export default function appReducer(state = initialState(), action) {
       return {
         ...state,
         appInitialized: true,
-        appInitializing: false
+        appInitializing: false,
       };
 
     case ACTIONS.RESET_APP:
       return {
         ...state,
-        appInitialized: false
+        appInitialized: false,
       };
 
     case ACTIONS.SET_APP_STATE:
       return {
         ...state,
-        appState: action.appState
+        appState: action.appState,
       };
 
     case ACTIONS.FINISH_LOADING_ASSETS:
       return {
         ...state,
-        assetsLoaded: true
+        assetsLoaded: true,
       };
 
     case ACTIONS.SET_INTERNET_CONNECTION:
       return {
         ...state,
-        internetConnected: action.internetConnected
+        internetConnected: action.internetConnected,
       };
     case ACTIONS.SHOW_VERIFY_SCREEN:
       return {
         ...state,
-        showVerifyScreen: action.showVerifyScreen
+        showVerifyScreen: action.showVerifyScreen,
       };
     case ACTIONS.SET_GEOLOCATION:
       return {
@@ -80,17 +79,17 @@ export default function appReducer(state = initialState(), action) {
         geolocation: {
           geoLat: action.geoLat,
           geoLong: action.geoLong,
-        }
+        },
       };
     case ACTIONS.SET_ADVERTISING_ID:
       return {
         ...state,
-        advertisingId: action.advertisingId
+        advertisingId: action.advertisingId,
       };
     case ACTIONS.SET_DEVICE_APPSFLYER_UID:
       return {
         ...state,
-        appsFlyerUID: action.appsFlyerUID
+        appsFlyerUID: action.appsFlyerUID,
       };
     default:
       return { ...state };

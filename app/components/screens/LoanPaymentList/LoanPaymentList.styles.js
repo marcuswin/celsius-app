@@ -2,8 +2,8 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
-  }
+    flex: 1,
+  },
 };
 
 const themed = {
@@ -11,7 +11,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const LoanPaymentListStyle = () => getThemedStyle(base, themed);

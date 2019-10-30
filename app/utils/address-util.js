@@ -1,11 +1,9 @@
-
 export default {
   splitAddressTag,
   joinAddressTag,
   hasTag,
-  hasCoinTag
-}
-
+  hasCoinTag,
+};
 
 /**
  * Splits the address/public key into address and tag/memo
@@ -29,7 +27,7 @@ function splitAddressTag(address) {
     addressObj.newTag = addressArray[1];
   } else {
     addressObj.newAddress = address;
-    addressObj.newTag = ""
+    addressObj.newTag = "";
   }
 
   return addressObj;
@@ -42,11 +40,11 @@ function splitAddressTag(address) {
  * @returns {boolean}
  */
 function hasTag(address) {
-  const tag = address.indexOf("?dt=") !== -1 || address.indexOf("?memoId=") !== -1;
+  const tag =
+    address.indexOf("?dt=") !== -1 || address.indexOf("?memoId=") !== -1;
 
-  return tag
+  return tag;
 }
-
 
 /**
  * Checks if coin address can have a tag or memo id
@@ -55,9 +53,8 @@ function hasTag(address) {
  * @returns {boolean}
  */
 function hasCoinTag(coin) {
-  return ['XRP', 'xrp', 'XLM', 'xlm', 'EOS', 'eos'].includes(coin)
+  return ["XRP", "xrp", "XLM", "xlm", "EOS", "eos"].includes(coin);
 }
-
 
 /**
  * Joins address and the tag or memo id
@@ -69,10 +66,14 @@ function hasCoinTag(coin) {
  */
 function joinAddressTag(coin, address, coinTag) {
   let newWithdrawalAddress;
-  if (coin.toLowerCase() === "xrp" && coinTag) newWithdrawalAddress = address.concat("?dt=").concat(coinTag);
-  if (coin.toLowerCase() === "xlm" && coinTag) newWithdrawalAddress = address.concat("?memoId=").concat(coinTag);
-  if (coin.toLowerCase() === "eos" && coinTag) newWithdrawalAddress = address.concat("?memoId=").concat(coinTag);
-  if (!["xrp", "xlm", 'eos'].includes(coin.toLowerCase()) || !coinTag) newWithdrawalAddress = address;
+  if (coin.toLowerCase() === "xrp" && coinTag)
+    newWithdrawalAddress = address.concat("?dt=").concat(coinTag);
+  if (coin.toLowerCase() === "xlm" && coinTag)
+    newWithdrawalAddress = address.concat("?memoId=").concat(coinTag);
+  if (coin.toLowerCase() === "eos" && coinTag)
+    newWithdrawalAddress = address.concat("?memoId=").concat(coinTag);
+  if (!["xrp", "xlm", "eos"].includes(coin.toLowerCase()) || !coinTag)
+    newWithdrawalAddress = address;
 
-  return newWithdrawalAddress
+  return newWithdrawalAddress;
 }

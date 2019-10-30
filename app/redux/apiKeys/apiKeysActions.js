@@ -1,15 +1,15 @@
-import ACTIONS from '../../constants/ACTIONS';
+import ACTIONS from "../../constants/ACTIONS";
 import { apiError, startApiCall } from "../api/apiActions";
 import API from "../../constants/API";
 import { showMessage, openModal } from "../ui/uiActions";
 import apiKeyService from "../../services/api-key-service";
-import { MODALS } from '../../constants/UI';
+import { MODALS } from "../../constants/UI";
 
 export {
   createAPIKey,
   revokeAPIKey, // TODO refactor to use DELETE_SUCCESS
   getAllAPIKeys,
-}
+};
 
 /**
  * Creates API key for user
@@ -18,7 +18,7 @@ export {
 function createAPIKey(permissions) {
   return async dispatch => {
     try {
-      dispatch(startApiCall(API.CREATE_API_KEY))
+      dispatch(startApiCall(API.CREATE_API_KEY));
       const apiKeyRes = await apiKeyService.create(permissions);
 
       dispatch({
@@ -27,10 +27,10 @@ function createAPIKey(permissions) {
       });
       dispatch(openModal(MODALS.GENERATE_API_KEY_MODAL));
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.CREATE_API_KEY, err));
     }
-  }
+  };
 }
 
 /**
@@ -40,13 +40,13 @@ function createAPIKey(permissions) {
 function revokeAPIKey(keyId) {
   return async dispatch => {
     try {
-      dispatch(startApiCall(API.DELETE_API_KEY))
+      dispatch(startApiCall(API.DELETE_API_KEY));
 
-      const apiKeysRes = await apiKeyService.remove(keyId)
+      const apiKeysRes = await apiKeyService.remove(keyId);
       dispatch({
         type: ACTIONS.GET_API_KEYS_SUCCESS,
         apiKeys: apiKeysRes.data.msg,
-      })
+      });
 
       // dispatch({
       //   type: ACTIONS.DELETE_API_KEY_SUCCESS,
@@ -54,10 +54,10 @@ function revokeAPIKey(keyId) {
       // })
       getAllAPIKeys();
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.DELETE_API_KEY, err));
     }
-  }
+  };
 }
 
 /**
@@ -66,17 +66,17 @@ function revokeAPIKey(keyId) {
 function getAllAPIKeys() {
   return async dispatch => {
     try {
-      dispatch(startApiCall(API.GET_API_KEYS))
+      dispatch(startApiCall(API.GET_API_KEYS));
 
       const apiKeysRes = await apiKeyService.getAll();
 
       dispatch({
         type: ACTIONS.GET_API_KEYS_SUCCESS,
         apiKeys: apiKeysRes.data.api_keys,
-      })
+      });
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.GET_API_KEYS, err));
     }
-  }
+  };
 }

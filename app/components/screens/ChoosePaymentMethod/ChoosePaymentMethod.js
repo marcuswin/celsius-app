@@ -27,23 +27,22 @@ class ChoosePaymentMethod extends Component {
   static navigationOptions = ({ navigation }) => {
     const reason = navigation.getParam("reason");
 
-    let title = "Setup Payment"
+    let title = "Setup Payment";
     if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
-      title = "Prepay interest"
+      title = "Prepay interest";
     }
 
     return {
       title,
       right: "profile",
-      left: "back"
+      left: "back",
     };
   };
 
-
   componentDidMount() {
-    const { actions, navigation } = this.props
+    const { actions, navigation } = this.props;
     const id = navigation.getParam("id");
-    actions.getLoanSettings(id)
+    actions.getLoanSettings(id);
   }
 
   getActiveCards = () => {
@@ -53,26 +52,29 @@ class ChoosePaymentMethod extends Component {
     if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
       return {
         cel: loanSettings.interest_payment_asset === "CEL",
-        coin: !["CEL", 'USD'].includes(loanSettings.interest_payment_asset),
+        coin: !["CEL", "USD"].includes(loanSettings.interest_payment_asset),
         usd: loanSettings.interest_payment_asset === "USD",
-      }
+      };
     }
 
     return {
       cel: false,
       coin: false,
       usd: false,
-    }
-  }
+    };
+  };
 
   getCardProps = () => {
     const { actions, navigation, loyaltyInfo } = this.props;
-    const celDiscount = formatter.percentageDisplay(loyaltyInfo.tier.loanInterestBonus);
+    const celDiscount = formatter.percentageDisplay(
+      loyaltyInfo.tier.loanInterestBonus
+    );
     const id = navigation.getParam("id");
     const reason = navigation.getParam("reason");
-    const activeCards = this.getActiveCards()
+    const activeCards = this.getActiveCards();
 
-    const pay = reason !== LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT ? `pay` : `prepay`;
+    const pay =
+      reason !== LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT ? `pay` : `prepay`;
 
     const cardProps = [
       {
@@ -86,7 +88,8 @@ class ChoosePaymentMethod extends Component {
       {
         cardTitle: `${formatter.capitalize(pay)} with crypto`,
         cardCopy: `Use coins from your wallet to ${pay} your loan interest.`,
-        onPressAction: () => actions.navigateTo("LoanPaymentCoin", { reason, id }),
+        onPressAction: () =>
+          actions.navigateTo("LoanPaymentCoin", { reason, id }),
         lightImage: require("../../../../assets/images/icons/crypto.png"),
         darkImage: require("../../.././../assets/images/icons/crypto-dark.png"),
         isActive: activeCards.coin,
@@ -96,28 +99,28 @@ class ChoosePaymentMethod extends Component {
         cardCopy: `Get all the information necessary to ${pay} your interest in dollars.`,
         onPressAction: () => {
           if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
-            actions.updateFormField('coin', "USD")
-            actions.navigateTo('LoanPrepaymentPeriod', { id, reason })
+            actions.updateFormField("coin", "USD");
+            actions.navigateTo("LoanPrepaymentPeriod", { id, reason });
           } else {
-            actions.navigateTo('WiringBankInformation', { id, reason })
+            actions.navigateTo("WiringBankInformation", { id, reason });
           }
         },
         lightImage: require("../../../../assets/images/icons/dollars.png"),
         darkImage: require("../../.././../assets/images/icons/dollars-dark.png"),
         isActive: activeCards.usd,
-      }
+      },
     ];
 
     if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
-      cardProps.pop()
+      cardProps.pop();
     }
 
     return cardProps;
   };
 
   render() {
-    const { loanSettings } = this.props
-    if (!loanSettings) return <LoadingScreen />
+    const { loanSettings } = this.props;
+    if (!loanSettings) return <LoadingScreen />;
 
     const style = ChoosePaymentMethodStyle();
 
@@ -126,9 +129,11 @@ class ChoosePaymentMethod extends Component {
     return (
       <View style={style.container}>
         <RegularLayout>
-          {cardProps.map(i => <PaymentCard {...i} key={i.cardTitle}/>)}
+          {cardProps.map(i => (
+            <PaymentCard {...i} key={i.cardTitle} />
+          ))}
         </RegularLayout>
-        <PrepayDollarInterestModal/>
+        <PrepayDollarInterestModal />
       </View>
     );
   }

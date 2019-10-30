@@ -5,7 +5,6 @@ import { apiError, startApiCall } from "../api/apiActions";
 import { showMessage } from "../ui/uiActions";
 import API from "../../constants/API";
 
-
 export {
   getCameraRollPhotos,
   takeCameraPhoto,
@@ -26,7 +25,7 @@ function getCameraRollPhotos() {
     const config = {
       after: camera.lastPhotoCursor,
       first: 30,
-      assetType: "Photos"
+      assetType: "Photos",
     };
 
     dispatch(startApiCall(API.GET_CAMERA_ROLL));
@@ -42,7 +41,6 @@ function getCameraRollPhotos() {
   };
 }
 
-
 /**
  * TODO add JSDoc
  */
@@ -50,10 +48,9 @@ function getCameraRollPhotosSuccess(photos) {
   return {
     type: ACTIONS.GET_CAMERA_ROLL_SUCCESS,
     callName: API.GET_CAMERA_ROLL,
-    photos
+    photos,
   };
 }
-
 
 /**
  * Takes camera photo
@@ -63,10 +60,9 @@ function takeCameraPhoto(photo) {
   return {
     type: ACTIONS.TAKE_CAMERA_PHOTO,
     callName: API.TAKE_CAMERA_PHOTO,
-    photo
+    photo,
   };
 }
-
 
 /**
  * Clears the photo and goes back to Camera screen
@@ -74,10 +70,9 @@ function takeCameraPhoto(photo) {
  */
 function retakePhoto() {
   return {
-    type: ACTIONS.RETAKE_PHOTO
+    type: ACTIONS.RETAKE_PHOTO,
   };
 }
-
 
 /**
  * Flips front and back camera
@@ -85,10 +80,9 @@ function retakePhoto() {
  */
 function flipCamera() {
   return {
-    type: ACTIONS.FLIP_CAMERA
+    type: ACTIONS.FLIP_CAMERA,
   };
 }
-
 
 /**
  * Sets Camera properties
@@ -99,7 +93,7 @@ function activateCamera(cameraProps) {
   return dispatch => {
     dispatch({
       type: ACTIONS.ACTIVATE_CAMERA,
-      ...cameraProps
+      ...cameraProps,
     });
   };
 }

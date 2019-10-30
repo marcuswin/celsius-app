@@ -1,4 +1,4 @@
-import STYLES from '../../../constants/STYLES';
+import STYLES from "../../../constants/STYLES";
 import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
@@ -7,8 +7,8 @@ const base = {
     marginTop: 10,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 1
-  }
+    elevation: 1,
+  },
 };
 
 const themed = {
@@ -16,19 +16,19 @@ const themed = {
     container: {
       backgroundColor: STYLES.COLORS.LIGHT_GRAY,
       borderWidth: 0.5,
-      borderColor: STYLES.COLORS.MEDIUM_GRAY3
-    }
+      borderColor: STYLES.COLORS.MEDIUM_GRAY3,
+    },
   },
 
   dark: {
     container: {
       backgroundColor: STYLES.COLORS.BLUE_GRAY,
       borderWidth: 0.5,
-      borderColor: STYLES.COLORS.MEDIUM_GRAY3
-    }
+      borderColor: STYLES.COLORS.MEDIUM_GRAY3,
+    },
   },
 
-  celsius: {}
+  celsius: {},
 };
 
 const RoundedBadgeStyle = () => getThemedStyle(base, themed);

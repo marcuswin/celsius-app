@@ -1,35 +1,32 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        flex: 1
-    },
+  container: {
+    flex: 1,
+  },
   addMoreCoinsList: {
     borderWidth: 1,
-    borderStyle: 'dashed',
+    borderStyle: "dashed",
     borderRadius: 10,
-    width: '100%',
+    width: "100%",
     height: 80,
-    borderColor: 'gray',
+    borderColor: "gray",
     marginVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 };
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
+  celsius: {},
 };
 
 const LoanPaymentCoinStyle = () => getThemedStyle(base, themed);
 
-export default LoanPaymentCoinStyle
+export default LoanPaymentCoinStyle;

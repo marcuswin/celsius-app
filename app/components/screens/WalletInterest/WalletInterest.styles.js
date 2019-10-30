@@ -3,13 +3,13 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   amountWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-end"
-  }
+    alignItems: "flex-end",
+  },
 };
 
 const themed = {
@@ -17,7 +17,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const WalletInterestStyle = () => getThemedStyle(base, themed);

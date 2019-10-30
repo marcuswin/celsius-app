@@ -14,10 +14,9 @@ import KeyboardShift from "../../atoms/KeyboardShift/KeyboardShift";
 import OfflineMode from "../../atoms/OfflineMode/OfflineMode";
 import Spinner from "../../atoms/Spinner/Spinner";
 
-
 @connect(
   state => ({
-    internetConnected: state.app.internetConnected
+    internetConnected: state.app.internetConnected,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -27,13 +26,13 @@ class RegularLayout extends Component {
     enableParentScroll: PropTypes.bool,
     fabType: PropTypes.oneOf(FAB_TYPE),
     refreshing: PropTypes.bool,
-    pullToRefresh: PropTypes.func
+    pullToRefresh: PropTypes.func,
   };
 
   static defaultProps = {
     padding: "20 20 100 20",
     enableParentScroll: true,
-    fabType: "main"
+    fabType: "main",
   };
   componentDidMount = () => this.setFabType();
   componentDidUpdate = () => this.setFabType();
@@ -46,33 +45,47 @@ class RegularLayout extends Component {
   };
 
   render() {
-    const { theme, children, padding, enableParentScroll, internetConnected, refreshing, pullToRefresh } = this.props;
+    const {
+      theme,
+      children,
+      padding,
+      enableParentScroll,
+      internetConnected,
+      refreshing,
+      pullToRefresh,
+    } = this.props;
     const style = RegularLayoutStyle(theme);
     const paddings = getPadding(padding);
 
     return (
       <React.Fragment>
-        {refreshing &&
-        <View style={style.loaderView}>
-          <Spinner/>
-        </View>
-        }
+        {refreshing && (
+          <View style={style.loaderView}>
+            <Spinner />
+          </View>
+        )}
         <ScrollView
-          keyboardShouldPersistTaps='handled'
-          keyboardDismissMode='on-drag'
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
           scrollEnabled={enableParentScroll}
           style={style.container}
           contentContainerStyle={[{ flexGrow: 1 }, paddings]}
-          refreshControl={pullToRefresh && <RefreshControl
-            refreshing={refreshing}
-            onRefresh={pullToRefresh}
-            tintColor="transparent"
-            colors={["transparent"]}
-            style={{ backgroundColor: "transparent" }}
-          />}
+          refreshControl={
+            pullToRefresh && (
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={pullToRefresh}
+                tintColor="transparent"
+                colors={["transparent"]}
+                style={{ backgroundColor: "transparent" }}
+              />
+            )
+          }
         >
           <SafeAreaView style={{ flex: 1 }}>
-            {!internetConnected ? <OfflineMode/> : (
+            {!internetConnected ? (
+              <OfflineMode />
+            ) : (
               <KeyboardShift>
                 <>{children}</>
               </KeyboardShift>

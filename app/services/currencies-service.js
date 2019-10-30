@@ -1,11 +1,10 @@
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from "axios";
+import apiUrl from "./api-url";
 
 const currenciesService = {
   getRates,
   getGraphs,
 };
-
 
 /**
  * Gets all supported currency rates from db

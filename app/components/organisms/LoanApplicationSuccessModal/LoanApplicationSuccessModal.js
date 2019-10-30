@@ -29,17 +29,16 @@ class LoanApplicationSuccessModal extends Component {
       steps: [
         {
           title: "Loan successfully initiated",
-          description:
-            "Thank you for initiating your loan with Celsius",
-          buttonText: "Next"
+          description: "Thank you for initiating your loan with Celsius",
+          buttonText: "Next",
         },
         {
           title: `Prepay your interest`,
           description:
             "Stay ahead of schedule and submit your first interest payments in advance.",
-          buttonText: "Make a payment"
-        }
-      ]
+          buttonText: "Make a payment",
+        },
+      ],
     };
   }
 
@@ -50,7 +49,10 @@ class LoanApplicationSuccessModal extends Component {
     if (steps[currentStep].buttonText === "Next") {
       this.setState({ currentStep: 1 });
     } else {
-      actions.resetToFlow("ChoosePaymentMethod", { id: loanId, reason: LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT });
+      actions.resetToFlow("ChoosePaymentMethod", {
+        id: loanId,
+        reason: LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT,
+      });
       actions.closeModal();
       this.setState({ currentStep: 0 });
     }
@@ -83,7 +85,12 @@ class LoanApplicationSuccessModal extends Component {
         </CelButton>
         {currentStep > 0 && (
           <View>
-            <CelButton basic onPress={() => {actions.closeModal()}}>
+            <CelButton
+              basic
+              onPress={() => {
+                actions.closeModal();
+              }}
+            >
               Close
             </CelButton>
           </View>

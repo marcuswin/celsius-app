@@ -3,7 +3,7 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   loaderView: {
     backgroundColor: "transparent",
@@ -13,39 +13,40 @@ const base = {
     right: 0,
     bottom: 0,
     zIndex: 10,
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 };
 
 const themed = {
   dark: {
     container: {
-      backgroundColor: STYLES.COLORS.DARK_BACKGROUND
+      backgroundColor: STYLES.COLORS.DARK_BACKGROUND,
     },
     headerTitle: {
-      color: STYLES.COLORS.WHITE_OPACITY5
-    }
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
   },
 
   light: {
     container: {
-      backgroundColor: STYLES.COLORS.LIGHT_GRAY
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
     },
     headerTitle: {
-      color: STYLES.COLORS.DARK_GRAY
-    }
+      color: STYLES.COLORS.DARK_GRAY,
+    },
   },
 
   celsius: {
     container: {
-      backgroundColor: STYLES.COLORS.LIGHT_GRAY
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
     },
     headerTitle: {
-      color: STYLES.COLORS.WHITE_OPACITY5
-    }
-  }
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
+  },
 };
 
-const RegularLayoutStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed));
+const RegularLayoutStyle = theme =>
+  theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed);
 
 export default RegularLayoutStyle;

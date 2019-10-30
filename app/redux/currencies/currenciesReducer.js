@@ -27,7 +27,7 @@ export default function currenciesReducer(state = initialState, action) {
     case ACTIONS.GET_CURRENCY_GRAPHS_SUCCESS:
       return {
         ...state,
-        graphs: action.graphs
+        graphs: action.graphs,
       };
 
     default:
@@ -39,5 +39,5 @@ function mapRates(rate) {
   return {
     ...rate,
     displayName: formatter.capitalize(rate.name),
-  }
+  };
 }

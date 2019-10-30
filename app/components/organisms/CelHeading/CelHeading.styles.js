@@ -1,52 +1,50 @@
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform } from "react-native";
 
-import { getThemedStyle } from '../../../utils/styles-util';
-import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from "../../../utils/styles-util";
+import STYLES from "../../../constants/STYLES";
 
 const base = {
   content: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: 60
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    height: 60,
   },
 
   center: {
-    alignSelf: 'center',
-    justifyContent: 'center'
+    alignSelf: "center",
+    justifyContent: "center",
   },
 
   left: {
     flex: 1,
-    alignItems: 'flex-start'
+    alignItems: "flex-start",
   },
 
   right: {
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
 
   headingBackground: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 
     ...Platform.select({
       android: {
-        borderColor: '#E9E9E9',
+        borderColor: "#E9E9E9",
         borderBottomWidth: 2,
-
       },
       ios: {
         ...STYLES.SHADOW_STYLES,
-      }
-    })
+      },
+    }),
   },
 
   transparentBackground: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    position: 'absolute',
-    backgroundColor: 'transparent',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    position: "absolute",
+    backgroundColor: "transparent",
     zIndex: 100,
     top: 0,
     left: 0,
@@ -54,7 +52,7 @@ const base = {
   },
 
   sameBackground: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 
   profilePicture: {
@@ -64,53 +62,52 @@ const base = {
 
     ...Platform.select({
       android: {
-        borderColor: '#E9E9E9',
+        borderColor: "#E9E9E9",
         borderWidth: 1,
       },
       ios: {
         ...STYLES.SHADOW_STYLES,
-      }
-    })
+      },
+    }),
   },
 
   button: {
     borderRadius: 17,
-    overflow: 'hidden',
-    borderColor: 'black'
-  }
-}
+    overflow: "hidden",
+    borderColor: "black",
+  },
+};
 
 const themed = {
-
   light: {
     headingBackground: {
       backgroundColor: STYLES.COLORS.WHITE,
     },
     sameBackground: {
-      backgroundColor: STYLES.COLORS.LIGHT_GRAY
-    }
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+    },
   },
 
   dark: {
     headingBackground: {
       backgroundColor: STYLES.COLORS.DARK_HEADER,
-      borderColor: 'transparent'
+      borderColor: "transparent",
     },
     sameBackground: {
-      backgroundColor: STYLES.COLORS.DARK_BACKGROUND
-    }
+      backgroundColor: STYLES.COLORS.DARK_BACKGROUND,
+    },
   },
 
   celsius: {
     headingBackground: {
-      backgroundColor: STYLES.COLORS.CELSIUS
+      backgroundColor: STYLES.COLORS.CELSIUS,
     },
     sameBackground: {
-      backgroundColor: STYLES.COLORS.LIGHT_GRAY
-    }
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+    },
   },
-}
+};
 
 const CelHeadingStyle = () => getThemedStyle(base, themed);
 
-export default CelHeadingStyle
+export default CelHeadingStyle;

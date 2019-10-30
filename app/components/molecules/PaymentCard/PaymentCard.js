@@ -24,7 +24,7 @@ class PaymentCard extends Component {
     coinShort: PropTypes.string,
     name: PropTypes.string,
     loanCollateral: PropTypes.number,
-    coinAmount: PropTypes.number
+    coinAmount: PropTypes.number,
   };
   static defaultProps = {};
 
@@ -36,17 +36,20 @@ class PaymentCard extends Component {
     };
   }
 
-  navigate = (hasEnoughForALoan) => {
-    const {reason, actions, coinShort} = this.props;
+  navigate = hasEnoughForALoan => {
+    const { reason, actions, coinShort } = this.props;
 
     if (hasEnoughForALoan) {
       if (reason) {
-        actions.showMessage("success", "You have successfully changed interest payment method")
-        return actions.navigateTo("LoanSettings")
+        actions.showMessage(
+          "success",
+          "You have successfully changed interest payment method"
+        );
+        return actions.navigateTo("LoanSettings");
       }
-      actions.navigateTo("LoanPrepaymentPeriod", { coin: coinShort })
+      actions.navigateTo("LoanPrepaymentPeriod", { coin: coinShort });
     }
-    return
+    return;
   };
 
   render() {
@@ -56,13 +59,17 @@ class PaymentCard extends Component {
       loanCollateral,
       coinAmount,
       actions,
-      name
+      name,
     } = this.props;
     // const style = PaymentCardStyle();
 
     const hasEnoughForALoan = loanCollateral < coinAmount;
     return (
-      <Card onPress={() => this.navigate(hasEnoughForALoan)} padding={"12 50 12 12"} styles={{ opacity: hasEnoughForALoan ? 1 : 0.5 }}>
+      <Card
+        onPress={() => this.navigate(hasEnoughForALoan)}
+        padding={"12 50 12 12"}
+        styles={{ opacity: hasEnoughForALoan ? 1 : 0.5 }}
+      >
         <View style={{ flexDirection: "row" }}>
           <View style={{ alignSelf: "center", marginRight: 10 }}>
             <CoinIcon
@@ -80,7 +87,9 @@ class PaymentCard extends Component {
                 weight={"300"}
                 type={"H6"}
                 color={
-                  hasEnoughForALoan ? STYLES.COLORS.DARK_GRAY6 : STYLES.COLORS.RED
+                  hasEnoughForALoan
+                    ? STYLES.COLORS.DARK_GRAY6
+                    : STYLES.COLORS.RED
                 }
               >{`500 ${coinShort}`}</CelText>
               <Separator margin={"0 5 0 5"} vertical />
@@ -88,7 +97,9 @@ class PaymentCard extends Component {
                 weight={"300"}
                 type={"H6"}
                 color={
-                  hasEnoughForALoan ? STYLES.COLORS.DARK_GRAY6 : STYLES.COLORS.RED
+                  hasEnoughForALoan
+                    ? STYLES.COLORS.DARK_GRAY6
+                    : STYLES.COLORS.RED
                 }
               >{`${formatter.usd(100)} USD`}</CelText>
             </View>
@@ -105,7 +116,7 @@ class PaymentCard extends Component {
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
-                      marginVertical: 10
+                      marginVertical: 10,
                     }}
                   >
                     <Icon

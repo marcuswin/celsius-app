@@ -12,7 +12,11 @@ import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 import Icon from "../../atoms/Icon/Icon";
-import { BasicCardSection, BasicSection, CardSection } from "../TransactionDetails/TransactionDetailsSections";
+import {
+  BasicCardSection,
+  BasicSection,
+  CardSection,
+} from "../TransactionDetails/TransactionDetailsSections";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import CelButton from "../../atoms/CelButton/CelButton";
 import { LOAN_STATUS } from "../../../constants/DATA";
@@ -22,7 +26,7 @@ import LoanApplicationSuccessModal from "../../organisms/LoanApplicationSuccessM
 @connect(
   state => ({
     allLoans: state.loans.allLoans,
-    activeLoan: state.loans.activeLoan
+    activeLoan: state.loans.activeLoan,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -36,10 +40,9 @@ class LoanRequestDetails extends Component {
     return {
       title: `Loan Details`,
       right: "profile",
-      hideBack
+      hideBack,
     };
   };
-
 
   constructor(props) {
     super(props);
@@ -53,7 +56,7 @@ class LoanRequestDetails extends Component {
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.activeLoan, this.props.activeLoan)) {
       this.props.navigation.setParams({
-        title: `${this.props.activeLoan.uiProps.displayText} Details`
+        title: `${this.props.activeLoan.uiProps.displayText} Details`,
       });
     }
   }
@@ -69,59 +72,148 @@ class LoanRequestDetails extends Component {
   //
   // }
 
-  renderSection = (sectionType) => {
+  renderSection = sectionType => {
     const { activeLoan } = this.props;
 
     switch (sectionType) {
       case "completion:date":
-        return <BasicSection key={sectionType} label={"Loan Completion Date"}
-                             value={moment(activeLoan.maturity_date).format("D MMM YYYY")}/>;
+        return (
+          <BasicSection
+            key={sectionType}
+            label={"Loan Completion Date"}
+            value={moment(activeLoan.maturity_date).format("D MMM YYYY")}
+          />
+        );
       case "rejection:date":
-        return <BasicSection key={sectionType} label={"Loan Rejection Date"}
-                             value={moment(activeLoan.approved_at).format("D MMM YYYY")}/>;
+        return (
+          <BasicSection
+            key={sectionType}
+            label={"Loan Rejection Date"}
+            value={moment(activeLoan.approved_at).format("D MMM YYYY")}
+          />
+        );
       case "cancellation:date":
-        return <BasicSection key={sectionType} label={"Loan Cancellation Date"}
-                             value={moment(activeLoan.canceled_at).format("D MMM YYYY")}/>;
+        return (
+          <BasicSection
+            key={sectionType}
+            label={"Loan Cancellation Date"}
+            value={moment(activeLoan.canceled_at).format("D MMM YYYY")}
+          />
+        );
       case "refinanced:date":
-        return activeLoan.refinanced_at && <BasicSection key={sectionType} label={"Loan Refinanced On"}
-                                                         value={moment(activeLoan.refinanced_at).format("D MMM YYYY")}/>;
+        return (
+          activeLoan.refinanced_at && (
+            <BasicSection
+              key={sectionType}
+              label={"Loan Refinanced On"}
+              value={moment(activeLoan.refinanced_at).format("D MMM YYYY")}
+            />
+          )
+        );
       case "initiation:date":
-        return <BasicSection key={sectionType} label={"Loan Initiation Date"}
-                             value={moment(activeLoan.created_at).format("D MMM YYYY")}/>;
+        return (
+          <BasicSection
+            key={sectionType}
+            label={"Loan Initiation Date"}
+            value={moment(activeLoan.created_at).format("D MMM YYYY")}
+          />
+        );
       case "unlocked:collateral":
-        return <BasicSection key={sectionType} label={"Unlocked Collateral"}
-                             value={formatter.crypto(activeLoan.amount_collateral_crypto, activeLoan.collateral_coin)}/>;
+        return (
+          <BasicSection
+            key={sectionType}
+            label={"Unlocked Collateral"}
+            value={formatter.crypto(
+              activeLoan.amount_collateral_crypto,
+              activeLoan.collateral_coin
+            )}
+          />
+        );
       case "estimated:collateral":
-        return <CardSection key={sectionType}
-                            title={activeLoan.uiProps.collateral}
-                            cardText={[LOAN_STATUS.PENDING].includes(activeLoan.status) && "Exact collateral amount would be determined upon approval"}
-                            coin={activeLoan.collateral_coin}
-                            coinAmount={activeLoan.loan_collateral_crypto}/>;
+        return (
+          <CardSection
+            key={sectionType}
+            title={activeLoan.uiProps.collateral}
+            cardText={
+              [LOAN_STATUS.PENDING].includes(activeLoan.status) &&
+              "Exact collateral amount would be determined upon approval"
+            }
+            coin={activeLoan.collateral_coin}
+            coinAmount={activeLoan.loan_collateral_crypto}
+          />
+        );
       case "collateral":
-        return <BasicSection key={sectionType} label={"Locked Collateral"}
-                             value={[formatter.crypto(activeLoan.amount_collateral_crypto, activeLoan.collateral_coin), activeLoan.coin]}/>;
+        return (
+          <BasicSection
+            key={sectionType}
+            label={"Locked Collateral"}
+            value={[
+              formatter.crypto(
+                activeLoan.amount_collateral_crypto,
+                activeLoan.collateral_coin
+              ),
+              activeLoan.coin,
+            ]}
+          />
+        );
       case "term":
-        return <BasicSection key={sectionType} label={"Term Length"} value={`${activeLoan.term_of_loan} months`}/>;
+        return (
+          <BasicSection
+            key={sectionType}
+            label={"Term Length"}
+            value={`${activeLoan.term_of_loan} months`}
+          />
+        );
       case "annualInterest":
-        return <BasicCardSection key={sectionType} label={"Annual Interest Rate"} coin={activeLoan.coin_loan_asset}
-                                 value={activeLoan.interest}
-                                 monthly={activeLoan.monthly_payment}
-                                 total={activeLoan.total_interest}/>;
+        return (
+          <BasicCardSection
+            key={sectionType}
+            label={"Annual Interest Rate"}
+            coin={activeLoan.coin_loan_asset}
+            value={activeLoan.interest}
+            monthly={activeLoan.monthly_payment}
+            total={activeLoan.total_interest}
+          />
+        );
       case "marginCall":
-        return activeLoan.margin_call && <CardSection key={sectionType} title={`${activeLoan.coin} Margin Call At:`}
-                                                      amount={activeLoan.margin_call_price}
-                                                      cardText={`If ${activeLoan.coin} drops below ${formatter.usd(activeLoan.margin_call_price)} you will get a notification asking for additional collateral.`}/>;
+        return (
+          activeLoan.margin_call && (
+            <CardSection
+              key={sectionType}
+              title={`${activeLoan.coin} Margin Call At:`}
+              amount={activeLoan.margin_call_price}
+              cardText={`If ${activeLoan.coin} drops below ${formatter.usd(
+                activeLoan.margin_call_price
+              )} you will get a notification asking for additional collateral.`}
+            />
+          )
+        );
       case "liquidation":
-        return activeLoan.margin_call &&
-          <CardSection key={sectionType} title={"Liquidation At:"} amount={activeLoan.liquidation_call_price}
-                       cardText={`If ${activeLoan.coin} drops below ${formatter.usd(activeLoan.liquidation_call_price)} we will sell some of your collateral to cover the margin.`}/>;
+        return (
+          activeLoan.margin_call && (
+            <CardSection
+              key={sectionType}
+              title={"Liquidation At:"}
+              amount={activeLoan.liquidation_call_price}
+              cardText={`If ${activeLoan.coin} drops below ${formatter.usd(
+                activeLoan.liquidation_call_price
+              )} we will sell some of your collateral to cover the margin.`}
+            />
+          )
+        );
       // case "firstInterest":
       //   return  <BasicSection key={sectionType} label={"First Interest Payment Due"} value={moment(transaction.loan_data.first_interest).format("D MMM YYYY")}/>;
       // case "nextInterest":
       //   return  <BasicSection key={sectionType} label={"Next Interest Payment Due"} value={moment(transaction.loan_data.next_interest).format("D MMM YYYY")}/>;
       case "maturity":
-        return <BasicSection key={sectionType} label={"Maturity Date"} noSeparator
-                             value={moment(activeLoan.maturity_date).format("D MMM YYYY")}/>;
+        return (
+          <BasicSection
+            key={sectionType}
+            label={"Maturity Date"}
+            noSeparator
+            value={moment(activeLoan.maturity_date).format("D MMM YYYY")}
+          />
+        );
       default:
         break;
     }
@@ -130,11 +222,14 @@ class LoanRequestDetails extends Component {
   render() {
     const { actions, activeLoan } = this.props;
 
-    if (!activeLoan) return <LoadingScreen/>;
+    if (!activeLoan) return <LoadingScreen />;
 
     const style = LoanRequestDetailsStyle();
 
-    const loanCoinType = activeLoan.type === "USD_LOAN" ? `${formatter.usd(formatter.floor10(activeLoan.loan_amount_usd, -2))}` : `${activeLoan.loan_amount} ${activeLoan.coin_loan_asset}`;
+    const loanCoinType =
+      activeLoan.type === "USD_LOAN"
+        ? `${formatter.usd(formatter.floor10(activeLoan.loan_amount_usd, -2))}`
+        : `${activeLoan.loan_amount} ${activeLoan.coin_loan_asset}`;
 
     const sections = activeLoan.uiSections;
 
@@ -142,11 +237,23 @@ class LoanRequestDetails extends Component {
       <RegularLayout>
         <View style={style.container}>
           <View style={style.status}>
-            <Icon name={"TransactionLoan"} fill={activeLoan.uiProps.color} width={"25"} height={"25"}/>
-            <CelText type={"H5"} color={activeLoan.uiProps.color}
-                     margin={"0 5 0 0"}>{activeLoan.uiProps.displayText}</CelText>
+            <Icon
+              name={"TransactionLoan"}
+              fill={activeLoan.uiProps.color}
+              width={"25"}
+              height={"25"}
+            />
+            <CelText
+              type={"H5"}
+              color={activeLoan.uiProps.color}
+              margin={"0 5 0 0"}
+            >
+              {activeLoan.uiProps.displayText}
+            </CelText>
           </View>
-          <CelText type={"H2"} weight={"600"} margin={"5 0 5 0"}>{loanCoinType}</CelText>
+          <CelText type={"H2"} weight={"600"} margin={"5 0 5 0"}>
+            {loanCoinType}
+          </CelText>
         </View>
 
         {sections.map(this.renderSection)}
@@ -159,7 +266,7 @@ class LoanRequestDetails extends Component {
           Go back to the wallet
         </CelButton>
 
-        <LoanApplicationSuccessModal loanId={activeLoan.id}/>
+        <LoanApplicationSuccessModal loanId={activeLoan.id} />
       </RegularLayout>
     );
   }

@@ -1,25 +1,25 @@
-import STYLES from '../../../constants/STYLES'
-import { getThemedStyle } from '../../../utils/styles-util'
+import STYLES from "../../../constants/STYLES";
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   selectedAmountText: {
     color: STYLES.COLORS.CELSIUS_BLUE,
     borderBottomWidth: 1,
-    borderColor: STYLES.COLORS.CELSIUS_BLUE
-  }
-}
+    borderColor: STYLES.COLORS.CELSIUS_BLUE,
+  },
+};
 
 const themed = {
   light: {},
 
   dark: {},
 
-  celsius: {}
-}
+  celsius: {},
+};
 
-const PredefinedAmountsStyle = () => getThemedStyle(base, themed)
+const PredefinedAmountsStyle = () => getThemedStyle(base, themed);
 
-export default PredefinedAmountsStyle
+export default PredefinedAmountsStyle;

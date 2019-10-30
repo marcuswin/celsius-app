@@ -41,8 +41,11 @@ class CoinDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
-      title: params && params.title && params.coin ? `${params.title}  (${params.coin})` : "Coin Details",
-      right: "profile"
+      title:
+        params && params.title && params.coin
+          ? `${params.title}  (${params.coin})`
+          : "Coin Details",
+      right: "profile",
     };
   };
 
@@ -50,39 +53,41 @@ class CoinDetails extends Component {
     super(props);
     const { navigation } = props;
     const coin = navigation.getParam("coin");
-    const currency = props.currencies.filter(c => c.short === coin.toUpperCase())[0];
+    const currency = props.currencies.filter(
+      c => c.short === coin.toUpperCase()
+    )[0];
 
     this.state = {
-      currency
+      currency,
     };
   }
 
   componentDidMount() {
-    this.setCurrencyFetchingInterval()
+    this.setCurrencyFetchingInterval();
   }
 
   componentDidUpdate(prevProps) {
     const { isFocused } = this.props;
 
     if (prevProps.isFocused !== isFocused && isFocused === true) {
-      this.setCurrencyFetchingInterval()
+      this.setCurrencyFetchingInterval();
     }
 
     if (isFocused === false && this.currencyFetchingInterval) {
-      clearInterval(this.currencyFetchingInterval)
+      clearInterval(this.currencyFetchingInterval);
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.currencyFetchingInterval)
+    clearInterval(this.currencyFetchingInterval);
   }
 
   setCurrencyFetchingInterval = () => {
     const { actions } = this.props;
 
     this.currencyFetchingInterval = setInterval(() => {
-      actions.getCurrencyRates()
-    }, 30000)
+      actions.getCurrencyRates();
+    }, 30000);
   };
 
   getCoinDetails() {
@@ -98,8 +103,8 @@ class CoinDetails extends Component {
     const { actions } = this.props;
     const { currency } = this.state;
 
-    actions.navigateTo('AllTransactions', { coin: currency.short })
-  }
+    actions.navigateTo("AllTransactions", { coin: currency.short });
+  };
 
   goToCelPay = () => {
     const { currency } = this.state;
@@ -111,15 +116,27 @@ class CoinDetails extends Component {
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance, currencies, appSettings } = this.props;
+    const {
+      actions,
+      interestRates,
+      celpayCompliance,
+      currencies,
+      appSettings,
+    } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
-    const coinPrice = currencies ? currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0] : {}
+    const coinPrice = currencies
+      ? currencies
+          .filter(c => c.short === coinDetails.short)
+          .map(m => m.market_quotes_usd)[0]
+      : {};
     const theme = getTheme();
-    const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
+    const isCoinEligibleForCelPay =
+      celpayCompliance.allowed &&
+      celpayCompliance.coins.includes(currency.short);
 
     const interestInCoins = appSettings.interest_in_cel_per_coin;
-    const interestRate = interestUtil.getUserInterestForCoin(coinDetails.short)
+    const interestRate = interestUtil.getUserInterestForCoin(coinDetails.short);
 
     return (
       <RegularLayout padding={"20 0 100 0"}>
@@ -127,52 +144,58 @@ class CoinDetails extends Component {
           <Card padding={"0 0 7 0"}>
             <View style={style.coinAmountWrapper}>
               <View style={style.amountFlexBox}>
-                <CoinIcon customStyles={style.coinImage} theme={theme} url={currency.image_url} coinShort={currency.short} />
+                <CoinIcon
+                  customStyles={style.coinImage}
+                  theme={theme}
+                  url={currency.image_url}
+                  coinShort={currency.short}
+                />
                 <View style={{ marginLeft: 16 }}>
-                  <CelText weight='300' type="H6">{currency.displayName}</CelText>
-                  <CelText weight='600' type="H2" margin={"3 0 3 0"}>{formatter.usd(coinDetails.amount_usd)}</CelText>
-                  <CelText weight='300' type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
+                  <CelText weight="300" type="H6">
+                    {currency.displayName}
+                  </CelText>
+                  <CelText weight="600" type="H2" margin={"3 0 3 0"}>
+                    {formatter.usd(coinDetails.amount_usd)}
+                  </CelText>
+                  <CelText weight="300" type="H6">
+                    {formatter.crypto(coinDetails.amount, coinDetails.short)}
+                  </CelText>
                 </View>
               </View>
               <Separator />
               <View style={style.buttonWrapper}>
                 <TouchableOpacity
-                  style={{ marginLeft: widthPercentageToDP("3.3%"), marginRight: widthPercentageToDP("3.3%") }}
-                  onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}>
+                  style={{
+                    marginLeft: widthPercentageToDP("3.3%"),
+                    marginRight: widthPercentageToDP("3.3%"),
+                  }}
+                  onPress={() =>
+                    actions.navigateTo("Deposit", { coin: coinDetails.short })
+                  }
+                >
                   <View style={style.buttonItself}>
                     <View style={style.buttonIcon}>
-                      <Icon
-                        fill="primary"
-                        name="Deposit"
-                        width="25"
-                      />
+                      <Icon fill="primary" name="Deposit" width="25" />
                     </View>
-                    <CelText>
-                      Deposit
-                    </CelText>
+                    <CelText>Deposit</CelText>
                   </View>
                 </TouchableOpacity>
                 <Separator vertical height={"35%"} top={20} />
                 {isCoinEligibleForCelPay && (
-                  <TouchableOpacity onPress={this.goToCelPay} style={{
-                    marginLeft: widthPercentageToDP("6.9%"),
-                    marginRight: widthPercentageToDP("6.9%")
-                  }}>
-
+                  <TouchableOpacity
+                    onPress={this.goToCelPay}
+                    style={{
+                      marginLeft: widthPercentageToDP("6.9%"),
+                      marginRight: widthPercentageToDP("6.9%"),
+                    }}
+                  >
                     <View style={style.buttonItself}>
                       <View style={style.buttonIcon}>
-                        <Icon
-                          fill="primary"
-                          name="CelPay"
-                          width="25"
-                        />
+                        <Icon fill="primary" name="CelPay" width="25" />
                       </View>
 
-                      <CelText>
-                        CelPay
-                      </CelText>
+                      <CelText>CelPay</CelText>
                     </View>
-
                   </TouchableOpacity>
                 )}
 
@@ -180,19 +203,19 @@ class CoinDetails extends Component {
                   <Separator vertical height={"35%"} top={20} />
                 )}
 
-                <TouchableOpacity style={style.buttons}
-                  onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
+                <TouchableOpacity
+                  style={style.buttons}
+                  onPress={() =>
+                    actions.navigateTo("WithdrawEnterAmount", {
+                      coin: coinDetails.short,
+                    })
+                  }
+                >
                   <View style={style.buttonItself}>
                     <View style={style.buttonIcon}>
-                      <Icon
-                        fill="primary"
-                        name="Withdraw"
-                        width="25"
-                      />
+                      <Icon fill="primary" name="Withdraw" width="25" />
                     </View>
-                    <CelText>
-                      Withdraw
-                    </CelText>
+                    <CelText>Withdraw</CelText>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -211,20 +234,43 @@ class CoinDetails extends Component {
             <View>
               <View style={style.interestWrapper}>
                 <View style={style.interestCardWrapper}>
-                  <CelText type="H6" weight='300' margin={'3 0 3 0'}>Total interest earned</CelText>
-                  <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
-                  <CelText type="H6" weight='300' margin={'3 0 3 0'}>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
-                  {coinDetails.interest_earned_cel && coinDetails.short !== 'CEL' ? (
-                    <CelText type="H6" weight='300' margin={'3 0 0 0'}>{formatter.crypto(coinDetails.interest_earned_cel, "CEL")}</CelText>
+                  <CelText type="H6" weight="300" margin={"3 0 3 0"}>
+                    Total interest earned
+                  </CelText>
+                  <CelText type="H3" weight="600" margin={"3 0 3 0"}>
+                    {formatter.usd(coinDetails.interest_earned_usd)}
+                  </CelText>
+                  <CelText type="H6" weight="300" margin={"3 0 3 0"}>
+                    {formatter.crypto(
+                      coinDetails.interest_earned,
+                      coinDetails.short
+                    )}
+                  </CelText>
+                  {coinDetails.interest_earned_cel &&
+                  coinDetails.short !== "CEL" ? (
+                    <CelText type="H6" weight="300" margin={"3 0 0 0"}>
+                      {formatter.crypto(coinDetails.interest_earned_cel, "CEL")}
+                    </CelText>
                   ) : null}
                 </View>
-                {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
-                  <View style={style.interestRateWrapper}>
-                    <Badge margin='0 10 10 12' style={{ alignContent: 'center', }} color={COLORS.GREEN}>
-                      <CelText margin={"0 5 0 5"} align='justify' type="H5" color="white">{`${interestRate.display} APR`}</CelText>
-                    </Badge>
-                  </View>
-                )}
+                {!!coinDetails &&
+                  !!interestRates &&
+                  !!interestRates[coinDetails.short] && (
+                    <View style={style.interestRateWrapper}>
+                      <Badge
+                        margin="0 10 10 12"
+                        style={{ alignContent: "center" }}
+                        color={COLORS.GREEN}
+                      >
+                        <CelText
+                          margin={"0 5 0 5"}
+                          align="justify"
+                          type="H5"
+                          color="white"
+                        >{`${interestRate.display} APR`}</CelText>
+                      </Badge>
+                    </View>
+                  )}
               </View>
               <View style={style.graphContainer}>
                 <GraphContainer
@@ -239,36 +285,64 @@ class CoinDetails extends Component {
                 />
               </View>
             </View>
-            {celpayCompliance &&
+            {celpayCompliance && (
               <InterestCard
                 coin={coinDetails.short}
                 interestRate={interestRate}
                 interestInCoins={interestInCoins}
                 setUserAppSettings={actions.setUserAppSettings}
               />
-            }
+            )}
           </Card>
         </View>
 
         <View style={style.priceIndicator}>
           <Card>
-            <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
               <View>
-                <CelText type={"H2"} weight={"600"} align={"center"}>{formatter.usd(coinPrice.price)}</CelText>
-                <CelText type={"H6"} weight={"300"} align={"center"} margin={"10 0 0 0"}>{`1 ${coinDetails.short} price`}</CelText>
+                <CelText type={"H2"} weight={"600"} align={"center"}>
+                  {formatter.usd(coinPrice.price)}
+                </CelText>
+                <CelText
+                  type={"H6"}
+                  weight={"300"}
+                  align={"center"}
+                  margin={"10 0 0 0"}
+                >{`1 ${coinDetails.short} price`}</CelText>
               </View>
               <Separator vertical />
               <View>
-                <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: "space-around" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-around",
+                  }}
+                >
                   <Icon
-                    name={coinPrice.percent_change_24h < 0 ? `ArrowDown` : `ArrowUp`}
+                    name={
+                      coinPrice.percent_change_24h < 0 ? `ArrowDown` : `ArrowUp`
+                    }
                     height={"10"}
                     width={"10"}
                   />
-                  <CelText type={"H2"} weight={"600"}
-                    align={"center"}>{formatter.round(coinPrice.percent_change_24h, { precision: 2 })}%</CelText>
+                  <CelText type={"H2"} weight={"600"} align={"center"}>
+                    {formatter.round(coinPrice.percent_change_24h, {
+                      precision: 2,
+                    })}
+                    %
+                  </CelText>
                 </View>
-                <CelText type={"H6"} weight={"300"} align={"center"} margin={"10 0 0 0"}>Last 24h change</CelText>
+                <CelText
+                  type={"H6"}
+                  weight={"300"}
+                  align={"center"}
+                  margin={"10 0 0 0"}
+                >
+                  Last 24h change
+                </CelText>
               </View>
             </View>
           </Card>
@@ -277,7 +351,10 @@ class CoinDetails extends Component {
         <View style={style.container}>
           <TransactionsHistory
             hasFilter={false}
-            additionalFilter={{ coin: coinDetails && coinDetails.short, limit: 5 }}
+            additionalFilter={{
+              coin: coinDetails && coinDetails.short,
+              limit: 5,
+            }}
           />
 
           <CelButton
@@ -293,4 +370,4 @@ class CoinDetails extends Component {
   }
 }
 
-export default withNavigationFocus(CoinDetails)
+export default withNavigationFocus(CoinDetails);

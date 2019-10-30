@@ -18,7 +18,7 @@ const appsFlyerUtil = {
   kycStarted,
   withdrawCompleted,
   celpayCompleted,
-  loanApplied
+  loanApplied,
 };
 
 /**
@@ -46,12 +46,12 @@ async function appsFlyerEvent(event, payload) {
   }
   const response = await appsFlyer.trackEvent(event, {
     ...appInfo,
-    ...payload
+    ...payload,
   });
   userBehaviorUtil.sendEvent("Appsflyer event", {
     event,
     payload,
-    response
+    response,
   });
 }
 
@@ -78,9 +78,9 @@ async function registrationCompleted(user) {
     action: "User completed registration",
     content_items: [
       {
-        $og_description: method
-      }
-    ]
+        $og_description: method,
+      },
+    ],
   });
 }
 
@@ -100,10 +100,10 @@ async function kycStarted() {
       action: "User started KYC",
       content_item: [
         {
-          $sku: 1
-        }
-      ]
-    }
+          $sku: 1,
+        },
+      ],
+    },
   });
 }
 
@@ -118,7 +118,7 @@ async function withdrawCompleted(withdrawTransaction) {
   const payload = {
     ...withdrawTransaction,
     amountUsd:
-      withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin]
+      withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin],
   };
 
   await appsFlyerEvent("ADD_TO_WISHLIST", {
@@ -130,7 +130,7 @@ async function withdrawCompleted(withdrawTransaction) {
     amount_crypto: payload.amount.toString(),
     coin: payload.coin,
     action: "Withdraw",
-    id: payload.id
+    id: payload.id,
   });
 }
 
@@ -158,7 +158,7 @@ async function celpayCompleted(celPayTransfer) {
     amount_crypto: celPayTransfer.amount.toString(),
     coin: celPayTransfer.coin,
     id: celPayTransfer.id,
-    action: "CelPay"
+    action: "CelPay",
   });
 }
 
@@ -188,7 +188,7 @@ async function loanApplied({ loan, transaction_id: transactionId }) {
     originating_date: loan.originating_date,
     collateral_usd_rate: loan.collateral_usd_rate,
     term_of_loan: loan.term_of_loan,
-    total_interest: loan.total_interest
+    total_interest: loan.total_interest,
   });
 }
 

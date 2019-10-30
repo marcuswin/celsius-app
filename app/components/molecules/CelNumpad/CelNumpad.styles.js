@@ -20,20 +20,20 @@ const base = {
   },
   buttonsWrapper: {
     width: 240,
-    height: 240
+    height: 240,
   },
   buttonsRow: {
     alignItems: "center",
     justifyContent: "space-between",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   button: {
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     height: 60,
-    width: 60
-  }
+    width: 60,
+  },
 };
 
 const themed = {
@@ -41,7 +41,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const CelNumpadStyle = () => getThemedStyle(base, themed);

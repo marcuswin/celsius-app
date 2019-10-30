@@ -10,13 +10,13 @@ const base = {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    minHeight: 0.8 * height
+    minHeight: 0.8 * height,
   },
   image: {
     width: 140,
     height: 140,
-    resizeMode: "contain"
-  }
+    resizeMode: "contain",
+  },
 };
 
 const themed = {
@@ -24,7 +24,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const LoadingStateStyle = () => getThemedStyle(base, themed);

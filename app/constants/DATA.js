@@ -11,7 +11,7 @@ const KYC_STATUSES = {
   rejected: "rejected",
   ico_passed: "ico_passed",
   rejeceted: "rejeceted",
-  permanently_rejected: "permanently_rejected"
+  permanently_rejected: "permanently_rejected",
 };
 
 const BLOCKEXPLORERS_STAGING = {
@@ -25,7 +25,7 @@ const BLOCKEXPLORERS_STAGING = {
   btg: "https://testnet.btgexplorer.com/tx/",
   eth: "https://rinkeby.etherscan.io/tx/",
   eos: "https://jungle.bloks.io/transaction/",
-  erc20: "https://rinkeby.etherscan.io/tx/"
+  erc20: "https://rinkeby.etherscan.io/tx/",
 };
 const BLOCKEXPLORERS_PRODUCTION = {
   btc: "https://blockexplorer.com/tx/",
@@ -38,23 +38,24 @@ const BLOCKEXPLORERS_PRODUCTION = {
   btg: "https://btgexplorer.com/tx/",
   eth: "https://etherscan.io/tx/",
   eos: "https://bloks.io/transaction/",
-  erc20: "https://etherscan.io/tx/"
+  erc20: "https://etherscan.io/tx/",
 };
 
-const BLOCKEXPLORERS = ENV === "PRODUCTION" ? BLOCKEXPLORERS_PRODUCTION : BLOCKEXPLORERS_STAGING;
+const BLOCKEXPLORERS =
+  ENV === "PRODUCTION" ? BLOCKEXPLORERS_PRODUCTION : BLOCKEXPLORERS_STAGING;
 
 const BRANCH_LINKS = {
   TRANSFER: "TRANSFER",
   INDIVIDUAL_REFERRAL: "INDIVIDUAL_REFERRAL",
   COMPANY_REFERRAL: "COMPANY_REFERRAL",
-  NAVIGATE_TO: "NAVIGATE_TO"
+  NAVIGATE_TO: "NAVIGATE_TO",
 };
 
 const TRANSFER_STATUSES = {
   expired: "expired",
   claimed: "claimed",
   cleared: "cleared",
-  pending: "pending"
+  pending: "pending",
 };
 
 const TRANSACTION_TYPES = {
@@ -99,7 +100,7 @@ const TRANSACTION_TYPES = {
   CANCELED: "CANCELED",
 
   IN: "IN",
-  OUT: "OUT"
+  OUT: "OUT",
 };
 
 const LOAN_TRANSACTION_TYPES = {
@@ -112,9 +113,8 @@ const LOAN_TRANSACTION_TYPES = {
   MARGIN_CALL_COLLATERAL: "margin_call_collateral",
   MARGIN_CALL_PRINCIPAL: "margin_call_principal",
   SENDING_BACK_COLLATERAL: "sending_back_collateral",
-  RECEIVING_PRINCIPAL_BACK: "receiving_principal_back"
+  RECEIVING_PRINCIPAL_BACK: "receiving_principal_back",
 };
-
 
 /*
  * Future TRANSACTION_TYPES
@@ -211,28 +211,26 @@ const STATE_MACHINE = {
   // Fallback cancelled/rejected/failed/removed transaction
   CANCELED: "CANCELED",
   // Amount locked for some reason
-  LOCKED: "LOCKED"
+  LOCKED: "LOCKED",
 };
-
 
 const CONTACT_NETWORK = {
   PHONE: "Phone",
   FACEBOOK: "Facebook",
-  TWITTER: "Twitter"
+  TWITTER: "Twitter",
 };
 
 const PREDIFINED_AMOUNTS = [
   { label: "$20", value: "20" },
   { label: "$50", value: "50" },
   { label: "$100", value: "100" },
-  { label: "ALL", value: "" }
+  { label: "ALL", value: "" },
 ];
 
 const BANK_ACCOUNT_TYPE = [
   { label: "Checking", value: "Checking" },
-  { label: "Savings", value: "Savings" }
+  { label: "Savings", value: "Savings" },
 ];
-
 
 const LOAN_STATUS = {
   APPROVED: "approved",
@@ -241,17 +239,17 @@ const LOAN_STATUS = {
   ACTIVE: "active",
   COMPLETED: "completed",
   CANCELED: "canceled",
-  REFINANCED: "refinanced"
+  REFINANCED: "refinanced",
 };
 
 const LOAN_TYPES = {
   USD_LOAN: "USD_LOAN",
-  STABLE_COIN_LOAN: "STABLE_COIN_LOAN"
+  STABLE_COIN_LOAN: "STABLE_COIN_LOAN",
 };
 
 const LOAN_PAYMENT_TYPES = {
   MONTHLY_INTEREST: "monthly_interest",
-  RECEIVING_PRINCIPAL_BACK: "receiving_principal_back"
+  RECEIVING_PRINCIPAL_BACK: "receiving_principal_back",
 };
 
 export {
@@ -266,5 +264,5 @@ export {
   LOAN_STATUS,
   LOAN_TYPES,
   LOAN_PAYMENT_TYPES,
-  LOAN_TRANSACTION_TYPES
+  LOAN_TRANSACTION_TYPES,
 };

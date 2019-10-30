@@ -1,30 +1,30 @@
 // import STYLES from '../../../constants/STYLES';
-import {getThemedStyle} from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   socialIcons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   bottomSegment: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 30,
-  }
-}
+  },
+};
 
 const themed = {
   light: {},
 
   dark: {},
 
-  celsius: {}
-}
+  celsius: {},
+};
 
 const ProfileStyle = () => getThemedStyle(base, themed);
 
-export default ProfileStyle
+export default ProfileStyle;

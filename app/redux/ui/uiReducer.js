@@ -1,12 +1,11 @@
-import ACTIONS from '../../constants/ACTIONS';
-
+import ACTIONS from "../../constants/ACTIONS";
 
 /**
  * TODO make it a function add JSDoc & desc for return
  */
 const initialState = {
   fabMenuOpen: false,
-  fabType: 'hide',
+  fabType: "hide",
 
   message: undefined,
   openedModal: undefined,
@@ -24,9 +23,9 @@ export default (state = initialState, action) => {
           type: action.msgType,
           text: action.text,
           action: action.action,
-        }
+        },
       };
-      
+
     case ACTIONS.CLEAR_MESSAGE:
       return {
         ...state,
@@ -37,49 +36,48 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isKeypadOpen: action.isKeypadOpen,
-      }
+      };
 
     case ACTIONS.OPEN_MODAL:
       return {
         ...state,
         openedModal: action.modal,
-      }
+      };
 
     case ACTIONS.CLOSE_MODAL:
       return {
         ...state,
         openedModal: undefined,
-      }
+      };
 
     case ACTIONS.OPEN_FAB_MENU:
       return {
         ...state,
-        fabMenuOpen: true
-      }
+        fabMenuOpen: true,
+      };
 
     case ACTIONS.CLOSE_FAB_MENU:
       return {
         ...state,
-        fabMenuOpen: false
-      }
+        fabMenuOpen: false,
+      };
 
     case ACTIONS.SET_FAB_TYPE:
       if (action.fabType !== state.fabType) {
         return {
           ...state,
-          fabType: action.fabType
-        }
+          fabType: action.fabType,
+        };
       }
       return state;
 
     case ACTIONS.ACTIVE_TAB:
       return {
         ...state,
-        activeTab: action.activeTab
-      }
+        activeTab: action.activeTab,
+      };
 
     default:
       return state;
-
   }
-}
+};

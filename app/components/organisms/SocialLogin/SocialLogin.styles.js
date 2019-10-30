@@ -6,7 +6,7 @@ const base = {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 20
+    marginVertical: 20,
   },
   wrapper: {
     width: 200,
@@ -15,9 +15,8 @@ const base = {
     alignItems: "center",
   },
   fakeTwitterButton: {
-    display: 'none',
+    display: "none",
   },
-
 };
 
 const themed = {
@@ -25,7 +24,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const SocialLoginStyle = () => getThemedStyle(base, themed);

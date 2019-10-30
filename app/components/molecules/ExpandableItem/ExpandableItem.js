@@ -1,13 +1,13 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {View, TouchableOpacity} from "react-native";
+import { View, TouchableOpacity } from "react-native";
 
 import ExpandableItemStyle from "./ExpandableItem.styles";
 import CelText from "../../atoms/CelText/CelText";
 import Icon from "../../atoms/Icon/Icon";
-import {THEMES} from "../../../constants/UI";
+import { THEMES } from "../../../constants/UI";
 import STYLES from "../../../constants/STYLES";
-import {getMargins, getTheme} from '../../../utils/styles-util'
+import { getMargins, getTheme } from "../../../utils/styles-util";
 
 class ExpandableItem extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ class ExpandableItem extends Component {
     isExpanded: PropTypes.bool,
     childrenStyle: PropTypes.oneOfType([
       PropTypes.number, // StyleSheet.create() returns number
-      PropTypes.instanceOf(Object)
+      PropTypes.instanceOf(Object),
     ]),
   };
   static defaultProps = {
@@ -28,35 +28,31 @@ class ExpandableItem extends Component {
     super(props);
 
     this.state = {
-      isExpanded: props.isExpanded
+      isExpanded: props.isExpanded,
     };
   }
 
   renderSeparator = () => {
     const style = ExpandableItemStyle();
-    const {isExpanded} = this.state;
+    const { isExpanded } = this.state;
     const theme = getTheme();
-    const {heading, margin} = this.props;
+    const { heading, margin } = this.props;
 
-    const margins = getMargins(margin)
+    const margins = getMargins(margin);
 
     return (
       <TouchableOpacity
-        style={[
-          style.container,
-          margins,
-        ]
-        }
-        onPress={() => this.setState({isExpanded: !isExpanded})}
+        style={[style.container, margins]}
+        onPress={() => this.setState({ isExpanded: !isExpanded })}
       >
-        <View style={style.leftSegment}/>
-        <View style={style.left}/>
+        <View style={style.leftSegment} />
+        <View style={style.left} />
 
         <CelText align={"center"} type={"H6"} style={style.centralText} allCaps>
           {heading}
         </CelText>
 
-        <View style={style.right}/>
+        <View style={style.right} />
         <Icon
           name={isExpanded ? "Collapse" : "Expand"}
           height="21"
@@ -72,8 +68,8 @@ class ExpandableItem extends Component {
   };
 
   render() {
-    const {children, heading, childrenStyle} = this.props;
-    const {isExpanded} = this.state;
+    const { children, heading, childrenStyle } = this.props;
+    const { isExpanded } = this.state;
 
     return (
       <>

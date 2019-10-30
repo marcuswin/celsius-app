@@ -5,12 +5,11 @@ import * as appActions from "../../../redux/actions";
 // import MyCelStyle from "./MyCel.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import MyCellHeader from '../../organisms/MyCelHeader/MyCelHeader'
-import CelTabs from '../../organisms/CelTabs/CelTabs'
-import MyCelOverivewTab from '../../organisms/MyCelOverivewTab/MyCelOverivewTab'
-import MyCelInterestTab from '../../organisms/MyCelInterestTab/MyCelInterestTab'
-import MyCelLoansTab from '../../organisms/MyCelLoansTab/MyCelLoansTab'
-
+import MyCellHeader from "../../organisms/MyCelHeader/MyCelHeader";
+import CelTabs from "../../organisms/CelTabs/CelTabs";
+import MyCelOverivewTab from "../../organisms/MyCelOverivewTab/MyCelOverivewTab";
+import MyCelInterestTab from "../../organisms/MyCelInterestTab/MyCelInterestTab";
+import MyCelLoansTab from "../../organisms/MyCelLoansTab/MyCelLoansTab";
 
 @connect(
   state => ({
@@ -19,14 +18,13 @@ import MyCelLoansTab from '../../organisms/MyCelLoansTab/MyCelLoansTab'
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-
 class MyCel extends Component {
   static propTypes = {};
   static defaultProps = {};
 
   static navigationOptions = () => ({
     title: "My CEL",
-    right: "profile"
+    right: "profile",
   });
 
   componentDidMount() {
@@ -44,21 +42,20 @@ class MyCel extends Component {
     // const style = MyCelStyle();
 
     if (!loyaltyInfo || !appSettings) return <LoadingScreen />;
-    
 
     const tabs = [
-      { label: 'OVERVIEW', component: <MyCelOverivewTab /> },
-      { label: 'INTEREST', component: <MyCelInterestTab /> },
-      { label: 'LOANS', component: <MyCelLoansTab /> },
-    ]
+      { label: "OVERVIEW", component: <MyCelOverivewTab /> },
+      { label: "INTEREST", component: <MyCelInterestTab /> },
+      { label: "LOANS", component: <MyCelLoansTab /> },
+    ];
 
     return (
       <RegularLayout padding={"0 0 100 0"}>
         <MyCellHeader />
-        <CelTabs tabs={tabs}/>
+        <CelTabs tabs={tabs} />
       </RegularLayout>
     );
   }
 }
 
-export default MyCel
+export default MyCel;

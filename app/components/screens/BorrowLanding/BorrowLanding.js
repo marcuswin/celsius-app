@@ -25,10 +25,19 @@ const cardWidth = widthPercentageToDP("70%");
 
 @connect(
   state => {
-    const loanCompliance = state.compliance.loan
-    const walletSummary = state.wallet.summary
-    const eligibleCoins = walletSummary && walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short))
-    const maxAmount = walletSummary && eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0)
+    const loanCompliance = state.compliance.loan;
+    const walletSummary = state.wallet.summary;
+    const eligibleCoins =
+      walletSummary &&
+      walletSummary.coins.filter(coinData =>
+        loanCompliance.collateral_coins.includes(coinData.short)
+      );
+    const maxAmount =
+      walletSummary &&
+      eligibleCoins.reduce(
+        (max, element) => (element.amount_usd > max ? element.amount_usd : max),
+        0
+      );
 
     return {
       user: state.user.profile,
@@ -45,15 +54,14 @@ const cardWidth = widthPercentageToDP("70%");
       eligibleCoins,
       maxAmount,
       loyaltyInfo: state.user.loyaltyInfo,
-    }
+    };
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowLanding extends Component {
-
   static navigationOptions = () => ({
     title: "Loan Overview",
-    right: "profile"
+    right: "profile",
   });
 
   constructor(props) {
@@ -62,7 +70,7 @@ class BorrowLanding extends Component {
 
     this.state = {
       isLoading: true,
-      xOffset: new Animated.Value(0)
+      xOffset: new Animated.Value(0),
     };
 
     this.bestLtv = Math.max(...ltv.map(x => x.percent));
@@ -79,7 +87,6 @@ class BorrowLanding extends Component {
   }
 
   getMinLtv = () => {
-
     const { ltv } = this.props;
 
     return Math.max(...ltv.map(x => x.percent));
@@ -95,7 +102,7 @@ class BorrowLanding extends Component {
     }
   };
 
-  transitionAnimation = (index) => ({
+  transitionAnimation = index => ({
     transform: [
       { perspective: 800 },
       {
@@ -103,39 +110,66 @@ class BorrowLanding extends Component {
           inputRange: [
             (index - 1) * cardWidth,
             index * cardWidth,
-            (index + 1) * cardWidth
+            (index + 1) * cardWidth,
           ],
           outputRange: [0.9, 1, 0.9],
-          extrapolate: "clamp"
-        })
-      }
-    ]
+          extrapolate: "clamp",
+        }),
+      },
+    ],
   });
 
   // TODO (fj) move to loans util
   emitParams = () => {
-    const { formData, currencies, ltv, minimumLoanAmount, eligibleCoins } = this.props;
+    const {
+      formData,
+      currencies,
+      ltv,
+      minimumLoanAmount,
+      eligibleCoins,
+    } = this.props;
     const loanParams = {};
 
     if (formData && formData.coin !== "USD" && formData.ltv) {
       loanParams.annualInterestPct = formData.ltv.interest;
-      loanParams.totalInterestPct = loanParams.annualInterestPct * (formData.termOfLoan / 12);
-      loanParams.monthlyInterestPct = loanParams.totalInterestPct / formData.termOfLoan;
+      loanParams.totalInterestPct =
+        loanParams.annualInterestPct * (formData.termOfLoan / 12);
+      loanParams.monthlyInterestPct =
+        loanParams.totalInterestPct / formData.termOfLoan;
 
-      loanParams.totalInterest = formatter.usd(Number(loanParams.totalInterestPct * formData.amount));
-      loanParams.monthlyInterest = formatter.usd(Number(loanParams.totalInterestPct * formData.amount / formData.termOfLoan));
-      loanParams.collateralNeeded = (Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent;
+      loanParams.totalInterest = formatter.usd(
+        Number(loanParams.totalInterestPct * formData.amount)
+      );
+      loanParams.monthlyInterest = formatter.usd(
+        Number(
+          (loanParams.totalInterestPct * formData.amount) / formData.termOfLoan
+        )
+      );
+      loanParams.collateralNeeded =
+        Number(formData.amount) /
+        currencies.find(c => c.short === formData.coin).market_quotes_usd
+          .price /
+        formData.ltv.percent;
       loanParams.bestLtv = Math.max(...ltv.map(x => x.percent));
 
       const arrayOfAmountUsd = eligibleCoins.map(c => c.amount_usd);
 
-      const indexOfLargestAmount = arrayOfAmountUsd.indexOf(Math.max(...arrayOfAmountUsd));
+      const indexOfLargestAmount = arrayOfAmountUsd.indexOf(
+        Math.max(...arrayOfAmountUsd)
+      );
 
-      loanParams.largestAmountCrypto = eligibleCoins[indexOfLargestAmount].amount;
+      loanParams.largestAmountCrypto =
+        eligibleCoins[indexOfLargestAmount].amount;
       loanParams.largestShortCrypto = eligibleCoins[indexOfLargestAmount].short;
-      loanParams.minimumLoanAmountCrypto = minimumLoanAmount / (currencies.find(c => c.short === eligibleCoins[indexOfLargestAmount].short)).market_quotes_usd.price;
-      loanParams.missingCollateral = Math.abs((loanParams.largestAmountCrypto - loanParams.minimumLoanAmountCrypto) / loanParams.bestLtv);
-
+      loanParams.minimumLoanAmountCrypto =
+        minimumLoanAmount /
+        currencies.find(
+          c => c.short === eligibleCoins[indexOfLargestAmount].short
+        ).market_quotes_usd.price;
+      loanParams.missingCollateral = Math.abs(
+        (loanParams.largestAmountCrypto - loanParams.minimumLoanAmountCrypto) /
+          loanParams.bestLtv
+      );
     }
     return loanParams;
   };
@@ -144,36 +178,29 @@ class BorrowLanding extends Component {
     const { minimumLoanAmount, maxAmount } = this.props;
     const minLtv = this.getMinLtv();
 
-    return maxAmount > minimumLoanAmount / minLtv
-  }
+    return maxAmount > minimumLoanAmount / minLtv;
+  };
 
   renderCard = () => {
     const style = BorrowLandingStyle();
     const { actions } = this.props;
     return (
-      <Card
-        padding='12 12 12 12'
-      >
+      <Card padding="12 12 12 12">
         <View style={style.buttonsWrapper}>
           <View style={style.buttonsIconText}>
             <TouchableOpacity
               style={style.buttonIconText}
-              onPress={() => actions.navigateTo("BorrowEnterAmount")}>
+              onPress={() => actions.navigateTo("BorrowEnterAmount")}
+            >
               <View style={style.buttonItself}>
                 <Image
                   style={style.buttonIconHand}
                   source={require("../../../../assets/images/icon-apply-for-a-new-loan.png")}
                 />
-                <CelText align='center'>
-                  Apply for a loan
-                  </CelText>
+                <CelText align="center">Apply for a loan</CelText>
               </View>
             </TouchableOpacity>
-            <Separator
-              vertical
-              height={"35%"}
-              top={42}
-            />
+            <Separator vertical height={"35%"} top={42} />
             <TouchableOpacity
               style={style.buttonIconText}
               onPress={() => {
@@ -185,11 +212,7 @@ class BorrowLanding extends Component {
                   style={style.buttonIconCalc}
                   source={require("../../../../assets/images/calculator.png")}
                 />
-                <CelText
-                  align='center'
-                >
-                  Calculator
-                </CelText>
+                <CelText align="center">Calculator</CelText>
               </View>
             </TouchableOpacity>
           </View>
@@ -205,7 +228,6 @@ class BorrowLanding extends Component {
     return (
       <RegularLayout padding={"20 0 100 0"}>
         <View>
-
           <View style={{ marginLeft: 20, marginRight: 20 }}>
             {this.renderCard()}
           </View>
@@ -221,20 +243,23 @@ class BorrowLanding extends Component {
             snapToInterval={cardWidth}
             snapToAlignment={"right"}
           >
-            {
-              allLoans && allLoans.map((loan, index) => {
+            {allLoans &&
+              allLoans.map((loan, index) => {
                 const opacity = xOffset.interpolate({
                   inputRange: [
                     (index - 1) * cardWidth,
                     index * cardWidth,
-                    (index + 1) * cardWidth
+                    (index + 1) * cardWidth,
                   ],
                   outputRange: [0.3, 1, 0.15],
-                  extrapolate: "clamp"
+                  extrapolate: "clamp",
                 });
 
                 return (
-                  <Animated.View key={loan.id} style={[this.transitionAnimation(index), { opacity }]}>
+                  <Animated.View
+                    key={loan.id}
+                    style={[this.transitionAnimation(index), { opacity }]}
+                  >
                     <LoanOverviewCard
                       loan={loan}
                       index={index}
@@ -245,8 +270,7 @@ class BorrowLanding extends Component {
                     />
                   </Animated.View>
                 );
-              })
-            }
+              })}
           </Animated.ScrollView>
           <BorrowCalculatorModal emitParams={this.emitParams} />
           <LoanCancelModal actions={actions} />
@@ -266,19 +290,39 @@ class BorrowLanding extends Component {
   renderIntersection() {
     const { user, kycStatus, loanCompliance, allLoans } = this.props;
 
-    const hasLoans = !!allLoans.length
+    const hasLoans = !!allLoans.length;
 
-    if (kycStatus && !hasPassedKYC()) return <BorrowCalculatorScreen emitParams={this.emitParams}
-      purpose={EMPTY_STATES.NON_VERIFIED_BORROW} />;
-    if (!user.celsius_member) return <BorrowCalculatorScreen emitParams={this.emitParams}
-      purpose={EMPTY_STATES.NON_MEMBER_BORROW} />;
-    if (!loanCompliance.allowed) return <BorrowCalculatorScreen emitParams={this.emitParams}
-      purpose={EMPTY_STATES.COMPLIANCE} />;
+    if (kycStatus && !hasPassedKYC())
+      return (
+        <BorrowCalculatorScreen
+          emitParams={this.emitParams}
+          purpose={EMPTY_STATES.NON_VERIFIED_BORROW}
+        />
+      );
+    if (!user.celsius_member)
+      return (
+        <BorrowCalculatorScreen
+          emitParams={this.emitParams}
+          purpose={EMPTY_STATES.NON_MEMBER_BORROW}
+        />
+      );
+    if (!loanCompliance.allowed)
+      return (
+        <BorrowCalculatorScreen
+          emitParams={this.emitParams}
+          purpose={EMPTY_STATES.COMPLIANCE}
+        />
+      );
 
     // if (isLoading && allLoans.length !== 0) return <LoadingScreen/>;
 
-    if (!hasLoans && !this.hasEnoughForLoan()) return <BorrowCalculatorScreen emitParams={this.emitParams}
-      purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS} />;
+    if (!hasLoans && !this.hasEnoughForLoan())
+      return (
+        <BorrowCalculatorScreen
+          emitParams={this.emitParams}
+          purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}
+        />
+      );
 
     if (allLoans.length === 0) return this.renderNoLoans();
 

@@ -1,18 +1,18 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util'
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-  container: {}
-}
+  container: {},
+};
 
 const themed = {
   light: {},
 
   dark: {},
 
-  celsius: {}
-}
+  celsius: {},
+};
 
-const HorizontalSliderStyle = () => getThemedStyle(base, themed)
+const HorizontalSliderStyle = () => getThemedStyle(base, themed);
 
-export default HorizontalSliderStyle
+export default HorizontalSliderStyle;

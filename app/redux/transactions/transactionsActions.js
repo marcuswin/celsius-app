@@ -1,24 +1,24 @@
-import ACTIONS from '../../constants/ACTIONS'
-import API from '../../constants/API'
-import { apiError, startApiCall } from '../api/apiActions'
-import { showMessage } from '../ui/uiActions'
-import { clearForm } from '../forms/formsActions'
-import transactions from '../../services/transactions-service'
-import walletService from '../../services/wallet-service'
-import { navigateTo } from '../nav/navActions'
-import appsFlyerUtil from '../../utils/appsflyer-util'
-import celUtilityUtil from '../../utils/cel-utility-util'
+import ACTIONS from "../../constants/ACTIONS";
+import API from "../../constants/API";
+import { apiError, startApiCall } from "../api/apiActions";
+import { showMessage } from "../ui/uiActions";
+import { clearForm } from "../forms/formsActions";
+import transactions from "../../services/transactions-service";
+import walletService from "../../services/wallet-service";
+import { navigateTo } from "../nav/navActions";
+import appsFlyerUtil from "../../utils/appsflyer-util";
+import celUtilityUtil from "../../utils/cel-utility-util";
 import { getWalletSummary } from "../wallet/walletActions";
 import { TRANSACTION_TYPES } from "../../constants/DATA";
-import mockTransactions from "../../mock-data/transactions.mock"
-import userBehaviorUtil from '../../utils/user-behavior-util';
+import mockTransactions from "../../mock-data/transactions.mock";
+import userBehaviorUtil from "../../utils/user-behavior-util";
 
 export {
   getAllTransactions,
   getTransactionDetails,
   withdrawCrypto,
   cancelWithdrawal,
-}
+};
 
 /**
  * Gets transactions
@@ -27,117 +27,118 @@ export {
  * @param {string} query.type - one of received|withdraw|interest
  * @param {string} query.coin - eg. BTC|ETH|XRP...
  */
-function getAllTransactions (query = {}) {
+function getAllTransactions(query = {}) {
   return async dispatch => {
     try {
-      const { limit, type, coin } = query
-      dispatch(startApiCall(API.GET_ALL_TRANSACTIONS))
-      const response = await transactions.getAll({ limit, type, coin })
+      const { limit, type, coin } = query;
+      dispatch(startApiCall(API.GET_ALL_TRANSACTIONS));
+      const response = await transactions.getAll({ limit, type, coin });
 
       dispatch({
         type: ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS,
-        transactions: response.data
-      })
+        transactions: response.data,
+      });
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.GET_ALL_TRANSACTIONS, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.GET_ALL_TRANSACTIONS, err));
     }
-  }
+  };
 }
 
 /**
  * Gets single transaction by id
  * @param {string} id
  */
-function getTransactionDetails (id = '') {
+function getTransactionDetails(id = "") {
   return async dispatch => {
     try {
-
-      dispatch(startApiCall(API.GET_TRANSACTION_DETAILS))
+      dispatch(startApiCall(API.GET_TRANSACTION_DETAILS));
 
       // NOTE(fj) when USE_MOCK_TRANSACTIONS is set to true
-      if (Object.keys(TRANSACTION_TYPES).includes(id)) return dispatch(getTransactionDetailsSuccess(mockTransactions[id]))
+      if (Object.keys(TRANSACTION_TYPES).includes(id))
+        return dispatch(getTransactionDetailsSuccess(mockTransactions[id]));
 
-      const res = await transactions.getTransaction(id)
-      dispatch(getTransactionDetailsSuccess(res.data.transaction))
+      const res = await transactions.getTransaction(id);
+      dispatch(getTransactionDetailsSuccess(res.data.transaction));
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.GET_TRANSACTION_DETAILS, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.GET_TRANSACTION_DETAILS, err));
     }
-  }
+  };
 }
 
 /**
  * TODO add JSDoc
  */
-function cancelWithdrawal(withdrawalId){
-  return async (dispatch) => {
-    dispatch(startApiCall(API.CANCEL_WITHDRAWAL_TRANSACTION))
+function cancelWithdrawal(withdrawalId) {
+  return async dispatch => {
+    dispatch(startApiCall(API.CANCEL_WITHDRAWAL_TRANSACTION));
 
     try {
-      const response = await transactions.cancelWithdrawalService(withdrawalId)
-        dispatch({
-          type: ACTIONS.CANCEL_WITHDRAWAL_TRANSACTION_SUCCESS,
-          callName: API.CANCEL_WITHDRAWAL_TRANSACTION,
-          transaction: response.data.transaction
-        })
+      const response = await transactions.cancelWithdrawalService(withdrawalId);
+      dispatch({
+        type: ACTIONS.CANCEL_WITHDRAWAL_TRANSACTION_SUCCESS,
+        callName: API.CANCEL_WITHDRAWAL_TRANSACTION,
+        transaction: response.data.transaction,
+      });
 
-      dispatch(showMessage('success', 'Withdrawal canceled'))
-      dispatch(getWalletSummary())
+      dispatch(showMessage("success", "Withdrawal canceled"));
+      dispatch(getWalletSummary());
     } catch (error) {
       dispatch(showMessage(`error`, error.msg));
-      dispatch(apiError(API.CANCEL_WITHDRAWAL_TRANSACTION, error))
+      dispatch(apiError(API.CANCEL_WITHDRAWAL_TRANSACTION, error));
     }
-  }
+  };
 }
-
-
 
 /**
  * TODO add JSDoc
  */
-function getTransactionDetailsSuccess (transaction) {
+function getTransactionDetailsSuccess(transaction) {
   return {
     type: ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS,
     callName: API.GET_TRANSACTION_DETAILS,
-    transaction
-  }
+    transaction,
+  };
 }
 
 /**
  * Withdraws crypto for the user
  */
-function withdrawCrypto () {
+function withdrawCrypto() {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState().forms
-      const { coin, amountCrypto, pin, code } = formData
-      dispatch(startApiCall(API.WITHDRAW_CRYPTO))
+      const { formData } = getState().forms;
+      const { coin, amountCrypto, pin, code } = formData;
+      dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
       const res = await walletService.withdrawCrypto(coin, amountCrypto, {
         pin,
-        twoFactorCode: code
-      })
+        twoFactorCode: code,
+      });
 
       dispatch({
         type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
-        transaction: res.data.transaction
-      })
+        transaction: res.data.transaction,
+      });
 
-      await celUtilityUtil.refetchMembershipIfChanged(coin.toUpperCase())
+      await celUtilityUtil.refetchMembershipIfChanged(coin.toUpperCase());
 
       dispatch(
-        navigateTo('TransactionDetails', { id: res.data.transaction.id, hideBack: true })
-      )
+        navigateTo("TransactionDetails", {
+          id: res.data.transaction.id,
+          hideBack: true,
+        })
+      );
 
-      dispatch(showMessage('success', 'An email verification has been sent.'))
-      dispatch(clearForm())
+      dispatch(showMessage("success", "An email verification has been sent."));
+      dispatch(clearForm());
 
-      appsFlyerUtil.withdrawCompleted(res.data.transaction)
-      userBehaviorUtil.withdrawCompleted(res.data.transaction)
+      appsFlyerUtil.withdrawCompleted(res.data.transaction);
+      userBehaviorUtil.withdrawCompleted(res.data.transaction);
     } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.WITHDRAW_CRYPTO, err))
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.WITHDRAW_CRYPTO, err));
     }
-  }
+  };
 }

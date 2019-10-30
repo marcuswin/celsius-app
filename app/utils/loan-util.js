@@ -5,7 +5,7 @@ import formatter from "./formatter";
 import store from "../redux/store";
 
 const loanUtil = {
-  mapLoan
+  mapLoan,
 };
 
 function mapLoan(loan) {
@@ -16,18 +16,27 @@ function mapLoan(loan) {
 
   if (newLoan.id) {
     newLoan.total_interest = Number(newLoan.total_interest).toFixed(2);
-    newLoan.total_interest_paid = Number(newLoan.total_interest_paid).toFixed(2);
-    newLoan.hasInterestPaymentFinished = isInterestPaid(newLoan) && !!Number(newLoan.total_interest_paid);
+    newLoan.total_interest_paid = Number(newLoan.total_interest_paid).toFixed(
+      2
+    );
+    newLoan.hasInterestPaymentFinished =
+      isInterestPaid(newLoan) && !!Number(newLoan.total_interest_paid);
     newLoan.isPrincipalPaid = isPrincipalPaid(newLoan);
 
-    newLoan.max_possible_prepayment_period = getMaxPossiblePrepaymentPeriod(newLoan);
-    newLoan.maxPossiblePrepaymentPeriod = getMaxPossiblePrepaymentPeriod(newLoan);
-    newLoan.canPrepayInterest = [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && newLoan.can_pay_interest && newLoan.maxPossiblePrepaymentPeriod >= 6;
+    newLoan.max_possible_prepayment_period = getMaxPossiblePrepaymentPeriod(
+      newLoan
+    );
+    newLoan.maxPossiblePrepaymentPeriod = getMaxPossiblePrepaymentPeriod(
+      newLoan
+    );
+    newLoan.canPrepayInterest =
+      [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) &&
+      newLoan.can_pay_interest &&
+      newLoan.maxPossiblePrepaymentPeriod >= 6;
 
     newLoan.margin_call = getMarginCallParams(loan);
     newLoan.margin_call_activated = !!newLoan.margin_call;
   }
-
 
   logger.log({ newLoan });
 
@@ -36,9 +45,12 @@ function mapLoan(loan) {
 
 function getLoanStatusDetails(loan) {
   const commonProps = {
-    displayAmount: loan.type === LOAN_TYPES.USD_LOAN
-      ? formatter.usd(loan.loan_amount)
-      : formatter.crypto(loan.loan_amount, loan.coin_loan_asset, { noPrecision: true })
+    displayAmount:
+      loan.type === LOAN_TYPES.USD_LOAN
+        ? formatter.usd(loan.loan_amount)
+        : formatter.crypto(loan.loan_amount, loan.coin_loan_asset, {
+            noPrecision: true,
+          }),
   };
 
   switch (loan.status) {
@@ -48,7 +60,7 @@ function getLoanStatusDetails(loan) {
         ...commonProps,
         color: STYLES.COLORS.CELSIUS_BLUE,
         displayText: "Active Loan",
-        collateral: "Collateral:"
+        collateral: "Collateral:",
       };
 
     case LOAN_STATUS.PENDING:
@@ -56,7 +68,7 @@ function getLoanStatusDetails(loan) {
         ...commonProps,
         color: STYLES.COLORS.ORANGE,
         displayText: "Pending Loan",
-        collateral: "Estimated Collateral:"
+        collateral: "Estimated Collateral:",
       };
 
     case LOAN_STATUS.COMPLETED:
@@ -64,7 +76,7 @@ function getLoanStatusDetails(loan) {
         ...commonProps,
         color: STYLES.COLORS.GREEN,
         displayText: "Completed Loan",
-        collateral: "Unlocked Collateral:"
+        collateral: "Unlocked Collateral:",
       };
 
     case LOAN_STATUS.REJECTED:
@@ -72,7 +84,7 @@ function getLoanStatusDetails(loan) {
         ...commonProps,
         color: STYLES.COLORS.RED,
         displayText: "Loan rejected",
-        collateral: "Estimated Collateral:"
+        collateral: "Estimated Collateral:",
       };
 
     case LOAN_STATUS.CANCELED:
@@ -80,7 +92,7 @@ function getLoanStatusDetails(loan) {
         ...commonProps,
         color: STYLES.COLORS.RED,
         displayText: "Canceled Loan",
-        collateral: "Estimated Collateral:"
+        collateral: "Estimated Collateral:",
       };
 
     case LOAN_STATUS.REFINANCED:
@@ -88,23 +100,46 @@ function getLoanStatusDetails(loan) {
         ...commonProps,
         color: STYLES.COLORS.RED,
         displayText: "Refinanced Loan",
-        collateral: "Estimated Collateral:"
+        collateral: "Estimated Collateral:",
       };
 
     default:
       break;
   }
-};
+}
 
 function getLoanSections(loan) {
   switch (loan.status) {
     case LOAN_STATUS.ACTIVE:
     case LOAN_STATUS.APPROVED:
-      return ["initiation:date", "collateral", "term", "annualInterest", "marginCall", "liquidation", "nextInterest", "maturity"];
+      return [
+        "initiation:date",
+        "collateral",
+        "term",
+        "annualInterest",
+        "marginCall",
+        "liquidation",
+        "nextInterest",
+        "maturity",
+      ];
     case LOAN_STATUS.PENDING:
-      return ["initiation:date", "estimated:collateral", "term", "annualInterest", "marginCall", "liquidation", "firstInterest"];
+      return [
+        "initiation:date",
+        "estimated:collateral",
+        "term",
+        "annualInterest",
+        "marginCall",
+        "liquidation",
+        "firstInterest",
+      ];
     case LOAN_STATUS.COMPLETED:
-      return ["completion:date", "initiation:date", "unlocked:collateral", "term", "annualInterest"];
+      return [
+        "completion:date",
+        "initiation:date",
+        "unlocked:collateral",
+        "term",
+        "annualInterest",
+      ];
     case LOAN_STATUS.CANCELED:
       return ["cancellation:date", "initiation:date", "term", "annualInterest"];
     case LOAN_STATUS.REFINANCED:
@@ -122,7 +157,7 @@ function flagPaidPayments(loan) {
   const amortizationTable = loan.amortization_table.map(p => ({
     ...p,
     amountPaid: p.status === "PAID" ? p.amountToPay : 0,
-    isPaid: p.status === "PAID"
+    isPaid: p.status === "PAID",
   }));
 
   return amortizationTable;
@@ -163,13 +198,13 @@ function isInterestPaid(loan) {
 // }
 
 function getMaxPossiblePrepaymentPeriod(loan) {
-  const numOfInterestPayments = loan.amortization_table
-    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
-    .length;
+  const numOfInterestPayments = loan.amortization_table.filter(
+    row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST
+  ).length;
 
-  const numOfPaidInterestPayments = loan.amortization_table
-    .filter(row => (row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST && row.isPaid))
-    .length;
+  const numOfPaidInterestPayments = loan.amortization_table.filter(
+    row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST && row.isPaid
+  ).length;
 
   const paymentsLeft = numOfInterestPayments - numOfPaidInterestPayments;
 
@@ -177,8 +212,9 @@ function getMaxPossiblePrepaymentPeriod(loan) {
 }
 
 function isPrincipalPaid(loan) {
-  const principalPayment = loan.amortization_table
-    .find(row => row.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK);
+  const principalPayment = loan.amortization_table.find(
+    row => row.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK
+  );
 
   return principalPayment.isPaid;
 }
@@ -187,16 +223,26 @@ function getMarginCallParams(loan) {
   if (!loan.margin_call_activated) return;
 
   // Fix for loans before margin call
-  if (loan.margin_call.margin_call_amount === "NaN" || loan.margin_call.margin_call_usd_amount === "NaN") return;
+  if (
+    loan.margin_call.margin_call_amount === "NaN" ||
+    loan.margin_call.margin_call_usd_amount === "NaN"
+  )
+    return;
 
   const walletSummary = store.getState().wallet.summary;
-  const hasEnoughOriginalCoin = !!walletSummary.coins.find(coin => coin.short === loan.margin_call.collateral_coin && Number(coin.amount) >= Number(loan.margin_call.margin_call_amount));
-  const hasEnoughOtherCoins = !!walletSummary.coins.find(coin => Number(loan.margin_call.margin_call_amount) <= Number(coin.amount));
+  const hasEnoughOriginalCoin = !!walletSummary.coins.find(
+    coin =>
+      coin.short === loan.margin_call.collateral_coin &&
+      Number(coin.amount) >= Number(loan.margin_call.margin_call_amount)
+  );
+  const hasEnoughOtherCoins = !!walletSummary.coins.find(
+    coin => Number(loan.margin_call.margin_call_amount) <= Number(coin.amount)
+  );
 
   return {
     ...loan.margin_call,
     hasEnoughOriginalCoin,
-    hasEnoughOtherCoins
+    hasEnoughOtherCoins,
   };
 }
 

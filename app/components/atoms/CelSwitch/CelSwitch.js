@@ -1,28 +1,34 @@
-import React, { Component } from 'react';
-import { View, Platform, Switch } from 'react-native';
-import PropTypes from 'prop-types';
-import { getTheme } from '../../../utils/styles-util';
+import React, { Component } from "react";
+import { View, Platform, Switch } from "react-native";
+import PropTypes from "prop-types";
+import { getTheme } from "../../../utils/styles-util";
 
 // import CelSwitchStyle from "./CelSwitch.styles";
-import STYLES from '../../../constants/STYLES';
+import STYLES from "../../../constants/STYLES";
 
-const falseColor = Platform.OS === 'ios' ? "transparent" : STYLES.COLORS.DARK_GRAY3;
-const theme = getTheme()
+const falseColor =
+  Platform.OS === "ios" ? "transparent" : STYLES.COLORS.DARK_GRAY3;
+const theme = getTheme();
 
 class CelSwitch extends Component {
-
   static propTypes = {
     thumbColor: PropTypes.string,
     iosBackgroundColor: PropTypes.string,
     trackColor: PropTypes.instanceOf(Object),
     value: PropTypes.bool,
-    onValueChange: PropTypes.func
+    onValueChange: PropTypes.func,
   };
   static defaultProps = {
-    thumbColor: theme === 'light' ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND,
-    iosBackgroundColor: theme === 'light' ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND,
+    thumbColor:
+      theme === "light"
+        ? STYLES.COLORS.WHITE
+        : STYLES.COLORS.DARK_TOGGLE_FOREGROUND,
+    iosBackgroundColor:
+      theme === "light"
+        ? STYLES.COLORS.DARK_GRAY3
+        : STYLES.COLORS.DARK_TOGGLE_BACKGROUND,
     trackColor: { false: falseColor, true: STYLES.COLORS.GREEN },
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -30,7 +36,13 @@ class CelSwitch extends Component {
   }
 
   render() {
-    const { thumbColor, iosBackgroundColor, trackColor, value, onValueChange } = this.props
+    const {
+      thumbColor,
+      iosBackgroundColor,
+      trackColor,
+      value,
+      onValueChange,
+    } = this.props;
     // const style = CelSwitchStyle();
     return (
       <View>
@@ -46,4 +58,4 @@ class CelSwitch extends Component {
   }
 }
 
-export default CelSwitch
+export default CelSwitch;

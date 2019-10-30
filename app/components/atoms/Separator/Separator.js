@@ -1,11 +1,11 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {View, StyleSheet} from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import SeparatorStyle from "./Separator.styles";
 import CelText from "../CelText/CelText";
-import {getMargins, getTheme} from "../../../utils/styles-util";
-import {THEMES} from '../../../constants/UI';
+import { getMargins, getTheme } from "../../../utils/styles-util";
+import { THEMES } from "../../../constants/UI";
 import STYLES from "../../../constants/STYLES";
 
 class Separator extends Component {
@@ -21,7 +21,7 @@ class Separator extends Component {
     textOpacity: PropTypes.number,
     margin: PropTypes.string,
     height: PropTypes.string,
-    top: PropTypes.number
+    top: PropTypes.number,
   };
   static defaultProps = {
     vertical: false,
@@ -34,13 +34,13 @@ class Separator extends Component {
     textOpacity: 1,
     margin: "0 0 0 0",
     height: "100%",
-    top: 0
+    top: 0,
   };
 
   getSeparatorColor = style => StyleSheet.flatten(style.separatorColor).color; // get color from raw json depending on style theme
 
   renderVertical = () => {
-    const {size, color, dashed, opacity, margin, height, top} = this.props;
+    const { size, color, dashed, opacity, margin, height, top } = this.props;
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
     const margins = getMargins(margin);
@@ -56,16 +56,16 @@ class Separator extends Component {
             borderStyle: dashed ? "dashed" : "solid",
             opacity,
             height,
-            top
+            top,
           },
-          margins
+          margins,
         ]}
       />
     );
   };
 
   renderLine = () => {
-    const {size, color, dashed, opacity, margin} = this.props;
+    const { size, color, dashed, opacity, margin } = this.props;
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
     const margins = getMargins(margin);
@@ -78,9 +78,9 @@ class Separator extends Component {
             borderColor: separatorColor,
             borderWidth: size / 2,
             borderStyle: dashed ? "dashed" : "solid",
-            opacity
+            opacity,
           },
-          margins
+          margins,
         ]}
       />
     );
@@ -96,12 +96,12 @@ class Separator extends Component {
       fontType,
       color,
       dashed,
-      margin
+      margin,
     } = this.props;
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
     const margins = getMargins(margin);
-    const theme = getTheme()
+    const theme = getTheme();
 
     return (
       <View style={[style.content, margins]}>
@@ -112,14 +112,18 @@ class Separator extends Component {
               borderColor: separatorColor,
               borderWidth: size / 2,
               borderStyle: dashed ? "dashed" : "solid",
-              opacity
-            }
+              opacity,
+            },
           ]}
         />
-        <View style={[style.center, {opacity: textOpacity}]}>
+        <View style={[style.center, { opacity: textOpacity }]}>
           <CelText
             allCaps={allCaps}
-            color={theme === THEMES.LIGHT ? STYLES.COLORS.MEDIUM_GRAY : STYLES.COLORS.DARK_GRAY5}
+            color={
+              theme === THEMES.LIGHT
+                ? STYLES.COLORS.MEDIUM_GRAY
+                : STYLES.COLORS.DARK_GRAY5
+            }
             align="center"
             type={fontType}
           >
@@ -133,8 +137,8 @@ class Separator extends Component {
               borderColor: separatorColor,
               borderWidth: size / 2,
               borderStyle: dashed ? "dashed" : "solid",
-              opacity
-            }
+              opacity,
+            },
           ]}
         />
       </View>
@@ -142,20 +146,20 @@ class Separator extends Component {
   };
 
   render() {
-    const {text, vertical} = this.props;
+    const { text, vertical } = this.props;
     const VerticalSeparator = this.renderVertical;
     const HorizontalSeparator = this.renderLine;
     const TextSeparator = this.renderWithText;
 
     if (vertical) {
-      return <VerticalSeparator/>;
+      return <VerticalSeparator />;
     }
 
     if (!text) {
-      return <HorizontalSeparator/>;
+      return <HorizontalSeparator />;
     }
 
-    return <TextSeparator/>;
+    return <TextSeparator />;
   }
 }
 

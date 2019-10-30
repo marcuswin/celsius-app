@@ -1,11 +1,14 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+} from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 
 const base = {
-    container: {
-        flex: 1
-    },
+  container: {
+    flex: 1,
+  },
   innerCircle: {
     position: "absolute",
     top: heightPercentageToDP("0.6%"),
@@ -23,26 +26,25 @@ const base = {
     width: heightPercentageToDP("12.1%"),
     height: heightPercentageToDP("12.1%"),
     borderRadius: heightPercentageToDP("12.1%") / 2,
-  }
+  },
 };
 
 const themed = {
-    light: {
-      progressBackground: {
-        backgroundColor: STYLES.COLORS.WHITE
-      }
+  light: {
+    progressBackground: {
+      backgroundColor: STYLES.COLORS.WHITE,
     },
+  },
 
-    dark: {
-      progressBackground: {
-        backgroundColor: STYLES.COLORS.DARK_HEADER
-      }
+  dark: {
+    progressBackground: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
     },
+  },
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const CircularProgressBarStyle = () => getThemedStyle(base, themed);
 
-export default CircularProgressBarStyle
+export default CircularProgressBarStyle;

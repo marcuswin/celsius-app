@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { View } from "react-native";
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-import CelText from '../../atoms/CelText/CelText';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import CelText from "../../atoms/CelText/CelText";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import { LOAN_PAYMENT_TYPES } from "../../../constants/DATA";
 import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
 
@@ -13,16 +13,15 @@ import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
   state => ({
     allLoans: state.loans.allLoans,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-
 class LoanPaymentList extends Component {
   static propTypes = {};
-  static defaultProps = {}
+  static defaultProps = {};
 
   static navigationOptions = () => ({
     title: "Upcoming Payments",
-    right: "profile"
+    right: "profile",
   });
 
   constructor(props) {
@@ -32,15 +31,17 @@ class LoanPaymentList extends Component {
     const loanId = navigation.getParam("id");
 
     this.state = {
-      loan: allLoans.find(l => l.id === loanId)
-    }
+      loan: allLoans.find(l => l.id === loanId),
+    };
   }
 
-
   renderFuturePayments = () => {
-    const { loan } = this.state
+    const { loan } = this.state;
 
-    const upcomingPayments = loan.amortization_table.filter(payment => !payment.isPaid && payment.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    const upcomingPayments = loan.amortization_table.filter(
+      payment =>
+        !payment.isPaid && payment.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST
+    );
     return upcomingPayments.map((payment, i) => {
       if (i === 0) {
         return (
@@ -50,36 +51,44 @@ class LoanPaymentList extends Component {
             upperText="Next payment"
             type="highlight"
           />
-        )
+        );
       }
 
-      return <PaymentListItem payment={payment} key={`${payment.dueDate}${i}`} />
-    })
-  }
+      return (
+        <PaymentListItem payment={payment} key={`${payment.dueDate}${i}`} />
+      );
+    });
+  };
 
   renderPrincipalPayments = () => {
-    const { loan } = this.state
+    const { loan } = this.state;
 
-    const principalPayment = loan.amortization_table.find(p => p.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK)
+    const principalPayment = loan.amortization_table.find(
+      p => p.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK
+    );
 
-    return principalPayment && (
-      <PaymentListItem
-        payment={principalPayment}
-        type="green"
-        upperText="Principal payout"
-      />
-    )
-  }
+    return (
+      principalPayment && (
+        <PaymentListItem
+          payment={principalPayment}
+          type="green"
+          upperText="Principal payout"
+        />
+      )
+    );
+  };
 
   render() {
-    const { loan } = this.state
+    const { loan } = this.state;
 
     if (!loan.amortization_table.length) return null;
 
     return (
       <RegularLayout>
         <View style={{ marginHorizontal: 15 }}>
-          <CelText weight='500' type='H6'>Upcoming Payments</CelText>
+          <CelText weight="500" type="H6">
+            Upcoming Payments
+          </CelText>
           <View style={{ marginTop: 15 }}>
             <View>
               {this.renderFuturePayments()}
@@ -92,4 +101,4 @@ class LoanPaymentList extends Component {
   }
 }
 
-export default LoanPaymentList
+export default LoanPaymentList;

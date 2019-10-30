@@ -15,7 +15,7 @@ const userBehaviorUtil = {
   kycStarted,
   withdrawCompleted,
   celpayCompleted,
-  loanApplied
+  loanApplied,
 };
 
 let userData = {};
@@ -56,7 +56,7 @@ async function sendEvent(event, data = {}) {
   mixpanelService.track(event, {
     distinct_id: userData.id,
     ...appInfo,
-    ...data
+    ...data,
   });
 }
 
@@ -99,7 +99,7 @@ function sessionStarted() {
     "KYC status": userData.kyc ? userData.kyc.status : "unknown",
     "Has referral link": !!userData.referral_link_id,
     "Is celsius member": userData.celsius_member,
-    "Has SSN": !!userData.ssn
+    "Has SSN": !!userData.ssn,
   });
   sendEvent("Session started");
 }
@@ -130,7 +130,7 @@ async function registrationCompleted(user) {
 
   await sendEvent("Registration completed", {
     method,
-    referral_link_id: user.referral_link_id
+    referral_link_id: user.referral_link_id,
   });
 }
 
@@ -155,7 +155,7 @@ async function withdrawCompleted(withdrawTransaction) {
     id: withdrawTransaction.id,
     coin: withdrawTransaction.coin,
     amount_crypto: withdrawTransaction.amount.toString(),
-    amount_usd: amountUsd.toString()
+    amount_usd: amountUsd.toString(),
   });
 }
 
@@ -180,7 +180,7 @@ async function celpayCompleted(celPayTransfer, friendId) {
     coin: celPayTransfer.coin,
     amount_crypto: celPayTransfer.amount.toString(),
     amount_usd: amountUsd.toString(),
-    friendId
+    friendId,
   });
 }
 
@@ -205,7 +205,7 @@ async function loanApplied({ loan, transaction_id: transactionId }) {
     monthly_payment: loan.monthly_payment.toString(),
     term_of_loan: loan.term_of_loan,
     originating_date: loan.originating_date,
-    collateral_usd_rate: loan.collateral_usd_rate
+    collateral_usd_rate: loan.collateral_usd_rate,
   });
 }
 

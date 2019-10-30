@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-
 import CelModal from "../../organisms/CelModal/CelModal";
 import CelText from "../../atoms/CelText/CelText";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -18,11 +17,16 @@ const InfoModal = props => {
     onNo,
     noCopy,
     support,
-    children
+    children,
   } = props;
   return (
     <CelModal name={name} picture={picture}>
-      <CelText margin={picture ? "50 0 15 0" : "20 0 15 0"} align="center" type="H2" weight="bold">
+      <CelText
+        margin={picture ? "50 0 15 0" : "20 0 15 0"}
+        align="center"
+        type="H2"
+        weight="bold"
+      >
         {heading}
       </CelText>
 
@@ -53,7 +57,7 @@ const InfoModal = props => {
         </CelButton>
       ) : null}
 
-      {support ? <ContactSupport align="left"/> : null}
+      {support ? <ContactSupport align="left" /> : null}
     </CelModal>
   );
 };
@@ -63,14 +67,14 @@ InfoModal.propTypes = {
   heading: PropTypes.string,
   picture: PropTypes.oneOfType([
     PropTypes.instanceOf(Object),
-    PropTypes.number
+    PropTypes.number,
   ]),
   paragraphs: PropTypes.instanceOf(Array),
   support: PropTypes.bool,
   yesCopy: PropTypes.string,
   onYes: PropTypes.func,
   noCopy: PropTypes.string,
-  onNo: PropTypes.func
+  onNo: PropTypes.func,
 };
 
-export default InfoModal
+export default InfoModal;

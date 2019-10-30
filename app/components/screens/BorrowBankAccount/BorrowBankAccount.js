@@ -17,20 +17,20 @@ import { BANK_ACCOUNT_TYPE } from "../../../constants/DATA";
     userProfile: state.user.profile,
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,
-    bankAccountInfo: state.user.bankAccountInfo
+    bankAccountInfo: state.user.bankAccountInfo,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowBankAccount extends Component {
   static navigationOptions = () => ({
-    title: "Link bank account"
+    title: "Link bank account",
   });
 
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: false
+      isLoading: false,
     };
   }
 
@@ -55,7 +55,7 @@ class BorrowBankAccount extends Component {
       bank_zip: bankAccountInfo.bank_zip,
       swift: bankAccountInfo.swift,
       iban: bankAccountInfo.iban,
-      bank_location: { name: bankAccountInfo.location }
+      bank_location: { name: bankAccountInfo.location },
     });
   }
 
@@ -63,8 +63,8 @@ class BorrowBankAccount extends Component {
     const { actions, formData } = this.props;
     const isAmerican = this.isAmerican();
 
-    const hasErrors = this.validateBankInfo()
-    if (hasErrors) return
+    const hasErrors = this.validateBankInfo();
+    if (hasErrors) return;
 
     const bankAccountInfo = {
       bank_name: formData.bank_name,
@@ -76,7 +76,7 @@ class BorrowBankAccount extends Component {
       bank_account_number: formData.bank_account_number,
       swift: formData.swift,
       iban: formData.iban,
-      location: formData.bank_location.name
+      location: formData.bank_location.name,
     };
 
     if (isAmerican) {
@@ -93,19 +93,24 @@ class BorrowBankAccount extends Component {
   };
 
   validateBankInfo = () => {
-    const { formData, actions } = this.props
-    const formErrors = {}
+    const { formData, actions } = this.props;
+    const formErrors = {};
 
-    if (!formData.bank_name) formErrors.bank_name = 'Field is required!'
-    if (!formData.bank_routing_number) formErrors.bank_routing_number = 'Field is required!'
-    if (!formData.selectedAccountType) formErrors.selectedAccountType = 'Field is required!'
-    if (!formData.bank_city) formErrors.bank_city = 'Field is required!'
-    if (!formData.bank_street_and_number) formErrors.bank_street_and_number = 'Field is required!'
-    if (!formData.bank_zip) formErrors.bank_zip = 'Field is required!'
-    if (!formData.bank_account_number) formErrors.bank_account_number = 'Field is required!'
-    if (!formData.swift) formErrors.swift = 'Field is required!'
-    if (!formData.iban) formErrors.iban = 'Field is required!'
-    if (!formData.bank_location.name) formErrors.bank_location = 'Field is required!'
+    if (!formData.bank_name) formErrors.bank_name = "Field is required!";
+    if (!formData.bank_routing_number)
+      formErrors.bank_routing_number = "Field is required!";
+    if (!formData.selectedAccountType)
+      formErrors.selectedAccountType = "Field is required!";
+    if (!formData.bank_city) formErrors.bank_city = "Field is required!";
+    if (!formData.bank_street_and_number)
+      formErrors.bank_street_and_number = "Field is required!";
+    if (!formData.bank_zip) formErrors.bank_zip = "Field is required!";
+    if (!formData.bank_account_number)
+      formErrors.bank_account_number = "Field is required!";
+    if (!formData.swift) formErrors.swift = "Field is required!";
+    if (!formData.iban) formErrors.iban = "Field is required!";
+    if (!formData.bank_location.name)
+      formErrors.bank_location = "Field is required!";
 
     if (this.isAmerican()) {
       delete formErrors.swift;
@@ -115,10 +120,10 @@ class BorrowBankAccount extends Component {
       delete formErrors.bank_routing_number;
     }
 
-    actions.setFormErrors(formErrors)
+    actions.setFormErrors(formErrors);
 
-    return Object.keys(formErrors).length
-  }
+    return Object.keys(formErrors).length;
+  };
 
   isAmerican = () => {
     const { formData } = this.props;
@@ -248,35 +253,35 @@ class BorrowBankAccount extends Component {
               />
             </>
           ) : (
-              <>
-                <CelInput
-                  placeholder="Account Number (IBAN)"
-                  field={"iban"}
-                  value={formData.iban}
-                  error={formErrors.iban}
-                  returnKeyType={"next"}
-                  blurOnSubmiting={false}
-                  refs={input => {
-                    this.iban = input;
-                  }}
-                  onSubmitEditing={() => {
-                    this.swift.focus();
-                  }}
-                />
+            <>
+              <CelInput
+                placeholder="Account Number (IBAN)"
+                field={"iban"}
+                value={formData.iban}
+                error={formErrors.iban}
+                returnKeyType={"next"}
+                blurOnSubmiting={false}
+                refs={input => {
+                  this.iban = input;
+                }}
+                onSubmitEditing={() => {
+                  this.swift.focus();
+                }}
+              />
 
-                <CelInput
-                  placeholder="SWIFT (Bank Identifier Code)"
-                  field={"swift"}
-                  value={formData.swift}
-                  error={formErrors.swift}
-                  returnKeyType={"next"}
-                  blurOnSubmiting={false}
-                  refs={input => {
-                    this.swift = input;
-                  }}
-                />
-              </>
-            )}
+              <CelInput
+                placeholder="SWIFT (Bank Identifier Code)"
+                field={"swift"}
+                value={formData.swift}
+                error={formErrors.swift}
+                returnKeyType={"next"}
+                blurOnSubmiting={false}
+                refs={input => {
+                  this.swift = input;
+                }}
+              />
+            </>
+          )}
 
           <CelText
             weight="300"

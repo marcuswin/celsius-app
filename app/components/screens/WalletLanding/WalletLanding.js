@@ -44,7 +44,7 @@ import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
         ? state.user.profile.kyc.status
         : KYC_STATUSES.collecting,
       depositCompliance: state.compliance.deposit,
-    }
+    };
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -58,7 +58,7 @@ class WalletLanding extends Component {
     return {
       title: params && params.title ? params.title : "Welcome",
       right: "profile",
-      hideBack: true
+      hideBack: true,
     };
   };
 
@@ -68,12 +68,12 @@ class WalletLanding extends Component {
     const { navigation } = props;
 
     navigation.setParams({
-      title: `Welcome ${props.user.first_name || ""}!`
+      title: `Welcome ${props.user.first_name || ""}!`,
     });
 
     this.state = {
       activeView: props.appSettings.default_wallet_view,
-      refreshing: false
+      refreshing: false,
     };
 
     // NOTE (fj): quickfix for CN-2763
@@ -86,7 +86,7 @@ class WalletLanding extends Component {
       appSettings,
       currenciesRates,
       currenciesGraphs,
-      user
+      user,
     } = this.props;
 
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
@@ -94,7 +94,7 @@ class WalletLanding extends Component {
     if (appSettings && appSettings.accepted_terms_of_use === false) {
       return actions.navigateTo("TermsOfUse", {
         purpose: "accept",
-        nextScreen: "WalletLanding"
+        nextScreen: "WalletLanding",
       });
     }
 
@@ -108,8 +108,15 @@ class WalletLanding extends Component {
       actions.getCelsiusMemberStatus();
       this.shouldInitializeMembership = false;
     }
-    const isCelInterestModalHidden = await getSecureStoreKey("HIDE_MODAL_INTEREST_IN_CEL");
-    if (user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== "ON" && !isUSCitizen()) {
+    const isCelInterestModalHidden = await getSecureStoreKey(
+      "HIDE_MODAL_INTEREST_IN_CEL"
+    );
+    if (
+      user.celsius_member &&
+      !appSettings.interest_in_cel &&
+      isCelInterestModalHidden !== "ON" &&
+      !isUSCitizen()
+    ) {
       actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 
@@ -158,8 +165,7 @@ class WalletLanding extends Component {
     }, 300000);
   };
 
-  handleBackButton = () => {
-  }
+  handleBackButton = () => {};
 
   toggleView = viewType => {
     this.setState({ activeView: viewType });
@@ -168,68 +174,86 @@ class WalletLanding extends Component {
   refresh = async () => {
     const { actions } = this.props;
     this.setState({
-      refreshing: true
+      refreshing: true,
     });
     await actions.getWalletSummary();
     this.setState({
-      refreshing: false
+      refreshing: false,
     });
   };
 
   render() {
     const { activeView, refreshing } = this.state;
-    const { actions, walletSummary, currenciesRates, currenciesGraphs, user, branchTransfer, depositCompliance, kycStatus } = this.props;
+    const {
+      actions,
+      walletSummary,
+      currenciesRates,
+      currenciesGraphs,
+      user,
+      branchTransfer,
+      depositCompliance,
+      kycStatus,
+    } = this.props;
     const style = WalletLandingStyle();
 
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) {
-      return <LoadingScreen/>;
+      return <LoadingScreen />;
     }
 
     return (
       <RegularLayout refreshing={refreshing} pullToRefresh={this.refresh}>
-        <KYCandPromotionsTrigger actions={actions} kycType={kycStatus}/>
+        <KYCandPromotionsTrigger actions={actions} kycType={kycStatus} />
         <View>
-          <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
+          <MissingInfoCard user={user} navigateTo={actions.navigateTo} />
           <WalletDetailsCard
             walletSummary={walletSummary}
             navigateTo={actions.navigateTo}
             openModal={actions.openModal}
           />
           <View style={style.depositWrapper}>
-            <CelText style={style.depositedCoins} weight='500'>
+            <CelText style={style.depositedCoins} weight="500">
               Deposited coins
             </CelText>
             <View style={style.buttonWrapper}>
-              <TouchableOpacity onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.GRID)}>
+              <TouchableOpacity
+                onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.GRID)}
+              >
                 <Icon
-                  style={{ opacity: activeView === WALLET_LANDING_VIEW_TYPES.GRID ? 1 : 0.5 }}
+                  style={{
+                    opacity:
+                      activeView === WALLET_LANDING_VIEW_TYPES.GRID ? 1 : 0.5,
+                  }}
                   fill="primary"
-                  name='GridView'
-                  width='18'
+                  name="GridView"
+                  width="18"
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={style.listView} onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.LIST)}>
+              <TouchableOpacity
+                style={style.listView}
+                onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.LIST)}
+              >
                 <Icon
-                  style={{ opacity: activeView === WALLET_LANDING_VIEW_TYPES.LIST ? 1 : 0.5 }}
+                  style={{
+                    opacity:
+                      activeView === WALLET_LANDING_VIEW_TYPES.LIST ? 1 : 0.5,
+                  }}
                   fill="primary"
-                  name='ListView'
-                  width='18'
+                  name="ListView"
+                  width="18"
                 />
               </TouchableOpacity>
             </View>
           </View>
-          <CoinCards activeView={activeView}
-                     navigateTo={actions.navigateTo}
-                     walletSummary={walletSummary}
-                     currenciesGraphs={currenciesGraphs}
-                     currenciesRates={currenciesRates}
-                     depositCompliance={depositCompliance}
+          <CoinCards
+            activeView={activeView}
+            navigateTo={actions.navigateTo}
+            walletSummary={walletSummary}
+            currenciesGraphs={currenciesGraphs}
+            currenciesRates={currenciesRates}
+            depositCompliance={depositCompliance}
           />
-          <ExpandableItem
-            heading={'COMING SOON'}
-            margin={'10 0 10 0'}
-          >
-            <ComingSoonCoins activeView={activeView}/>
+          <ExpandableItem heading={"COMING SOON"} margin={"10 0 10 0"}>
+            <ComingSoonCoins activeView={activeView} />
           </ExpandableItem>
         </View>
         <CelPayReceivedModal
@@ -237,9 +261,11 @@ class WalletLanding extends Component {
           closeModal={actions.closeModal}
           transfer={branchTransfer}
         />
-        <BecameCelMemberModal title={"Congrats! You have earned 1 CEL token!"}/>
-        <EarnInterestCelModal/>
-        <LoanAlertsModal/>
+        <BecameCelMemberModal
+          title={"Congrats! You have earned 1 CEL token!"}
+        />
+        <EarnInterestCelModal />
+        <LoanAlertsModal />
       </RegularLayout>
     );
   }

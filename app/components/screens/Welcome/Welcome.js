@@ -1,70 +1,90 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 // import Constants from 'expo-constants';
-import { View, Image } from 'react-native';
+import { View, Image } from "react-native";
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as appActions from '../../../redux/actions';
+import * as appActions from "../../../redux/actions";
 
 import WelcomeStyle from "./Welcome.styles";
-import CelText from '../../atoms/CelText/CelText';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import CelButton from '../../atoms/CelButton/CelButton';
-import appUtil from '../../../utils/app-util';
+import CelText from "../../atoms/CelText/CelText";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import CelButton from "../../atoms/CelButton/CelButton";
+import appUtil from "../../../utils/app-util";
 // import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 // import STYLES from '../../../constants/STYLES';
 
 @connect(
   state => ({
-      advertisingId: state.app.advertisingId,
-      appsFlyerUID: state.app.appsFlyerUID,
+    advertisingId: state.app.advertisingId,
+    appsFlyerUID: state.app.appsFlyerUID,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class Welcome extends Component {
   static propTypes = {};
-  static defaultProps = {}
+  static defaultProps = {};
 
   static navigationOptions = () => ({
     headerSameColor: false,
-    transparent: true
-  })
+    transparent: true,
+  });
 
   state = {
-    revisionId: ""
-  }
+    revisionId: "",
+  };
 
   async componentDidMount() {
-    const appVersion = await appUtil.getRevisionId()
+    const appVersion = await appUtil.getRevisionId();
     this.setState({ revisionId: appVersion.revisionId });
   }
 
-
   onPressLogin = () => {
-    const { actions } = this.props
-    actions.navigateTo('Login')
-  }
+    const { actions } = this.props;
+    actions.navigateTo("Login");
+  };
   render() {
     const style = WelcomeStyle();
-    const { actions } = this.props
-    
-    const { revisionId } = this.state
+    const { actions } = this.props;
+
+    const { revisionId } = this.state;
     return (
       <RegularLayout fabType="hide">
         <View style={style.wrapper}>
           <Image
-            source={require('../../../../assets/images/Onboarding-Welcome3x.png')} style={{ height: 140, resizeMode: 'contain' }}
+            source={require("../../../../assets/images/Onboarding-Welcome3x.png")}
+            style={{ height: 140, resizeMode: "contain" }}
           />
-          <CelText weight='bold' align='center' type='H1' style={style.title}>Welcome to Celsius Network</CelText>
-          <CelText weight="light" align='center' style={style.subtitle}>A new way to earn, borrow and pay on the blockchain. Let’s bring the next 100M people into crypto together.</CelText>
-          <CelButton style={style.button} onPress={() => actions.navigateTo('RegisterInitial')}>Join Celsius</CelButton>
-          <CelButton basic onPress={() => this.onPressLogin()}>Login</CelButton>
+          <CelText weight="bold" align="center" type="H1" style={style.title}>
+            Welcome to Celsius Network
+          </CelText>
+          <CelText weight="light" align="center" style={style.subtitle}>
+            A new way to earn, borrow and pay on the blockchain. Let’s bring the
+            next 100M people into crypto together.
+          </CelText>
+          <CelButton
+            style={style.button}
+            onPress={() => actions.navigateTo("RegisterInitial")}
+          >
+            Join Celsius
+          </CelButton>
+          <CelButton basic onPress={() => this.onPressLogin()}>
+            Login
+          </CelButton>
 
-          <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: {revisionId}</CelText>
+          <CelText
+            margin="30 0 0 0"
+            weight="light"
+            align="center"
+            type="H7"
+            style={{ opacity: 0.5 }}
+          >
+            Celsius App version: {revisionId}
+          </CelText>
         </View>
       </RegularLayout>
     );
   }
 }
 
-export default Welcome
+export default Welcome;

@@ -11,10 +11,9 @@ import { hasPassedKYC } from "../../../utils/user-util";
 import { heightPercentageToDP } from "../../../utils/styles-util";
 
 class KYCandPromotionsTrigger extends Component {
-
   static propTypes = {
     kycType: PropTypes.string.isRequired,
-    actions: PropTypes.instanceOf(Object).isRequired
+    actions: PropTypes.instanceOf(Object).isRequired,
   };
   static defaultProps = {};
 
@@ -65,48 +64,68 @@ class KYCandPromotionsTrigger extends Component {
       case KYC_STATUSES.sending:
       case KYC_STATUSES.sent:
         title = "Your Profile Verification Is In Progress";
-        content = "It typically takes just a few minutes to verify your identity. Please contact support if you do not receive verification within the next 24 hours.";
+        content =
+          "It typically takes just a few minutes to verify your identity. Please contact support if you do not receive verification within the next 24 hours.";
         info = "STARTED FEW MOMENTS AGO";
         break;
       case KYC_STATUSES.permanently_rejected:
       case KYC_STATUSES.rejected:
         title = "Identity Verification Failed!";
-        content = "Please go through the verification process again or contact our support for help.";
+        content =
+          "Please go through the verification process again or contact our support for help.";
         break;
       default:
         title = "Verify Your Profile";
-        content = "Become a Celsius member by verifying your profile. You will be able to earn interest on your deposited coins, take dollar and stable coin loans and send crypto to your friends.";
+        content =
+          "Become a Celsius member by verifying your profile. You will be able to earn interest on your deposited coins, take dollar and stable coin loans and send crypto to your friends.";
     }
-
 
     return (
       <View style={style.textAlignment}>
-        <CelText color={"white"} type={"H5"} weight={"500"} margin={"12 0 0 0"}>{title}</CelText>
-        {info && <CelText color={"white"} type={"H7"} weight={"300"} margin={"8 0 0 0"}>{info}</CelText>}
-        <CelText color={"white"} type={"H7"} weight={"300"} margin={"8 0 0 0"}>{content}</CelText>
-        {![KYC_STATUSES.pending, KYC_STATUSES.sending, KYC_STATUSES.sent].includes(kycType) &&
-        <CelButton
-          margin={"12 0 0 0"}
-          color={"white"}
-          size={"small"}
-          onPress={() => (actions.navigateTo("KYCProfileDetails"))}
-          textColor={this.getColor()}
-        >
-          Verify Profile
-        </CelButton>
-        }
-        {[KYC_STATUSES.rejected, KYC_STATUSES.permanently_rejected].includes(kycType) &&
-        <CelText
-          onPress={() => Linking.openURL("mailto:app@celsius.network")}
-          basic
-          color={"white"}
-          margin={"8 0 0 0"}
-        >
-          What could have gone wrong?
+        <CelText color={"white"} type={"H5"} weight={"500"} margin={"12 0 0 0"}>
+          {title}
         </CelText>
-        }
+        {info && (
+          <CelText
+            color={"white"}
+            type={"H7"}
+            weight={"300"}
+            margin={"8 0 0 0"}
+          >
+            {info}
+          </CelText>
+        )}
+        <CelText color={"white"} type={"H7"} weight={"300"} margin={"8 0 0 0"}>
+          {content}
+        </CelText>
+        {![
+          KYC_STATUSES.pending,
+          KYC_STATUSES.sending,
+          KYC_STATUSES.sent,
+        ].includes(kycType) && (
+          <CelButton
+            margin={"12 0 0 0"}
+            color={"white"}
+            size={"small"}
+            onPress={() => actions.navigateTo("KYCProfileDetails")}
+            textColor={this.getColor()}
+          >
+            Verify Profile
+          </CelButton>
+        )}
+        {[KYC_STATUSES.rejected, KYC_STATUSES.permanently_rejected].includes(
+          kycType
+        ) && (
+          <CelText
+            onPress={() => Linking.openURL("mailto:app@celsius.network")}
+            basic
+            color={"white"}
+            margin={"8 0 0 0"}
+          >
+            What could have gone wrong?
+          </CelText>
+        )}
       </View>
-
     );
   };
 
@@ -116,7 +135,7 @@ class KYCandPromotionsTrigger extends Component {
     if (hasPassedKYC()) return null;
 
     return (
-      <View style={{marginBottom: heightPercentageToDP("26%") }}>
+      <View style={{ marginBottom: heightPercentageToDP("26%") }}>
         <View style={[style.container, { backgroundColor: this.getColor() }]}>
           <View style={style.mainWrapper}>
             <View style={style.halfCircleRight}>
@@ -125,9 +144,7 @@ class KYCandPromotionsTrigger extends Component {
                 source={require("../../../../assets/images/kyc-icon.png")}
               />
             </View>
-            <View>
-              {this.renderKycInfo()}
-            </View>
+            <View>{this.renderKycInfo()}</View>
           </View>
         </View>
       </View>

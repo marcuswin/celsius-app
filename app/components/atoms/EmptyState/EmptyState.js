@@ -1,22 +1,21 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { View, Image } from 'react-native'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as appActions from '../../../redux/actions'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { View, Image } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as appActions from "../../../redux/actions";
 
-import EmptyStateStyle from './EmptyState.styles'
-import CelText from '../CelText/CelText'
-import CelButton from '../CelButton/CelButton'
+import EmptyStateStyle from "./EmptyState.styles";
+import CelText from "../CelText/CelText";
+import CelButton from "../CelButton/CelButton";
 import { EMPTY_STATES, MODALS } from "../../../constants/UI";
-import ContactSupport from '../ContactSupport/ContactSupport'
-import emptyStateUtil from '../../../utils/empty-state-util'
+import ContactSupport from "../ContactSupport/ContactSupport";
+import emptyStateUtil from "../../../utils/empty-state-util";
 import STYLES from "../../../constants/STYLES";
 import InfoModal from "../../molecules/InfoModal/InfoModal";
 
-
 @connect(
-  (state) => ({
+  state => ({
     user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -34,21 +33,21 @@ class EmptyState extends Component {
     modal: PropTypes.element,
     secondaryButton: PropTypes.string,
     secondaryOnPress: PropTypes.func,
-  }
-  static defaultProps = {}
+  };
+  static defaultProps = {};
 
   constructor(props) {
-    super(props)
-    this.state = emptyStateUtil.getProps(props.purpose, props)
+    super(props);
+    this.state = emptyStateUtil.getProps(props.purpose, props);
   }
 
   renderAboveHeadingSection() {
-    const { actions } = this.props
+    const { actions } = this.props;
     const emptyStateProps = {
       ...this.state,
-      ...this.props
-    }
-    const { aboveHeadingSection } = emptyStateProps
+      ...this.props,
+    };
+    const { aboveHeadingSection } = emptyStateProps;
 
     switch (aboveHeadingSection) {
       case "kyc-rejected":
@@ -57,54 +56,51 @@ class EmptyState extends Component {
             onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)}
             basic
             textColor={STYLES.COLORS.RED}
-            iconRight={'IconChevronRight'}
-            iconRightHeight={'13'}
-            iconRightWidth={'12'}
+            iconRight={"IconChevronRight"}
+            iconRightHeight={"13"}
+            iconRightWidth={"12"}
             iconRightColor={STYLES.COLORS.RED}
           >
             Identity verification failed
           </CelButton>
-        )
+        );
       case "kyc-pending":
         return (
           <CelText
-            margin='0 0 0 0'
-            align='center'
-            type='H3'
-            weight={'500'}
+            margin="0 0 0 0"
+            align="center"
+            type="H3"
+            weight={"500"}
             color={STYLES.COLORS.ORANGE}
           >
             Identity Confirmation in Progress
           </CelText>
-        )
+        );
       default:
-        return null
+        return null;
     }
   }
 
   renderModal() {
     const emptyStateProps = {
       ...this.state,
-      ...this.props
-    }
-    const {
-      modal,
-      modalProps,
-    } = emptyStateProps
+      ...this.props,
+    };
+    const { modal, modalProps } = emptyStateProps;
 
     switch (modal) {
       case MODALS.KYC_REJECTED_MODAL:
-        return <InfoModal  {...modalProps} />
+        return <InfoModal {...modalProps} />;
       default:
-        return null
+        return null;
     }
   }
 
   render() {
     const emptyStateProps = {
       ...this.state,
-      ...this.props
-    }
+      ...this.props,
+    };
     const {
       image,
       heading,
@@ -114,31 +110,31 @@ class EmptyState extends Component {
       support,
       secondaryButton,
       secondaryOnPress,
-    } = emptyStateProps
-    const style = EmptyStateStyle()
+    } = emptyStateProps;
+    const style = EmptyStateStyle();
 
     return (
       <View style={style.container}>
         <View>
           <Image
-            source={image || require('../../../../assets/images/diane-sad.png')}
-            style={{ width: 140, height: 140, resizeMode: 'contain' }}
+            source={image || require("../../../../assets/images/diane-sad.png")}
+            style={{ width: 140, height: 140, resizeMode: "contain" }}
           />
         </View>
 
         {this.renderAboveHeadingSection()}
 
-        <CelText margin='20 0 15 0' align='center' type='H2' weight={'bold'}>
+        <CelText margin="20 0 15 0" align="center" type="H2" weight={"bold"}>
           {heading}
         </CelText>
 
         {paragraphs &&
           paragraphs.map(paragraph => (
             <CelText
-              margin='5 0 15 0'
-              align='center'
-              type='H4'
-              weight={'300'}
+              margin="5 0 15 0"
+              align="center"
+              type="H4"
+              weight={"300"}
               key={paragraph}
             >
               {paragraph}
@@ -146,20 +142,13 @@ class EmptyState extends Component {
           ))}
 
         {button && onPress ? (
-          <CelButton
-            margin='10 0 10 0'
-            onPress={onPress}
-          >
+          <CelButton margin="10 0 10 0" onPress={onPress}>
             {button}
           </CelButton>
         ) : null}
 
         {secondaryButton && secondaryOnPress ? (
-          <CelButton
-            basic
-            margin='10 0 10 0'
-            onPress={secondaryOnPress}
-          >
+          <CelButton basic margin="10 0 10 0" onPress={secondaryOnPress}>
             {secondaryButton}
           </CelButton>
         ) : null}
@@ -167,8 +156,8 @@ class EmptyState extends Component {
         {support ? <ContactSupport /> : null}
         {this.renderModal()}
       </View>
-    )
+    );
   }
 }
 
-export default EmptyState
+export default EmptyState;

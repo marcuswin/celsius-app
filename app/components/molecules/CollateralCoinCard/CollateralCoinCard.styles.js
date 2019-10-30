@@ -5,15 +5,15 @@ import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   mainContainer: {
     flex: 1,
     flexDirection: "row",
   },
   iconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     flex: 0.2,
   },
   coinImage: {
@@ -29,26 +29,26 @@ const base = {
     paddingVertical: 2,
     paddingHorizontal: 5,
     borderRadius: 5,
-    backgroundColor: STYLES.COLORS.LIGHT_GRAY
-  }
+    backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+  },
 };
 
 const themed = {
   light: {
     cardStyle: {
-      color: STYLES.COLORS.WHITE_OPACITY7
-    }
+      color: STYLES.COLORS.WHITE_OPACITY7,
+    },
   },
 
   dark: {
     cardStyle: {
-      color: STYLES.COLORS.DARK_GRAY_OPACITY
-    }
+      color: STYLES.COLORS.DARK_GRAY_OPACITY,
+    },
   },
 
-  celsius: {}
+  celsius: {},
 };
 
 const CoinCardStyle = () => getThemedStyle(base, themed);
 
-export default CoinCardStyle
+export default CoinCardStyle;

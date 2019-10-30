@@ -1,15 +1,17 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from "react-navigation";
 
-import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
-import Login from '../../components/screens/Login/Login'
-import ForgotPassword from '../../components/screens/ForgotPassword/ForgotPassword'
-import RegisterInitial from '../../components/screens/RegisterInitial/RegisterInitial'
-import RegisterSetPin from '../../components/screens/RegisterSetPin/RegisterSetPin'
-import TermsOfUse from '../../components/screens/TermsOfUse/TermsOfUse'
-import Welcome from '../../components/screens/Welcome/Welcome'
-import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
-import LockedAccount from '../../components/screens/LockedAccount/LockedAccount'
-
+import {
+  defaultNavigationOptions,
+  transitionConfig,
+} from "../navigationConfig";
+import Login from "../../components/screens/Login/Login";
+import ForgotPassword from "../../components/screens/ForgotPassword/ForgotPassword";
+import RegisterInitial from "../../components/screens/RegisterInitial/RegisterInitial";
+import RegisterSetPin from "../../components/screens/RegisterSetPin/RegisterSetPin";
+import TermsOfUse from "../../components/screens/TermsOfUse/TermsOfUse";
+import Welcome from "../../components/screens/Welcome/Welcome";
+import VerifyProfile from "../../components/screens/VerifyProfile/VerifyProfile";
+import LockedAccount from "../../components/screens/LockedAccount/LockedAccount";
 
 export const authFlow = {
   screens: {
@@ -20,16 +22,19 @@ export const authFlow = {
     RegisterSetPin,
     TermsOfUse,
     Welcome,
-    VerifyProfile
+    VerifyProfile,
   },
   props: {
-    initialRouteName: 'Welcome',
+    initialRouteName: "Welcome",
     defaultNavigationOptions: {
       ...defaultNavigationOptions,
       headerSameColor: true,
     },
-    transitionConfig
-  }
-}
+    transitionConfig,
+  },
+};
 
-export const authNavigator = createStackNavigator(authFlow.screens, authFlow.props);
+export const authNavigator = createStackNavigator(
+  authFlow.screens,
+  authFlow.props
+);

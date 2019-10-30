@@ -1,21 +1,20 @@
-import React, { Component } from 'react'
-import { View } from 'react-native'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
+import React, { Component } from "react";
+import { View } from "react-native";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
 
-
-import * as appActions from '../../../redux/actions'
-import { KEYPAD_PURPOSES, THEMES } from '../../../constants/UI'
-import CelText from '../../atoms/CelText/CelText'
-import Card from '../../atoms/Card/Card'
-import formatter from '../../../utils/formatter'
-import Separator from '../../atoms/Separator/Separator'
-import STYLES from '../../../constants/STYLES'
-import CoinSwitch from '../../atoms/CoinSwitch/CoinSwitch'
-import SimpleSelect from '../../molecules/SimpleSelect/SimpleSelect'
-import InterestCalculatorStyle from './InterestCalculator.styles'
-import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
+import * as appActions from "../../../redux/actions";
+import { KEYPAD_PURPOSES, THEMES } from "../../../constants/UI";
+import CelText from "../../atoms/CelText/CelText";
+import Card from "../../atoms/Card/Card";
+import formatter from "../../../utils/formatter";
+import Separator from "../../atoms/Separator/Separator";
+import STYLES from "../../../constants/STYLES";
+import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
+import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
+import InterestCalculatorStyle from "./InterestCalculator.styles";
+import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
 
 @connect(
   state => ({
@@ -24,7 +23,7 @@ import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
     currencies: state.currencies.rates,
     interestCompliance: state.compliance.interest,
     currencyRatesShort: state.currencies.currencyRatesShort,
-    keypadOpen: state.ui.isKeypadOpen
+    keypadOpen: state.ui.isKeypadOpen,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -32,257 +31,282 @@ class InterestCalculator extends Component {
   static propTypes = {
     defaultCoin: PropTypes.string,
     showCard: PropTypes.bool,
-    theme: PropTypes.oneOf(Object.values(THEMES))
-  }
-  static defaultProps = { defaultCoin: 'BTC', showCard: false }
+    theme: PropTypes.oneOf(Object.values(THEMES)),
+  };
+  static defaultProps = { defaultCoin: "BTC", showCard: false };
 
   constructor(props) {
-    super(props)
-    const { defaultCoin, currencies, interestCompliance } = this.props
+    super(props);
+    const { defaultCoin, currencies, interestCompliance } = this.props;
 
     const coinSelectItems = currencies
       .filter(c => interestCompliance.coins.includes(c.short))
-      .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
+      .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }));
 
     this.state = {
       coinSelectItems,
-      activePeriod: '',
-      earnInterestIn: false
-    }
-    props.actions.updateFormField('coin', defaultCoin)
+      activePeriod: "",
+      earnInterestIn: false,
+    };
+    props.actions.updateFormField("coin", defaultCoin);
   }
 
   getUsdValue = amountUsd =>
-    formatter.removeDecimalZeros(formatter.floor10(amountUsd, -2) || '')
+    formatter.removeDecimalZeros(formatter.floor10(amountUsd, -2) || "");
 
   handleAmountChange = newValue => {
-    const { formData, currencyRatesShort, actions } = this.props
-    const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
+    const { formData, currencyRatesShort, actions } = this.props;
+    const coinRate = currencyRatesShort[formData.coin.toLowerCase()];
 
-    const splitedValue = newValue.toString().split('.')
+    const splitedValue = newValue.toString().split(".");
 
-    if (splitedValue && splitedValue.length > 2) return
+    if (splitedValue && splitedValue.length > 2) return;
 
-    let amountCrypto
-    let amountUsd
+    let amountCrypto;
+    let amountUsd;
 
     if (formData.isUsd) {
-      amountUsd = formatter.setCurrencyDecimals(newValue, 'USD')
-      amountCrypto = amountUsd / coinRate
+      amountUsd = formatter.setCurrencyDecimals(newValue, "USD");
+      amountCrypto = amountUsd / coinRate;
     } else {
-      amountCrypto = formatter.setCurrencyDecimals(newValue)
-      amountUsd = amountCrypto * coinRate
-      amountUsd = this.getUsdValue(amountUsd)
-      if (amountUsd === '0') amountUsd = ''
+      amountCrypto = formatter.setCurrencyDecimals(newValue);
+      amountUsd = amountCrypto * coinRate;
+      amountUsd = this.getUsdValue(amountUsd);
+      if (amountUsd === "0") amountUsd = "";
     }
 
     // Change value '.' to '0.'
-    if (amountUsd[0] === '.') amountUsd = `0${amountUsd}`
+    if (amountUsd[0] === ".") amountUsd = `0${amountUsd}`;
     // if the crypto amount is eg. 01 the value will be 1, 00 -> 0
-    if (amountUsd.length > 1 && amountUsd[0] === '0' && amountUsd[1] !== '.') {
-      amountUsd = amountUsd[1]
+    if (amountUsd.length > 1 && amountUsd[0] === "0" && amountUsd[1] !== ".") {
+      amountUsd = amountUsd[1];
     }
 
     // if crypto amount is undefined, set it to empty string
-    if (!amountCrypto) amountCrypto = ''
+    if (!amountCrypto) amountCrypto = "";
     // Change value '.' to '0.'
-    if (amountCrypto[0] === '.') amountCrypto = `0${amountCrypto}`
+    if (amountCrypto[0] === ".") amountCrypto = `0${amountCrypto}`;
     // if the crypto amount is eg. 01 the value will be 1, 00 -> 0
     if (
       amountCrypto.length > 1 &&
-      amountCrypto[0] === '0' &&
-      amountCrypto[1] !== '.'
+      amountCrypto[0] === "0" &&
+      amountCrypto[1] !== "."
     ) {
-      amountCrypto = amountCrypto[1]
+      amountCrypto = amountCrypto[1];
     }
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
-      amountUsd
-    })
-  }
+      amountUsd,
+    });
+  };
 
   handleCoinChange = (field, value) => {
-    const { actions } = this.props
+    const { actions } = this.props;
 
     actions.updateFormFields({
       [field]: value,
       amountUsd: undefined,
-      amountCrypto: undefined
-    })
-  }
+      amountCrypto: undefined,
+    });
+  };
 
   renderInterestOptions = () => {
-    const { earnInterestIn } = this.state
-    const { formData, interestRates, currencyRatesShort, theme } = this.props
+    const { earnInterestIn } = this.state;
+    const { formData, interestRates, currencyRatesShort, theme } = this.props;
 
-    const style = InterestCalculatorStyle(theme)
+    const style = InterestCalculatorStyle(theme);
 
-    const selectedCoin = formData.coin || 'BTC'
+    const selectedCoin = formData.coin || "BTC";
 
     const interestRateForCoin =
       interestRates && formData.coin && interestRates[formData.coin]
         ? interestRates[formData.coin]
-        : { rate: 0, cel_rate: 0 }
+        : { rate: 0, cel_rate: 0 };
     const weeklyInterest =
       (formData.amountCrypto *
-        (earnInterestIn && formData.coin !== 'CEL'
+        (earnInterestIn && formData.coin !== "CEL"
           ? interestRateForCoin.cel_rate
           : interestRateForCoin.rate)) /
-      52
+      52;
     const yearlyInterest =
       formData.amountCrypto *
-      (earnInterestIn  && formData.coin !== 'CEL'
+      (earnInterestIn && formData.coin !== "CEL"
         ? interestRateForCoin.cel_rate
-        : interestRateForCoin.rate)
-    const noCelCardStyle = [style.earningCard]
-    const celCardStyle = [style.earningCard]
+        : interestRateForCoin.rate);
+    const noCelCardStyle = [style.earningCard];
+    const celCardStyle = [style.earningCard];
 
     const noCelTextColor = !earnInterestIn
       ? STYLES.COLORS.WHITE
-      : STYLES.COLORS.DARK_GRAY
+      : STYLES.COLORS.DARK_GRAY;
     const celTextColor = earnInterestIn
       ? STYLES.COLORS.WHITE
-      : STYLES.COLORS.DARK_GRAY
+      : STYLES.COLORS.DARK_GRAY;
 
     if (!earnInterestIn) {
-      noCelCardStyle.push(style.selectedCard)
+      noCelCardStyle.push(style.selectedCard);
     } else {
-      celCardStyle.push(style.selectedCard)
+      celCardStyle.push(style.selectedCard);
     }
 
-    const interestInCelPerWeek = weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()] / currencyRatesShort.cel
-    const interestInCelPerYear = yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()] / currencyRatesShort.cel
+    const interestInCelPerWeek =
+      (weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()]) /
+      currencyRatesShort.cel;
+    const interestInCelPerYear =
+      (yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()]) /
+      currencyRatesShort.cel;
     return (
       <>
-        { formData.coin !=='CEL' && <CelText style={style.calculatorInfo} align={'center'} margin='20 0 5 0'>
-          Choose how you want to earn interest.
-        </CelText>}
+        {formData.coin !== "CEL" && (
+          <CelText
+            style={style.calculatorInfo}
+            align={"center"}
+            margin="20 0 5 0"
+          >
+            Choose how you want to earn interest.
+          </CelText>
+        )}
 
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: "row" }}>
           <Card
             noBorder
             styles={noCelCardStyle}
-            margin='20 10 20 20'
-            onPress={formData.coin !== 'CEL' && (
-                () => {
-                this.setState( { earnInterestIn: false })
-                }
-              )
+            margin="20 10 20 20"
+            onPress={
+              formData.coin !== "CEL" &&
+              (() => {
+                this.setState({ earnInterestIn: false });
+              })
             }
           >
-            <CelText color={noCelTextColor} align={'center'} weight='bold'>
+            <CelText color={noCelTextColor} align={"center"} weight="bold">
               {formatter.percentageDisplay(interestRateForCoin.rate, true)}
-              <CelText type='H4' weight='600' color={noCelTextColor}>%</CelText>
+              <CelText type="H4" weight="600" color={noCelTextColor}>
+                %
+              </CelText>
             </CelText>
-            <CelText color={noCelTextColor} align={'center'}>
+            <CelText color={noCelTextColor} align={"center"}>
               Regular
             </CelText>
           </Card>
-          { formData.coin !== 'CEL' && <Card
-            noBorder
-            styles={celCardStyle}
-            margin='20 20 20 10'
-            onPress={() => {
-              this.setState({ earnInterestIn:  true })
-            }}
-          >
-            <CelText color={celTextColor} align={'center'} weight='bold' >
-              {formatter.percentageDisplay(interestRateForCoin.cel_rate, true)}
-              <CelText type='H4' align='center' weight='bold' color={celTextColor}>%</CelText>
-            </CelText>
-            <CelText color={celTextColor} align={'center'}>
-              Earn in CEL
-            </CelText>
-          </Card> }
+          {formData.coin !== "CEL" && (
+            <Card
+              noBorder
+              styles={celCardStyle}
+              margin="20 20 20 10"
+              onPress={() => {
+                this.setState({ earnInterestIn: true });
+              }}
+            >
+              <CelText color={celTextColor} align={"center"} weight="bold">
+                {formatter.percentageDisplay(
+                  interestRateForCoin.cel_rate,
+                  true
+                )}
+                <CelText
+                  type="H4"
+                  align="center"
+                  weight="bold"
+                  color={celTextColor}
+                >
+                  %
+                </CelText>
+              </CelText>
+              <CelText color={celTextColor} align={"center"}>
+                Earn in CEL
+              </CelText>
+            </Card>
+          )}
         </View>
 
         <Separator />
 
-        <View style={{ flexDirection: 'column', alignItems: 'center', marginHorizontal: 20 }}>
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "center",
+            marginHorizontal: 20,
+          }}
+        >
           <Card
             styles={{ flex: 1 }}
             color={STYLES.COLORS.LIGHT_GRAY}
-            margin='0 20 0 20'
+            margin="0 20 0 20"
           >
             <View>
-              <CelText theme={THEMES.LIGHT} align={'center'}>
+              <CelText theme={THEMES.LIGHT} align={"center"}>
                 {formatter.usd(
-                  weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
-                )
-                }
+                  weeklyInterest *
+                    currencyRatesShort[selectedCoin.toLowerCase()]
+                )}
               </CelText>
-              <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
-                {earnInterestIn === true ?
-                  formatter.crypto(interestInCelPerWeek, 'CEL', {
-                    precision: 2
-                  })
-                  :
-                  formatter.crypto(weeklyInterest, selectedCoin, {
-                    precision: 2
-                  })
-                }
+              <CelText theme={THEMES.LIGHT} align={"center"} weight="bold">
+                {earnInterestIn === true
+                  ? formatter.crypto(interestInCelPerWeek, "CEL", {
+                      precision: 2,
+                    })
+                  : formatter.crypto(weeklyInterest, selectedCoin, {
+                      precision: 2,
+                    })}
               </CelText>
             </View>
-            <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
+            <CelText theme={THEMES.LIGHT} type="H6" align={"center"}>
               Interest per week
             </CelText>
           </Card>
           <Card
             styles={{ flex: 1 }}
             color={STYLES.COLORS.LIGHT_GRAY}
-            margin='20 20 20 20'
+            margin="20 20 20 20"
           >
             <View>
-              <CelText theme={THEMES.LIGHT} align={'center'}>
+              <CelText theme={THEMES.LIGHT} align={"center"}>
                 {formatter.usd(
-                  yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
+                  yearlyInterest *
+                    currencyRatesShort[selectedCoin.toLowerCase()]
                 )}
               </CelText>
-              <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
-                {earnInterestIn === true ?
-                  formatter.crypto(interestInCelPerYear, 'CEL', {
-                    precision: 2
-                  })
-                  :
-                  formatter.crypto(yearlyInterest, selectedCoin, {
-                    precision: 2
-                  })
-                }
+              <CelText theme={THEMES.LIGHT} align={"center"} weight="bold">
+                {earnInterestIn === true
+                  ? formatter.crypto(interestInCelPerYear, "CEL", {
+                      precision: 2,
+                    })
+                  : formatter.crypto(yearlyInterest, selectedCoin, {
+                      precision: 2,
+                    })}
               </CelText>
             </View>
-            <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
+            <CelText theme={THEMES.LIGHT} type="H6" align={"center"}>
               Interest per year
             </CelText>
           </Card>
         </View>
       </>
-    )
-  }
+    );
+  };
 
   render() {
-    const { coinSelectItems } = this.state
-    const { actions, formData, keypadOpen, showCard, theme } = this.props
+    const { coinSelectItems } = this.state;
+    const { actions, formData, keypadOpen, showCard, theme } = this.props;
 
-    const selectedCoin = formData.coin || 'BTC'
+    const selectedCoin = formData.coin || "BTC";
 
-    const style = InterestCalculatorStyle(theme)
-    const InterestOptions = this.renderInterestOptions
+    const style = InterestCalculatorStyle(theme);
+    const InterestOptions = this.renderInterestOptions;
 
     return (
       <View>
-        <View
-          style={style.amounts}
-        >
+        <View style={style.amounts}>
           <View style={style.selectWrapper}>
             <SimpleSelect
               theme={theme}
               items={coinSelectItems}
-              field='coin'
+              field="coin"
               displayValue={selectedCoin}
               updateFormField={actions.updateFormField}
               onChange={this.handleCoinChange}
-              placeholder='Choose a coin'
+              placeholder="Choose a coin"
             />
           </View>
 
@@ -308,11 +332,11 @@ class InterestCalculator extends Component {
             </Card>
           </View>
         ) : (
-            <InterestOptions />
-          )}
+          <InterestOptions />
+        )}
 
         <CelNumpad
-          field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
+          field={formData.isUsd ? "amountUsd" : "amountCrypto"}
           value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
           updateFormField={actions.updateFormField}
           setKeypadInput={actions.setKeypadInput}
@@ -321,8 +345,8 @@ class InterestCalculator extends Component {
           purpose={KEYPAD_PURPOSES.INTEREST_CALCULATOR}
         />
       </View>
-    )
+    );
   }
 }
 
-export default InterestCalculator
+export default InterestCalculator;

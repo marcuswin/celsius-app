@@ -1,20 +1,16 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
-const base = {
-}
+const base = {};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const InfoBoxStyle = () => getThemedStyle(base, themed);
 
-export default InfoBoxStyle
+export default InfoBoxStyle;

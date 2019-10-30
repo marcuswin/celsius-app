@@ -1,28 +1,24 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        flex: 1
-    },
-    heading: {
-        paddingBottom: 20,
-        paddingTop: 20,
-
-    }
-}
+  container: {
+    flex: 1,
+  },
+  heading: {
+    paddingBottom: 20,
+    paddingTop: 20,
+  },
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const TermsOfUseStyle = () => getThemedStyle(base, themed);
 
-export default TermsOfUseStyle
+export default TermsOfUseStyle;

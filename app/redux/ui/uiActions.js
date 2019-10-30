@@ -1,24 +1,19 @@
-import ACTIONS from '../../constants/ACTIONS';
-
+import ACTIONS from "../../constants/ACTIONS";
 
 export {
   openFabMenu,
   closeFabMenu,
   setFabType,
-
   showMessage,
   clearMessage,
-
   openModal,
   closeModal,
-
   toggleKeypad,
   setKeypadInput,
   setActiveTab,
-}
+};
 
 let msgTimeout;
-
 
 /**
  * Shows a flash message
@@ -42,11 +37,10 @@ function showMessage(msgType, text, disableClear, action) {
       type: ACTIONS.SHOW_MESSAGE,
       msgType,
       text,
-      action
-    })
-  }
+      action,
+    });
+  };
 }
-
 
 // Custom celsius keypad actions
 /**
@@ -62,22 +56,22 @@ function setKeypadInput(input, field) {
 
     if (input === false && field === _activeField) {
       // close keypad
-      if (isKeypadOpen) dispatch({
-        type: ACTIONS.TOGGLE_KEYPAD,
-        isKeypadOpen: false
-      });
+      if (isKeypadOpen)
+        dispatch({
+          type: ACTIONS.TOGGLE_KEYPAD,
+          isKeypadOpen: false,
+        });
 
-      _keypadInputRef = null
-      _activeField = null
+      _keypadInputRef = null;
+      _activeField = null;
     }
 
     if (input && field !== _activeField) {
-      _keypadInputRef = input
-      _activeField = field
+      _keypadInputRef = input;
+      _activeField = field;
     }
-  }
+  };
 }
-
 
 /**
  * Toggles the native device keypad
@@ -85,14 +79,15 @@ function setKeypadInput(input, field) {
  * @param {boolean} shouldOpen - if keypad should be turned on or off
  */
 function toggleKeypad(shouldOpen) {
-  return (dispatch) => {
+  return dispatch => {
     if (_keypadInputRef) {
-      const isFocused = _keypadInputRef.isFocused()
+      const isFocused = _keypadInputRef.isFocused();
       if (isFocused) {
         // already opened
-        if (shouldOpen !== true) _keypadInputRef.blur()
+        if (shouldOpen !== true) _keypadInputRef.blur();
         // closed
-       } else if ( _keypadInputRef && shouldOpen !== false ){ _keypadInputRef.focus()
+      } else if (_keypadInputRef && shouldOpen !== false) {
+        _keypadInputRef.focus();
       }
 
       dispatch({
@@ -100,9 +95,8 @@ function toggleKeypad(shouldOpen) {
         isKeypadOpen: !isFocused,
       });
     }
-  }
+  };
 }
-
 
 /**
  * Clears flash message
@@ -111,9 +105,8 @@ function toggleKeypad(shouldOpen) {
 function clearMessage() {
   return {
     type: ACTIONS.CLEAR_MESSAGE,
-  }
+  };
 }
-
 
 /**
  * Opens a modal
@@ -143,7 +136,7 @@ function closeModal() {
  */
 function openFabMenu() {
   return {
-    type: ACTIONS.OPEN_FAB_MENU
+    type: ACTIONS.OPEN_FAB_MENU,
   };
 }
 
@@ -153,7 +146,7 @@ function openFabMenu() {
  */
 function closeFabMenu() {
   return {
-    type: ACTIONS.CLOSE_FAB_MENU
+    type: ACTIONS.CLOSE_FAB_MENU,
   };
 }
 
@@ -164,16 +157,15 @@ function closeFabMenu() {
 function setFabType(fabType) {
   return (dispatch, getState) => {
     if (fabType !== getState().ui.fabType) {
-      dispatch({ type: ACTIONS.SET_FAB_TYPE, fabType })
+      dispatch({ type: ACTIONS.SET_FAB_TYPE, fabType });
     }
-  }
+  };
 }
- /**
-   * Sets active tab in CelTabs
-   * @params {string} activeTab - name of the tab to open
-   * @returns {Object} - Action
-   */
-function setActiveTab (activeTab) {
-  return {type: ACTIONS.ACTIVE_TAB, activeTab}
-
+/**
+ * Sets active tab in CelTabs
+ * @params {string} activeTab - name of the tab to open
+ * @returns {Object} - Action
+ */
+function setActiveTab(activeTab) {
+  return { type: ACTIONS.ACTIVE_TAB, activeTab };
 }

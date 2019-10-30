@@ -41,7 +41,7 @@ export default function loansReducer(state = initialState(), action) {
     case ACTIONS.UPDATE_LOAN_SETTINGS_SUCCESS:
       return {
         ...state,
-        loanSettings: action.loanSettings
+        loanSettings: action.loanSettings,
       };
 
     case ACTIONS.GET_ALL_LOANS_SUCCESS:
@@ -53,7 +53,9 @@ export default function loansReducer(state = initialState(), action) {
     case ACTIONS.GET_LOAN_SUCCESS:
       return {
         ...state,
-        allLoans: state.allLoans.map(l => l.id === action.loan.id ? action.loan : l),
+        allLoans: state.allLoans.map(l =>
+          l.id === action.loan.id ? action.loan : l
+        ),
         activeLoan: action.loan,
       };
     case ACTIONS.GET_CONFIRM_LOAN_INFO_SUCCESS:
@@ -64,19 +66,19 @@ export default function loansReducer(state = initialState(), action) {
     case ACTIONS.GET_MARGIN_CALLS_SUCCESS:
       return {
         ...state,
-        marginCalls: action.marginCalls
+        marginCalls: action.marginCalls,
       };
 
     case ACTIONS.GET_AMORTIZATION_TABLE_SUCCESS:
       return {
         ...state,
-        amortizationTable: action.amortizationTable
+        amortizationTable: action.amortizationTable,
       };
 
     case ACTIONS.CHECK_LOAN_ALERTS:
       return {
         ...state,
-        loanAlerts: action.loanAlerts
+        loanAlerts: action.loanAlerts,
       };
 
     default:

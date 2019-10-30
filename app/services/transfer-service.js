@@ -1,14 +1,13 @@
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from "axios";
+import apiUrl from "./api-url";
 
 const transfersService = {
   getAll,
   get,
   claim,
   cancel,
-  create
+  create,
 };
-
 
 /**
  * Gets all CelPay transfers with specific status
@@ -21,7 +20,6 @@ function getAll(status) {
   return axios.get(`${apiUrl}/transfers/${status}`);
 }
 
-
 /**
  * Gets specific CelPay transfer by id
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#83ccfd72-2b32-4289-8dea-30383159f1b6
@@ -33,7 +31,6 @@ function get(transferHash) {
   return axios.get(`${apiUrl}/transfer/${transferHash}`);
 }
 
-
 /**
  * Claims specific CelPay transfer by id
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#373baf14-4dd8-4842-99ff-c0d2c69c285a
@@ -44,7 +41,6 @@ function get(transferHash) {
 function claim(transferHash) {
   return axios.post(`${apiUrl}/transfer/${transferHash}/claim`);
 }
-
 
 /**
  * Cancels specific CelPay transfer by id
