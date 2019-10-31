@@ -106,7 +106,7 @@ class ChoosePaymentMethod extends Component {
           }
         },
         lightImage: require("../../../../assets/images/icons/dollars.png"),
-        darkImage: require("../../.././../assets/images/icons/dollars-dark.png"),
+        darkImage: require("../../../../assets/images/icons/dollars-dark.png"),
         isActive: activeCards.usd,
       },
     ];
