@@ -190,7 +190,7 @@ class BorrowLanding extends Component {
           <View style={style.buttonsIconText}>
             <TouchableOpacity
               style={style.buttonIconText}
-              onPress={() => actions.navigateTo("BorrowEnterAmount")}
+              onPress={() => actions.navigateTo("BorrowChooseLoan")}
             >
               <View style={style.buttonItself}>
                 <Image

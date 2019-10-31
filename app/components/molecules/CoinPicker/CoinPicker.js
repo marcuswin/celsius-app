@@ -42,12 +42,18 @@ class CoinPicker extends Component {
       defaultSelected,
       coinCompliance,
       onChange,
+      value,
     } = this.props;
 
     let coinListFormated = coinCompliance;
     if (type === "enterAmount") {
-      coinListFormated = coinCompliance.map(coin => coin.value);
+      // coinListFormated = coinCompliance.map(coin => coin.value);
+      if (value !== "USD")
+        coinListFormated = coinCompliance
+          .filter(coin => coin.value !== "USD")
+          .map(coin => coin.value);
     }
+
     this.setState({ coinListFormated });
 
     if (defaultSelected) {
@@ -80,7 +86,7 @@ class CoinPicker extends Component {
     switch (type) {
       case "depositAmount":
         return (
-          <>
+          <View>
             <CelText align="center" weight="regular" type="H4">
               Choose coin to deposit
             </CelText>
@@ -124,12 +130,12 @@ class CoinPicker extends Component {
                 />
               </View>
             </TouchableOpacity>
-          </>
+          </View>
         );
 
       case "enterAmount":
         return (
-          <>
+          <View style={style.selectWrapper}>
             <TouchableOpacity
               onPress={() =>
                 navigateTo("SelectCoin", {
@@ -139,6 +145,7 @@ class CoinPicker extends Component {
                   field,
                 })
               }
+              disabled={value === "USD"}
             >
               <View
                 style={{
@@ -150,24 +157,32 @@ class CoinPicker extends Component {
                   paddingVertical: 5,
                 }}
               >
-                <CelText type="H3" style={{ paddingRight: 10 }}>
-                  {
-                    (
-                      coinCompliance.find(coin => coin.value === value) || {
-                        label: "",
-                      }
-                    ).label
-                  }
-                </CelText>
-                <Icon
-                  width="13"
-                  height="13"
-                  name="CaretDown"
-                  fill={iconColor}
-                />
+                {!value ? (
+                  <CelText type="H3" style={{ paddingRight: 10 }}>
+                    Choose a stable coin
+                  </CelText>
+                ) : (
+                  <CelText type="H3" style={{ paddingRight: 10 }}>
+                    {
+                      (
+                        coinCompliance.find(coin => coin.value === value) || {
+                          label: "",
+                        }
+                      ).label
+                    }
+                  </CelText>
+                )}
+                {value !== "USD" && (
+                  <Icon
+                    width="13"
+                    height="13"
+                    name="CaretDown"
+                    fill={iconColor}
+                  />
+                )}
               </View>
             </TouchableOpacity>
-          </>
+          </View>
         );
 
       default:

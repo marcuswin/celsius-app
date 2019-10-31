@@ -49,6 +49,7 @@ class BorrowEnterAmount extends Component {
       walletSummary,
       minimumLoanAmount,
       currencies,
+      formData,
     } = props;
     const eligibleCoins = walletSummary.coins.filter(coinData =>
       loanCompliance.collateral_coins.includes(coinData.short)
@@ -74,7 +75,7 @@ class BorrowEnterAmount extends Component {
     props.actions.initForm({
       loanAmount: minimumLoanAmount.toString(),
       maxAmount,
-      coin: "USD",
+      coin: formData.coin,
       loanType: LOAN_TYPES.USD_LOAN,
     });
   }
@@ -136,7 +137,10 @@ class BorrowEnterAmount extends Component {
 
     return (
       <CelButton
-        disabled={Number(formData.loanAmount) < Number(minimumLoanAmount)}
+        disabled={
+          Number(formData.loanAmount) < Number(minimumLoanAmount) ||
+          !formData.coin
+        }
         onPress={() => {
           actions.navigateTo("BorrowCollateral");
           actions.toggleKeypad();
@@ -205,25 +209,23 @@ class BorrowEnterAmount extends Component {
               How much would you like to borrow?
             </CelText>
 
-            <View style={styles.selectWrapper}>
-              <CoinPicker
-                type={"enterAmount"}
-                onChange={(field, value) =>
-                  actions.updateFormFields({
-                    [field]: value,
-                    loanType:
-                      value === "USD"
-                        ? LOAN_TYPES.USD_LOAN
-                        : LOAN_TYPES.STABLE_COIN_LOAN,
-                  })
-                }
-                updateFormField={actions.updateFormField}
-                value={coin}
-                field="coin"
-                coinCompliance={coinSelectItems}
-                navigateTo={actions.navigateTo}
-              />
-            </View>
+            <CoinPicker
+              type={"enterAmount"}
+              onChange={(field, value) =>
+                actions.updateFormFields({
+                  [field]: value,
+                  loanType:
+                    value === "USD"
+                      ? LOAN_TYPES.USD_LOAN
+                      : LOAN_TYPES.STABLE_COIN_LOAN,
+                })
+              }
+              updateFormField={actions.updateFormField}
+              value={coin}
+              field="coin"
+              coinCompliance={coinSelectItems}
+              navigateTo={actions.navigateTo}
+            />
 
             <View style={{ width: "100%" }}>
               <TouchableOpacity
