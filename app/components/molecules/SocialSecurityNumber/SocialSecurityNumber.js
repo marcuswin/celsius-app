@@ -182,17 +182,18 @@ class SocialSecurityNumber extends Component {
                 paddingBottom: 20,
               }}
             >
-              {!user.itin && !user.national_id && (
-                <CelButton
-                  onPress={onPress}
-                  iconRight={"IconArrowRight"}
-                  iconRightHeight={"20"}
-                  iconRightWidth={"20"}
-                  loading={updatingTaxInfo}
-                >
-                  Submit
-                </CelButton>
-              )}
+              {!user.itin &&
+                !user.national_id && (
+                  <CelButton
+                    onPress={onPress}
+                    iconRight={"IconArrowRight"}
+                    iconRightHeight={"20"}
+                    iconRightWidth={"20"}
+                    loading={updatingTaxInfo}
+                  >
+                    Submit
+                  </CelButton>
+                )}
             </View>
           </React.Fragment>
         )}

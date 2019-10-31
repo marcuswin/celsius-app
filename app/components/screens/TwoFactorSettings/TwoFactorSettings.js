@@ -3,7 +3,7 @@ import { View, Linking } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import QRCode from "react-qr-code";
+import QRCode from "react-native-qrcode-svg";
 
 import * as appActions from "../../../redux/actions";
 import CelText from "../../atoms/CelText/CelText";

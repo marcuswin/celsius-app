@@ -30,14 +30,14 @@ class CircularProgressBar extends Component {
   render() {
     const style = CircularProgressBarStyles();
     const { amountLoaned, amountPaid } = this.props;
-    const percentage = (amountPaid * 100) / amountLoaned;
+    const percentage = amountPaid * 100 / amountLoaned;
     const progress = [{ per: percentage }];
     const section = d3.pie().value(l => l.per)(progress)[0];
 
     const path = d3
       .arc()
       .startAngle(0)
-      .endAngle((Math.PI * 2 * percentage) / 100)
+      .endAngle(Math.PI * 2 * percentage / 100)
       .outerRadius(height / 2.5) // must be less than 1/2 the chart's height/width
       .innerRadius(height / 2.3); // the size of the inner 'donut' whitespace
 

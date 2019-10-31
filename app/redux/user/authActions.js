@@ -28,6 +28,10 @@ import userBehaviorUtil from "../../utils/user-behavior-util";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants;
 
+// TODO move to security
+// TODO move to security
+// TODO move to security
+// TODO move to security
 export {
   createAccount,
   registerUser,
@@ -35,10 +39,10 @@ export {
   logoutUser,
   expireSession,
   sendResetLink,
-  setPin, // TODO move to security
-  changePin, // TODO move to security
-  resetPassword, // TODO move to security
-  logoutFromAllDevices, // TODO move to security
+  setPin,
+  changePin,
+  resetPassword,
+  logoutFromAllDevices,
 };
 
 /**
@@ -166,9 +170,7 @@ function resetPassword(currentPassword, newPassword) {
         currentPassword,
         newPassword
       );
-      const {
-        auth0: { id_token: newAuthToken },
-      } = data;
+      const { auth0: { id_token: newAuthToken } } = data;
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, newAuthToken);
 

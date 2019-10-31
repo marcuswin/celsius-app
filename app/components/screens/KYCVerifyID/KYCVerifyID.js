@@ -232,50 +232,51 @@ class KYCVerifyID extends Component {
                 justifyContent: "space-around",
               }}
             >
-              {docs.map(document =>
-                docType === document.value ? (
-                  <Card
-                    key={document.value}
-                    size="third"
-                    onPress={() => this.selectDocumentType(document.value)}
-                    styles={{ height: 100, justifyContent: "flex-start" }}
-                  >
-                    <Icon
-                      height="24"
-                      fill={STYLES.COLORS.CELSIUS_BLUE}
-                      name={document.icon}
-                    />
-                    <CelText
-                      color={STYLES.COLORS.CELSIUS_BLUE}
-                      margin="10 0 0 0"
-                      align="center"
-                      type="H6"
+              {docs.map(
+                document =>
+                  docType === document.value ? (
+                    <Card
+                      key={document.value}
+                      size="third"
+                      onPress={() => this.selectDocumentType(document.value)}
+                      styles={{ height: 100, justifyContent: "flex-start" }}
                     >
-                      {document.label}
-                    </CelText>
-                  </Card>
-                ) : (
-                  <Card
-                    key={document.value}
-                    size="third"
-                    onPress={() => this.selectDocumentType(document.value)}
-                    styles={{ height: 100, justifyContent: "flex-start" }}
-                  >
-                    <Icon
-                      height="24"
-                      name={document.icon}
-                      fill={STYLES.COLORS.GRAY}
-                    />
-                    <CelText
-                      color={STYLES.COLORS.GRAY}
-                      margin="10 0 0 0"
-                      align="center"
-                      type="H6"
+                      <Icon
+                        height="24"
+                        fill={STYLES.COLORS.CELSIUS_BLUE}
+                        name={document.icon}
+                      />
+                      <CelText
+                        color={STYLES.COLORS.CELSIUS_BLUE}
+                        margin="10 0 0 0"
+                        align="center"
+                        type="H6"
+                      >
+                        {document.label}
+                      </CelText>
+                    </Card>
+                  ) : (
+                    <Card
+                      key={document.value}
+                      size="third"
+                      onPress={() => this.selectDocumentType(document.value)}
+                      styles={{ height: 100, justifyContent: "flex-start" }}
                     >
-                      {document.label}
-                    </CelText>
-                  </Card>
-                )
+                      <Icon
+                        height="24"
+                        name={document.icon}
+                        fill={STYLES.COLORS.GRAY}
+                      />
+                      <CelText
+                        color={STYLES.COLORS.GRAY}
+                        margin="10 0 0 0"
+                        align="center"
+                        type="H6"
+                      >
+                        {document.label}
+                      </CelText>
+                    </Card>
+                  )
               )}
             </View>
           )}

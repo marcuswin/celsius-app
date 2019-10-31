@@ -142,7 +142,7 @@ class BorrowLanding extends Component {
       );
       loanParams.monthlyInterest = formatter.usd(
         Number(
-          (loanParams.totalInterestPct * formData.amount) / formData.termOfLoan
+          loanParams.totalInterestPct * formData.amount / formData.termOfLoan
         )
       );
       loanParams.collateralNeeded =

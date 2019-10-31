@@ -326,26 +326,27 @@ class TermsOfUse extends Component {
       <RegularLayout fabType="hide">
         {terms.map(this.renderScreen)}
 
-        {isUserLoggedIn() && !appSettings.accepted_terms_of_use && (
-          <React.Fragment>
-            <CelButton
-              margin={"20 0 10 0"}
-              onPress={() => {
-                actions.setUserAppSettings({ accepted_terms_of_use: true });
-                actions.navigateTo(nextScreen);
-              }}
-            >
-              Accept and Continue
-            </CelButton>
-            <CelButton
-              margin={"20 0 60 0"}
-              onPress={() => Linking.openURL("mailto:app@celsius.network")}
-              basic
-            >
-              Contact Support
-            </CelButton>
-          </React.Fragment>
-        )}
+        {isUserLoggedIn() &&
+          !appSettings.accepted_terms_of_use && (
+            <React.Fragment>
+              <CelButton
+                margin={"20 0 10 0"}
+                onPress={() => {
+                  actions.setUserAppSettings({ accepted_terms_of_use: true });
+                  actions.navigateTo(nextScreen);
+                }}
+              >
+                Accept and Continue
+              </CelButton>
+              <CelButton
+                margin={"20 0 60 0"}
+                onPress={() => Linking.openURL("mailto:app@celsius.network")}
+                basic
+              >
+                Contact Support
+              </CelButton>
+            </React.Fragment>
+          )}
       </RegularLayout>
     );
   }

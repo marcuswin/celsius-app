@@ -115,11 +115,12 @@ class ChangePin extends Component {
               <HiddenField value={formData[field]} />
             </TouchableOpacity>
 
-            {pinCreated && !loading && (
-              <CelButton basic onPress={this.handleBack}>
-                Back
-              </CelButton>
-            )}
+            {pinCreated &&
+              !loading && (
+                <CelButton basic onPress={this.handleBack}>
+                  Back
+                </CelButton>
+              )}
 
             {loading && (
               <View

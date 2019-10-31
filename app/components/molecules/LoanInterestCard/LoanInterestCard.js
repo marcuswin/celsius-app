@@ -41,7 +41,7 @@ class LoanInterestCard extends Component {
     this.amountCollateralCrypto = this.amountCollateralUsd / this.crypto;
     this.interest = formatter.percentage(ltv.interest);
     this.loanToValue = ltv.percent;
-    this.monthlyPayment = (ltv.interest * formData.loanAmount) / 12;
+    this.monthlyPayment = ltv.interest * formData.loanAmount / 12;
     this.isAllowed =
       walletSummary.coins.find(c => c.short === formData.collateralCoin)
         .amount_usd > this.amountCollateralUsd;
@@ -105,11 +105,9 @@ class LoanInterestCard extends Component {
               type={"H6"}
               margin={"0 0 4 0"}
             >{`$${formatter.round(this.monthlyPayment)} per month`}</CelText>
-            <CelText
-              weight={"600"}
-              type={"H3"}
-              margin={"0 0 4 0"}
-            >{`${this.interest}% APR`}</CelText>
+            <CelText weight={"600"} type={"H3"} margin={"0 0 4 0"}>{`${
+              this.interest
+            }% APR`}</CelText>
             <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(
               this.amountCollateralCrypto
             )} ${formData.collateralCoin} as collateral`}</CelText>

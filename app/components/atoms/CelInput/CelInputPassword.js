@@ -83,22 +83,23 @@ class CelInputPassword extends Component {
           secureTextEntry={!visible}
           style={{ paddingRight: 15 }}
         />
-        {!!value && !disabled && (
-          <TouchableOpacity
-            style={{
-              position: "absolute",
-              right: 10,
-              top: 13,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={() => this.setState({ visible: !visible })}
-          >
-            <CelText type="H5" align={"center"} color={fillColor}>
-              {iconName}
-            </CelText>
-          </TouchableOpacity>
-        )}
+        {!!value &&
+          !disabled && (
+            <TouchableOpacity
+              style={{
+                position: "absolute",
+                right: 10,
+                top: 13,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => this.setState({ visible: !visible })}
+            >
+              <CelText type="H5" align={"center"} color={fillColor}>
+                {iconName}
+              </CelText>
+            </TouchableOpacity>
+          )}
       </React.Fragment>
     );
   }

@@ -129,9 +129,7 @@ class ChoosePaymentMethod extends Component {
     return (
       <View style={style.container}>
         <RegularLayout>
-          {cardProps.map(i => (
-            <PaymentCard {...i} key={i.cardTitle} />
-          ))}
+          {cardProps.map(i => <PaymentCard {...i} key={i.cardTitle} />)}
         </RegularLayout>
         <PrepayDollarInterestModal />
       </View>

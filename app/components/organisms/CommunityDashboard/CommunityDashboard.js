@@ -128,44 +128,45 @@ class CommunityDashboard extends Component {
     return (
       <View style={style.container}>
         <Separator margin={"30 0 20 0"} color={separatorColor} text={name} />
-        {buttonTypes && buttonTypes.length > 0 && (
-          <View style={style.buttonWrapper}>
-            {buttonTypes.map(button => (
-              <TouchableOpacity
-                key={button}
-                style={style.button}
-                onPress={() => this.handlePress(button)}
-              >
-                <View style={style.innerStyle}>
-                  <Icon
-                    name={button}
-                    height={18}
-                    width={18}
-                    fill={
-                      activeButton === button
-                        ? STYLES.COLORS.CELSIUS_BLUE
-                        : STYLES.COLORS.MEDIUM_GRAY
-                    }
-                    strokeWidth={0.5}
-                  />
-                  <CelText
-                    type={"H7"}
-                    weight={"500"}
-                    align={"center"}
-                    color={
-                      activeButton === button
-                        ? STYLES.COLORS.CELSIUS_BLUE
-                        : STYLES.COLORS.MEDIUM_GRAY
-                    }
-                  >
-                    {button.toUpperCase()}
-                  </CelText>
-                  {activeButton === button && <View style={style.active} />}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
+        {buttonTypes &&
+          buttonTypes.length > 0 && (
+            <View style={style.buttonWrapper}>
+              {buttonTypes.map(button => (
+                <TouchableOpacity
+                  key={button}
+                  style={style.button}
+                  onPress={() => this.handlePress(button)}
+                >
+                  <View style={style.innerStyle}>
+                    <Icon
+                      name={button}
+                      height={18}
+                      width={18}
+                      fill={
+                        activeButton === button
+                          ? STYLES.COLORS.CELSIUS_BLUE
+                          : STYLES.COLORS.MEDIUM_GRAY
+                      }
+                      strokeWidth={0.5}
+                    />
+                    <CelText
+                      type={"H7"}
+                      weight={"500"}
+                      align={"center"}
+                      color={
+                        activeButton === button
+                          ? STYLES.COLORS.CELSIUS_BLUE
+                          : STYLES.COLORS.MEDIUM_GRAY
+                      }
+                    >
+                      {button.toUpperCase()}
+                    </CelText>
+                    {activeButton === button && <View style={style.active} />}
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         {info && (
           <View>
             <CelText

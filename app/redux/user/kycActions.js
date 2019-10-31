@@ -14,6 +14,8 @@ import complianceService from "../../services/compliance-service";
 import { getUserKYCStatus, isUserLoggedIn } from "../../utils/user-util";
 import userBehaviorUtil from "../../utils/user-behavior-util";
 
+// TODO move to user/profile actions
+// TODO move to user/profile actions
 export {
   getKYCStatus,
   updateProfileInfo,
@@ -21,8 +23,8 @@ export {
   updateTaxpayerInfo,
   getKYCDocuments,
   verifyKYCDocs,
-  sendVerificationSMS, // TODO move to user/profile actions
-  verifySMS, // TODO move to user/profile actions
+  sendVerificationSMS,
+  verifySMS,
   // pollKYCStatus,
 };
 

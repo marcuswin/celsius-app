@@ -26,7 +26,7 @@ const ScrollMore = props => {
             position: "absolute",
             top: el * 2,
             backgroundColor: style.gradientColor.color,
-            opacity: (el * 1.5) / 15,
+            opacity: el * 1.5 / 15,
           }}
         />
       ))}

@@ -19,6 +19,7 @@ import { getWalletSummary } from "../wallet/walletActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants;
 
+// TODO rename
 export {
   // User & Profile Actions
   getProfileInfo,
@@ -32,7 +33,7 @@ export {
   // TODO move to KYC actions
   getLinkedBankAccount,
   linkBankAccount,
-  profileTaxpayerInfo, // TODO rename
+  profileTaxpayerInfo,
   // Security Actions
   getTwoFactorSecret,
   enableTwoFactor,

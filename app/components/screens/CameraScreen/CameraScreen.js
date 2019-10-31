@@ -179,17 +179,18 @@ class CameraScreen extends Component {
 
       if (photo.width / photo.height > size.width / size.height) {
         const coef = photo.width * (size.height / photo.height);
-        const overScan = ((coef - size.width) * 0.5) / coef;
+        const overScan = (coef - size.width) * 0.5 / coef;
         cropWidth = photo.width - 2 * size.width * overScan;
         cropWidth =
-          (cropWidth * STYLES.CAMERA_MASK_SIZES[mask].width) / size.width;
+          cropWidth * STYLES.CAMERA_MASK_SIZES[mask].width / size.width;
       } else {
         cropWidth =
-          (STYLES.CAMERA_MASK_SIZES[mask].width / size.width) * photo.width;
+          STYLES.CAMERA_MASK_SIZES[mask].width / size.width * photo.width;
       }
 
       const cropHeight =
-        (cropWidth / STYLES.CAMERA_MASK_SIZES[mask].width) *
+        cropWidth /
+        STYLES.CAMERA_MASK_SIZES[mask].width *
         STYLES.CAMERA_MASK_SIZES[mask].height;
 
       const imageManipulations = [

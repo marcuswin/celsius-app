@@ -13,14 +13,19 @@ import appUtil from "./app-util";
 
 const { width, height } = Dimensions.get("window");
 
+// TODO check if we can use these more
+// TODO check if we can use these more
+// TODO check if we need three font methods
+// TODO check if we need three font methods
+// TODO check if we need three font methods
 export {
   getMargins,
   getPadding,
-  widthPercentageToDP, // TODO check if we can use these more
-  heightPercentageToDP, // TODO check if we can use these more
-  getScaledFont, // TODO check if we need three font methods
-  getFont, // TODO check if we need three font methods
-  getFontSize, // TODO check if we need three font methods
+  widthPercentageToDP,
+  heightPercentageToDP,
+  getScaledFont,
+  getFont,
+  getFontSize,
   disableAccessibilityFontScaling,
   getTheme,
   addThemeToComponents,
@@ -121,7 +126,7 @@ function widthPercentageToDP(widthPercent) {
   const screenWidth = width;
   // Convert string input to decimal number
   const elemWidth = parseFloat(widthPercent);
-  return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
+  return PixelRatio.roundToNearestPixel(screenWidth * elemWidth / 100);
 }
 
 /**
@@ -134,7 +139,7 @@ function heightPercentageToDP(heightPercent) {
   const screenHeight = height;
   // Convert string input to decimal number
   const elemHeight = parseFloat(heightPercent);
-  return PixelRatio.roundToNearestPixel((screenHeight * elemHeight) / 100);
+  return PixelRatio.roundToNearestPixel(screenHeight * elemHeight / 100);
 }
 
 /**
@@ -197,9 +202,11 @@ function getFontSize() {
  * @returns {number}
  */
 function addThemeToComponents(children, components, theme) {
-  return appUtil.recursiveMap(children, child =>
-    components.includes(child.type.displayName)
-      ? React.cloneElement(child, { theme })
-      : child
+  return appUtil.recursiveMap(
+    children,
+    child =>
+      components.includes(child.type.displayName)
+        ? React.cloneElement(child, { theme })
+        : child
   );
 }

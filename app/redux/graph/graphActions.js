@@ -4,12 +4,17 @@ import { showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import graphService from "../../services/graph-service";
 
+// TODO add JSDoc
+// TODO add JSDoc
+// TODO add JSDoc
+// TODO add JSDoc
+// TODO add JSDoc
 export {
-  getTotalWalletBalanceData, // TODO add JSDoc
-  getCoinWalletBalanceData, // TODO add JSDoc
-  getInterestGraphData, // TODO add JSDoc
-  getCoinInterestGraphData, // TODO add JSDoc
-  activeTimeline, // TODO add JSDoc
+  getTotalWalletBalanceData,
+  getCoinWalletBalanceData,
+  getInterestGraphData,
+  getCoinInterestGraphData,
+  activeTimeline,
 };
 
 function activeTimeline(time, period) {

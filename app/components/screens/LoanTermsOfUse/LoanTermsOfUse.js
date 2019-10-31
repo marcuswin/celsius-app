@@ -71,7 +71,9 @@ class LoanTermsOfUse extends Component {
     const checkboxTexts = [
       `I have read, understood and agree to the above mentioned in sections 1 - 7`,
       `I have read, understood and agree to the above mentioned in sections 8 - 14`,
-      `I have read, understood and agree to the above mentioned in sections 15 - ${otherSections.length}`,
+      `I have read, understood and agree to the above mentioned in sections 15 - ${
+        otherSections.length
+      }`,
     ];
 
     return {
