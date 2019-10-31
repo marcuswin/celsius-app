@@ -120,7 +120,7 @@ function registerUser() {
       );
       await dispatch(initAppData());
 
-      userBehaviorUtil.sessionStarted();
+      userBehaviorUtil.sessionStarted("User registred");
       dispatch(claimAllBranchTransfers());
       dispatch({
         type: ACTIONS.REGISTER_USER_SUCCESS,
@@ -208,7 +208,7 @@ function logoutUser() {
       await dispatch(navigateTo("Auth"));
       dispatch(showVerifyScreen(false));
 
-      userBehaviorUtil.sessionEnded();
+      userBehaviorUtil.sessionEnded("Logout user");
     } catch (err) {
       logger.err(err);
     }

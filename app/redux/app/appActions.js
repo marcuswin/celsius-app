@@ -189,7 +189,7 @@ function handleAppStateChange(nextAppState) {
             })
           );
         }
-        userBehaviorUtil.sessionStarted();
+        userBehaviorUtil.sessionStarted("Foreground");
         // Fix for CN-4253, CN-4235, CN-4205
         // dispatch(getGeolocation());
       }
@@ -216,7 +216,7 @@ function handleAppStateChange(nextAppState) {
           startOfBackgroundTimer = new Date().getTime();
         }
 
-        userBehaviorUtil.sessionEnded();
+        userBehaviorUtil.sessionEnded("Background");
       }
     }
 
@@ -259,7 +259,7 @@ function initAppData(initToken = null) {
     const { expiredSession } = getState().user;
 
     if (token && !expiredSession) {
-      userBehaviorUtil.sessionStarted();
+      userBehaviorUtil.sessionStarted("Init app");
       registerForPushNotificationsAsync();
       dispatch(actions.claimAllBranchTransfers());
 

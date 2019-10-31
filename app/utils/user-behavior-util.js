@@ -81,7 +81,7 @@ function buttonPressed(button) {
 /**
  * Set data to the user selected by distinct_id
  */
-function sessionStarted() {
+function sessionStarted(trigger) {
   sendEvent("$create_alias", { alias: userData.id });
   mixpanelService.engage(userData.id, {
     $email: userData.email,
@@ -101,15 +101,15 @@ function sessionStarted() {
     "Is celsius member": userData.celsius_member,
     "Has SSN": !!userData.ssn,
   });
-  sendEvent("Session started");
+  sendEvent("Session started", { trigger });
 }
 
 /**
  * Fires an event when a user ends the session - logout|app state to background
  */
-function sessionEnded() {
+function sessionEnded(trigger) {
   userData = {};
-  sendEvent("Session ended");
+  sendEvent("Session ended", { trigger });
 }
 
 /**

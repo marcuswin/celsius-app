@@ -450,7 +450,7 @@ function registerSocialSuccess(network, token, user) {
       user,
     });
 
-    userBehaviorUtil.sessionStarted();
+    userBehaviorUtil.sessionStarted("User register social");
     dispatch(claimAllBranchTransfers());
 
     await dispatch(initAppData(token));
