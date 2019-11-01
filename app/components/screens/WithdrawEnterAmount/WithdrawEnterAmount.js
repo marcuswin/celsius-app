@@ -306,17 +306,15 @@ class WithdrawEnterAmount extends Component {
           />
           <View style={style.wrapper}>
             <View>
-              <View style={style.selectWrapper}>
-                <CoinPicker
-                  type={"enterAmount"}
-                  onChange={this.handleCoinChange}
-                  updateFormField={actions.updateFormField}
-                  value={coin}
-                  field="coin"
-                  coinCompliance={coinSelectItems}
-                  navigateTo={actions.navigateTo}
-                />
-              </View>
+              <CoinPicker
+                type={"enterAmount"}
+                onChange={this.handleCoinChange}
+                updateFormField={actions.updateFormField}
+                value={coin}
+                field="coin"
+                coinCompliance={coinSelectItems}
+                navigateTo={actions.navigateTo}
+              />
 
               {!isAddressLocked && (
                 <CoinSwitch
