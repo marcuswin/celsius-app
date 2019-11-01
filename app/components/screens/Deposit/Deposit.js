@@ -352,8 +352,8 @@ class Deposit extends Component {
         <CoinPicker
           type={"depositAmount"}
           updateFormField={actions.updateFormField}
-          onCoinSelect={this.handleCoinSelect}
-          value={formData.selectedCoin}
+          onChange={this.handleCoinSelect}
+          coin={formData.selectedCoin}
           field="selectedCoin"
           defaultSelected={this.getDefaultSelectedCoin()}
           coinCompliance={depositCompliance.coins}

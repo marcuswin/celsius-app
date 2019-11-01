@@ -8,15 +8,26 @@ const base = {
     flex: 1,
   },
   coinPicking: {
-    width: 100,
     alignSelf: "center",
   },
   circleButton: {
-    marginBottom: 5,
-    marginTop: 20,
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  circleWrapper: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignSelf: "center",
+    alignItems: "center",
+    shadowColor: STYLES.COLORS.DARK_GRAY,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 5,
+    zIndex: -1,
+    backgroundColor: "white",
   },
   iconStyle: {
-    alignContent: "center",
     alignItems: "center",
     alignSelf: "center",
     flexDirection: "row",
@@ -53,6 +64,9 @@ const base = {
 
 const themed = {
   light: {
+    circleWrapper: {
+      backgroundColor: STYLES.COLORS.WHITE,
+    },
     selectWrapper: {
       backgroundColor: STYLES.COLORS.WHITE,
     },
@@ -65,6 +79,9 @@ const themed = {
   },
 
   dark: {
+    circleWrapper: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
+    },
     selectWrapper: {
       backgroundColor: STYLES.COLORS.DARK_HEADER,
     },
@@ -77,6 +94,9 @@ const themed = {
   },
 
   celsius: {
+    circleWrapper: {
+      backgroundColor: STYLES.COLORS.WHITE,
+    },
     selectWrapper: {
       backgroundColor: STYLES.COLORS.WHITE,
     },

@@ -310,7 +310,7 @@ class WithdrawEnterAmount extends Component {
                 type={"enterAmount"}
                 onChange={this.handleCoinChange}
                 updateFormField={actions.updateFormField}
-                value={coin}
+                coin={coin}
                 field="coin"
                 coinCompliance={coinSelectItems}
                 navigateTo={actions.navigateTo}

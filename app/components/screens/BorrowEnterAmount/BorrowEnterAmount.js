@@ -59,7 +59,7 @@ class BorrowEnterAmount extends Component {
       .filter(c => loanCompliance.loan_coins.includes(c.short))
       .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }));
 
-    coinSelectItems.push({ label: `US Dollar ($)`, value: "USD" });
+    coinSelectItems.push({ label: `Dollar (USD)`, value: "USD" });
 
     this.state = {
       activePeriod: "",
@@ -205,12 +205,12 @@ class BorrowEnterAmount extends Component {
           ]}
         >
           <View style={{ alignItems: "center" }}>
-            <CelText align="center" type="H4" weight={"300"} margin="0 0 60 0">
+            <CelText align="center" type="H4" weight={"300"} margin="0 0 10 0">
               How much would you like to borrow?
             </CelText>
 
             <CoinPicker
-              type={"enterAmount"}
+              type={"borrowAmount"}
               onChange={(field, value) =>
                 actions.updateFormFields({
                   [field]: value,
@@ -221,7 +221,7 @@ class BorrowEnterAmount extends Component {
                 })
               }
               updateFormField={actions.updateFormField}
-              value={coin}
+              coin={coin}
               field="coin"
               coinCompliance={coinSelectItems}
               navigateTo={actions.navigateTo}

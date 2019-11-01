@@ -300,7 +300,7 @@ class CelPayEnterAmount extends Component {
                 type={"enterAmount"}
                 updateFormField={actions.updateFormField}
                 onChange={this.handleCoinChange}
-                value={formData.coin}
+                coin={formData.coin}
                 field="coin"
                 coinCompliance={coinSelectItems}
                 navigateTo={actions.navigateTo}
