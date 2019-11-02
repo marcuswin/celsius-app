@@ -297,7 +297,7 @@ class CelPayEnterAmount extends Component {
           <View style={style.wrapper}>
             <View style={style.amounts}>
               <CoinPicker
-                type={"enterAmount"}
+                type={"basic"}
                 updateFormField={actions.updateFormField}
                 onChange={this.handleCoinChange}
                 coin={formData.coin}

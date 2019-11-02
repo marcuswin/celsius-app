@@ -210,7 +210,7 @@ class BorrowEnterAmount extends Component {
             </CelText>
 
             <CoinPicker
-              type={"borrowAmount"}
+              type={"withIcon"}
               onChange={(field, value) =>
                 actions.updateFormFields({
                   [field]: value,

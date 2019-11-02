@@ -361,8 +361,11 @@ class Deposit extends Component {
     const link = cryptoUtil.provideLink(formData.selectedCoin);
     return (
       <RegularLayout padding={"20 0 100 0"}>
+        <CelText align="center" weight="regular" type="H4">
+          Choose coin to deposit
+        </CelText>
         <CoinPicker
-          type={"depositAmount"}
+          type={"withIcon"}
           updateFormField={actions.updateFormField}
           onChange={this.handleCoinSelect}
           coin={formData.selectedCoin}

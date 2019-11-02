@@ -14,7 +14,7 @@ class CoinPicker extends Component {
     defaultSelected: PropTypes.string,
     coinCompliance: PropTypes.instanceOf(Array).isRequired,
     navigateTo: PropTypes.func,
-    type: PropTypes.string,
+    type: PropTypes.oneOf(["basic", "withIcon"]),
     onChange: PropTypes.func,
   };
 
@@ -69,15 +69,9 @@ class CoinPicker extends Component {
       : "Choose a coin";
 
     switch (type) {
-      case "depositAmount":
-      case "borrowAmount":
+      case "withIcon":
         return (
           <View>
-            {type === "depositAmount" && (
-              <CelText align="center" weight="regular" type="H4">
-                Choose coin to deposit
-              </CelText>
-            )}
             <TouchableOpacity
               onPress={() =>
                 navigateTo("SelectCoin", { coinListFormatted, onChange, field })
@@ -124,7 +118,7 @@ class CoinPicker extends Component {
           </View>
         );
 
-      case "enterAmount":
+      case "basic":
         return (
           <View style={style.selectWrapper}>
             <TouchableOpacity

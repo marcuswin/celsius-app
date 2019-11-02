@@ -307,7 +307,7 @@ class WithdrawEnterAmount extends Component {
           <View style={style.wrapper}>
             <View>
               <CoinPicker
-                type={"enterAmount"}
+                type={"basic"}
                 onChange={this.handleCoinChange}
                 updateFormField={actions.updateFormField}
                 coin={coin}
