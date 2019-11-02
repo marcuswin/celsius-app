@@ -5,11 +5,8 @@ import { showMessage, openModal } from "../ui/uiActions";
 import apiKeyService from "../../services/api-key-service";
 import { MODALS } from "../../constants/UI";
 
-export {
-  createAPIKey,
-  revokeAPIKey, // TODO refactor to use DELETE_SUCCESS
-  getAllAPIKeys,
-};
+// TODO refactor to use DELETE_SUCCESS
+export { createAPIKey, revokeAPIKey, getAllAPIKeys };
 
 /**
  * Creates API key for user

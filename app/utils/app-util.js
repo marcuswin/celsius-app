@@ -51,7 +51,6 @@ async function initializeThirdPartyServices() {
   const appsFlyerOptions = {
     devKey:
       Platform.OS === "android" ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
-    isDebug: true,
   };
 
   if (Platform.OS === "ios") {

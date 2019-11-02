@@ -159,7 +159,9 @@ class SecurityOverview extends Component {
   };
 
   renderImage = (iso = "") => {
-    const short = iso ? lookup.countries({ name: iso })[0].alpha2 : "";
+    if (!lookup.countries({ name: iso }) || !lookup.countries({ name: iso })[0])
+      return null;
+    const short = lookup.countries({ name: iso })[0].alpha2;
     return (
       <Image
         source={{

@@ -13,14 +13,19 @@ import appUtil from "./app-util";
 
 const { width, height } = Dimensions.get("window");
 
+// TODO check if we can use these more
+// TODO check if we can use these more
+// TODO check if we need three font methods
+// TODO check if we need three font methods
+// TODO check if we need three font methods
 export {
   getMargins,
   getPadding,
-  widthPercentageToDP, // TODO check if we can use these more
-  heightPercentageToDP, // TODO check if we can use these more
-  getScaledFont, // TODO check if we need three font methods
-  getFont, // TODO check if we need three font methods
-  getFontSize, // TODO check if we need three font methods
+  widthPercentageToDP,
+  heightPercentageToDP,
+  getScaledFont,
+  getFont,
+  getFontSize,
   disableAccessibilityFontScaling,
   getTheme,
   addThemeToComponents,

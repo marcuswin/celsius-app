@@ -6,11 +6,12 @@ import API from "../../constants/API";
 import ACTIONS from "../../constants/ACTIONS";
 import { navigateTo } from "../nav/navActions";
 
+// TODO Move to KYC actions
 export {
   getBackendStatus,
   getInitialCelsiusData,
   getLoanTermsOfUse,
-  getKYCDocTypes, // TODO Move to KYC actions
+  getKYCDocTypes,
 };
 
 /**

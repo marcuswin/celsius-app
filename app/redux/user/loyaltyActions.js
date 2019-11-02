@@ -4,9 +4,8 @@ import usersService from "../../services/users-service";
 import { showMessage } from "../ui/uiActions";
 import ACTIONS from "../../constants/ACTIONS";
 
-export {
-  getLoyaltyInfo, // TODO move to user/data actions/reducer
-};
+// TODO move to user/data actions/reducer
+export { getLoyaltyInfo };
 
 /**
  * TODO add JSDoc

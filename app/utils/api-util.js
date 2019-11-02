@@ -97,9 +97,8 @@ function initInterceptors() {
           ...newRequest.headers,
           "Content-Type": "multipart/form-data",
         };
-      }
-      // set x-www-form-urlencoded -> https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
-      else if (req.method === "post" && !req.url.includes("branch.io")) {
+      } else if (req.method === "post" && !req.url.includes("branch.io")) {
+        // set x-www-form-urlencoded -> https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
         newRequest.data = qs.stringify(req.data);
         newRequest.headers = {
           ...newRequest.headers,

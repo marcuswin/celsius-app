@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Linking, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import QRCode from "react-qr-code";
+import QRCode from "react-native-qrcode-svg";
 
 import cryptoUtil from "../../../utils/crypto-util";
 import { getTheme } from "../../../utils/styles-util";

@@ -28,6 +28,10 @@ import userBehaviorUtil from "../../utils/user-behavior-util";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants;
 
+// TODO move to security
+// TODO move to security
+// TODO move to security
+// TODO move to security
 export {
   createAccount,
   registerUser,
@@ -35,10 +39,10 @@ export {
   logoutUser,
   expireSession,
   sendResetLink,
-  setPin, // TODO move to security
-  changePin, // TODO move to security
-  resetPassword, // TODO move to security
-  logoutFromAllDevices, // TODO move to security
+  setPin,
+  changePin,
+  resetPassword,
+  logoutFromAllDevices,
 };
 
 /**
@@ -116,7 +120,7 @@ function registerUser() {
       );
       await dispatch(initAppData());
 
-      userBehaviorUtil.sessionStarted();
+      userBehaviorUtil.sessionStarted("User registred");
       dispatch(claimAllBranchTransfers());
       dispatch({
         type: ACTIONS.REGISTER_USER_SUCCESS,
@@ -206,7 +210,7 @@ function logoutUser() {
       await dispatch(navigateTo("Auth"));
       dispatch(showVerifyScreen(false));
 
-      userBehaviorUtil.sessionEnded();
+      userBehaviorUtil.sessionEnded("Logout user");
     } catch (err) {
       logger.err(err);
     }

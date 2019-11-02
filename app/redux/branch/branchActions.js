@@ -8,11 +8,15 @@ import * as transfersActions from "../transfers/transfersActions";
 import * as uiActions from "../ui/uiActions";
 import * as formsActions from "../forms/formsActions";
 
+// TODO add JSDoc
+// TODO add JSDoc
+// TODO add JSDoc
+// TODO add JSDoc
 export {
-  registerBranchLink, // TODO add JSDoc
-  getBranchIndividualLink, // TODO add JSDoc
-  submitProfileCode, // TODO add JSDoc
-  registrationPromoCode, // TODO add JSDoc
+  registerBranchLink,
+  getBranchIndividualLink,
+  submitProfileCode,
+  registrationPromoCode,
 };
 
 function getBranchIndividualLink() {

@@ -5,6 +5,7 @@ import store from "../redux/store";
 import appUtil from "./app-util";
 import userBehaviorUtil from "./user-behavior-util";
 import loggerUtil from "./logger-util";
+import constants from "../../constants";
 
 let advertisingId;
 
@@ -12,6 +13,7 @@ let revisionId = "";
 let version = "";
 
 const appInfo = { os: Platform.OS };
+const { ENV } = constants;
 
 const appsFlyerUtil = {
   registrationCompleted,
@@ -28,31 +30,33 @@ const appsFlyerUtil = {
  * @param {Object} payload - payload
  */
 async function appsFlyerEvent(event, payload) {
-  if (!advertisingId) {
-    advertisingId = store.getState().app.advertisingId;
-    appInfo.advertisingId = advertisingId;
-  }
-  if (!revisionId || !version) {
-    try {
-      const metadata = await appUtil.getRevisionId();
-      version = metadata.codePushVersion.version;
-      revisionId = metadata.codePushVersion.label;
-
-      appInfo.revisionId = revisionId;
-      appInfo.appVersion = version;
-    } catch (error) {
-      loggerUtil.err(error);
+  if (ENV === "PRODUCTION") {
+    if (!advertisingId) {
+      advertisingId = store.getState().app.advertisingId;
+      appInfo.advertisingId = advertisingId;
     }
+    if (!revisionId || !version) {
+      try {
+        const metadata = await appUtil.getRevisionId();
+        version = metadata.codePushVersion.version;
+        revisionId = metadata.codePushVersion.label;
+
+        appInfo.revisionId = revisionId;
+        appInfo.appVersion = version;
+      } catch (error) {
+        loggerUtil.err(error);
+      }
+    }
+    const response = await appsFlyer.trackEvent(event, {
+      ...appInfo,
+      ...payload,
+    });
+    userBehaviorUtil.sendEvent("Appsflyer event", {
+      event,
+      payload,
+      response,
+    });
   }
-  const response = await appsFlyer.trackEvent(event, {
-    ...appInfo,
-    ...payload,
-  });
-  userBehaviorUtil.sendEvent("Appsflyer event", {
-    event,
-    payload,
-    response,
-  });
 }
 
 /**
