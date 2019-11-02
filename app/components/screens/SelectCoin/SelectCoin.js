@@ -39,8 +39,9 @@ class SelectCoin extends Component {
       const coinListFormatted = nextProps.navigation.getParam(
         "coinListFormatted"
       );
+
       const allCoins = nextProps.currencies.filter(item =>
-        coinListFormatted.includes(item.short)
+        coinListFormatted.some(coin => item.short === coin.value)
       );
 
       if (coinListFormatted.includes("USD")) {
@@ -73,7 +74,7 @@ class SelectCoin extends Component {
     super(props);
     const coinListFormatted = props.navigation.getParam("coinListFormatted");
     const allCoins = props.currencies.filter(item =>
-      coinListFormatted.includes(item.short)
+      coinListFormatted.some(coin => item.short === coin.value)
     );
 
     this.state = {

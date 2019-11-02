@@ -8,11 +8,11 @@ import Icon from "../../atoms/Icon/Icon";
 
 class CoinPicker extends Component {
   static propTypes = {
-    updateFormField: PropTypes.func.isRequired, // vrv brisi
+    updateFormField: PropTypes.func.isRequired,
     field: PropTypes.string.isRequired,
     coin: PropTypes.string,
-    defaultSelected: PropTypes.string, // vrv brisi
-    coinCompliance: PropTypes.instanceOf(Array).isRequired, // coinCompliance are coins which are eligible to show up
+    defaultSelected: PropTypes.string,
+    coinCompliance: PropTypes.instanceOf(Array).isRequired,
     navigateTo: PropTypes.func,
     type: PropTypes.string,
     onChange: PropTypes.func,
@@ -25,34 +25,28 @@ class CoinPicker extends Component {
 
   constructor(props) {
     super(props);
+
+    const { type, coin, coinCompliance } = props;
+
+    let coinListFormatted = [];
+    if (type === "borrowAmount") {
+      if (coin !== "USD")
+        coinCompliance.forEach(c => {
+          if (c.value !== "USD") coinListFormatted.push(c);
+        });
+      if (coin === "USD")
+        coinListFormatted.push({ label: "Dollar (USD)", value: "USD" });
+    } else {
+      coinListFormatted = coinCompliance;
+    }
+
     this.state = {
-      coinListFormatted: [],
+      coinListFormatted,
     };
   }
 
   componentDidMount() {
-    const {
-      type,
-      updateFormField,
-      field,
-      defaultSelected,
-      coinCompliance,
-      onChange,
-      coin,
-    } = this.props;
-
-    let coinListFormatted = coinCompliance;
-    if (type === "enterAmount") {
-      coinListFormatted = coinCompliance.map(c => c.value);
-    }
-    if (type === "borrowAmount") {
-      if (coin !== "USD")
-        coinListFormatted = coinCompliance
-          .filter(c => c.value !== "USD")
-          .map(c => c.value);
-    }
-
-    this.setState({ coinListFormatted });
+    const { updateFormField, field, defaultSelected, onChange } = this.props;
 
     if (defaultSelected) {
       if (onChange) {
@@ -71,7 +65,7 @@ class CoinPicker extends Component {
     const style = CoinPickerStyle();
     const icon = coin ? `Icon${coin}` : "StackedCoins";
     const label = coin
-      ? coinListFormatted.find(c => c === coin)
+      ? coinListFormatted.find(c => c.value === coin).label
       : "Choose a coin";
 
     switch (type) {
@@ -115,7 +109,7 @@ class CoinPicker extends Component {
                   margin={"10 0 10 0"}
                   style={{ paddingRight: 10 }}
                 >
-                  {coin === "USD" ? "Dollar (USD)" : label}
+                  {label}
                 </CelText>
                 {coin !== "USD" && (
                   <Icon

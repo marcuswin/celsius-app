@@ -65,7 +65,7 @@ class BorrowChooseLoan extends Component {
     const cardDetails = this.getCardProps();
 
     return (
-      <RegularLayout padding="0 0 0 0" fabType={"hide"}>
+      <RegularLayout padding="0 0 0 0">
         <HeadingProgressBar steps={6} currentStep={1} />
         <View
           style={[
