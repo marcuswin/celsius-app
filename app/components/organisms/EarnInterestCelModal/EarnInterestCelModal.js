@@ -8,6 +8,7 @@ import { MODALS } from "../../../constants/UI";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelText from "../../atoms/CelText/CelText";
 import CelModal from "../CelModal/CelModal";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 @connect(
   state => ({
@@ -31,6 +32,7 @@ class EarnInterestCelModal extends Component {
       interest_in_cel: true,
       interest_in_cel_per_coin: interestInCelPerCoin,
     });
+    userBehaviorUtil.interestInCEL(interestInCelPerCoin);
   };
 
   render() {

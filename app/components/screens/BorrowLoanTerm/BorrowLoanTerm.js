@@ -12,6 +12,7 @@ import VerticalSlider from "../../atoms/VerticalSlider/VerticalSlider";
 import STYLES from "../../../constants/STYLES";
 import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
 import { LOAN_TYPES } from "../../../constants/DATA";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 @connect(
   state => ({
@@ -33,11 +34,6 @@ class BorrowLoanTerm extends Component {
     super(props);
     props.actions.updateFormField("termOfLoan", 6);
   }
-
-  changeSelectedLoan = selectedStep => {
-    const { actions } = this.props;
-    actions.updateFormField("termOfLoan", selectedStep);
-  };
 
   handleSliderItems = () => {
     const { formData } = this.props;
@@ -73,7 +69,10 @@ class BorrowLoanTerm extends Component {
       return (
         <CelButton
           margin="50 0 30 0"
-          onPress={() => actions.navigateTo("ConfirmYourLoan")}
+          onPress={() => {
+            actions.navigateTo("ConfirmYourLoan");
+            userBehaviorUtil.loanTerms(formData.termOfLoan);
+          }}
           iconRight="IconArrowRight"
         >
           Continue
@@ -83,7 +82,10 @@ class BorrowLoanTerm extends Component {
     return (
       <CelButton
         margin="50 0 30 0"
-        onPress={() => actions.navigateTo("BorrowBankAccount")}
+        onPress={() => {
+          actions.navigateTo("BorrowBankAccount");
+          userBehaviorUtil.loanTerms(formData.termOfLoan);
+        }}
         iconRight="IconArrowRight"
       >
         Bank account

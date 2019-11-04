@@ -178,6 +178,7 @@ function resetPassword(currentPassword, newPassword) {
 
       dispatch(showMessage("success", "Password successfully changed."));
       dispatch(resetPasswordSuccess());
+      userBehaviorUtil.changePassword();
     } catch (err) {
       dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.RESET_PASSWORD, err));
@@ -261,7 +262,6 @@ function setPin() {
   return async (dispatch, getState) => {
     try {
       const { formData } = getState().forms;
-      const user = getState().user.profile;
       dispatch(startApiCall(API.SET_PIN));
       await meService.setPin({
         pin: formData.pin,
@@ -269,9 +269,7 @@ function setPin() {
       });
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
-
-      appsFlyerUtil.registrationCompleted(user);
-      userBehaviorUtil.registrationCompleted(user);
+      userBehaviorUtil.setPin();
       return true;
     } catch (err) {
       dispatch(showMessage("error", err.msg));
@@ -304,6 +302,7 @@ function changePin() {
       dispatch({ type: ACTIONS.CLEAR_FORM });
       dispatch(showMessage("success", "Successfully changed PIN number"));
       dispatch(navigateTo("SecuritySettings"));
+      userBehaviorUtil.changePin();
       return true;
     } catch (err) {
       dispatch(showMessage("error", err.msg));
@@ -319,23 +318,29 @@ function changePin() {
  * Creates an account for user no matter the registration method
  */
 function createAccount() {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { formData } = getState().forms;
 
     if (formData.googleId) {
-      dispatch(registerUserGoogle());
+      await dispatch(registerUserGoogle());
     }
 
     if (formData.facebookId) {
-      dispatch(registerUserFacebook());
+      await dispatch(registerUserFacebook());
     }
 
     if (formData.twitterId) {
-      dispatch(registerUserTwitter());
+      await dispatch(registerUserTwitter());
     }
 
     if (!formData.googleId && !formData.facebookId && !formData.twitterId) {
-      dispatch(registerUser());
+      await dispatch(registerUser());
+    }
+
+    const user = getState().user.profile;
+    if (user.id) {
+      appsFlyerUtil.registrationCompleted(user);
+      userBehaviorUtil.registrationCompleted(user);
     }
   };
 }

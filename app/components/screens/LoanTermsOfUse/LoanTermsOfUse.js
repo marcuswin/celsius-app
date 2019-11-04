@@ -18,6 +18,7 @@ import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 import Icon from "../../atoms/Icon/Icon";
 import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 @connect(
   state => ({
@@ -84,6 +85,7 @@ class LoanTermsOfUse extends Component {
 
   continue = () => {
     const { actions } = this.props;
+    userBehaviorUtil.loanToUAgreed();
 
     actions.navigateTo("VerifyProfile", {
       onSuccess: () => actions.applyForALoan(),

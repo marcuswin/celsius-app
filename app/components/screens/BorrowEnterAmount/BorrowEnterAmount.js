@@ -18,6 +18,7 @@ import { getPadding } from "../../../utils/styles-util";
 import Icon from "../../atoms/Icon/Icon";
 import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
 import CoinPicker from "../../molecules/CoinPicker/CoinPicker";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 let timeout;
 
@@ -138,10 +139,15 @@ class BorrowEnterAmount extends Component {
           Number(formData.loanAmount) < Number(minimumLoanAmount) ||
           !formData.coin
         }
-        onPress={() => {
+        onPress={async () => {
           actions.navigateTo("BorrowCollateral");
           actions.toggleKeypad();
           actions.getLinkedBankAccount();
+          await userBehaviorUtil.loanType(formData.loanType);
+          await userBehaviorUtil.loanAmount({
+            coin: formData.coin,
+            amount: formData.loanAmount,
+          });
           // actions.navigateTo('VerifyProfile', { onSuccess: () => actions.openModal(UI.MODALS.BORROW_CONFIRM)})
         }}
         margin="20 0 0 0"

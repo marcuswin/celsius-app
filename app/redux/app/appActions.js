@@ -131,6 +131,9 @@ const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution(res => {
   switch (data.type) {
     case BRANCH_LINKS.NAVIGATE_TO:
       store.dispatch(actions.navigateTo(data.screen));
+      break;
+    default:
+      break;
   }
 });
 
