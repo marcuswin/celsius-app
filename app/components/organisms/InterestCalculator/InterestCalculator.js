@@ -124,10 +124,10 @@ class InterestCalculator extends Component {
         ? interestRates[formData.coin]
         : { rate: 0, cel_rate: 0 };
     const weeklyInterest =
-      formData.amountCrypto *
-      (earnInterestIn && formData.coin !== "CEL"
-        ? interestRateForCoin.cel_rate
-        : interestRateForCoin.rate) /
+      (formData.amountCrypto *
+        (earnInterestIn && formData.coin !== "CEL"
+          ? interestRateForCoin.cel_rate
+          : interestRateForCoin.rate)) /
       52;
     const yearlyInterest =
       formData.amountCrypto *
@@ -151,12 +151,10 @@ class InterestCalculator extends Component {
     }
 
     const interestInCelPerWeek =
-      weeklyInterest *
-      currencyRatesShort[selectedCoin.toLowerCase()] /
+      (weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()]) /
       currencyRatesShort.cel;
     const interestInCelPerYear =
-      yearlyInterest *
-      currencyRatesShort[selectedCoin.toLowerCase()] /
+      (yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()]) /
       currencyRatesShort.cel;
     return (
       <>

@@ -316,12 +316,12 @@ class Community extends Component {
                     type={"H6"}
                     weight={"300"}
                     align={"left"}
-                  >{`You and your ${
-                    communityStats.no_of_users_referred
-                  } referrals earned`}</CelText>
-                  <CelText align={"left"} type={"H1"} weight={"600"}>{`${
-                    communityStats.referrers_reward_amount_usd
-                  } USD`}</CelText>
+                  >{`You and your ${communityStats.no_of_users_referred} referrals earned`}</CelText>
+                  <CelText
+                    align={"left"}
+                    type={"H1"}
+                    weight={"600"}
+                  >{`${communityStats.referrers_reward_amount_usd} USD`}</CelText>
                 </View>
                 <ThemedImage
                   style={style.bulldogImage}

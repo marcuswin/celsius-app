@@ -252,35 +252,34 @@ class CelHeading extends Component {
       <View style={[style.content, paddings]}>
         <View style={leftStyle}>
           {this.getLeftContent(scene.options)}
-          {formData.activeSearch &&
-            scene.state.routeName !== "VerifyProfile" && (
-              <View
-                style={[
-                  {
-                    width: "100%",
-                    justifyContent: "center",
-                    paddingTop: 20,
-                    alignSelf: "center",
-                    marginLeft: 12,
-                  },
-                ]}
-              >
-                <CelInput
-                  debounce
-                  autoFocus={formData.activeSearch}
-                  basic
-                  margin="0 0 0 0"
-                  field="search"
-                  placeholder={
-                    scene.state.routeName === "SelectCoin"
-                      ? "Select a coin"
-                      : "Dialing code, country…"
-                  }
-                  type="text"
-                  value={this.props.formData.search}
-                />
-              </View>
-            )}
+          {formData.activeSearch && scene.state.routeName !== "VerifyProfile" && (
+            <View
+              style={[
+                {
+                  width: "100%",
+                  justifyContent: "center",
+                  paddingTop: 20,
+                  alignSelf: "center",
+                  marginLeft: 12,
+                },
+              ]}
+            >
+              <CelInput
+                debounce
+                autoFocus={formData.activeSearch}
+                basic
+                margin="0 0 0 0"
+                field="search"
+                placeholder={
+                  scene.state.routeName === "SelectCoin"
+                    ? "Select a coin"
+                    : "Dialing code, country…"
+                }
+                type="text"
+                value={this.props.formData.search}
+              />
+            </View>
+          )}
         </View>
         {!formData.activeSearch && this.getCenterContent(scene.options)}
         <View style={style.right}>{this.getRightContent(scene.options)}</View>

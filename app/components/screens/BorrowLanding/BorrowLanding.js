@@ -142,7 +142,7 @@ class BorrowLanding extends Component {
       );
       loanParams.monthlyInterest = formatter.usd(
         Number(
-          loanParams.totalInterestPct * formData.amount / formData.termOfLoan
+          (loanParams.totalInterestPct * formData.amount) / formData.termOfLoan
         )
       );
       loanParams.collateralNeeded =
@@ -190,7 +190,7 @@ class BorrowLanding extends Component {
           <View style={style.buttonsIconText}>
             <TouchableOpacity
               style={style.buttonIconText}
-              onPress={() => actions.navigateTo("BorrowEnterAmount")}
+              onPress={() => actions.navigateTo("BorrowChooseLoan")}
             >
               <View style={style.buttonItself}>
                 <Image

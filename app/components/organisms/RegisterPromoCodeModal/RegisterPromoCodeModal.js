@@ -124,19 +124,13 @@ class RegisterPromoCodeModal extends Component {
     }
     if (referralLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL) {
       if (referralLink.referred_award_trigger === "sign-up") {
-        congratsText = `You have received ${code.amount} ${
-          code.coin
-        }. Please sign up to see it in your wallet.`;
+        congratsText = `You have received ${code.amount} ${code.coin}. Please sign up to see it in your wallet.`;
       }
       if (referralLink.referred_award_trigger === "passed-kyc") {
-        congratsText = `You have received ${code.amount} ${
-          code.coin
-        }. Please pass kyc to see it in your wallet.`;
+        congratsText = `You have received ${code.amount} ${code.coin}. Please pass kyc to see it in your wallet.`;
       }
       if (referralLink.referred_award_trigger === "first-deposit") {
-        congratsText = `You have received ${code.amount} ${
-          code.coin
-        }. Please deposit additional funds into celsius wallet to see reward.`;
+        congratsText = `You have received ${code.amount} ${code.coin}. Please deposit additional funds into celsius wallet to see reward.`;
       }
     }
 
@@ -233,11 +227,7 @@ class RegisterPromoCodeModal extends Component {
     code.minimumAmount = promoCode.minimum_deposit_for_reward;
 
     const congratsText = "You’ve successfully activated your promo code!";
-    const messageText = `You’ll receive $${code.amount} in ${
-      code.coin
-    } when you deposit $${code.minimumAmount} or more within the next ${
-      code.maximumDays
-    } days.`;
+    const messageText = `You’ll receive $${code.amount} in ${code.coin} when you deposit $${code.minimumAmount} or more within the next ${code.maximumDays} days.`;
 
     return (
       <View>

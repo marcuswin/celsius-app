@@ -126,7 +126,7 @@ function widthPercentageToDP(widthPercent) {
   const screenWidth = width;
   // Convert string input to decimal number
   const elemWidth = parseFloat(widthPercent);
-  return PixelRatio.roundToNearestPixel(screenWidth * elemWidth / 100);
+  return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
 }
 
 /**
@@ -139,7 +139,7 @@ function heightPercentageToDP(heightPercent) {
   const screenHeight = height;
   // Convert string input to decimal number
   const elemHeight = parseFloat(heightPercent);
-  return PixelRatio.roundToNearestPixel(screenHeight * elemHeight / 100);
+  return PixelRatio.roundToNearestPixel((screenHeight * elemHeight) / 100);
 }
 
 /**
@@ -202,11 +202,9 @@ function getFontSize() {
  * @returns {number}
  */
 function addThemeToComponents(children, components, theme) {
-  return appUtil.recursiveMap(
-    children,
-    child =>
-      components.includes(child.type.displayName)
-        ? React.cloneElement(child, { theme })
-        : child
+  return appUtil.recursiveMap(children, child =>
+    components.includes(child.type.displayName)
+      ? React.cloneElement(child, { theme })
+      : child
   );
 }

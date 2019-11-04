@@ -8,54 +8,49 @@ import Icon from "../../atoms/Icon/Icon";
 
 class CoinPicker extends Component {
   static propTypes = {
-    coinList: PropTypes.instanceOf(Array),
     updateFormField: PropTypes.func.isRequired,
     field: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    onCoinSelect: PropTypes.func,
+    coin: PropTypes.string,
     defaultSelected: PropTypes.string,
-    coinCompliance: PropTypes.instanceOf(Array).isRequired, // coinComplience are coins which are eligable to show up depending on screen on which they came from are opened
+    availableCoins: PropTypes.instanceOf(Array).isRequired,
     navigateTo: PropTypes.func,
-    type: PropTypes.string,
+    type: PropTypes.oneOf(["basic", "withIcon"]),
     onChange: PropTypes.func,
   };
 
   static defaultProps = {
-    onCoinSelect: () => {},
-    value: "",
+    coin: "",
     defaultSelected: "",
   };
 
   constructor(props) {
     super(props);
+
+    const { type, coin, availableCoins } = props;
+
+    let coinListFormatted = [];
+    if (type === "withIcon") {
+      if (coin !== "USD")
+        availableCoins.forEach(c => {
+          if (c.value !== "USD") coinListFormatted.push(c);
+        });
+      if (coin === "USD")
+        coinListFormatted.push({ label: "Dollar (USD)", value: "USD" });
+    } else {
+      coinListFormatted = availableCoins;
+    }
+
     this.state = {
-      coinListFormated: [],
+      coinListFormatted,
     };
   }
 
   componentDidMount() {
-    const {
-      type,
-      updateFormField,
-      field,
-      onCoinSelect,
-      defaultSelected,
-      coinCompliance,
-      onChange,
-    } = this.props;
-
-    let coinListFormated = coinCompliance;
-    if (type === "enterAmount") {
-      coinListFormated = coinCompliance.map(coin => coin.value);
-    }
-    this.setState({ coinListFormated });
+    const { updateFormField, field, defaultSelected, onChange } = this.props;
 
     if (defaultSelected) {
       if (onChange) {
         onChange(field, defaultSelected);
-      }
-      if (onCoinSelect) {
-        onCoinSelect(field, defaultSelected);
       }
       updateFormField(field, defaultSelected);
     }
@@ -64,80 +59,71 @@ class CoinPicker extends Component {
   getIconColor = style => StyleSheet.flatten(style.iconColor).color; // get color from raw json depending on style theme
 
   renderByType = () => {
-    const {
-      type,
-      value,
-      onCoinSelect,
-      navigateTo,
-      field,
-      coinCompliance,
-      onChange,
-    } = this.props;
-    const { coinListFormated } = this.state;
+    const { type, coin, navigateTo, field, onChange } = this.props;
+    const { coinListFormatted } = this.state;
     const iconColor = this.getIconColor(CoinPickerStyle());
     const style = CoinPickerStyle();
+    const icon = coin ? `Icon${coin}` : "StackedCoins";
+    const label = coin
+      ? coinListFormatted.find(c => c.value === coin).label
+      : "Choose a coin";
 
     switch (type) {
-      case "depositAmount":
+      case "withIcon":
         return (
-          <>
-            <CelText align="center" weight="regular" type="H4">
-              Choose coin to deposit
-            </CelText>
+          <View>
             <TouchableOpacity
               onPress={() =>
-                navigateTo("SelectCoin", {
-                  coinList: coinListFormated,
-                  onCoinSelect,
-                  onChange,
-                  field,
-                })
+                navigateTo("SelectCoin", { coinListFormatted, onChange, field })
               }
               style={style.coinPicking}
+              disabled={coin === "USD"}
             >
               <View>
-                <CircleButton
-                  iconSize={30}
-                  style={style.circleButton}
-                  type="coin"
-                  icon={`Icon${value}`}
-                  onPress={() =>
-                    navigateTo("SelectCoin", {
-                      coinList: coinListFormated,
-                      onCoinSelect,
-                      onChange,
-                      field,
-                    })
-                  }
-                />
+                {coin === "USD" ? (
+                  <View style={[style.circleWrapper]}>
+                    <CelText color={iconColor} weight={"300"} type={"H2"}>
+                      $
+                    </CelText>
+                  </View>
+                ) : (
+                  <CircleButton
+                    iconSize={30}
+                    style={style.circleButton}
+                    type="coin"
+                    icon={icon}
+                    disabled
+                  />
+                )}
               </View>
-
               <View style={style.iconStyle}>
-                <CelText type="H3" style={{ paddingRight: 10 }}>
-                  {value}
+                <CelText
+                  color={iconColor}
+                  type="H3"
+                  margin={"10 0 10 0"}
+                  style={{ paddingRight: 10 }}
+                >
+                  {label}
                 </CelText>
-                <Icon
-                  width="13"
-                  height="13"
-                  name="CaretDown"
-                  fill={iconColor}
-                />
+                {coin !== "USD" && (
+                  <Icon
+                    width="13"
+                    height="13"
+                    name="CaretDown"
+                    fill={iconColor}
+                  />
+                )}
               </View>
             </TouchableOpacity>
-          </>
+          </View>
         );
 
-      case "enterAmount":
+      case "basic":
         return (
-          <>
+          <View style={style.selectWrapper}>
             <TouchableOpacity
               onPress={() =>
-                navigateTo("SelectCoin", {
-                  coinList: coinListFormated,
-                  onCoinSelect,
-                  onChange,
-                  field,
-                })
+                navigateTo("SelectCoin", { coinListFormatted, onChange, field })
               }
             >
               <View
@@ -151,13 +137,7 @@ class CoinPicker extends Component {
                 }}
               >
                 <CelText type="H3" style={{ paddingRight: 10 }}>
-                  {
-                    (
-                      coinCompliance.find(coin => coin.value === value) || {
-                        label: "",
-                      }
-                    ).label
-                  }
+                  {label}
                 </CelText>
                 <Icon
                   width="13"
@@ -167,7 +147,7 @@ class CoinPicker extends Component {
                 />
               </View>
             </TouchableOpacity>
-          </>
+          </View>
         );
 
       default:

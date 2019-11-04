@@ -296,17 +296,15 @@ class CelPayEnterAmount extends Component {
           />
           <View style={style.wrapper}>
             <View style={style.amounts}>
-              <View style={style.selectWrapper}>
-                <CoinPicker
-                  type={"enterAmount"}
-                  updateFormField={actions.updateFormField}
-                  onChange={this.handleCoinChange}
-                  value={formData.coin}
-                  field="coin"
-                  coinCompliance={coinSelectItems}
-                  navigateTo={actions.navigateTo}
-                />
-              </View>
+              <CoinPicker
+                type={"basic"}
+                updateFormField={actions.updateFormField}
+                onChange={this.handleCoinChange}
+                coin={formData.coin}
+                field="coin"
+                availableCoins={coinSelectItems}
+                navigateTo={actions.navigateTo}
+              />
 
               <CoinSwitch
                 updateFormField={actions.updateFormField}

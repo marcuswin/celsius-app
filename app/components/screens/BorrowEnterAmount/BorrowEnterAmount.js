@@ -17,7 +17,6 @@ import PredefinedAmounts from "../../organisms/PredefinedAmounts/PredefinedAmoun
 import { getPadding } from "../../../utils/styles-util";
 import Icon from "../../atoms/Icon/Icon";
 import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
-import { LOAN_TYPES } from "../../../constants/DATA";
 import CoinPicker from "../../molecules/CoinPicker/CoinPicker";
 import userBehaviorUtil from "../../../utils/user-behavior-util";
 
@@ -50,6 +49,7 @@ class BorrowEnterAmount extends Component {
       walletSummary,
       minimumLoanAmount,
       currencies,
+      formData,
     } = props;
     const eligibleCoins = walletSummary.coins.filter(coinData =>
       loanCompliance.collateral_coins.includes(coinData.short)
@@ -58,8 +58,6 @@ class BorrowEnterAmount extends Component {
     const coinSelectItems = currencies
       .filter(c => loanCompliance.loan_coins.includes(c.short))
       .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }));
-
-    coinSelectItems.push({ label: `US Dollar ($)`, value: "USD" });
 
     this.state = {
       activePeriod: "",
@@ -75,8 +73,8 @@ class BorrowEnterAmount extends Component {
     props.actions.initForm({
       loanAmount: minimumLoanAmount.toString(),
       maxAmount,
-      coin: "USD",
-      loanType: LOAN_TYPES.USD_LOAN,
+      coin: formData.coin,
+      loanType: formData.loanType,
     });
   }
 
@@ -137,7 +135,10 @@ class BorrowEnterAmount extends Component {
 
     return (
       <CelButton
-        disabled={Number(formData.loanAmount) < Number(minimumLoanAmount)}
+        disabled={
+          Number(formData.loanAmount) < Number(minimumLoanAmount) ||
+          !formData.coin
+        }
         onPress={async () => {
           actions.navigateTo("BorrowCollateral");
           actions.toggleKeypad();
@@ -207,29 +208,23 @@ class BorrowEnterAmount extends Component {
           ]}
         >
           <View style={{ alignItems: "center" }}>
-            <CelText align="center" type="H4" weight={"300"} margin="0 0 60 0">
+            <CelText align="center" type="H4" weight={"300"} margin="0 0 10 0">
               How much would you like to borrow?
             </CelText>
 
-            <View style={styles.selectWrapper}>
-              <CoinPicker
-                type={"enterAmount"}
-                onChange={(field, value) =>
-                  actions.updateFormFields({
-                    [field]: value,
-                    loanType:
-                      value === "USD"
-                        ? LOAN_TYPES.USD_LOAN
-                        : LOAN_TYPES.STABLE_COIN_LOAN,
-                  })
-                }
-                updateFormField={actions.updateFormField}
-                value={coin}
-                field="coin"
-                coinCompliance={coinSelectItems}
-                navigateTo={actions.navigateTo}
-              />
-            </View>
+            <CoinPicker
+              type={"withIcon"}
+              onChange={(field, value) =>
+                actions.updateFormFields({
+                  [field]: value,
+                })
+              }
+              updateFormField={actions.updateFormField}
+              coin={coin}
+              field="coin"
+              availableCoins={coinSelectItems}
+              navigateTo={actions.navigateTo}
+            />
 
             <View style={{ width: "100%" }}>
               <TouchableOpacity

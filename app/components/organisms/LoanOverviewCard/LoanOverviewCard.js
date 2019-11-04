@@ -218,55 +218,51 @@ class LoanOverviewCard extends Component {
             )}
           </View>
 
-          {loan.status === LOAN_STATUS.ACTIVE &&
-            loan.margin_call_activated && (
-              <Card
-                styles={{ alignSelf: "center" }}
-                size={"twoThirds"}
-                color={STYLES.COLORS.RED}
-              >
-                <CelText weight={"500"} type={"H5"} color={STYLES.COLORS.WHITE}>
-                  Margin Call Warning
-                </CelText>
-                <CelText
-                  weight={"300"}
-                  type={"H6"}
-                  color={STYLES.COLORS.WHITE}
-                  margin={"10 0 0 0"}
-                >{`The value of your collateral has dropped significantly. To match the value with the current market prices, we will need to lock an additional ${formatter.crypto(
-                  loan.margin_call.margin_call_amount,
-                  loan.margin_call.collateral_coin
-                )} from your wallet balance. You can also deposit more funds from your wallet.`}</CelText>
-                {loan.margin_call &&
-                  loan.margin_call.hasEnoughOriginalCoin && (
-                    <View>
-                      <CelButton
-                        onPress={this.lockMarginCollateral}
-                        size={"small"}
-                        margin={"10 0 10 0"}
-                        textColor={STYLES.COLORS.RED}
-                        basic
-                        color={"red"}
-                      >{`Approve ${
-                        loan.margin_call.collateral_coin
-                      } Lock`}</CelButton>
-                    </View>
-                  )}
-                {loan.margin_call &&
-                  !loan.margin_call.hasEnoughOriginalCoin &&
-                  loan.margin_call.hasEnoughOtherCoins && (
-                    <CelButton
-                      onPress={this.depositCoin}
-                      size={"small"}
-                      textColor={STYLES.COLORS.WHITE}
-                      ghost
-                      color={"red"}
-                    >
-                      Deposit coins
-                    </CelButton>
-                  )}
-              </Card>
-            )}
+          {loan.status === LOAN_STATUS.ACTIVE && loan.margin_call_activated && (
+            <Card
+              styles={{ alignSelf: "center" }}
+              size={"twoThirds"}
+              color={STYLES.COLORS.RED}
+            >
+              <CelText weight={"500"} type={"H5"} color={STYLES.COLORS.WHITE}>
+                Margin Call Warning
+              </CelText>
+              <CelText
+                weight={"300"}
+                type={"H6"}
+                color={STYLES.COLORS.WHITE}
+                margin={"10 0 0 0"}
+              >{`The value of your collateral has dropped significantly. To match the value with the current market prices, we will need to lock an additional ${formatter.crypto(
+                loan.margin_call.margin_call_amount,
+                loan.margin_call.collateral_coin
+              )} from your wallet balance. You can also deposit more funds from your wallet.`}</CelText>
+              {loan.margin_call && loan.margin_call.hasEnoughOriginalCoin && (
+                <View>
+                  <CelButton
+                    onPress={this.lockMarginCollateral}
+                    size={"small"}
+                    margin={"10 0 10 0"}
+                    textColor={STYLES.COLORS.RED}
+                    basic
+                    color={"red"}
+                  >{`Approve ${loan.margin_call.collateral_coin} Lock`}</CelButton>
+                </View>
+              )}
+              {loan.margin_call &&
+                !loan.margin_call.hasEnoughOriginalCoin &&
+                loan.margin_call.hasEnoughOtherCoins && (
+                  <CelButton
+                    onPress={this.depositCoin}
+                    size={"small"}
+                    textColor={STYLES.COLORS.WHITE}
+                    ghost
+                    color={"red"}
+                  >
+                    Deposit coins
+                  </CelButton>
+                )}
+            </Card>
+          )}
 
           {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
             <View styles={{ flex: 1 }}>
@@ -425,11 +421,9 @@ class LoanOverviewCard extends Component {
             <View>
               <CelText>Payment History</CelText>
 
-              {previous5Payments
-                .reverse()
-                .map((p, i) => (
-                  <PaymentListItem key={`${p.dueDate}${i}`} payment={p} />
-                ))}
+              {previous5Payments.reverse().map((p, i) => (
+                <PaymentListItem key={`${p.dueDate}${i}`} payment={p} />
+              ))}
 
               {previousPayments.length > 5 && (
                 <CelButton

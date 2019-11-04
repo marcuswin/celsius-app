@@ -36,12 +36,15 @@ class SelectCoin extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const newState = {};
     if (nextProps.formData.search !== prevState.search) {
-      const coinList = nextProps.navigation.getParam("coinList");
-      const allCoins = nextProps.currencies.filter(item =>
-        coinList.includes(item.short)
+      const coinListFormatted = nextProps.navigation.getParam(
+        "coinListFormatted"
       );
 
-      if (coinList.includes("USD")) {
+      const allCoins = nextProps.currencies.filter(item =>
+        coinListFormatted.some(coin => item.short === coin.value)
+      );
+
+      if (coinListFormatted.includes("USD")) {
         allCoins.unshift({
           name: "US Dollar",
           short: "USD",
@@ -69,9 +72,9 @@ class SelectCoin extends Component {
 
   constructor(props) {
     super(props);
-    const coinList = props.navigation.getParam("coinList");
+    const coinListFormatted = props.navigation.getParam("coinListFormatted");
     const allCoins = props.currencies.filter(item =>
-      coinList.includes(item.short)
+      coinListFormatted.some(coin => item.short === coin.value)
     );
 
     this.state = {
@@ -101,7 +104,6 @@ class SelectCoin extends Component {
       : coin === item.short;
     const style = SelectCoinStyle();
     const itemStyle = this.getSelectStyle(style, isActive);
-    const onCoinSelect = navigation.getParam("onCoinSelect");
     const field = navigation.getParam("field");
     const onChange = navigation.getParam("onChange");
     const image = item.image_url ? { uri: item.image_url } : item.image;
@@ -110,13 +112,10 @@ class SelectCoin extends Component {
       <React.Fragment>
         <TouchableOpacity
           onPress={() => {
-            if (onCoinSelect) {
-              onCoinSelect(field, item.short);
-            }
-            actions.updateFormField(field, item.short);
             if (onChange) {
               onChange(field, item.short);
             }
+            actions.updateFormField(field, item.short);
             actions.navigateBack();
           }}
         >

@@ -145,36 +145,31 @@ class InfoBox extends Component {
               </View>
             )}
           </View>
-          {triangle &&
-            open && (
-              <View
+          {triangle && open && (
+            <View
+              style={{
+                marginTop: 20,
+                width: "100%",
+                jutifyContetn: "center",
+                alignContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CelText
+                type={"H5"}
                 style={{
-                  marginTop: 20,
-                  width: "100%",
-                  jutifyContetn: "center",
-                  alignContent: "center",
-                  alignItems: "center",
+                  color,
+                  width: "90%",
+                  paddingBottom: heightPercentageToDP("2%"),
                 }}
               >
-                <CelText
-                  type={"H5"}
-                  style={{
-                    color,
-                    width: "90%",
-                    paddingBottom: heightPercentageToDP("2%"),
-                  }}
-                >
-                  {explanationText}{" "}
-                  <CelText
-                    type={"H5"}
-                    weight={"700"}
-                    color={STYLES.COLORS.WHITE}
-                  >
-                    {boldText}
-                  </CelText>
+                {explanationText}{" "}
+                <CelText type={"H5"} weight={"700"} color={STYLES.COLORS.WHITE}>
+                  {boldText}
                 </CelText>
-              </View>
-            )}
+              </CelText>
+            </View>
+          )}
         </TouchableOpacity>
       );
     }

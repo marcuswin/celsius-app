@@ -29,7 +29,10 @@ class ChangePassword extends Component {
   });
 
   changePassword = async () => {
-    const { actions, formData: { oldPassword, newPassword } } = this.props;
+    const {
+      actions,
+      formData: { oldPassword, newPassword },
+    } = this.props;
     await actions.resetPassword(oldPassword, newPassword);
   };
 

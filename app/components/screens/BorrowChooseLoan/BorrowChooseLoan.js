@@ -11,6 +11,7 @@ import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBa
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import { getPadding } from "../../../utils/styles-util";
 import PaymentCard from "../../organisms/PaymentCard/PaymentCard";
+import { LOAN_TYPES } from "../../../constants/DATA";
 
 @connect(
   state => ({
@@ -40,14 +41,26 @@ class BorrowChooseLoan extends Component {
         cardCopy: "Take out a cash loan against your crypto.",
         lightImage: require("../../../../assets/images/illustration-borrow-dollars.png"),
         darkImage: require("../../../../assets/images/illustration-borrow-dollars.png"),
-        onPressAction: () => actions.navigateTo("LoanPaymentCoin"),
+        onPressAction: () => {
+          actions.navigateTo("BorrowEnterAmount");
+          actions.updateFormFields({
+            coin: "USD",
+            loanType: LOAN_TYPES.USD_LOAN,
+          });
+        },
       },
       {
         cardTitle: "Borrow Stablecoins",
         cardCopy: "Choose a stable coin to take your loan in.",
         lightImage: require("../../../../assets/images/illustration-borrow-stablecoins.png"),
         darkImage: require("../../../../assets/images/illustration-borrow-stablecoins.png"),
-        onPressAction: () => actions.navigateTo("LoanPaymentCoin"),
+        onPressAction: () => {
+          actions.navigateTo("BorrowEnterAmount");
+          actions.updateFormFields({
+            coin: "",
+            loanType: LOAN_TYPES.STABLE_COIN_LOAN,
+          });
+        },
       },
     ];
 
@@ -59,7 +72,7 @@ class BorrowChooseLoan extends Component {
     const cardDetails = this.getCardProps();
 
     return (
-      <RegularLayout padding="0 0 0 0" fabType={"hide"}>
+      <RegularLayout padding="0 0 0 0">
         <HeadingProgressBar steps={6} currentStep={1} />
         <View
           style={[
@@ -70,7 +83,9 @@ class BorrowChooseLoan extends Component {
           <CelText align="center" type="H4" weight="300" margin="0 0 20 0">
             What type of currency would you like to borrow?
           </CelText>
-          {cardDetails.map(i => <PaymentCard {...i} key={i.cardTitle} />)}
+          {cardDetails.map(i => (
+            <PaymentCard {...i} key={i.cardTitle} />
+          ))}
         </View>
       </RegularLayout>
     );

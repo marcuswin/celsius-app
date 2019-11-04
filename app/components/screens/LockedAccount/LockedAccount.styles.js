@@ -10,7 +10,7 @@ const base = {
   },
   image: {
     width: width / 2,
-    height: width / 2 * 0.96,
+    height: (width / 2) * 0.96,
   },
 };
 

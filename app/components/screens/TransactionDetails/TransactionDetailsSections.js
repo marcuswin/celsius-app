@@ -173,24 +173,23 @@ export const AddressSection = ({ transaction, text, address }) => {
           }}
         >
           <CelText>{text}</CelText>
-          {!!transaction.transaction_id &&
-            !!link.link && (
-              <TouchableOpacity
-                style={{ flexDirection: "row", alignItems: "flex-start" }}
-                onPress={() => Linking.openURL(link.link)}
-              >
-                <CelText color={STYLES.COLORS.CELSIUS_BLUE}>
-                  View on {link.text}
-                </CelText>
-                <Icon
-                  name="NewWindowIcon"
-                  height="17"
-                  width="17"
-                  fill={STYLES.COLORS.CELSIUS_BLUE}
-                  style={{ marginLeft: 5 }}
-                />
-              </TouchableOpacity>
-            )}
+          {!!transaction.transaction_id && !!link.link && (
+            <TouchableOpacity
+              style={{ flexDirection: "row", alignItems: "flex-start" }}
+              onPress={() => Linking.openURL(link.link)}
+            >
+              <CelText color={STYLES.COLORS.CELSIUS_BLUE}>
+                View on {link.text}
+              </CelText>
+              <Icon
+                name="NewWindowIcon"
+                height="17"
+                width="17"
+                fill={STYLES.COLORS.CELSIUS_BLUE}
+                style={{ marginLeft: 5 }}
+              />
+            </TouchableOpacity>
+          )}
         </View>
         {address && (
           <CelText weight="500" type="H4">
@@ -289,31 +288,30 @@ export const SentTo = ({ transaction, text }) =>
               }}
             />
           )}
-          {transaction.transfer_data &&
-            transaction.transfer_data.claimer && (
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "column",
-                  alignContent: "center",
-                  paddingLeft: 10,
-                }}
+          {transaction.transfer_data && transaction.transfer_data.claimer && (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignContent: "center",
+                paddingLeft: 10,
+              }}
+            >
+              <CelText weight="600" type="H4">
+                {transaction.transfer_data.claimer.first_name}{" "}
+                {transaction.transfer_data.claimer.last_name}
+              </CelText>
+              <CelText
+                style={{ paddingTop: 5 }}
+                color={STYLES.COLORS.CELSIUS_BLUE}
+                type="H6"
               >
-                <CelText weight="600" type="H4">
-                  {transaction.transfer_data.claimer.first_name}{" "}
-                  {transaction.transfer_data.claimer.last_name}
-                </CelText>
-                <CelText
-                  style={{ paddingTop: 5 }}
-                  color={STYLES.COLORS.CELSIUS_BLUE}
-                  type="H6"
-                >
-                  {transaction.transfer_data.claimer.email
-                    ? transaction.transfer_data.claimer.email
-                    : null}
-                </CelText>
-              </View>
-            )}
+                {transaction.transfer_data.claimer.email
+                  ? transaction.transfer_data.claimer.email
+                  : null}
+              </CelText>
+            </View>
+          )}
           <View style={{ paddingTop: 10 }}>
             <Icon
               name="Celsius"
@@ -367,31 +365,30 @@ export const SentFrom = ({ transaction, text }) =>
               }}
             />
           )}
-          {transaction.transfer_data &&
-            transaction.transfer_data.sender && (
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "column",
-                  alignContent: "center",
-                  paddingLeft: 10,
-                }}
+          {transaction.transfer_data && transaction.transfer_data.sender && (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignContent: "center",
+                paddingLeft: 10,
+              }}
+            >
+              <CelText weight="600" type="H4">
+                {transaction.transfer_data.sender.first_name}{" "}
+                {transaction.transfer_data.sender.last_name}
+              </CelText>
+              <CelText
+                style={{ paddingTop: 5 }}
+                color={STYLES.COLORS.CELSIUS_BLUE}
+                type="H6"
               >
-                <CelText weight="600" type="H4">
-                  {transaction.transfer_data.sender.first_name}{" "}
-                  {transaction.transfer_data.sender.last_name}
-                </CelText>
-                <CelText
-                  style={{ paddingTop: 5 }}
-                  color={STYLES.COLORS.CELSIUS_BLUE}
-                  type="H6"
-                >
-                  {transaction.transfer_data.sender.email
-                    ? transaction.transfer_data.sender.email
-                    : " "}
-                </CelText>
-              </View>
-            )}
+                {transaction.transfer_data.sender.email
+                  ? transaction.transfer_data.sender.email
+                  : " "}
+              </CelText>
+            </View>
+          )}
           <View style={{ paddingTop: 10 }}>
             <Icon
               name="Celsius"

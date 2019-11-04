@@ -115,9 +115,7 @@ class WithdrawCreateAddress extends Component {
       placeHolderText = "Memo Id";
     }
 
-    const explainText = `Your ${
-      formData.coin
-    } withdrawal address is not set. Please, enter the address, or scan QR code.`;
+    const explainText = `Your ${formData.coin} withdrawal address is not set. Please, enter the address, or scan QR code.`;
     const hasTag = addressUtil.hasCoinTag(formData.coin);
 
     return (

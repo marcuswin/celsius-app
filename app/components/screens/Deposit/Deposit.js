@@ -41,6 +41,7 @@ import formatter from "../../../utils/formatter";
     depositCompliance: state.compliance.deposit,
     walletSummary: state.wallet.summary,
     currencyRatesShort: state.currencies.currencyRatesShort,
+    currencies: state.currencies.rates,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -52,9 +53,17 @@ class Deposit extends Component {
 
   constructor(props) {
     super(props);
+
+    const { depositCompliance, currencies } = props;
+
+    const coinSelectItems = currencies
+      .filter(c => depositCompliance.coins.includes(c.short))
+      .map(c => ({ label: c.short, value: c.short }));
+
     this.state = {
       isFetchingAddress: false,
       useAlternateAddress: false,
+      coinSelectItems,
     };
   }
 
@@ -312,7 +321,11 @@ class Deposit extends Component {
       memoId,
     } = this.getAddress(formData.selectedCoin);
     const coin = navigation.getParam("coin");
-    const { useAlternateAddress, isFetchingAddress } = this.state;
+    const {
+      useAlternateAddress,
+      isFetchingAddress,
+      coinSelectItems,
+    } = this.state;
     const styles = DepositStyle();
     const theme = getTheme();
     let infoColor;
@@ -346,17 +359,19 @@ class Deposit extends Component {
     }
 
     const link = cryptoUtil.provideLink(formData.selectedCoin);
-
     return (
       <RegularLayout padding={"20 0 100 0"}>
+        <CelText align="center" weight="regular" type="H4">
+          Choose coin to deposit
+        </CelText>
         <CoinPicker
-          type={"depositAmount"}
+          type={"withIcon"}
           updateFormField={actions.updateFormField}
-          onCoinSelect={this.handleCoinSelect}
-          value={formData.selectedCoin}
+          onChange={this.handleCoinSelect}
+          coin={formData.selectedCoin}
           field="selectedCoin"
           defaultSelected={this.getDefaultSelectedCoin()}
-          coinCompliance={depositCompliance.coins}
+          availableCoins={coinSelectItems}
           navigateTo={actions.navigateTo}
         />
 

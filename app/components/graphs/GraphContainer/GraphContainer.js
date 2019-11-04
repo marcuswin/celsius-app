@@ -211,10 +211,9 @@ class GraphContainer extends Component {
           />
         )}
         <View>
-          {showXTicks &&
-            !isLoading && (
-              <XTicks width={width} time={dates} timeline={timeline} />
-            )}
+          {showXTicks && !isLoading && (
+            <XTicks width={width} time={dates} timeline={timeline} />
+          )}
         </View>
       </View>
     );

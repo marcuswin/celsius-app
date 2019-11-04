@@ -165,17 +165,16 @@ class KYCAddressInfo extends Component {
           margin="0 0 0 0"
         />
 
-        {formData.country &&
-          formData.country.name === "United States" && (
-            <CelSelect
-              type="state"
-              field="state"
-              labelText="State"
-              value={formData.state}
-              error={formErrors.state}
-              margin="20 0 0 0"
-            />
-          )}
+        {formData.country && formData.country.name === "United States" && (
+          <CelSelect
+            type="state"
+            field="state"
+            labelText="State"
+            value={formData.state}
+            error={formErrors.state}
+            margin="20 0 0 0"
+          />
+        )}
 
         <View style={{ flex: 1, justifyContent: "flex-end", marginTop: 30 }}>
           <CelButton
