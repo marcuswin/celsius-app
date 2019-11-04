@@ -371,7 +371,7 @@ class Deposit extends Component {
           coin={formData.selectedCoin}
           field="selectedCoin"
           defaultSelected={this.getDefaultSelectedCoin()}
-          coinCompliance={coinSelectItems}
+          availableCoins={coinSelectItems}
           navigateTo={actions.navigateTo}
         />
 

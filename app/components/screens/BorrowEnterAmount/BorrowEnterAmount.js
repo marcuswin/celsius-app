@@ -17,7 +17,6 @@ import PredefinedAmounts from "../../organisms/PredefinedAmounts/PredefinedAmoun
 import { getPadding } from "../../../utils/styles-util";
 import Icon from "../../atoms/Icon/Icon";
 import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
-import { LOAN_TYPES } from "../../../constants/DATA";
 import CoinPicker from "../../molecules/CoinPicker/CoinPicker";
 
 let timeout;
@@ -59,8 +58,6 @@ class BorrowEnterAmount extends Component {
       .filter(c => loanCompliance.loan_coins.includes(c.short))
       .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }));
 
-    coinSelectItems.push({ label: `Dollar (USD)`, value: "USD" });
-
     this.state = {
       activePeriod: "",
       coinSelectItems,
@@ -76,7 +73,7 @@ class BorrowEnterAmount extends Component {
       loanAmount: minimumLoanAmount.toString(),
       maxAmount,
       coin: formData.coin,
-      loanType: LOAN_TYPES.USD_LOAN,
+      loanType: formData.loanType,
     });
   }
 
@@ -214,16 +211,12 @@ class BorrowEnterAmount extends Component {
               onChange={(field, value) =>
                 actions.updateFormFields({
                   [field]: value,
-                  loanType:
-                    value === "USD"
-                      ? LOAN_TYPES.USD_LOAN
-                      : LOAN_TYPES.STABLE_COIN_LOAN,
                 })
               }
               updateFormField={actions.updateFormField}
               coin={coin}
               field="coin"
-              coinCompliance={coinSelectItems}
+              availableCoins={coinSelectItems}
               navigateTo={actions.navigateTo}
             />
 

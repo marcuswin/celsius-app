@@ -11,6 +11,7 @@ import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBa
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import { getPadding } from "../../../utils/styles-util";
 import PaymentCard from "../../organisms/PaymentCard/PaymentCard";
+import { LOAN_TYPES } from "../../../constants/DATA";
 
 @connect(
   state => ({
@@ -42,7 +43,10 @@ class BorrowChooseLoan extends Component {
         darkImage: require("../../../../assets/images/illustration-borrow-dollars.png"),
         onPressAction: () => {
           actions.navigateTo("BorrowEnterAmount");
-          actions.updateFormField("coin", "USD");
+          actions.updateFormFields({
+            coin: "USD",
+            loanType: LOAN_TYPES.USD_LOAN,
+          });
         },
       },
       {
@@ -52,7 +56,10 @@ class BorrowChooseLoan extends Component {
         darkImage: require("../../../../assets/images/illustration-borrow-stablecoins.png"),
         onPressAction: () => {
           actions.navigateTo("BorrowEnterAmount");
-          actions.updateFormField("coin", "");
+          actions.updateFormFields({
+            coin: "",
+            loanType: LOAN_TYPES.STABLE_COIN_LOAN,
+          });
         },
       },
     ];

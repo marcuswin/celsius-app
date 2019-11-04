@@ -12,7 +12,7 @@ class CoinPicker extends Component {
     field: PropTypes.string.isRequired,
     coin: PropTypes.string,
     defaultSelected: PropTypes.string,
-    coinCompliance: PropTypes.instanceOf(Array).isRequired,
+    availableCoins: PropTypes.instanceOf(Array).isRequired,
     navigateTo: PropTypes.func,
     type: PropTypes.oneOf(["basic", "withIcon"]),
     onChange: PropTypes.func,
@@ -26,18 +26,18 @@ class CoinPicker extends Component {
   constructor(props) {
     super(props);
 
-    const { type, coin, coinCompliance } = props;
+    const { type, coin, availableCoins } = props;
 
     let coinListFormatted = [];
-    if (type === "borrowAmount") {
+    if (type === "withIcon") {
       if (coin !== "USD")
-        coinCompliance.forEach(c => {
+        availableCoins.forEach(c => {
           if (c.value !== "USD") coinListFormatted.push(c);
         });
       if (coin === "USD")
         coinListFormatted.push({ label: "Dollar (USD)", value: "USD" });
     } else {
-      coinListFormatted = coinCompliance;
+      coinListFormatted = availableCoins;
     }
 
     this.state = {
