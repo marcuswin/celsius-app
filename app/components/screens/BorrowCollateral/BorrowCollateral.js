@@ -13,6 +13,7 @@ import Icon from "../../atoms/Icon/Icon";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
 import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 @connect(
   state => ({
@@ -31,6 +32,7 @@ class BorrowCollateral extends Component {
   handleSelectCoin = coin => {
     const { actions } = this.props;
     actions.updateFormField("collateralCoin", coin);
+    userBehaviorUtil.loanCollateral(coin);
 
     actions.navigateTo("BorrowLoanOption");
   };

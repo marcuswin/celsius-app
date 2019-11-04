@@ -11,6 +11,7 @@ import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBa
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import { BANK_ACCOUNT_TYPE } from "../../../constants/DATA";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 @connect(
   state => ({
@@ -89,6 +90,7 @@ class BorrowBankAccount extends Component {
 
     this.setState({ isLoading: true });
     await actions.linkBankAccount(bankAccountInfo);
+    await userBehaviorUtil.loanBankInfo();
     this.setState({ isLoading: false });
   };
 

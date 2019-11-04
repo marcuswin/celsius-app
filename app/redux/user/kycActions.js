@@ -41,7 +41,7 @@ function updateProfileInfo(profileInfo) {
         profileInfo
       );
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
-
+      userBehaviorUtil.kycProfileInfo();
       return {
         success: true,
       };
@@ -97,7 +97,7 @@ function updateProfileAddressInfo(profileAddressInfo) {
       } else {
         dispatch(NavActions.navigateTo("KYCTaxpayer"));
       }
-
+      userBehaviorUtil.kycAddressInfo();
       return {
         success: true,
       };
@@ -127,7 +127,7 @@ function updateTaxpayerInfo(profileTaxpayerInfo) {
         profileTaxpayerInfo
       );
       await dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
-
+      userBehaviorUtil.kycTaxPayerInfo();
       return {
         success: true,
       };
@@ -138,7 +138,6 @@ function updateTaxpayerInfo(profileTaxpayerInfo) {
         dispatch(showMessage("error", err.msg));
       }
       dispatch(apiError(API.UPDATE_USER_TAXPAYER_INFO, err));
-
       return {
         success: false,
       };

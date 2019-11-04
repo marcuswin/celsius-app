@@ -18,6 +18,7 @@ import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 import Icon from "../../atoms/Icon/Icon";
 import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 @connect(
   state => ({
@@ -71,9 +72,7 @@ class LoanTermsOfUse extends Component {
     const checkboxTexts = [
       `I have read, understood and agree to the above mentioned in sections 1 - 7`,
       `I have read, understood and agree to the above mentioned in sections 8 - 14`,
-      `I have read, understood and agree to the above mentioned in sections 15 - ${
-        otherSections.length
-      }`,
+      `I have read, understood and agree to the above mentioned in sections 15 - ${otherSections.length}`,
     ];
 
     return {
@@ -86,6 +85,7 @@ class LoanTermsOfUse extends Component {
 
   continue = () => {
     const { actions } = this.props;
+    userBehaviorUtil.loanToUAgreed();
 
     actions.navigateTo("VerifyProfile", {
       onSuccess: () => actions.applyForALoan(),

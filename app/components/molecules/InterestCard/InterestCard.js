@@ -16,6 +16,7 @@ import { isUSCitizen } from "../../../utils/user-util";
 import Badge from "../../atoms/Badge/Badge";
 import CelSwitch from "../../atoms/CelSwitch/CelSwitch";
 import Separator from "../../atoms/Separator/Separator";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 @connect(
   state => ({
@@ -49,6 +50,11 @@ class InterestCard extends Component {
         ...interestInCoins,
         [coin]: value,
       },
+    });
+
+    userBehaviorUtil.interestInCEL({
+      ...interestInCoins,
+      [coin]: value,
     });
 
     this.setState({ loading: false });
