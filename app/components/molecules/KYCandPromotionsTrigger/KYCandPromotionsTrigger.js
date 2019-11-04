@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Image, Linking, View } from "react-native";
+import { Image, View } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import KYCandPromotionsTriggerStyle from "./KYCandPromotionsTrigger.styles";
 import STYLES from "../../../constants/STYLES";
@@ -9,11 +11,19 @@ import CelText from "../../atoms/CelText/CelText";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { hasPassedKYC } from "../../../utils/user-util";
 import { heightPercentageToDP } from "../../../utils/styles-util";
+import { MODALS } from "../../../constants/UI";
+import RejectionReasonsModal from "../../organisms/RejectionReasonsModal/RejectionReasonsModal";
+import * as appActions from "../../../redux/actions";
 
+@connect(
+  state => ({
+    rejectionReasons: state.user.profile.kyc.rejectionReasons,
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
+)
 class KYCandPromotionsTrigger extends Component {
   static propTypes = {
     kycType: PropTypes.string.isRequired,
-    actions: PropTypes.instanceOf(Object).isRequired,
   };
   static defaultProps = {};
 
@@ -117,12 +127,14 @@ class KYCandPromotionsTrigger extends Component {
           kycType
         ) && (
           <CelText
-            onPress={() => Linking.openURL("mailto:app@celsius.network")}
-            basic
-            color={"white"}
-            margin={"8 0 0 0"}
+            onPress={() =>
+              actions.openModal(MODALS.KYC_REJECTION_REASONS_MODAL)
+            }
+            margin={"12 0 20 0"}
+            color={STYLES.COLORS.WHITE}
+            type={"H6"}
           >
-            What could have gone wrong?
+            Why you got rejected? >
           </CelText>
         )}
       </View>
@@ -130,6 +142,7 @@ class KYCandPromotionsTrigger extends Component {
   };
 
   render() {
+    const { rejectionReasons } = this.props;
     const style = KYCandPromotionsTriggerStyle();
 
     if (hasPassedKYC()) return null;
@@ -147,6 +160,7 @@ class KYCandPromotionsTrigger extends Component {
             <View>{this.renderKycInfo()}</View>
           </View>
         </View>
+        <RejectionReasonsModal rejectionReasons={rejectionReasons} />
       </View>
     );
   }
