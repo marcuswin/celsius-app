@@ -35,7 +35,10 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tokens: action.tokens,
-        profile: action.user,
+        profile: {
+          ...action.user,
+          profile_picture: profileImageFix(action.user.profile_picture),
+        },
       };
 
     case ACTIONS.REGISTER_USER_SUCCESS:
@@ -47,7 +50,10 @@ export default (state = initialState, action) => {
     case ACTIONS.LOGIN_USER_TWITTER_SUCCESS:
       return {
         ...state,
-        profile: action.user,
+        profile: {
+          ...action.user,
+          profile_picture: profileImageFix(action.user.profile_picture),
+        },
       };
 
     case ACTIONS.TWITTER_GET_ACCESS_TOKEN:
@@ -103,7 +109,7 @@ export default (state = initialState, action) => {
         ...state,
         profile: {
           ...state.profile,
-          profile_picture: action.image,
+          profile_picture: profileImageFix(action.image),
         },
       };
 
@@ -195,3 +201,8 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+function profileImageFix(imageUrl) {
+  if (!imageUrl) return undefined;
+  return imageUrl.replace("http://", "https://");
+}
