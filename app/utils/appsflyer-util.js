@@ -18,6 +18,8 @@ const { ENV } = constants;
 const appsFlyerUtil = {
   registrationCompleted,
   kycStarted,
+  withdrawCompleted,
+  celpayCompleted,
   loanApplied,
 };
 
@@ -106,6 +108,61 @@ async function kycStarted() {
         },
       ],
     },
+  });
+}
+
+/**
+ * Fires an event when a user finishes a withdrawal
+ * @todo: check if needs moving to BE?
+ *
+ * @param {object} withdrawTransaction
+ */
+async function withdrawCompleted(withdrawTransaction) {
+  const { currencyRatesShort } = store.getState().currencies;
+  const payload = {
+    ...withdrawTransaction,
+    amountUsd:
+      withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin],
+  };
+
+  await appsFlyerEvent("ADD_TO_WISHLIST", {
+    af_revenue: Number(payload.amountUsd),
+    af_currency: "USD",
+    revenue: Number(payload.amountUsd),
+    currency: "USD",
+    amount_usd: payload.amountUsd.toString(),
+    amount_crypto: payload.amount.toString(),
+    coin: payload.coin,
+    action: "Withdraw",
+    id: payload.id,
+  });
+}
+
+/**
+ * Fires an event when a user finishes a CelPay
+ *
+ * @param {object} celPayTransfer
+ * @param {string} celPayTransfer.amount
+ * @param {string} celPayTransfer.coin - eg. BTC|ETH
+ * @param {uuid} celPayTransfer.id
+ */
+async function celpayCompleted(celPayTransfer) {
+  const { currencyRatesShort } = store.getState().currencies;
+
+  const amountUsd =
+    celPayTransfer.amount *
+    currencyRatesShort[celPayTransfer.coin.toLowerCase()];
+
+  await appsFlyerEvent("SPEND_CREDITS", {
+    af_revenue: Number(amountUsd),
+    af_currency: "USD",
+    revenue: Number(amountUsd),
+    currency: "USD",
+    amount_usd: amountUsd.toString(),
+    amount_crypto: celPayTransfer.amount.toString(),
+    coin: celPayTransfer.coin,
+    id: celPayTransfer.id,
+    action: "CelPay",
   });
 }
 

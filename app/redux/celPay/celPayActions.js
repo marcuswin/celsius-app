@@ -8,6 +8,7 @@ import { clearForm } from "../forms/formsActions";
 import transfersService from "../../services/transfer-service";
 import formatter from "../../utils/formatter";
 import { navigateTo } from "../nav/navActions";
+import appsFlyerUtil from "../../utils/appsflyer-util";
 import celUtilityUtil from "../../utils/cel-utility-util";
 import userBehaviorUtil from "../../utils/user-behavior-util";
 
@@ -68,6 +69,7 @@ function celPayFriend() {
 
       await celUtilityUtil.refetchMembershipIfChanged(transfer.coin);
 
+      appsFlyerUtil.celpayCompleted(transferData);
       userBehaviorUtil.celpayCompleted(transferData, friend.id);
     } catch (err) {
       dispatch(apiError(API.CREATE_TRANSFER, err));
@@ -132,6 +134,7 @@ function celPayShareLink() {
 
       await celUtilityUtil.refetchMembershipIfChanged(transfer.coin);
 
+      appsFlyerUtil.celpayCompleted(transferData);
       userBehaviorUtil.celpayCompleted(transferData);
     } catch (err) {
       dispatch(apiError(API.CREATE_TRANSFER, err));
