@@ -231,11 +231,7 @@ class Profile extends Component {
                     : STYLES.COLORS.WHITE_OPACITY5
                 }
               />
-              <CelText
-                type={"H5"}
-                color={STYLES.COLORS.CELSIUS_BLUE}
-                margin={"5 0 0 0"}
-              >
+              <CelText type={"H6"} margin={"5 0 0 0"}>
                 Twitter
               </CelText>
             </TouchableOpacity>
@@ -254,11 +250,7 @@ class Profile extends Component {
                     : STYLES.COLORS.WHITE_OPACITY5
                 }
               />
-              <CelText
-                type={"H5"}
-                color={STYLES.COLORS.CELSIUS_BLUE}
-                margin={"5 0 0 0"}
-              >
+              <CelText type={"H6"} margin={"5 0 0 0"}>
                 Facebook
               </CelText>
             </TouchableOpacity>
@@ -277,11 +269,7 @@ class Profile extends Component {
                     : STYLES.COLORS.WHITE_OPACITY5
                 }
               />
-              <CelText
-                type={"H5"}
-                color={STYLES.COLORS.CELSIUS_BLUE}
-                margin={"5 0 0 0"}
-              >
+              <CelText type={"H6"} margin={"5 0 0 0"}>
                 Reddit
               </CelText>
             </TouchableOpacity>
@@ -298,11 +286,7 @@ class Profile extends Component {
                     : STYLES.COLORS.WHITE_OPACITY5
                 }
               />
-              <CelText
-                type={"H5"}
-                color={STYLES.COLORS.CELSIUS_BLUE}
-                margin={"5 0 0 0"}
-              >
+              <CelText type={"H6"} margin={"5 0 0 0"}>
                 Telegram
               </CelText>
             </TouchableOpacity>
