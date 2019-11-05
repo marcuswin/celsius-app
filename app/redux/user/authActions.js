@@ -208,7 +208,7 @@ function logoutUser() {
       dispatch({
         type: ACTIONS.LOGOUT_USER,
       });
-      await dispatch(navigateTo("Auth"));
+      await dispatch(navigateTo("Welcome"));
       dispatch(showVerifyScreen(false));
 
       userBehaviorUtil.sessionEnded("Logout user");

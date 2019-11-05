@@ -17,7 +17,9 @@ import * as appActions from "../../../redux/actions";
 
 @connect(
   state => ({
-    rejectionReasons: state.user.profile.kyc.rejectionReasons,
+    rejectionReasons: state.user.profile.kyc
+      ? state.user.profile.kyc.rejectionReasons
+      : [],
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
