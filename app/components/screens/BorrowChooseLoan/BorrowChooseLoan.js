@@ -51,7 +51,7 @@ class BorrowChooseLoan extends Component {
       },
       {
         cardTitle: "Borrow Stablecoins",
-        cardCopy: "Choose a stable coin to take your loan in.",
+        cardCopy: "Take out a loan in one of our supported stable coins.",
         lightImage: require("../../../../assets/images/illustration-borrow-stablecoins.png"),
         darkImage: require("../../../../assets/images/illustration-borrow-stablecoins.png"),
         onPressAction: () => {
