@@ -125,7 +125,7 @@ class LoanRequestDetails extends Component {
             label={"Unlocked Collateral"}
             value={formatter.crypto(
               activeLoan.amount_collateral_crypto,
-              activeLoan.collateral_coin
+              activeLoan.coin
             )}
           />
         );
@@ -138,8 +138,8 @@ class LoanRequestDetails extends Component {
               [LOAN_STATUS.PENDING].includes(activeLoan.status) &&
               "Exact collateral amount would be determined upon approval"
             }
-            coin={activeLoan.collateral_coin}
-            coinAmount={activeLoan.loan_collateral_crypto}
+            coin={activeLoan.coin}
+            coinAmount={activeLoan.amount_collateral_crypto}
           />
         );
       case "collateral":
@@ -147,13 +147,10 @@ class LoanRequestDetails extends Component {
           <BasicSection
             key={sectionType}
             label={"Locked Collateral"}
-            value={[
-              formatter.crypto(
-                activeLoan.amount_collateral_crypto,
-                activeLoan.collateral_coin
-              ),
-              activeLoan.coin,
-            ]}
+            value={formatter.crypto(
+              activeLoan.amount_collateral_crypto,
+              activeLoan.coin
+            )}
           />
         );
       case "term":
