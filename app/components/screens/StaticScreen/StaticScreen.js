@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
 import StaticScreenStyle from "./StaticScreen.styles";
+import { EMPTY_STATES } from "../../../constants/UI";
 
 class StaticScreen extends Component {
   static propTypes = {
@@ -18,7 +19,12 @@ class StaticScreen extends Component {
     const { padding, emptyState, type } = this.props;
     const style = StaticScreenStyle();
     return (
-      <RegularLayout padding={padding} fabType={type}>
+      <RegularLayout
+        padding={padding}
+        fabType={
+          emptyState.purpose === EMPTY_STATES.MAINTENANCE ? "hide" : type
+        }
+      >
         <View style={style.wrapper}>
           <EmptyState {...emptyState} />
         </View>
