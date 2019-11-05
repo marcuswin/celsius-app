@@ -1,4 +1,4 @@
-import currency from 'currency-formatter'
+import currency from "currency-formatter";
 
 export default {
   usd,
@@ -16,8 +16,8 @@ export default {
   percentage, // TODO check if we need both or a flag will do
   percentageDisplay, // TODO check if we need both or a flag will do
   hideTextExceptedFirstNLetters,
-  maskEmail
-}
+  maskEmail,
+};
 
 /**
  * Formats number to $10,000.00
@@ -27,9 +27,8 @@ export default {
  * @returns {string}
  */
 function usd(amount, options = {}) {
-  return currency.format(floor10(amount), { code: 'USD', ...options })
+  return currency.format(floor10(amount), { code: "USD", ...options });
 }
-
 
 /**
  * Formats number to 1.12345 ETH
@@ -44,11 +43,11 @@ function usd(amount, options = {}) {
 function crypto(amount, cryptocurrency, options = {}) {
   return currency.format(amount, {
     precision: options.noPrecision ? 0 : options.precision || 5,
-    thousand: ',',
+    thousand: ",",
     symbol:
-      typeof options.symbol !== 'undefined' ? options.symbol : cryptocurrency,
-    format: '%v %s'
-  })
+      typeof options.symbol !== "undefined" ? options.symbol : cryptocurrency,
+    format: "%v %s",
+  });
 }
 
 /**
@@ -62,8 +61,8 @@ function crypto(amount, cryptocurrency, options = {}) {
 function round(amount, options = {}) {
   return currency.format(amount, {
     precision: options.noPrecision ? 0 : options.precision || 2,
-    thousand: ','
-  })
+    thousand: ",",
+  });
 }
 
 /**
@@ -73,7 +72,7 @@ function round(amount, options = {}) {
  * @returns {number}
  */
 function getAllowedDecimals(curr) {
-  return curr === 'USD' ? 2 : 5
+  return curr === "USD" ? 2 : 5;
 }
 
 /**
@@ -83,8 +82,8 @@ function getAllowedDecimals(curr) {
  * @param {string} curr - 'USD' or everything else
  * @returns {boolean}
  */
-function hasEnoughDecimals(value = '', curr) {
-  return getNumberOfDecimals(value) > getAllowedDecimals(curr)
+function hasEnoughDecimals(value = "", curr) {
+  return getNumberOfDecimals(value) > getAllowedDecimals(curr);
 }
 
 /**
@@ -95,9 +94,9 @@ function hasEnoughDecimals(value = '', curr) {
  * @returns {number}
  */
 function setCurrencyDecimals(value, curr) {
-  if (!hasEnoughDecimals(value, curr)) return value
+  if (!hasEnoughDecimals(value, curr)) return value;
 
-  return floor10(value, -this.getAllowedDecimals(curr)).toString()
+  return floor10(value, -this.getAllowedDecimals(curr)).toString();
 }
 
 /**
@@ -107,7 +106,7 @@ function setCurrencyDecimals(value, curr) {
  * @returns {string}
  */
 function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 /**
@@ -118,16 +117,16 @@ function capitalize(str) {
  */
 function removeDecimalZeros(amount) {
   // const numberOfDecimals = getNumberOfDecimals(amount)
-  const splitedValue = amount.toString().split('.')
-  let decimals = ''
-  let deleteDecimals = true
+  const splitedValue = amount.toString().split(".");
+  let decimals = "";
+  let deleteDecimals = true;
   if (splitedValue.length === 2) {
-    decimals = splitedValue[1]
+    decimals = splitedValue[1];
     for (let i = 0; i < decimals.length; i++) {
-      if (decimals[i] !== '0') deleteDecimals = false
+      if (decimals[i] !== "0") deleteDecimals = false;
     }
   }
-  return deleteDecimals ? splitedValue[0] : amount.toString()
+  return deleteDecimals ? splitedValue[0] : amount.toString();
 }
 
 /**
@@ -137,7 +136,7 @@ function removeDecimalZeros(amount) {
  * @returns {number}
  */
 function percentage(number) {
-  return Math.round(number * 10000) / 100
+  return Math.round(number * 10000) / 100;
 }
 
 /**
@@ -148,10 +147,9 @@ function percentage(number) {
 //  * @returns {number}
  */
 function percentageDisplay(number, noSymbol = false) {
-  const percentageNum = Math.round(number * 10000) / 100
-  return `${percentageNum.toFixed(2)}${noSymbol ? '' : '%'}`
+  const percentageNum = Math.round(number * 10000) / 100;
+  return `${percentageNum.toFixed(2)}${noSymbol ? "" : "%"}`;
 }
-
 
 /**
  * Decimal adjustment of a number.
@@ -162,8 +160,8 @@ function percentageDisplay(number, noSymbol = false) {
  * @returns {Number} The adjusted value.
  */
 function floor10(value, exp = -2) {
-  const realExp = Math.pow(10, -exp)
-  return Math.floor(value * realExp) / realExp
+  const realExp = Math.pow(10, -exp);
+  return Math.floor(value * realExp) / realExp;
 }
 
 /**
@@ -173,9 +171,9 @@ function floor10(value, exp = -2) {
  * @returns {Number} Decimal number of input value
  */
 function getNumberOfDecimals(value) {
-  const stringValue = value.toString()
-  const splitValue = stringValue && stringValue.split('.')
-  return stringValue && (splitValue[1] ? splitValue[1].length : 0)
+  const stringValue = value.toString();
+  const splitValue = stringValue && stringValue.split(".");
+  return stringValue && (splitValue[1] ? splitValue[1].length : 0);
 }
 
 /**
@@ -187,13 +185,13 @@ function getNumberOfDecimals(value) {
  */
 function getEllipsisAmount(value, exp) {
   const realValue =
-    value === '.' || value === '0.' ? '0.' : (value || 0).toString()
-  const floatValue = parseFloat(realValue).toString()
-  const decimals = getNumberOfDecimals(floatValue)
+    value === "." || value === "0." ? "0." : (value || 0).toString();
+  const floatValue = parseFloat(realValue).toString();
+  const decimals = getNumberOfDecimals(floatValue);
   if (decimals && decimals > Math.abs(exp)) {
-    return `${floor10(floatValue, exp)}...`
+    return `${floor10(floatValue, exp)}...`;
   }
-  return realValue
+  return realValue;
 }
 
 // deep merge
@@ -201,83 +199,83 @@ function getEllipsisAmount(value, exp) {
  * @todo
  */
 function isMergeableObject(val) {
-  const nonNullObject = val && typeof val === 'object'
+  const nonNullObject = val && typeof val === "object";
 
   return (
     nonNullObject &&
-    Object.prototype.toString.call(val) !== '[object RegExp]' &&
-    Object.prototype.toString.call(val) !== '[object Date]'
-  )
+    Object.prototype.toString.call(val) !== "[object RegExp]" &&
+    Object.prototype.toString.call(val) !== "[object Date]"
+  );
 }
 
 /**
  * @todo
  */
 function emptyTarget(val) {
-  return Array.isArray(val) ? [] : {}
+  return Array.isArray(val) ? [] : {};
 }
 
 /**
  * @todo
  */
 function cloneIfNecessary(value, optionsArgument) {
-  const clone = optionsArgument && optionsArgument.clone === true
+  const clone = optionsArgument && optionsArgument.clone === true;
   return clone && isMergeableObject(value)
     ? deepmerge(emptyTarget(value), value, optionsArgument)
-    : value
+    : value;
 }
 
 /**
  * @todo
  */
 function defaultArrayMerge(target, source, optionsArgument) {
-  const destination = target.slice()
+  const destination = target.slice();
   source.forEach((e, i) => {
-    if (typeof destination[i] === 'undefined') {
-      destination[i] = cloneIfNecessary(e, optionsArgument)
+    if (typeof destination[i] === "undefined") {
+      destination[i] = cloneIfNecessary(e, optionsArgument);
     } else if (isMergeableObject(e)) {
-      destination[i] = deepmerge(target[i], e, optionsArgument)
+      destination[i] = deepmerge(target[i], e, optionsArgument);
     } else if (target.indexOf(e) === -1) {
-      destination.push(cloneIfNecessary(e, optionsArgument))
+      destination.push(cloneIfNecessary(e, optionsArgument));
     }
-  })
-  return destination
+  });
+  return destination;
 }
 
 /**
  * @todo
  */
 function mergeObject(target, source, optionsArgument) {
-  const destination = {}
+  const destination = {};
   if (isMergeableObject(target)) {
     Object.keys(target).forEach(key => {
-      destination[key] = cloneIfNecessary(target[key], optionsArgument)
-    })
+      destination[key] = cloneIfNecessary(target[key], optionsArgument);
+    });
   }
   Object.keys(source).forEach(key => {
     if (!isMergeableObject(source[key]) || !target[key]) {
-      destination[key] = cloneIfNecessary(source[key], optionsArgument)
+      destination[key] = cloneIfNecessary(source[key], optionsArgument);
     } else {
-      destination[key] = deepmerge(target[key], source[key], optionsArgument)
+      destination[key] = deepmerge(target[key], source[key], optionsArgument);
     }
-  })
-  return destination
+  });
+  return destination;
 }
 
 /**
  * @todo
  */
 function deepmerge(target, source, optionsArgument) {
-  const array = Array.isArray(source)
-  const options = optionsArgument || { arrayMerge: defaultArrayMerge }
-  const arrayMerge = options.arrayMerge || defaultArrayMerge
+  const array = Array.isArray(source);
+  const options = optionsArgument || { arrayMerge: defaultArrayMerge };
+  const arrayMerge = options.arrayMerge || defaultArrayMerge;
 
   if (array) {
     return Array.isArray(target)
       ? arrayMerge(target, source, optionsArgument)
-      : cloneIfNecessary(source, optionsArgument)
+      : cloneIfNecessary(source, optionsArgument);
   }
-  return mergeObject(target, source, optionsArgument)
+  return mergeObject(target, source, optionsArgument);
 }
 
 /**
@@ -286,13 +284,13 @@ function deepmerge(target, source, optionsArgument) {
 deepmerge.all = function deepmergeAll(array, optionsArgument) {
   if (!Array.isArray(array) || array.length < 2) {
     throw new Error(
-      'first argument should be an array with at least two elements'
-    )
+      "first argument should be an array with at least two elements"
+    );
   }
 
   // we are sure there are at least 2 values, so it is safe to have no initial value
-  return array.reduce((prev, next) => deepmerge(prev, next, optionsArgument))
-}
+  return array.reduce((prev, next) => deepmerge(prev, next, optionsArgument));
+};
 
 /**
  * Hide all letters except first n letters
@@ -302,12 +300,12 @@ deepmerge.all = function deepmergeAll(array, optionsArgument) {
  * @returns {string}
  */
 function hideTextExceptedFirstNLetters(text, n = 1) {
-  let hiddenText = ""
+  let hiddenText = "";
   for (let i = n; i < text.length; i++) {
-    hiddenText += 'x'
+    hiddenText += "x";
   }
 
-  return text[0] + hiddenText
+  return text[0] + hiddenText;
 }
 
 /**
@@ -317,13 +315,13 @@ function hideTextExceptedFirstNLetters(text, n = 1) {
  * @returns {string}
  */
 function maskEmail(email) {
-  const splitedEmail = email.split("@")
+  const splitedEmail = email.split("@");
 
-  const splitedEmailProvider = splitedEmail[1].split(".")
+  const splitedEmailProvider = splitedEmail[1].split(".");
 
   return `${hideTextExceptedFirstNLetters(
     splitedEmail[0]
   )}@${hideTextExceptedFirstNLetters(splitedEmailProvider[0])}.${
     splitedEmailProvider[1]
-  }`
+  }`;
 }

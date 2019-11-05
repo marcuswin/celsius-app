@@ -4,7 +4,6 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
 import * as appActions from "../../../redux/actions";
 import AppearanceStyle from "./Appearance.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
@@ -19,7 +18,7 @@ import CoinGridCard from "../../molecules/CoinGridCard/CoinGridCard";
     theme: state.user.appSettings.theme,
     walletSummary: state.wallet.summary,
     currenciesGraphs: state.currencies.graphs,
-    currenciesRates: state.currencies.rates
+    currenciesRates: state.currencies.rates,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -30,7 +29,7 @@ class Appearance extends Component {
   static defaultProps = {};
 
   static navigationOptions = () => ({
-    title: "Appearance"
+    title: "Appearance",
   });
 
   renderCard = () => {
@@ -38,11 +37,11 @@ class Appearance extends Component {
       walletSummary,
       currenciesRates,
       currenciesGraphs,
-      theme
+      theme,
     } = this.props;
 
-    const btcCoin = walletSummary.coins.find(c => c.short === "BTC")
-    const btcGraph = currenciesGraphs.BTC
+    const btcCoin = walletSummary.coins.find(c => c.short === "BTC");
+    const btcGraph = currenciesGraphs.BTC;
     const btcRates = currenciesRates.find(c => c.short === "BTC");
 
     return (
@@ -59,7 +58,6 @@ class Appearance extends Component {
     );
   };
 
-
   render() {
     const { theme, actions } = this.props;
     const style = AppearanceStyle();
@@ -67,22 +65,18 @@ class Appearance extends Component {
     return (
       <RegularLayout>
         <View style={style.container}>
-
           {this.renderCard()}
 
-          <Separator text='COLOR THEME' margin='0 0 20 0'/>
+          <Separator text="COLOR THEME" margin="0 0 20 0" />
           <View
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
             <CircleButton
               icon={theme === THEMES.LIGHT ? "Checked" : false}
               iconSize={15}
-              type='theme'
-              text='Light'
-              style={[
-                { backgroundColor: STYLES.COLORS.WHITE },
-                style.themeBtn
-              ]}
+              type="theme"
+              text="Light"
+              style={[{ backgroundColor: STYLES.COLORS.WHITE }, style.themeBtn]}
               onPress={() => {
                 actions.setUserAppSettings({ theme: THEMES.LIGHT });
               }}
@@ -90,11 +84,11 @@ class Appearance extends Component {
             <CircleButton
               icon={theme === THEMES.DARK ? "Checked" : false}
               iconSize={15}
-              type='theme'
-              text='Dark'
+              type="theme"
+              text="Dark"
               style={[
                 { backgroundColor: STYLES.COLORS.DARK_HEADER },
-                style.themeBtn
+                style.themeBtn,
               ]}
               onPress={() => {
                 actions.setUserAppSettings({ theme: THEMES.DARK });
@@ -107,4 +101,4 @@ class Appearance extends Component {
   }
 }
 
-export default Appearance
+export default Appearance;

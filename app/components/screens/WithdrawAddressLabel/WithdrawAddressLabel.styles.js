@@ -4,12 +4,12 @@ import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   scanText: {
     color: STYLES.COLORS.CELSIUS_BLUE,
-    textAlign: "left"
-  }
+    textAlign: "left",
+  },
 };
 
 const themed = {
@@ -17,7 +17,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const WithdrawAddressLabelStyle = () => getThemedStyle(base, themed);

@@ -5,8 +5,8 @@ const base = {
   footerContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 };
 
 const themed = {
@@ -14,7 +14,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const CalculateLoyaltyModalStyle = () => getThemedStyle(base, themed);

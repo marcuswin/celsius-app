@@ -4,10 +4,9 @@ import { getThemedStyle } from "../../../utils/styles-util";
 const base = {
   container: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
   },
-  status: { flexDirection: "row", alignItems: "center" }
-
+  status: { flexDirection: "row", alignItems: "center" },
 };
 
 const themed = {
@@ -15,7 +14,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const LoanRequestDetailsStyle = () => getThemedStyle(base, themed);

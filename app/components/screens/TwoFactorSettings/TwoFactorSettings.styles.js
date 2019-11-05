@@ -4,29 +4,29 @@ import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   qrWrapper: {
     marginTop: 15,
     marginBottom: 10,
     padding: 10,
     backgroundColor: "white",
-    borderRadius: 6
+    borderRadius: 6,
   },
   separatorWrapper: {
     paddingVertical: 15,
-    width: '100%'
+    width: "100%",
   },
   secretText: {
     color: STYLES.COLORS.CELSIUS,
     textDecorationLine: "underline",
     marginTop: 15,
-    maxWidth: "70%"
+    maxWidth: "70%",
   },
   buttonWrapper: {
     flex: 1,
-    justifyContent: 'flex-end',
-  }
+    justifyContent: "flex-end",
+  },
 };
 
 const themed = {
@@ -34,7 +34,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const TwoFactorSettingsStyle = () => getThemedStyle(base, themed);

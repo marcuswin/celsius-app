@@ -10,7 +10,7 @@ import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import Icon from "../../atoms/Icon/Icon";
 import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
-import {COIN_CARD_TYPE} from "../../../constants/UI";
+import { COIN_CARD_TYPE } from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -25,16 +25,16 @@ class ChooseMarginCollateralCoin extends Component {
 
   static navigationOptions = () => ({
     title: "Choose Collateral",
-    right: "profile"
+    right: "profile",
   });
 
-  handleSelectCoin = async (coin) => {
+  handleSelectCoin = async coin => {
     const { actions, navigation } = this.props;
     const loan = navigation.getParam("loan");
 
-    actions.navigateTo('VerifyProfile', {
-      onSuccess: () => actions.lockMarginCallCollateral(loan.id, coin)
-    })
+    actions.navigateTo("VerifyProfile", {
+      onSuccess: () => actions.lockMarginCallCollateral(loan.id, coin),
+    });
   };
 
   render() {
@@ -74,7 +74,13 @@ class ChooseMarginCollateralCoin extends Component {
           </View>
           <TouchableOpacity
             style={style.addMoreCoinsList}
-            onPress={() => actions.navigateTo("Deposit", { coin: loan.margin_call.collateral_coin, loan, isMarginWarning: true })}
+            onPress={() =>
+              actions.navigateTo("Deposit", {
+                coin: loan.margin_call.collateral_coin,
+                loan,
+                isMarginWarning: true,
+              })
+            }
           >
             <Icon fill={"gray"} width="17" height="17" name="CirclePlus" />
             <CelText type="H5" margin={"0 0 0 5"}>

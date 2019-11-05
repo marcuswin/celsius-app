@@ -1,9 +1,6 @@
-import ACTIONS from '../../constants/ACTIONS';
+import ACTIONS from "../../constants/ACTIONS";
 
-export {
-  startApiCall,
-  apiError,
-}
+export { startApiCall, apiError };
 
 /**
  * Called before every api call
@@ -14,7 +11,7 @@ function startApiCall(callName) {
   return {
     type: ACTIONS.START_API_CALL,
     callName,
-  }
+  };
 }
 
 /**
@@ -25,7 +22,6 @@ function startApiCall(callName) {
  */
 function apiError(callName, error) {
   return dispatch => {
-
     const errTimeout = setTimeout(() => {
       dispatch(clearApiError());
       clearTimeout(errTimeout);
@@ -35,8 +31,8 @@ function apiError(callName, error) {
       type: ACTIONS.API_ERROR,
       callName,
       error,
-    })
-  }
+    });
+  };
 }
 
 /**
@@ -46,5 +42,5 @@ function apiError(callName, error) {
 function clearApiError() {
   return {
     type: ACTIONS.CLEAR_API_ERROR,
-  }
+  };
 }

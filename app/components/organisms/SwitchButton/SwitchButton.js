@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native';
-
-
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { TouchableOpacity } from "react-native";
 
 import SwitchButtonStyle from "./SwitchButton.styles";
-import CelText from '../../atoms/CelText/CelText';
-import { getMargins } from '../../../utils/styles-util';
-import CelSwitch from '../../atoms/CelSwitch/CelSwitch';
+import CelText from "../../atoms/CelText/CelText";
+import { getMargins } from "../../../utils/styles-util";
+import CelSwitch from "../../atoms/CelSwitch/CelSwitch";
 
 class SwitchButton extends Component {
-
   static propTypes = {
     value: PropTypes.bool,
     margin: PropTypes.string,
@@ -19,29 +16,28 @@ class SwitchButton extends Component {
     updateFormField: PropTypes.func,
   };
   static defaultProps = {
-    margin: '20 0 0 0',
-    value: false
-  }
+    margin: "20 0 0 0",
+    value: false,
+  };
 
-  changeValue = (value) => {
+  changeValue = value => {
     const { updateFormField, field } = this.props;
     updateFormField(field, value);
-  }
+  };
 
   render() {
     const { children, margin, onPress, value } = this.props;
-    const style = SwitchButtonStyle()
+    const style = SwitchButtonStyle();
     return (
-      <TouchableOpacity style={[style.container, { ...getMargins(margin) }]} onPress={onPress}>
+      <TouchableOpacity
+        style={[style.container, { ...getMargins(margin) }]}
+        onPress={onPress}
+      >
         <CelText type="H4">{children}</CelText>
-        <CelSwitch
-          value={value}
-          onValueChange={this.changeValue}
-        />
-      
+        <CelSwitch value={value} onValueChange={this.changeValue} />
       </TouchableOpacity>
     );
   }
 }
 
-export default SwitchButton
+export default SwitchButton;

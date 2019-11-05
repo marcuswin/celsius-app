@@ -7,8 +7,8 @@ const base = {
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: 'center'
-  }
+    alignSelf: "center",
+  },
 };
 
 const themed = {
@@ -16,7 +16,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const BadgeStyle = () => getThemedStyle(base, themed);

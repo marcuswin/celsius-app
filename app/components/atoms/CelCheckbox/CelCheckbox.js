@@ -46,7 +46,7 @@ CelCheckbox.propTypes = {
   checkedImage: PropTypes.element,
   unChecked: PropTypes.element,
   textWeight: PropTypes.string,
-  theme: PropTypes.oneOf(Object.values(THEMES))
+  theme: PropTypes.oneOf(Object.values(THEMES)),
 };
 
 export default CelCheckbox;

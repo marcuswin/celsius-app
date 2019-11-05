@@ -1,8 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { View } from 'react-native';
-
-
+import React from "react";
+import PropTypes from "prop-types";
+import { View } from "react-native";
 
 import BadgeStyle from "./Badge.styles";
 import STYLES from "../../../constants/STYLES";
@@ -14,28 +12,23 @@ const Badge = ({
   color = COLORS.GREEN,
   margin = "5 5 5 5",
   padding = "5 5 5 5",
-  children
+  children,
 }) => {
-  const styles = BadgeStyle()
+  const styles = BadgeStyle();
   const badgeStyles = [
     styles.container,
-    { backgroundColor: color, alignItems: 'flex-end' },
+    { backgroundColor: color, alignItems: "flex-end" },
     getMargins(margin),
     getPadding(padding),
-  ]
-  return (
-    <View style={badgeStyles}>
-      { children }
-    </View>
-  )
-}
+  ];
+  return <View style={badgeStyles}>{children}</View>;
+};
 
 Badge.propTypes = {
   color: PropTypes.string,
   margin: PropTypes.string,
   padding: PropTypes.string,
   style: PropTypes.instanceOf(Object),
+};
 
-}
-
-export default Badge
+export default Badge;

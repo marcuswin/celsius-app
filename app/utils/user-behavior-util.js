@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import moment from "moment";
 
 import mixpanelService from "../services/mixpanel-service";
 import store from "../redux/store";
@@ -12,10 +13,24 @@ const userBehaviorUtil = {
   sessionStarted,
   sessionEnded,
   registrationCompleted,
+  kycProfileInfo,
+  kycAddressInfo,
+  kycTaxPayerInfo,
   kycStarted,
+  interestInCEL,
+  loanType,
+  loanAmount,
+  loanCollateral,
+  loanLTV,
+  loanTerms,
+  loanBankInfo,
+  loanToUAgreed,
+  changePassword,
+  changePin,
   withdrawCompleted,
   celpayCompleted,
-  loanApplied
+  loanApplied,
+  setPin,
 };
 
 let userData = {};
@@ -24,6 +39,7 @@ let advertisingId;
 
 let revisionId = "";
 let version = "";
+let sessionTime = new moment();
 
 const appInfo = { os: Platform.OS };
 
@@ -56,7 +72,7 @@ async function sendEvent(event, data = {}) {
   mixpanelService.track(event, {
     distinct_id: userData.id,
     ...appInfo,
-    ...data
+    ...data,
   });
 }
 
@@ -81,8 +97,12 @@ function buttonPressed(button) {
 /**
  * Set data to the user selected by distinct_id
  */
-function sessionStarted() {
-  sendEvent("$create_alias", { alias: userData.id });
+async function sessionStarted(trigger) {
+  sessionTime = new moment();
+  if (!userData.id) {
+    userData = store.getState().user.profile;
+  }
+  await sendEvent("$create_alias", { alias: userData.id });
   mixpanelService.engage(userData.id, {
     $email: userData.email,
     $first_name: userData.first_name,
@@ -99,17 +119,23 @@ function sessionStarted() {
     "KYC status": userData.kyc ? userData.kyc.status : "unknown",
     "Has referral link": !!userData.referral_link_id,
     "Is celsius member": userData.celsius_member,
-    "Has SSN": !!userData.ssn
+    "Has SSN": !!userData.ssn,
   });
-  sendEvent("Session started");
+  sendEvent("Session started", { trigger });
 }
 
 /**
  * Fires an event when a user ends the session - logout|app state to background
  */
-function sessionEnded() {
+function sessionEnded(trigger) {
   userData = {};
-  sendEvent("Session ended");
+
+  const x = new moment();
+  const sessionDuration = moment
+    .duration(x.diff(sessionTime))
+    .as("milliseconds");
+  const formatedDuration = moment.utc(sessionDuration).format("HH:mm:ss");
+  sendEvent("Session ended", { trigger, "Session duration": formatedDuration });
 }
 
 /**
@@ -130,8 +156,29 @@ async function registrationCompleted(user) {
 
   await sendEvent("Registration completed", {
     method,
-    referral_link_id: user.referral_link_id
+    referral_link_id: user.referral_link_id,
   });
+}
+
+/**
+ * Fires an event when a user submit KYC personal details
+ */
+async function kycProfileInfo() {
+  await sendEvent("KYC Personal Details Submitted");
+}
+
+/**
+ * Fires an event when a user submit KYC address
+ */
+async function kycAddressInfo() {
+  await sendEvent("KYC Address Submitted");
+}
+
+/**
+ * Fires an event when a user submit KYC taxpayer info
+ */
+async function kycTaxPayerInfo() {
+  await sendEvent("KYC Taxpayer info Submitted");
 }
 
 /**
@@ -139,6 +186,87 @@ async function registrationCompleted(user) {
  */
 async function kycStarted() {
   await sendEvent("KYC verification started");
+}
+
+/**
+ * Fires an event when a user change interest in coin
+ *
+ * @param {object} newInterest
+ */
+async function interestInCEL(newInterest) {
+  await sendEvent("Interest in CEL", newInterest);
+}
+
+/**
+ * Fires an event when a user choose loan type
+ *
+ * @param {string} loanTypeData
+ */
+async function loanType(loanTypeData) {
+  await sendEvent("Loan Type Chosen", { loanType: loanTypeData });
+}
+
+/**
+ * Fires an event when a user enter loan amount
+ *
+ * @param {object} loanData
+ */
+async function loanAmount(loanData) {
+  await sendEvent("Loan Coin and Amount Entered", loanData);
+}
+
+/**
+ * Fires an event when a user select collateral coin
+ *
+ * @param {string} coin
+ */
+async function loanCollateral(coin) {
+  await sendEvent("Collateral Coin Chosen", { coin });
+}
+
+/**
+ * Fires an event when a user choose LTV
+ *
+ * @param {string} ltv
+ */
+async function loanLTV(ltv) {
+  await sendEvent("LTV Chosen", { ltv });
+}
+
+/**
+ * Fires an event when a user choose term of loan
+ * @param {string} termOfLoan
+ */
+async function loanTerms(termOfLoan) {
+  await sendEvent("Term of Loan Chosen", { termOfLoan });
+}
+
+/**
+ * Fires an event when a user submit loan bank info
+ */
+async function loanBankInfo() {
+  await sendEvent("Bank Details Submitted");
+}
+
+/**
+ * Fires an event when a user agreed loan ToU
+ */
+async function loanToUAgreed() {
+  await sendEvent("Loan ToU Agreed");
+}
+
+/**
+ * Fires an event when a user change his password
+ */
+async function changePassword() {
+  await sendEvent("Password Changed");
+}
+
+/**
+ * Fires an event when a user change his PIN
+ */
+async function changePin() {
+  await sendEvent("PIN Changed");
 }
 
 /**
@@ -151,11 +279,11 @@ async function withdrawCompleted(withdrawTransaction) {
   const amountUsd =
     withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin];
 
-  await sendEvent("Withdrawal completed", {
+  await sendEvent("Withdrawal initiated", {
     id: withdrawTransaction.id,
     coin: withdrawTransaction.coin,
     amount_crypto: withdrawTransaction.amount.toString(),
-    amount_usd: amountUsd.toString()
+    amount_usd: amountUsd.toString(),
   });
 }
 
@@ -175,12 +303,12 @@ async function celpayCompleted(celPayTransfer, friendId) {
     celPayTransfer.amount *
     currencyRatesShort[celPayTransfer.coin.toLowerCase()];
 
-  await sendEvent("CelPay completed", {
+  await sendEvent("CelPay initiated", {
     id: celPayTransfer.id,
     coin: celPayTransfer.coin,
     amount_crypto: celPayTransfer.amount.toString(),
     amount_usd: amountUsd.toString(),
-    friendId
+    friendId,
   });
 }
 
@@ -205,8 +333,14 @@ async function loanApplied({ loan, transaction_id: transactionId }) {
     monthly_payment: loan.monthly_payment.toString(),
     term_of_loan: loan.term_of_loan,
     originating_date: loan.originating_date,
-    collateral_usd_rate: loan.collateral_usd_rate
+    collateral_usd_rate: loan.collateral_usd_rate,
   });
+}
+/**
+ * Fires an event when a user set a pin
+ */
+async function setPin() {
+  await sendEvent("Set PIN");
 }
 
 export default userBehaviorUtil;

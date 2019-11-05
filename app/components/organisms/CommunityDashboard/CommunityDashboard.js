@@ -6,25 +6,22 @@ import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 
-
 import CommunityDashboardStyle from "./CommunityDashboard.styles";
 import formatter from "../../../utils/formatter";
 import CelText from "../../atoms/CelText/CelText";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
-import { THEMES } from "../../../constants/UI"
+import { THEMES } from "../../../constants/UI";
 import Icon from "../../atoms/Icon/Icon";
-import {getTheme} from "../../../utils/styles-util";
-
+import { getTheme } from "../../../utils/styles-util";
 
 @connect(
   state => ({
     communityStats: state.community.stats,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class CommunityDashboard extends Component {
-
   static propTypes = {
     onPress: PropTypes.func,
     buttonTypes: PropTypes.instanceOf(Array),
@@ -43,31 +40,33 @@ class CommunityDashboard extends Component {
       // initial state
       activeButton: buttonTypes ? buttonTypes[0] : "",
       primaryNumber: "",
-      explanation: ""
+      explanation: "",
     };
     // binders
   }
 
   // lifecycle methods
   componentDidMount() {
-    const {name, communityStats} = this.props;
+    const { name, communityStats } = this.props;
     if (name === "CELPAY") {
       this.setState({
         primaryNumber: formatter.usd(communityStats.total_celpay_sent_usd),
-        explanation: "Sent via CelPay in total"
-      })
+        explanation: "Sent via CelPay in total",
+      });
     }
     if (name === "INTEREST") {
       this.setState({
-        primaryNumber: formatter.usd(communityStats.average_interest_earned_usd),
-        explanation: "The average earn per user in the last 12 months"
-      })
+        primaryNumber: formatter.usd(
+          communityStats.average_interest_earned_usd
+        ),
+        explanation: "The average earn per user in the last 12 months",
+      });
     }
   }
 
   // event hanlders
   // rendering methods
-  handlePress = (button) => {
+  handlePress = button => {
     const { name, communityStats } = this.props;
     let number;
     let explanationText;
@@ -90,7 +89,9 @@ class CommunityDashboard extends Component {
     }
     if (name === "CELPAY" && button === "Transactions") {
       explanationText = "Number of CelPay transactions";
-      number = formatter.round(communityStats.celpay_transactions_num, {noPrecision: true});
+      number = formatter.round(communityStats.celpay_transactions_num, {
+        noPrecision: true,
+      });
     }
     if (name === "CELPAY" && button === "Total") {
       explanationText = "Sent via CelPay in total";
@@ -112,7 +113,7 @@ class CommunityDashboard extends Component {
     this.setState({
       activeButton: button,
       primaryNumber: number,
-      explanation: explanationText
+      explanation: explanationText,
     });
   };
 
@@ -120,62 +121,75 @@ class CommunityDashboard extends Component {
     const { name, buttonTypes, info, children } = this.props;
     const { activeButton, primaryNumber, explanation } = this.state;
     const style = CommunityDashboardStyle();
-    const theme = getTheme()
-    const separatorColor = THEMES.LIGHT === theme ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.SEMI_GRAY
+    const theme = getTheme();
+    const separatorColor =
+      THEMES.LIGHT === theme ? STYLES.COLORS.DARK_GRAY1 : null;
 
     return (
       <View style={style.container}>
-        <Separator margin={"30 0 20 0"} color={separatorColor} text={name}/>
-        {(buttonTypes && buttonTypes.length > 0) &&
-        <View style={style.buttonWrapper}>
-          {buttonTypes.map((button) => (
-            <TouchableOpacity key={button} style={style.button} onPress={() => this.handlePress(button)}>
-              <View style={style.innerStyle}>
-                <Icon
-                  name={button}
-                  height={18}
-                  width={18}
-                  fill={ activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
-                  strokeWidth={0.5}
-                />
-                <CelText
-                  type={"H7"}
-                  weight={"500"}
-                  align={"center"}
-                  color={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}>
-                  {button.toUpperCase()}
-                </CelText>
-                {activeButton === button &&
-                <View style={style.active}/>
-                }
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-        }
-        {info &&
-        <View>
-          <CelText
-            weight={"600"}
-            align={"center"}
-            type={"H2"}
-            style={style.primary}
-          >{primaryNumber}
-          </CelText>
-          <CelText
-            weight={"300"}
-            align={"center"}
-            type={"H6"}
-            style={style.explanation}
-          >
-            {explanation}
-          </CelText>
-        </View>
-        }
+        <Separator margin={"30 0 20 0"} color={separatorColor} text={name} />
+        {buttonTypes && buttonTypes.length > 0 && (
+          <View style={style.buttonWrapper}>
+            {buttonTypes.map(button => (
+              <TouchableOpacity
+                key={button}
+                style={style.button}
+                onPress={() => this.handlePress(button)}
+              >
+                <View style={style.innerStyle}>
+                  <Icon
+                    name={button}
+                    height={18}
+                    width={18}
+                    fill={
+                      activeButton === button
+                        ? STYLES.COLORS.CELSIUS_BLUE
+                        : STYLES.COLORS.MEDIUM_GRAY
+                    }
+                    strokeWidth={0.5}
+                  />
+                  <CelText
+                    type={"H7"}
+                    weight={"500"}
+                    align={"center"}
+                    color={
+                      activeButton === button
+                        ? STYLES.COLORS.CELSIUS_BLUE
+                        : STYLES.COLORS.MEDIUM_GRAY
+                    }
+                  >
+                    {button.toUpperCase()}
+                  </CelText>
+                  {activeButton === button && <View style={style.active} />}
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+        {info && (
+          <View>
+            <CelText
+              weight={"600"}
+              align={"center"}
+              type={"H2"}
+              style={style.primary}
+            >
+              {primaryNumber}
+            </CelText>
+            <CelText
+              weight={"300"}
+              align={"center"}
+              type={"H6"}
+              style={style.explanation}
+            >
+              {explanation}
+            </CelText>
+          </View>
+        )}
         {children}
       </View>
     );
   }
 }
 
-export default CommunityDashboard
+export default CommunityDashboard;

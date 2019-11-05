@@ -1,8 +1,12 @@
 import { Dimensions } from "react-native";
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const height = heightPercentageToDP("25%");
-const {width} = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const base = {
   root: {
@@ -11,14 +15,14 @@ const base = {
   },
   container: {
     height,
-    width
+    width,
   },
   pointer: {
     position: "absolute",
     bottom: heightPercentageToDP("25%"),
     left: 0,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   label: {
     borderRadius: 8,
@@ -44,39 +48,34 @@ const base = {
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
     borderBottomColor: "rgba(61,72,83,1)",
-    transform: [
-      { rotate: "180deg" }
-    ]
+    transform: [{ rotate: "180deg" }],
   },
   scrollPointer: {
     position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0
+    right: 0,
   },
-  percentageView : {
+  percentageView: {
     justifyContent: "space-between",
     flexDirection: "row",
   },
   singlePercent: {
     flexDirection: "row",
     marginTop: -20,
-    alignItems: 'flex-start',
-  }
-}
+    alignItems: "flex-start",
+  },
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const PerformanceGraphStyle = () => getThemedStyle(base, themed);
 
-export default PerformanceGraphStyle
+export default PerformanceGraphStyle;

@@ -1,14 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { View, TouchableOpacity } from 'react-native'
+import React from "react";
+import PropTypes from "prop-types";
+import { View, TouchableOpacity } from "react-native";
 
-
-
-import CoinSwitchStyle from './CoinSwitch.styles'
-import CelText from '../CelText/CelText'
-import formatter from '../../../utils/formatter'
-import Icon from '../Icon/Icon'
-import STYLES from '../../../constants/STYLES'
+import CoinSwitchStyle from "./CoinSwitch.styles";
+import CelText from "../CelText/CelText";
+import formatter from "../../../utils/formatter";
+import Icon from "../Icon/Icon";
+import STYLES from "../../../constants/STYLES";
 import { getScaledFont, getTheme } from "../../../utils/styles-util";
 import { THEMES } from "../../../constants/UI";
 
@@ -20,28 +18,32 @@ const CoinSwitch = props => {
     updateFormField,
     coin,
     amountColor,
-    theme: inheritTheme
-  } = props
+    theme: inheritTheme,
+  } = props;
 
   // `$ ${amountUsd || '0.00'}` format a number to $ 21.32 or set default value as 0.00
   const upperValue = isUsd
-    ? `$ ${amountUsd || '0.00'}`
-    : `${formatter.getEllipsisAmount(amountCrypto || '0.00', -5)}`
+    ? `$ ${amountUsd || "0.00"}`
+    : `${formatter.getEllipsisAmount(amountCrypto || "0.00", -5)}`;
   const lowerValue = !isUsd
-    ? `$ ${amountUsd || '0.00'} USD`
-    : `${formatter.getEllipsisAmount(amountCrypto || '0.00', -5)} ${coin}`
+    ? `$ ${amountUsd || "0.00"} USD`
+    : `${formatter.getEllipsisAmount(amountCrypto || "0.00", -5)} ${coin}`;
 
   const theme = inheritTheme || getTheme();
-  const style = CoinSwitchStyle(theme)
+  const style = CoinSwitchStyle(theme);
 
   return (
     <View style={style.container}>
       {!isUsd ? (
         <Icon
           name={`Icon${coin}`}
-          width='40'
-          height='40'
-          fill={ theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3 }
+          width="40"
+          height="40"
+          fill={
+            theme !== THEMES.DARK
+              ? STYLES.COLORS.DARK_GRAY3
+              : STYLES.COLORS.WHITE_OPACITY3
+          }
           style={{ marginBottom: 28 }}
         />
       ) : (
@@ -53,14 +55,14 @@ const CoinSwitch = props => {
             <View
               style={{
                 height: getScaledFont(STYLES.FONTSIZE.H1),
-                justifyContent: 'center',
-                marginVertical: 10
+                justifyContent: "center",
+                marginVertical: 10,
               }}
             >
               <CelText
-                align='center'
-                type='H1'
-                weight='regular'
+                align="center"
+                type="H1"
+                weight="regular"
                 size={STYLES.FONTSIZE.H1 - upperValue.length}
                 color={amountColor}
               >
@@ -71,12 +73,12 @@ const CoinSwitch = props => {
           <View
             style={{
               height: getScaledFont(STYLES.FONTSIZE.H2),
-              justifyContent: 'center'
+              justifyContent: "center",
             }}
           >
             <CelText
-              align='center'
-              type='H2'
+              align="center"
+              type="H2"
               color={STYLES.COLORS.MEDIUM_GRAY}
               size={STYLES.FONTSIZE.H2 - lowerValue.length / 2}
             >
@@ -89,16 +91,16 @@ const CoinSwitch = props => {
           <View
             style={{
               height: getScaledFont(STYLES.FONTSIZE.H1),
-              justifyContent: 'center'
+              justifyContent: "center",
             }}
           >
             <CelText
-              align='center'
-              type='H1'
+              align="center"
+              type="H1"
               style={{ height: getScaledFont(STYLES.FONTSIZE.H1) }}
               size={STYLES.FONTSIZE.H1 - upperValue.length}
-              margin='10 0 10 0'
-              weight='regular'
+              margin="10 0 10 0"
+              weight="regular"
               color={amountColor}
             >
               {upperValue}
@@ -107,12 +109,12 @@ const CoinSwitch = props => {
           <View
             style={{
               height: getScaledFont(STYLES.FONTSIZE.H2),
-              justifyContent: 'center'
+              justifyContent: "center",
             }}
           >
             <CelText
-              align='center'
-              type='H2'
+              align="center"
+              type="H2"
               color={STYLES.COLORS.MEDIUM_GRAY}
               style={{ height: getScaledFont(STYLES.FONTSIZE.H2) }}
               size={STYLES.FONTSIZE.H2 - lowerValue.length / 2}
@@ -123,18 +125,18 @@ const CoinSwitch = props => {
         </View>
       )}
       <View style={style.switchButton}>
-        <TouchableOpacity onPress={() => updateFormField('isUsd', !isUsd)}>
+        <TouchableOpacity onPress={() => updateFormField("isUsd", !isUsd)}>
           <Icon
-            name='Switch'
-            width='25'
-            height='25'
+            name="Switch"
+            width="25"
+            height="25"
             fill={STYLES.COLORS.MEDIUM_GRAY}
           />
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
 CoinSwitch.propTypes = {
   isUsd: PropTypes.bool,
@@ -145,7 +147,7 @@ CoinSwitch.propTypes = {
   onAmountPress: PropTypes.func,
   coin: PropTypes.string,
   amountColor: PropTypes.string,
-  theme: PropTypes.string
-}
+  theme: PropTypes.string,
+};
 
-export default CoinSwitch
+export default CoinSwitch;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View } from "react-native";
@@ -15,14 +15,14 @@ import * as appActions from "../../../redux/actions";
 )
 class KYCFinalRejection extends Component {
   static propTypes = {};
-  static defaultProps = {}
+  static defaultProps = {};
 
   static navigationOptions = () => ({
-    header: null
+    header: null,
   });
 
   render() {
-    const { actions } = this.props
+    const { actions } = this.props;
     return (
       <RegularLayout padding={"40 20 40 20"} fabType={"hide"}>
         <View>
@@ -33,23 +33,21 @@ class KYCFinalRejection extends Component {
             disabled
           />
 
-          <CelText margin='20 0 15 0' align='center' type='H2' weight={'bold'}>
+          <CelText margin="20 0 15 0" align="center" type="H2" weight={"bold"}>
             Your account can not be approved.
           </CelText>
 
           <CelText align="center" margin="20 0 20 0">
-            Due to global compliance and regulations, we are unable to approve your Celsius Network account and we cannot provide you with access to Celsius services.
+            Due to global compliance and regulations, we are unable to approve
+            your Celsius Network account and we cannot provide you with access
+            to Celsius services.
           </CelText>
 
-          <CelButton
-            onPress={() => actions.logoutUser()}
-          >
-            Log out
-          </CelButton>
+          <CelButton onPress={() => actions.logoutUser()}>Log out</CelButton>
         </View>
       </RegularLayout>
     );
   }
 }
 
-export default KYCFinalRejection
+export default KYCFinalRejection;

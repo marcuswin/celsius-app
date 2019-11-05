@@ -1,5 +1,8 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   container: {
@@ -9,11 +12,11 @@ const base = {
   spinner: {
     height: heightPercentageToDP("20.21%"),
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   period: {
     marginBottom: heightPercentageToDP("5%"),
-  }
+  },
 };
 
 const themed = {
@@ -21,7 +24,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const GraphContainerStyle = () => getThemedStyle(base, themed);

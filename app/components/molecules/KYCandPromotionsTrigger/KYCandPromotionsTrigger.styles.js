@@ -1,5 +1,9 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 
 const base = {
@@ -19,7 +23,7 @@ const base = {
     backgroundColor: STYLES.COLORS.WHITE_OPACITY2,
     borderRadius: heightPercentageToDP("11%"),
     justifyContent: "center",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   mainWrapper: {
     flexDirection: "row",
@@ -29,12 +33,12 @@ const base = {
     paddingLeft: widthPercentageToDP("22%"),
     paddingRight: widthPercentageToDP("2%"),
   },
-  image : {
+  image: {
     marginRight: 15,
     width: 35,
     height: 35,
-    resizeMode: "contain"
-  }
+    resizeMode: "contain",
+  },
 };
 
 const themed = {
@@ -42,7 +46,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const KYCandPromotionsTriggerStyle = () => getThemedStyle(base, themed);

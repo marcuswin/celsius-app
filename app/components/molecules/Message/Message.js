@@ -3,7 +3,6 @@ import { Animated, Easing, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
 import * as appActions from "../../../redux/actions";
 import MessageStyle from "./Message.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -22,21 +21,18 @@ class Message extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.message) {
-      Animated.timing(
-        prevState.opacity,
-        {
-          toValue: 1,
-          duration: 800,
-          useNativeDriver: true,
-          easing: Easing.linear
-        }
-      ).start();
+      Animated.timing(prevState.opacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+        easing: Easing.linear,
+      }).start();
     }
     return null;
   }
 
   state = {
-    opacity: new Animated.Value(0.3)
+    opacity: new Animated.Value(0.3),
   };
 
   getIcon = () => {
@@ -58,7 +54,7 @@ class Message extends Component {
   render() {
     const { message, actions } = this.props;
     if (!message || !message.text) return null;
-    const { action } = message
+    const { action } = message;
     const style = MessageStyle();
 
     const icon = this.getIcon();
@@ -66,23 +62,37 @@ class Message extends Component {
     return (
       <Animated.View style={style[`${message.type}Container`]}>
         <View style={style.circle}>
-          <Icon {...icon} height='29' width='29' fill={STYLES.COLORS.WHITE} />
+          <Icon {...icon} height="29" width="29" fill={STYLES.COLORS.WHITE} />
         </View>
 
         <View style={{ width: "65%" }}>
           <CelText margin={"3 0 0 0"} color="white">
             {message.text}
           </CelText>
-          { !!action && (
-            <CelText margin={"5 0 0 0"} color="white" weight="bold" onPress={action.action}>
+          {!!action && (
+            <CelText
+              margin={"5 0 0 0"}
+              color="white"
+              weight="bold"
+              onPress={action.action}
+            >
               {action.text} >
             </CelText>
           )}
         </View>
 
-        <TouchableOpacity onPress={() => actions.clearMessage()} style={style.closeButton}>
+        <TouchableOpacity
+          onPress={() => actions.clearMessage()}
+          style={style.closeButton}
+        >
           <View style={style.closeButtonView}>
-            <Icon name="Close" height="20" width="20" viewBox="0 0 1000 1000" fill="#FFFFFF" />
+            <Icon
+              name="Close"
+              height="20"
+              width="20"
+              viewBox="0 0 1000 1000"
+              fill="#FFFFFF"
+            />
           </View>
         </TouchableOpacity>
       </Animated.View>
@@ -90,4 +100,4 @@ class Message extends Component {
   }
 }
 
-export default Message
+export default Message;

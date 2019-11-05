@@ -1,24 +1,21 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-      flexDirection: "row",
-      justifyContent: 'space-between'
-    }
-}
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const WalletDetailsCardStyle = () => getThemedStyle(base, themed);
 
-export default WalletDetailsCardStyle
+export default WalletDetailsCardStyle;

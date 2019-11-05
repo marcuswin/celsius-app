@@ -1,41 +1,52 @@
-import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import STYLES from "../../../constants/STYLES";
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        flex: 1
-    }
-}
+  container: {
+    flex: 1,
+  },
+  loaderView: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    top: 20,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 10,
+    alignItems: "center",
+  },
+};
 
 const themed = {
-    dark: {
-        container: {
-            backgroundColor: STYLES.COLORS.DARK_BACKGROUND
-        },
-        headerTitle: {
-            color: STYLES.COLORS.WHITE_OPACITY5
-        }
+  dark: {
+    container: {
+      backgroundColor: STYLES.COLORS.DARK_BACKGROUND,
     },
-
-    light: {
-        container: {
-            backgroundColor: STYLES.COLORS.LIGHT_GRAY
-        },
-        headerTitle: {
-            color: STYLES.COLORS.DARK_GRAY
-        }
+    headerTitle: {
+      color: STYLES.COLORS.WHITE_OPACITY5,
     },
+  },
 
-    celsius: {
-        container: {
-            backgroundColor: STYLES.COLORS.LIGHT_GRAY
-        },
-        headerTitle: {
-            color: STYLES.COLORS.WHITE_OPACITY5
-        }
+  light: {
+    container: {
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
     },
-}
+    headerTitle: {
+      color: STYLES.COLORS.DARK_GRAY,
+    },
+  },
 
-const RegularLayoutStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed));
+  celsius: {
+    container: {
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+    },
+    headerTitle: {
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
+  },
+};
 
-export default RegularLayoutStyle
+const RegularLayoutStyle = theme =>
+  theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed);
+
+export default RegularLayoutStyle;

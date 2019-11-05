@@ -3,33 +3,31 @@ import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
-  scrollWrapper: {
-
-  },
+  scrollWrapper: {},
 };
 
 const themed = {
   light: {
     iconFill: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.WHITE,
     },
     fillColor: {
-      color: STYLES.COLORS.DARK_GRAY
-    }
+      color: STYLES.COLORS.DARK_GRAY,
+    },
   },
 
   dark: {
     iconFill: {
-      color: STYLES.COLORS.DARK_HEADER
+      color: STYLES.COLORS.DARK_HEADER,
     },
     fillColor: {
-      color: STYLES.COLORS.WHITE
-    }
+      color: STYLES.COLORS.WHITE,
+    },
   },
 
-  celsius: {}
+  celsius: {},
 };
 
 const PerCoinCelInterestCardStyle = () => getThemedStyle(base, themed);

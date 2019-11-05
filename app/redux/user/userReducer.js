@@ -1,16 +1,15 @@
 import ACTIONS from "../../constants/ACTIONS";
 
-
 /**
  * TODO make it a function add JSDoc & desc for return
  */
 const initialState = {
   profile: {
-    profile_picture: null
+    profile_picture: null,
   },
   expiredSession: false,
   appSettings: {
-    theme: 'light'
+    theme: "light",
   },
 
   bankAccountInfo: null, // TODO move to profile
@@ -18,9 +17,10 @@ const initialState = {
   loyaltyInfo: null, // TODO move to profile
   securityOverview: {}, // TODO move to security
   kycDocuments: undefined, // TODO move to kycReducer
-  contacts: { // TODO move to profileReducer
+  contacts: {
+    // TODO move to profileReducer
     friendsWithApp: [],
-    friendsWithoutApp: []
+    friendsWithoutApp: [],
   },
 };
 
@@ -68,7 +68,7 @@ export default (state = initialState, action) => {
         profile: {
           ...state.profile,
           ...action.personalInfo,
-          ...action.taxPayerInfo
+          ...action.taxPayerInfo,
         },
       };
 
@@ -95,17 +95,17 @@ export default (state = initialState, action) => {
         profile: {
           ...state.profile,
           has_pin: true,
-        }
-      }
+        },
+      };
 
     case ACTIONS.UPLOAD_PLOFILE_IMAGE_SUCCESS:
       return {
         ...state,
         profile: {
           ...state.profile,
-          profile_picture: action.image
+          profile_picture: action.image,
         },
-      }
+      };
 
     case ACTIONS.START_KYC_SUCCESS:
     case ACTIONS.GET_KYC_STATUS_SUCCESS:
@@ -114,54 +114,54 @@ export default (state = initialState, action) => {
         profile: {
           ...state.profile,
           kyc: action.kyc,
-        }
-      }
+        },
+      };
 
     case ACTIONS.GET_KYC_DOCUMENTS_SUCCESS:
     case ACTIONS.CREATE_KYC_DOCUMENTS_SUCCESS:
       return {
         ...state,
         kycDocuments: action.documents,
-      }
+      };
 
     case ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS:
       return {
         ...state,
         profile: {
           ...state.profile,
-          individual_referral_link: action.link
-        }
-      }
+          individual_referral_link: action.link,
+        },
+      };
 
     case ACTIONS.GET_CONNECTED_CONTACTS_SUCCESS:
       return {
         ...state,
         contacts: {
           friendsWithApp: [...action.contacts.friendsWithApp],
-          friendsWithoutApp: [...action.contacts.friendsWithoutApp]
-        }
+          friendsWithoutApp: [...action.contacts.friendsWithoutApp],
+        },
       };
 
     case ACTIONS.GET_LINKED_BANK_ACCOUNT_SUCCESS:
       return {
         ...state,
         bankAccountInfo: {
-          ...action.bankAccountInfo
-        }
-      }
+          ...action.bankAccountInfo,
+        },
+      };
 
     case ACTIONS.GET_PREVIOUS_SCREEN_SUCCESS:
       return {
         ...state,
-        screen: action.screen
+        screen: action.screen,
       };
 
     case ACTIONS.GET_LOYALTY_INFO_SUCCESS:
       return {
         ...state,
         loyaltyInfo: {
-          ...action.loyaltyInfo
-        }
+          ...action.loyaltyInfo,
+        },
       };
 
     case ACTIONS.SET_APP_SETTINGS_SUCCESS:
@@ -170,9 +170,9 @@ export default (state = initialState, action) => {
         ...state,
         appSettings: {
           ...state.appSettings,
-          ...action.userAppData
-        }
-      }
+          ...action.userAppData,
+        },
+      };
 
     case ACTIONS.GET_MEMBER_STATUS_SUCCESS:
       return {
@@ -180,19 +180,18 @@ export default (state = initialState, action) => {
         profile: {
           ...state.profile,
           celsius_member: action.isNewMember || state.profile.celsius_member,
-        }
-      }
+        },
+      };
 
     case ACTIONS.GET_USER_SECURITY_OVERVIEW_SUCCESS:
       return {
         ...state,
         securityOverview: {
           ...action.overview,
-        }
-      }
+        },
+      };
 
     default:
       return state;
-
   }
-}
+};

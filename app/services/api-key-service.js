@@ -1,5 +1,5 @@
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from "axios";
+import apiUrl from "./api-url";
 
 const apiKeyService = {
   getAll,
@@ -17,7 +17,6 @@ function getAll() {
   return axios.get(`${apiUrl}/api_key`);
 }
 
-
 /**
  * Creates API key for user from permissions
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#95240b60-f2dc-4ad4-ab99-c825f32ecdbf
@@ -33,7 +32,6 @@ function create(permissions) {
   return axios.post(`${apiUrl}/api_key`, permissions);
 }
 
-
 /**
  * Deletes users API key
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#34180ffb-2008-462e-9492-0835c4e8f5e6
@@ -46,6 +44,3 @@ function remove(keyId) {
 }
 
 export default apiKeyService;
-
-
-

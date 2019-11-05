@@ -4,35 +4,36 @@ import { TouchableOpacity, View } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-
 import * as appActions from "../../../redux/actions";
 import PeriodGraphViewStyle from "./PeriodGraphView.styles";
 import CelText from "../../atoms/CelText/CelText";
 import STYLES from "../../../constants/STYLES";
 
-
 @connect(
   state => ({
-    period: state.graph.timeline.period
+    period: state.graph.timeline.period,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class PeriodGraphView extends Component {
-
   static propTypes = {
-    periods: PropTypes.instanceOf(Array)
+    periods: PropTypes.instanceOf(Array),
   };
   static defaultProps = {
     periods: ["DAY", "WEEK", "MONTH", "YEAR"],
-    showPeriods: false
+    showPeriods: false,
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.type !== "coin-interest" && nextProps.period && nextProps.period !== prevState.activePeriod) {
+    if (
+      nextProps.type !== "coin-interest" &&
+      nextProps.period &&
+      nextProps.period !== prevState.activePeriod
+    ) {
       return { activePeriod: nextProps.period };
     }
 
-    return null
+    return null;
   }
 
   constructor(props) {
@@ -42,12 +43,12 @@ class PeriodGraphView extends Component {
 
     this.state = {
       // initial state
-      activePeriod: type === "coin-interest" ? "MONTH" : "DAY"
+      activePeriod: type === "coin-interest" ? "MONTH" : "DAY",
     };
     // binders
   }
 
-  activatePeriod = (period) => {
+  activatePeriod = period => {
     const { actions } = this.props;
     let tm;
 
@@ -71,7 +72,7 @@ class PeriodGraphView extends Component {
     actions.activeTimeline(tm, period);
 
     this.setState({
-      activePeriod: period
+      activePeriod: period,
     });
 
     this.props.onChange(tm);
@@ -87,20 +88,23 @@ class PeriodGraphView extends Component {
 
     return (
       <View style={[style.periods, { width, marginBottom: 10 }]}>
-        {periods.map((period) => (
-          <TouchableOpacity key={period} style={{ alignItems: "center" }}
-                            onPress={() => this.activatePeriod(period)}>
+        {periods.map(period => (
+          <TouchableOpacity
+            key={period}
+            style={{ alignItems: "center" }}
+            onPress={() => this.activatePeriod(period)}
+          >
             <CelText
               key={period}
-              type='H6'
+              type="H6"
               weight={activePeriod === period ? "medium" : "regular"}
-              color={activePeriod === period ? STYLES.COLORS.CELSIUS_BLUE : null}
+              color={
+                activePeriod === period ? STYLES.COLORS.CELSIUS_BLUE : null
+              }
             >
               {period}
             </CelText>
-            {activePeriod === period &&
-            <View style={style.active}/>
-            }
+            {activePeriod === period && <View style={style.active} />}
           </TouchableOpacity>
         ))}
       </View>
@@ -108,4 +112,4 @@ class PeriodGraphView extends Component {
   }
 }
 
-export default PeriodGraphView
+export default PeriodGraphView;

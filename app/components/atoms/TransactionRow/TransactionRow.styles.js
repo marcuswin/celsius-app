@@ -1,40 +1,37 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 16
+    paddingVertical: 16,
   },
   leftSide: {
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: "row",
+    alignItems: "center",
   },
   rightSide: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   amounts: {
-    marginLeft: 10
+    marginLeft: 10,
   },
   statusText: {
-    marginBottom: 5
-  }
-}
+    marginBottom: 5,
+  },
+};
 
 const themed = {
-  light: {
-  },
+  light: {},
 
-  dark: {
-  },
+  dark: {},
 
-  celsius: {
-  }
-}
+  celsius: {},
+};
 
 const TransactionRowStyle = () => getThemedStyle(base, themed);
 
-export default TransactionRowStyle
+export default TransactionRowStyle;

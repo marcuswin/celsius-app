@@ -1,12 +1,15 @@
-import { Platform } from 'react-native'
-import STYLES from '../../../constants/STYLES'
+import { Platform } from "react-native";
+import STYLES from "../../../constants/STYLES";
 
-import { getThemedStyle, widthPercentageToDP } from '../../../utils/styles-util'
+import {
+  getThemedStyle,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   card: {
-    justifyContent: 'center',
-    borderRadius: 8
+    justifyContent: "center",
+    borderRadius: 8,
   },
   cardBorder: {
     ...Platform.select({
@@ -14,46 +17,46 @@ const base = {
         borderTopWidth: 0.2,
         borderLeftWidth: 0.2,
         borderRightWidth: 0.5,
-        borderBottomWidth: 2
+        borderBottomWidth: 2,
       },
       ios: {
-        ...STYLES.SHADOW_STYLES
-      }
-    })
+        ...STYLES.SHADOW_STYLES,
+      },
+    }),
   },
   full: {
-    width: '100%' // -40 because RegularLayout padding is 20 on both sides
+    width: "100%", // -40 because RegularLayout padding is 20 on both sides
   },
   twoThirds: {
-    width: widthPercentageToDP("60%")
+    width: widthPercentageToDP("60%"),
   },
   half: {
-    width: widthPercentageToDP('50%') - 28 // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
+    width: widthPercentageToDP("50%") - 28, // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
   },
   halfExtra: {
-    width: widthPercentageToDP('40.5%') - 28 // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
+    width: widthPercentageToDP("40.5%") - 28, // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
   },
   third: {
-    width: widthPercentageToDP('26.93%')
+    width: widthPercentageToDP("26.93%"),
   },
   thirdExtra: {
-    width: widthPercentageToDP('20.5%'),
-    minWidth: widthPercentageToDP('20.5%')
-  }
-}
+    width: widthPercentageToDP("20.5%"),
+    minWidth: widthPercentageToDP("20.5%"),
+  },
+};
 
 const themed = {
   light: {
     cardBackground: {
       backgroundColor: STYLES.COLORS.WHITE,
     },
-  cardBorder: {
-    ...Platform.select({
-      android: {
-        borderColor: '#E9E9E9'
-      }
-    })
-  }
+    cardBorder: {
+      ...Platform.select({
+        android: {
+          borderColor: "#E9E9E9",
+        },
+      }),
+    },
   },
 
   dark: {
@@ -63,15 +66,16 @@ const themed = {
     cardBorder: {
       ...Platform.select({
         android: {
-          borderColor: STYLES.COLORS.BLACK_OPACITY2
-        }
-      })
-    }
+          borderColor: STYLES.COLORS.BLACK_OPACITY2,
+        },
+      }),
+    },
   },
 
-  celsius: {}
-}
+  celsius: {},
+};
 
-const CardStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed))
+const CardStyle = theme =>
+  theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed);
 
-export default CardStyle
+export default CardStyle;

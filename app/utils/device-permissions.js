@@ -1,11 +1,7 @@
-import * as Permissions from 'expo-permissions';
-import { Linking, Platform } from 'react-native';
+import * as Permissions from "expo-permissions";
+import { Linking, Platform } from "react-native";
 
-export {
-  hasPermission,
-  requestForPermission,
-}
-
+export { hasPermission, requestForPermission };
 
 /**
  * Checks if a user has allowed some permission
@@ -15,9 +11,8 @@ export {
  */
 async function hasPermission(permission) {
   const { status } = await Permissions.getAsync(permission);
-  return status === 'granted'
-};
-
+  return status === "granted";
+}
 
 /**
  * Requests some permissions for user
@@ -33,23 +28,23 @@ async function requestForPermission(permission, options) {
   const defaultOpts = {
     goToSettings: true,
     askAnyway: true,
-  }
+  };
 
   const opts = {
     ...defaultOpts,
     ...options,
-  }
-  if (Platform.OS === 'ios') {
-    if (status === 'undetermined' && opts.askAnyway) {
+  };
+  if (Platform.OS === "ios") {
+    if (status === "undetermined" && opts.askAnyway) {
       const perm = await Permissions.askAsync(permission);
       status = perm.status;
     } else if (opts.goToSettings) {
-      Linking.openURL('app-settings:')
+      Linking.openURL("app-settings:");
     }
-  } else if (Platform.OS === 'android' && opts && opts.askAnyway) {
+  } else if (Platform.OS === "android" && opts && opts.askAnyway) {
     const perm = await Permissions.askAsync(permission);
     status = perm.status;
   }
 
-  return status === 'granted'
-};
+  return status === "granted";
+}

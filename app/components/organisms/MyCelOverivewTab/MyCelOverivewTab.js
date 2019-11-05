@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { bindActionCreators } from "redux";
@@ -9,8 +8,8 @@ import CelText from "../../atoms/CelText/CelText";
 // import STYLES from "../../../constants/STYLES";
 import formatter from "../../../utils/formatter";
 import { widthPercentageToDP } from "../../../utils/styles-util";
-import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
-import CalculateLoyaltyModal from "../../organisms/CalculateLoyaltyModal/CalculateLoyaltyModal"
+import ThemedImage from "../../atoms/ThemedImage/ThemedImage";
+import CalculateLoyaltyModal from "../../organisms/CalculateLoyaltyModal/CalculateLoyaltyModal";
 import { MODALS } from "../../../constants/UI";
 
 @connect(
@@ -19,20 +18,21 @@ import { MODALS } from "../../../constants/UI";
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-
 class MyCelOverivewTab extends Component {
   render() {
-    const {
-      actions,
-      width,
-      loyaltyInfo
-    } = this.props;
+    const { actions, width, loyaltyInfo } = this.props;
     const style = MyCelOverivewTabStyle();
 
     return (
       <View style={style.container}>
         <View style={[width, style.contentWrapper]}>
-          <View style={{ alignSelf: 'center', flexDirection: "row", paddingBottom: 20, }}>
+          <View
+            style={{
+              alignSelf: "center",
+              flexDirection: "row",
+              paddingBottom: 20,
+            }}
+          >
             <CelText
               type={"H5"}
               weight={"500"}
@@ -46,7 +46,7 @@ class MyCelOverivewTab extends Component {
               weight={"700"}
               style={{
                 left: 5,
-                top: widthPercentageToDP("14%") / 3.5
+                top: widthPercentageToDP("14%") / 3.5,
               }}
             >
               {`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}
@@ -55,12 +55,9 @@ class MyCelOverivewTab extends Component {
           <View style={style.wrapper}>
             <View style={style.circle}>
               <ThemedImage
-                style={[
-                  style.starIcon,
-                  { marginTop: 6 }
-                ]}
-                lightSource={require('../../../../assets/images/loyaltyIcons/reward-icon3x.png')}
-                darkSource={require('../../../../assets/images/loyaltyIcons/reward-dark-icon3x.png')}
+                style={[style.starIcon, { marginTop: 6 }]}
+                lightSource={require("../../../../assets/images/loyaltyIcons/reward-icon3x.png")}
+                darkSource={require("../../../../assets/images/loyaltyIcons/reward-dark-icon3x.png")}
               />
             </View>
             <View style={{ marginTop: 40, paddingHorizontal: 10 }}>
@@ -79,13 +76,18 @@ class MyCelOverivewTab extends Component {
                 type={"H4"}
                 weight={"300"}
               >
-                Your loyalty level is dynamic and will change with changing wallet balances. This includes new wallet
-                activity as well as market fluctuations, so be sure to check your status every week!
+                Your loyalty level is dynamic and will change with changing
+                wallet balances. This includes new wallet activity as well as
+                market fluctuations, so be sure to check your status every week!
               </CelText>
             </View>
           </View>
 
-          <TouchableOpacity onPress={() => actions.openModal(MODALS.MY_CEL_LOYALTY_CALCULATOR_MODAL)}>
+          <TouchableOpacity
+            onPress={() =>
+              actions.openModal(MODALS.MY_CEL_LOYALTY_CALCULATOR_MODAL)
+            }
+          >
             <CelText
               style={style.loyalityQuestion}
               type={"H4"}

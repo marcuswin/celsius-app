@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
 import * as appActions from "../../../redux/actions";
-import CelText from '../../atoms/CelText/CelText';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import CelText from "../../atoms/CelText/CelText";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
 import { KEYPAD_PURPOSES } from "../../../constants/UI";
 import ChangePinStyle from "./ChangePin.styles";
@@ -15,17 +14,17 @@ import Spinner from "../../atoms/Spinner/Spinner";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
-  (state) => ({
+  state => ({
     formData: state.forms.formData,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class ChangePin extends Component {
   static propTypes = {};
   static defaultProps = {};
 
   static navigationOptions = () => ({
-    headerSameColor: true
+    headerSameColor: true,
   });
 
   constructor(props) {
@@ -36,61 +35,63 @@ class ChangePin extends Component {
     };
   }
 
-  handlePINChange = (newValue) => {
+  handlePINChange = newValue => {
     const { pinCreated } = this.state;
     const { actions } = this.props;
 
     if (newValue.length > 4) return;
 
-    const field = pinCreated ? 'newPinConfirm' : 'newPin'
+    const field = pinCreated ? "newPinConfirm" : "newPin";
 
-    actions.updateFormField(field, newValue)
+    actions.updateFormField(field, newValue);
 
     if (newValue.length === 4) {
-      this.handlePinFinish(newValue)
+      this.handlePinFinish(newValue);
     }
-  }
+  };
 
-  handlePinFinish = async(newValue) => {
+  handlePinFinish = async newValue => {
     const { pinCreated } = this.state;
     const { actions, formData } = this.props;
 
     if (!pinCreated) {
-      this.setState({ pinCreated: true })
+      this.setState({ pinCreated: true });
     } else if (formData.newPin === newValue) {
       // actions.changePin()
-      this.setState({ loading: true })
-      const isSet = await actions.changePin()
-    if(!isSet) {
-      this.setState({pinCreated: false})
-    }
+      this.setState({ loading: true });
+      const isSet = await actions.changePin();
+      if (!isSet) {
+        this.setState({ pinCreated: false });
+      }
     } else {
-      actions.showMessage('error', 'Both PIN numbers should be the same.')
-      actions.updateFormField('newPinConfirm','')
+      actions.showMessage("error", "Both PIN numbers should be the same.");
+      actions.updateFormField("newPinConfirm", "");
     }
-    this.setState({ loading: false })
-  }
+    this.setState({ loading: false });
+  };
 
   handleBack = () => {
-    const { actions } = this.props
+    const { actions } = this.props;
 
     actions.updateFormFields({
-      newPin: '',
-      newPinConfirm: '',
-    })
+      newPin: "",
+      newPinConfirm: "",
+    });
 
     this.setState({
       pinCreated: false,
-    })
-  }
+    });
+  };
 
   render() {
     const { loading, pinCreated } = this.state;
     const { actions, formData } = this.props;
 
-    const field = !pinCreated ? 'newPin' : 'newPinConfirm';
-    const headingText = !pinCreated ? 'Enter your new PIN' : 'Repeat your PIN';
-    const subheadingText = !pinCreated ? 'Please enter your new PIN to proceed.' : 'Please repeat your new PIN.';
+    const field = !pinCreated ? "newPin" : "newPinConfirm";
+    const headingText = !pinCreated ? "Enter your new PIN" : "Repeat your PIN";
+    const subheadingText = !pinCreated
+      ? "Please enter your new PIN to proceed."
+      : "Please repeat your new PIN.";
 
     const onPressFunc = this.handlePINChange;
     const style = ChangePinStyle();
@@ -99,8 +100,16 @@ class ChangePin extends Component {
       <RegularLayout padding="0 0 0 0">
         <View style={style.container}>
           <View style={style.wrapper}>
-            <CelText weight="bold" type="H1" align="center" margin="0 20 0 20">{ headingText }</CelText>
-            <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 30 0">{ subheadingText }</CelText>
+            <CelText weight="bold" type="H1" align="center" margin="0 20 0 20">
+              {headingText}
+            </CelText>
+            <CelText
+              color="rgba(61,72,83,0.7)"
+              align="center"
+              margin="10 0 30 0"
+            >
+              {subheadingText}
+            </CelText>
 
             <TouchableOpacity onPress={actions.toggleKeypad}>
               <HiddenField value={formData[field]} />
@@ -113,7 +122,13 @@ class ChangePin extends Component {
             )}
 
             {loading && (
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 15,
+                }}
+              >
                 <Spinner />
               </View>
             )}
@@ -134,4 +149,4 @@ class ChangePin extends Component {
   }
 }
 
-export default ChangePin
+export default ChangePin;
