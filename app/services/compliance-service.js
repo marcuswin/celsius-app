@@ -1,5 +1,5 @@
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from "axios";
+import apiUrl from "./api-url";
 
 const complianceService = {
   getComplianceInfo,
@@ -11,9 +11,8 @@ const complianceService = {
  *
  * @return {Promise}
  */
-function getComplianceInfo () {
-  return axios.get(`${apiUrl}/me/compliance`)
+function getComplianceInfo() {
+  return axios.get(`${apiUrl}/me/compliance`);
 }
-
 
 export default complianceService;

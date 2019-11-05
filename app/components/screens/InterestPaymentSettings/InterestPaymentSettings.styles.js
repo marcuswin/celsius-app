@@ -1,24 +1,21 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        flex: 1
-    },
-    spinner: {alignItems: "center", justifyContent: "center"}
-}
+  container: {
+    flex: 1,
+  },
+  spinner: { alignItems: "center", justifyContent: "center" },
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const InterestPaymentSettingsStyle = () => getThemedStyle(base, themed);
 
-export default InterestPaymentSettingsStyle
+export default InterestPaymentSettingsStyle;

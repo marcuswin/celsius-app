@@ -1,4 +1,4 @@
-import ACTIONS from '../../constants/ACTIONS';
+import ACTIONS from "../../constants/ACTIONS";
 
 /**
  * TODO make it a function add JSDoc & desc for return
@@ -13,15 +13,14 @@ const initialState = {
 export default (state = initialState, action) => {
   const callsInProgress = [...state.callsInProgress];
   const history = [...state.history];
-  let callName
-
+  let callName;
 
   if (action.type === ACTIONS.START_API_CALL) {
     callsInProgress.push(action.callName);
     return {
       ...state,
       callsInProgress,
-    }
+    };
   }
 
   // Finish api call and attach an error
@@ -33,7 +32,7 @@ export default (state = initialState, action) => {
       callsInProgress,
       error: action.error,
       history,
-    }
+    };
   }
 
   // Clear Api errors
@@ -41,12 +40,15 @@ export default (state = initialState, action) => {
     return {
       ...state,
       error: undefined,
-    }
+    };
   }
 
   // Finish successful api call
-  if (action.type.includes('_SUCCESS') || action.type === ACTIONS.TAKE_CAMERA_PHOTO) {
-    callName = action.callName || action.type.slice(0, -8)
+  if (
+    action.type.includes("_SUCCESS") ||
+    action.type === ACTIONS.TAKE_CAMERA_PHOTO
+  ) {
+    callName = action.callName || action.type.slice(0, -8);
     callsInProgress.splice(callsInProgress.indexOf(callName), 1);
     history.unshift(`${callName}_SUCCESS`);
     return {
@@ -54,9 +56,9 @@ export default (state = initialState, action) => {
       callsInProgress,
       lastCompletedCall: callName,
       history,
-    }
+    };
   }
 
   // Return unchanged state
   return state;
-}
+};

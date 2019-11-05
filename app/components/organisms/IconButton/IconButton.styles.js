@@ -9,21 +9,21 @@ const base = {
     width: "100%",
     borderRadius: 8,
     marginVertical: 20,
-    minHeight: 50
-  }
+    minHeight: 50,
+  },
 };
 
 const themed = {
   light: {
     container: {
-      backgroundColor: STYLES.COLORS.WHITE
+      backgroundColor: STYLES.COLORS.WHITE,
     },
     textColor: {
-      color: STYLES.COLORS.DARK_GRAY
+      color: STYLES.COLORS.DARK_GRAY,
     },
     iconColor: {
-      color: STYLES.COLORS.DARK_GRAY6
-    }
+      color: STYLES.COLORS.DARK_GRAY6,
+    },
   },
 
   dark: {
@@ -31,19 +31,19 @@ const themed = {
       backgroundColor: STYLES.COLORS.DARK_HEADER,
       ...Platform.select({
         android: {
-          ...STYLES.ANDROID_BORDER_STYLES
+          ...STYLES.ANDROID_BORDER_STYLES,
         },
         ios: {
-          ...STYLES.SHADOW_STYLES
-        }
-      })
+          ...STYLES.SHADOW_STYLES,
+        },
+      }),
     },
     textColor: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.WHITE,
     },
     iconColor: {
-      color: STYLES.COLORS.WHITE_OPACITY5
-    }
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
   },
 
   celsius: {
@@ -55,17 +55,17 @@ const themed = {
           borderColor: "#E9E9E9",
         },
         ios: {
-          ...STYLES.SHADOW_STYLES
-        }
-      })
+          ...STYLES.SHADOW_STYLES,
+        },
+      }),
     },
     textColor: {
-      color: STYLES.COLORS.DARK_GRAY6
+      color: STYLES.COLORS.DARK_GRAY6,
     },
     iconColor: {
-      color: STYLES.COLORS.DARK_GRAY6
-    }
-  }
+      color: STYLES.COLORS.DARK_GRAY6,
+    },
+  },
 };
 
 const IconButtonStyle = () => getThemedStyle(base, themed);

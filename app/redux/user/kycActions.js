@@ -1,33 +1,32 @@
-import ACTIONS from '../../constants/ACTIONS';
+import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
-import * as NavActions from '../nav/navActions';
+import * as NavActions from "../nav/navActions";
 import { closeModal, showMessage } from "../ui/uiActions";
-import usersService from '../../services/users-service';
-import meService from '../../services/me-service';
+import usersService from "../../services/users-service";
+import meService from "../../services/me-service";
 import apiUtil from "../../utils/api-util";
-import logger from '../../utils/logger-util';
+import logger from "../../utils/logger-util";
 import { setFormErrors } from "../forms/formsActions";
 import { KYC_STATUSES } from "../../constants/DATA";
 import appsFlyerUtil from "../../utils/appsflyer-util";
 import complianceService from "../../services/compliance-service";
-import { getUserKYCStatus, isUserLoggedIn } from "../../utils/user-util"
-import userBehaviorUtil from '../../utils/user-behavior-util';
+import { getUserKYCStatus, isUserLoggedIn } from "../../utils/user-util";
+import userBehaviorUtil from "../../utils/user-behavior-util";
 
-
+// TODO move to user/profile actions
+// TODO move to user/profile actions
 export {
   getKYCStatus,
-
   updateProfileInfo,
   updateProfileAddressInfo,
   updateTaxpayerInfo,
   getKYCDocuments,
   verifyKYCDocs,
-
-  sendVerificationSMS, // TODO move to user/profile actions
-  verifySMS, // TODO move to user/profile actions
+  sendVerificationSMS,
+  verifySMS,
   // pollKYCStatus,
-}
+};
 
 /**
  * Updates user personal info
@@ -38,26 +37,27 @@ function updateProfileInfo(profileInfo) {
     dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
 
     try {
-      const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
+      const updatedProfileData = await usersService.updateProfileInfo(
+        profileInfo
+      );
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
-
+      userBehaviorUtil.kycProfileInfo();
       return {
-        success: true
-      }
-
+        success: true,
+      };
     } catch (err) {
-      if (err.type === 'Validation error') {
+      if (err.type === "Validation error") {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
       } else {
-        dispatch(showMessage('error', err.msg));
+        dispatch(showMessage("error", err.msg));
       }
       dispatch(apiError(API.UPDATE_USER_PERSONAL_INFO, err));
 
       return {
-        success: false
-      }
+        success: false,
+      };
     }
-  }
+  };
 }
 
 /**
@@ -70,39 +70,49 @@ function updateProfileAddressInfo(profileAddressInfo) {
     const { formData } = getState().forms;
 
     try {
-      const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
+      const updatedProfileData = await usersService.updateProfileAddressInfo(
+        profileAddressInfo
+      );
       dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
 
       const compliance = await complianceService.getComplianceInfo();
-      dispatch( {
+      dispatch({
         type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
         callName: API.GET_COMPLIANCE_INFO,
-        complianceInfo: compliance.data.allowed_actions
+        complianceInfo: compliance.data.allowed_actions,
       });
 
-      const forbiddenState = formData.country.name === "United States" ? formData.state : formData.country.name;
-      const {kyc} = getState().compliance.app;
+      const forbiddenState =
+        formData.country.name === "United States"
+          ? formData.state
+          : formData.country.name;
+      const { kyc } = getState().compliance.app;
       if (!kyc) {
-        dispatch(showMessage("error", `Yikes, due to local laws and regulations, we are not allowed to support operations in ${forbiddenState}.`))
+        dispatch(
+          showMessage(
+            "error",
+            `Yikes, due to local laws and regulations, we are not allowed to support operations in ${forbiddenState}.`
+          )
+        );
       } else {
-        dispatch(NavActions.navigateTo('KYCTaxpayer'));
+        dispatch(NavActions.navigateTo("KYCTaxpayer"));
       }
-
+      userBehaviorUtil.kycAddressInfo();
       return {
-        success: true
-      }
+        success: true,
+      };
     } catch (err) {
-      if (err.type === 'Validation error') {
+      if (err.type === "Validation error") {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
       } else {
-        dispatch(showMessage('error', err.msg));
+        dispatch(showMessage("error", err.msg));
       }
       dispatch(apiError(API.UPDATE_USER_ADDRESS_INFO, err));
       return {
-        success: false
-      }
+        success: false,
+      };
     }
-  }
+  };
 }
 
 /**
@@ -110,31 +120,30 @@ function updateProfileAddressInfo(profileAddressInfo) {
  * @param {Object} profileTaxpayerInfo
  */
 function updateTaxpayerInfo(profileTaxpayerInfo) {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER_TAXPAYER_INFO));
     try {
-      const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
+      const updatedProfileData = await usersService.updateProfileTaxpayerInfo(
+        profileTaxpayerInfo
+      );
       await dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
-
+      userBehaviorUtil.kycTaxPayerInfo();
       return {
-        success: true
-      }
+        success: true,
+      };
     } catch (err) {
-      if (err.type === 'Validation error') {
+      if (err.type === "Validation error") {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
       } else {
-        dispatch(showMessage('error', err.msg));
+        dispatch(showMessage("error", err.msg));
       }
       dispatch(apiError(API.UPDATE_USER_TAXPAYER_INFO, err));
-
       return {
-        success: false
-      }
-
+        success: false,
+      };
     }
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -144,9 +153,8 @@ export function updateProfileInfoSuccess(personalInfo) {
     type: ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS,
     callName: API.UPDATE_USER_PERSONAL_INFO,
     personalInfo,
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -156,9 +164,8 @@ function updateProfileAddressInfoSuccess(addressInfo) {
     type: ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS,
     callName: API.UPDATE_USER_ADDRESS_INFO,
     addressInfo,
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -168,7 +175,7 @@ function updateProfileTaxpayerInfoSuccess(taxpayerInfo) {
     type: ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS,
     callName: API.UPDATE_USER_TAXPAYER_INFO,
     taxpayerInfo,
-  }
+  };
 }
 
 /**
@@ -182,12 +189,11 @@ function getKYCDocuments(documents) {
       const res = await meService.getKYCDocuments(documents);
       dispatch(getKYCDocumentsSuccess(res.data));
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.GET_KYC_DOCUMENTS, err));
     }
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -197,9 +203,8 @@ function getKYCDocumentsSuccess(documents) {
     type: ACTIONS.GET_KYC_DOCUMENTS_SUCCESS,
     callName: API.GET_KYC_DOCUMENTS,
     documents,
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -208,7 +213,7 @@ function createKYCDocumentsSuccess() {
   return {
     type: ACTIONS.CREATE_KYC_DOCUMENTS_SUCCESS,
     callName: API.CREATE_KYC_DOCUMENTS,
-  }
+  };
 }
 
 /**
@@ -220,14 +225,18 @@ function sendVerificationSMS(phone) {
     try {
       await meService.sendVerificationSMS(phone);
       dispatch(sendVerificationSMSSuccess());
-      dispatch(showMessage('success', 'Check you inbox, your verification SMS has been sent!'));
+      dispatch(
+        showMessage(
+          "success",
+          "Check you inbox, your verification SMS has been sent!"
+        )
+      );
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.SEND_VERIFICATION_SMS, err));
     }
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -236,7 +245,7 @@ function sendVerificationSMSSuccess() {
   return {
     type: ACTIONS.SEND_VERIFICATION_SMS_SUCCESS,
     callName: API.SEND_VERIFICATION_SMS,
-  }
+  };
 }
 
 /**
@@ -250,15 +259,14 @@ function verifySMS(verificationCode) {
       await meService.verifySMS(verificationCode);
       dispatch(verifySMSSuccess());
       return {
-        success: true
-      }
+        success: true,
+      };
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.VERIFY_SMS, err));
     }
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -267,9 +275,8 @@ export function verifySMSSuccess() {
   return {
     type: ACTIONS.VERIFY_SMS_SUCCESS,
     callName: API.VERIFY_SMS,
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -282,15 +289,17 @@ function verifyKYCDocs() {
     let res;
 
     try {
-      timeout = setTimeout (() => {
-        dispatch(showMessage('info', "Please be patient, this may take a bit longer."));
+      timeout = setTimeout(() => {
+        dispatch(
+          showMessage("info", "Please be patient, this may take a bit longer.")
+        );
         clearTimeout(timeout);
       }, 5000);
       callName = API.CREATE_KYC_DOCUMENTS;
       dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
       res = await meService.createKYCDocuments({
         front: formData.front,
-        back: formData.documentType !== 'passport' ? formData.back : undefined,
+        back: formData.documentType !== "passport" ? formData.back : undefined,
         type: formData.documentType,
       });
       dispatch(createKYCDocumentsSuccess(res.data));
@@ -300,25 +309,26 @@ function verifyKYCDocs() {
       await meService.startKYC();
       dispatch(startKYCSuccess());
 
-      dispatch(NavActions.navigateTo('WalletFab'));
+      dispatch(NavActions.navigateTo("WalletFab"));
       clearTimeout(timeout);
-      dispatch(showMessage('success', 'KYC verification proccess has started!'));
+      dispatch(
+        showMessage("success", "KYC verification proccess has started!")
+      );
 
-      appsFlyerUtil.kycStarted()
-      userBehaviorUtil.kycStarted()
+      appsFlyerUtil.kycStarted();
+      userBehaviorUtil.kycStarted();
     } catch (err) {
       clearTimeout(timeout);
       logger.err({ err });
-      if (err.type === 'Validation error') {
+      if (err.type === "Validation error") {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
       } else {
-        dispatch(showMessage('error', err.msg));
+        dispatch(showMessage("error", err.msg));
       }
       dispatch(apiError(callName, err));
     }
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -327,54 +337,52 @@ function startKYCSuccess() {
   return {
     type: ACTIONS.START_KYC_SUCCESS,
     kyc: {
-      status: KYC_STATUSES.pending
+      status: KYC_STATUSES.pending,
     },
-  }
+  };
 }
-
 
 /**
  * Gets KYC status for user
  */
 function getKYCStatus() {
   return async (dispatch, getState) => {
-    const status = getUserKYCStatus()
-    const isLoggedIn = isUserLoggedIn()
-    const appInitialized = getState().app.appInitialized
-    const activeScreen = getState().nav.activeScreen
+    const status = getUserKYCStatus();
+    const isLoggedIn = isUserLoggedIn();
+    const appInitialized = getState().app.appInitialized;
+    const activeScreen = getState().nav.activeScreen;
 
-    if (!isLoggedIn || !appInitialized || activeScreen === 'VerifyProfile') return
+    if (!isLoggedIn || !appInitialized || activeScreen === "VerifyProfile")
+      return;
 
     dispatch(startApiCall(API.GET_KYC_STATUS));
     try {
       const res = await meService.getKYCStatus();
-      const newStatus = res.data.status
+      const newStatus = res.data.status;
 
       dispatch(getKYCStatusSuccess(res.data));
 
       if (newStatus === KYC_STATUSES.permanently_rejected) {
-        dispatch(closeModal())
-        return dispatch(NavActions.navigateTo('KYCFinalRejection'))
+        dispatch(closeModal());
+        return dispatch(NavActions.navigateTo("KYCFinalRejection"));
       }
 
       if (newStatus !== status) {
-        dispatch(closeModal())
+        dispatch(closeModal());
         if (newStatus === KYC_STATUSES.passed) {
-          return dispatch(NavActions.navigateTo('WalletLanding'))
+          return dispatch(NavActions.navigateTo("WalletLanding"));
         }
 
         if (newStatus === KYC_STATUSES.rejected) {
-          return dispatch(NavActions.navigateTo('WalletLanding'))
+          return dispatch(NavActions.navigateTo("WalletLanding"));
         }
       }
-
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      dispatch(showMessage("error", err.msg));
       dispatch(apiError(API.GET_KYC_STATUS, err));
     }
-  }
+  };
 }
-
 
 /**
  * @TODO add JSDoc
@@ -383,5 +391,5 @@ function getKYCStatusSuccess(status) {
   return {
     type: ACTIONS.GET_KYC_STATUS_SUCCESS,
     kyc: status,
-  }
+  };
 }

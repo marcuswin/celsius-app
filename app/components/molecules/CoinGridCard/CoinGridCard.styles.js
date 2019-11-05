@@ -4,10 +4,10 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   balance: {
-    flex: 1
+    flex: 1,
   },
   text: {
     color: "#FFFF",
@@ -24,18 +24,17 @@ const base = {
   // },
   cardInnerView: {
     flexDirection: "row",
-    marginHorizontal: 12
+    marginHorizontal: 12,
   },
   wrapper: {
-    width: "100%"
+    width: "100%",
   },
   coinTextWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    width: "100%"
-  }
-
+    width: "100%",
+  },
 };
 
 const themed = {
@@ -43,7 +42,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const CoinCardStyle = () => getThemedStyle(base, themed);

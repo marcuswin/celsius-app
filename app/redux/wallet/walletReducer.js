@@ -1,5 +1,4 @@
-import ACTIONS from '../../constants/ACTIONS';
-
+import ACTIONS from "../../constants/ACTIONS";
 
 /**
  * TODO make it a function add JSDoc & desc for return
@@ -9,7 +8,7 @@ function initialState() {
     summary: undefined,
     addresses: {},
     withdrawalAddresses: {},
-    walletAddressLabels: {}
+    walletAddressLabels: {},
   };
 }
 
@@ -19,14 +18,14 @@ export default function walletReducer(state = initialState(), action) {
       return {
         ...state,
         summary: action.wallet,
-      }
+      };
     case ACTIONS.GET_COIN_ADDRESS_SUCCESS:
       return {
         ...state,
         addresses: {
           ...state.addresses,
-          ...action.address
-        }
+          ...action.address,
+        },
       };
     case ACTIONS.SET_COIN_WITHDRAWAL_ADDRESS_SUCCESS:
     case ACTIONS.SET_COIN_WITHDRAWAL_ADDRESS_LABEL_SUCCESS:
@@ -35,7 +34,7 @@ export default function walletReducer(state = initialState(), action) {
         withdrawalAddresses: {
           ...state.withdrawalAddresses,
           ...action.address,
-        }
+        },
       };
     case ACTIONS.GET_ALL_COIN_WITHDRAWAL_ADDRESSES_SUCCESS:
       return {
@@ -43,14 +42,14 @@ export default function walletReducer(state = initialState(), action) {
         withdrawalAddresses: {
           ...state.withdrawalAddresses,
           ...action.allWalletAddresses,
-        }
+        },
       };
 
     case ACTIONS.SET_COIN_WITHDRAWAL_ADDRESS_LABELS:
-    return {
-      ...state,
-      walletAddressLabels: action.walletAddressLabels
-    };
+      return {
+        ...state,
+        walletAddressLabels: action.walletAddressLabels,
+      };
     default:
       return state;
   }

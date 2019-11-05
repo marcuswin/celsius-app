@@ -4,19 +4,19 @@ import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   baseWrapper: {
-    borderRadius: 8
+    borderRadius: 8,
   },
-  greenWrapper : {
+  greenWrapper: {
     backgroundColor: STYLES.COLORS.GREEN,
   },
   textWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 15,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
     marginVertical: 10,
   },
   upperTextWrapper: {
@@ -24,11 +24,11 @@ const base = {
     top: 10,
     zIndex: 1,
     borderRadius: 4,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    alignSelf: "center",
+    justifyContent: "center",
     width: 160,
     height: 25,
-  }
+  },
 };
 
 const themed = {
@@ -41,7 +41,7 @@ const themed = {
     },
     upperText: {
       color: STYLES.COLORS.MEDIUM_GRAY,
-    }
+    },
   },
 
   dark: {
@@ -53,10 +53,10 @@ const themed = {
     },
     upperText: {
       color: STYLES.COLORS.WHITE,
-    }
+    },
   },
 
-  celsius: {}
+  celsius: {},
 };
 
 const PaymentListItemStyle = () => getThemedStyle(base, themed);

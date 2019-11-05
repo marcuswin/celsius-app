@@ -1,31 +1,34 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   wrapper: {
     flex: 1,
     flexWrap: "wrap",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   coinWrapper: {
     marginBottom: heightPercentageToDP("3.7%"),
-    width: '30%'
+    width: "30%",
   },
   addMoreCoinsList: {
     borderWidth: 1,
-    borderStyle: 'dashed',
+    borderStyle: "dashed",
     borderRadius: 10,
-    width: '100%',
+    width: "100%",
     height: 80,
-    borderColor: 'gray',
+    borderColor: "gray",
     marginVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 };
 
@@ -34,7 +37,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const BorrowCollateralStyle = () => getThemedStyle(base, themed);

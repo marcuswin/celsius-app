@@ -1,5 +1,9 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   periods: {
@@ -8,27 +12,24 @@ const base = {
     justifyContent: "space-around",
     paddingLeft: widthPercentageToDP("5.33%"),
     paddingRight: widthPercentageToDP("5.33%"),
-    marginTop: heightPercentageToDP("2.02%")
+    marginTop: heightPercentageToDP("2.02%"),
   },
   active: {
     marginTop: 5,
     width: widthPercentageToDP("3.5%"),
     borderTopColor: "rgba(65,86,166,1)",
-    borderTopWidth: 1
+    borderTopWidth: 1,
   },
 };
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const PeriodGraphViewStyle = () => getThemedStyle(base, themed);
 
-export default PeriodGraphViewStyle
+export default PeriodGraphViewStyle;

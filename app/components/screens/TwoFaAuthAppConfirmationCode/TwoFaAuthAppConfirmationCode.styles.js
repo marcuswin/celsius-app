@@ -1,20 +1,20 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util'
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
-  }
-}
+    flex: 1,
+  },
+};
 
 const themed = {
   light: {},
 
   dark: {},
 
-  celsius: {}
-}
+  celsius: {},
+};
 
-const TwoFaAuthAppConfirmationCodeStyle = () => getThemedStyle(base, themed)
+const TwoFaAuthAppConfirmationCodeStyle = () => getThemedStyle(base, themed);
 
-export default TwoFaAuthAppConfirmationCodeStyle
+export default TwoFaAuthAppConfirmationCodeStyle;

@@ -7,7 +7,7 @@ const { width } = Dimensions.get("window");
 const base = {
   container: {
     flex: 1,
-    width
+    width,
   },
   wrapper: {
     paddingHorizontal: 20,
@@ -19,7 +19,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const VerifyProfileStyle = () => getThemedStyle(base, themed);

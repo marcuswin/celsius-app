@@ -1,29 +1,26 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        flex: 1
-    },
-    themeBtn: {
-      borderTopWidth: 0,
-      borderLeftWidth: 0,
-      borderRightWidth: 0,
-      borderBottomWidth: 0,
-    }
-}
+  container: {
+    flex: 1,
+  },
+  themeBtn: {
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+  },
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const AppearanceStyle = () => getThemedStyle(base, themed);
 
-export default AppearanceStyle
+export default AppearanceStyle;

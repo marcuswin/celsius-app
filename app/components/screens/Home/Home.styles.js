@@ -1,22 +1,18 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-    }
-}
+  container: {},
+};
 
 const themed = {
-    dark: {
-    },
+  dark: {},
 
-    light: {
-    },
+  light: {},
 
-    celsius: {
-    },
-}
+  celsius: {},
+};
 
 const HomeStyle = () => getThemedStyle(base, themed);
 
-export default HomeStyle
+export default HomeStyle;

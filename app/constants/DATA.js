@@ -1,105 +1,106 @@
-import Constants from '../../constants';
+import Constants from "../../constants";
 
-const { ENV } = Constants
+const { ENV } = Constants;
 
 const KYC_STATUSES = {
-  collecting: 'collecting',
-  pending: 'pending',
-  sending: 'sending',
-  sent: 'sent',
-  passed: 'passed',
-  rejected: 'rejected',
-  ico_passed: 'ico_passed',
-  rejeceted: 'rejeceted',
-  permanently_rejected: 'permanently_rejected',
+  collecting: "collecting",
+  pending: "pending",
+  sending: "sending",
+  sent: "sent",
+  passed: "passed",
+  rejected: "rejected",
+  ico_passed: "ico_passed",
+  rejeceted: "rejeceted",
+  permanently_rejected: "permanently_rejected",
 };
 
 const BLOCKEXPLORERS_STAGING = {
-  ltc: 'https://chain.so/tx/LTCTEST/',
-  zec: 'https://chain.so/tx/ZECTEST/',
-  btc: 'https://chain.so/tx/BTCTEST/',
-  dash: 'https://chain.so/tx/DASHTEST/',
-  bch: 'https://explorer.bitcoin.com/tbch/tx/',
+  ltc: "https://chain.so/tx/LTCTEST/",
+  zec: "https://chain.so/tx/ZECTEST/",
+  btc: "https://chain.so/tx/BTCTEST/",
+  dash: "https://chain.so/tx/DASHTEST/",
+  bch: "https://explorer.bitcoin.com/tbch/tx/",
   // xrp: 'https://xrpcharts.ripple.com/#/transactions/',
-  xlm: 'https://testnet.steexp.com/tx/',
-  btg: 'https://testnet.btgexplorer.com/tx/',
-  eth: 'https://rinkeby.etherscan.io/tx/',
-  eos: 'https://jungle.bloks.io/transaction/',
-  erc20: 'https://rinkeby.etherscan.io/tx/',
-}
+  xlm: "https://testnet.steexp.com/tx/",
+  btg: "https://testnet.btgexplorer.com/tx/",
+  eth: "https://rinkeby.etherscan.io/tx/",
+  eos: "https://jungle.bloks.io/transaction/",
+  erc20: "https://rinkeby.etherscan.io/tx/",
+};
 const BLOCKEXPLORERS_PRODUCTION = {
-  btc: 'https://blockchain.info/btc/tx/',
-  bch: 'https://bchsvexplorer.com/tx/',
-  ltc: 'https://chainz.cryptoid.info/ltc/tx.dws?',
-  xrp: 'https://xrpcharts.ripple.com/#/transactions/',
-  xlm: 'https://steexp.com/tx/',
-  dash: 'https://chainz.cryptoid.info/dash/tx.dws?',
-  zec: 'https://chain.so/tx/ZEC/`, ',
-  btg: 'https://btgexplorer.com/tx/',
-  eth: 'https://etherscan.io/tx/',
+  btc: "https://blockexplorer.com/tx/",
+  bch: "https://bchsvexplorer.com/tx/",
+  ltc: "https://chainz.cryptoid.info/ltc/tx.dws?",
+  xrp: "https://xrpcharts.ripple.com/#/transactions/",
+  xlm: "https://steexp.com/tx/",
+  dash: "https://chainz.cryptoid.info/dash/tx.dws?",
+  zec: "https://chain.so/tx/ZEC/`, ",
+  btg: "https://btgexplorer.com/tx/",
+  eth: "https://etherscan.io/tx/",
   eos: "https://bloks.io/transaction/",
-  erc20: 'https://etherscan.io/tx/',
-}
+  erc20: "https://etherscan.io/tx/",
+};
 
-const BLOCKEXPLORERS = ENV === 'PRODUCTION' ? BLOCKEXPLORERS_PRODUCTION : BLOCKEXPLORERS_STAGING
+const BLOCKEXPLORERS =
+  ENV === "PRODUCTION" ? BLOCKEXPLORERS_PRODUCTION : BLOCKEXPLORERS_STAGING;
 
 const BRANCH_LINKS = {
-  TRANSFER: 'TRANSFER',
-  INDIVIDUAL_REFERRAL: 'INDIVIDUAL_REFERRAL',
-  COMPANY_REFERRAL: 'COMPANY_REFERRAL',
-  NAVIGATE_TO: 'NAVIGATE_TO'
+  TRANSFER: "TRANSFER",
+  INDIVIDUAL_REFERRAL: "INDIVIDUAL_REFERRAL",
+  COMPANY_REFERRAL: "COMPANY_REFERRAL",
+  NAVIGATE_TO: "NAVIGATE_TO",
 };
 
 const TRANSFER_STATUSES = {
-  expired: 'expired',
-  claimed: 'claimed',
-  cleared: 'cleared',
-  pending: 'pending',
+  expired: "expired",
+  claimed: "claimed",
+  cleared: "cleared",
+  pending: "pending",
 };
 
 const TRANSACTION_TYPES = {
-  DEPOSIT_PENDING: 'DEPOSIT_PENDING',
-  DEPOSIT_CONFIRMED: 'DEPOSIT_CONFIRMED',
-  WITHDRAWAL_PENDING: 'WITHDRAWAL_PENDING',
-  WITHDRAWAL_CONFIRMED: 'WITHDRAWAL_CONFIRMED',
-  WITHDRAWAL_CANCELED: 'WITHDRAWAL_CANCELED',
-  WITHDRAWAL_PENDING_VERIFICATION: 'WITHDRAWAL_PENDING_VERIFICATION',
-  WITHDRAWAL_PENDING_REVIEW: 'WITHDRAWAL_PENDING_REVIEW',
+  DEPOSIT_PENDING: "DEPOSIT_PENDING",
+  DEPOSIT_CONFIRMED: "DEPOSIT_CONFIRMED",
+  WITHDRAWAL_PENDING: "WITHDRAWAL_PENDING",
+  WITHDRAWAL_CONFIRMED: "WITHDRAWAL_CONFIRMED",
+  WITHDRAWAL_CANCELED: "WITHDRAWAL_CANCELED",
+  WITHDRAWAL_PENDING_VERIFICATION: "WITHDRAWAL_PENDING_VERIFICATION",
+  WITHDRAWAL_PENDING_REVIEW: "WITHDRAWAL_PENDING_REVIEW",
 
   LOAN_INTEREST: "LOAN_INTEREST",
   LOAN_PRINCIPAL_PAYMENT: "LOAN_PRINCIPAL",
   LOAN_PRINCIPAL_RECEIVED: "LOAN_PRINCIPAL_RECEIVED",
 
   PENDING_INTEREST: "PENDING_INTEREST",
-  INTEREST: 'INTEREST',
-  BONUS_TOKEN: 'BONUS_TOKEN',
+  INTEREST: "INTEREST",
+  BONUS_TOKEN: "BONUS_TOKEN",
 
   MARGIN_CALL: "MARGIN_CALL",
 
-  CELPAY_PENDING: 'CELPAY_PENDING',
-  CELPAY_CLAIMED: 'CELPAY_CLAIMED',
-  CELPAY_SENT: 'CELPAY_SENT',
-  CELPAY_RECEIVED: 'CELPAY_RECEIVED',
-  CELPAY_RETURNED: 'CELPAY_RETURNED',
-  CELPAY_EXPIRED: 'CELPAY_EXPIRED',
-  CELPAY_ONHOLD: 'CELPAY_ONHOLD',
+  CELPAY_PENDING: "CELPAY_PENDING",
+  CELPAY_CLAIMED: "CELPAY_CLAIMED",
+  CELPAY_SENT: "CELPAY_SENT",
+  CELPAY_RECEIVED: "CELPAY_RECEIVED",
+  CELPAY_RETURNED: "CELPAY_RETURNED",
+  CELPAY_EXPIRED: "CELPAY_EXPIRED",
+  CELPAY_ONHOLD: "CELPAY_ONHOLD",
 
-  COLLATERAL_PENDING: 'COLLATERAL_PENDING',
-  COLLATERAL_LOCKED: 'COLLATERAL_LOCKED',
-  COLLATERAL_UNLOCKED: 'COLLATERAL_UNLOCKED',
-  COLLATERAL_LIQUIDATED: 'COLLATERAL_LIQUIDATED',
+  COLLATERAL_PENDING: "COLLATERAL_PENDING",
+  COLLATERAL_LOCKED: "COLLATERAL_LOCKED",
+  COLLATERAL_UNLOCKED: "COLLATERAL_UNLOCKED",
+  COLLATERAL_LIQUIDATED: "COLLATERAL_LIQUIDATED",
 
-  REFERRED_HODL: 'REFERRED_HODL',
-  REFERRED: 'REFERRED',
-  REFERRED_PENDING: 'REFERRED_PENDING',
-  REFERRER_HODL: 'REFERRER_HODL',
-  REFERRER: 'REFERRER',
-  REFERRER_PENDING: 'REFERRER_PENDING',
+  REFERRED_HODL: "REFERRED_HODL",
+  REFERRED: "REFERRED",
+  REFERRED_PENDING: "REFERRED_PENDING",
+  REFERRER_HODL: "REFERRER_HODL",
+  REFERRER: "REFERRER",
+  REFERRER_PENDING: "REFERRER_PENDING",
 
   CANCELED: "CANCELED",
 
-  IN: 'IN',
-  OUT: 'OUT',
+  IN: "IN",
+  OUT: "OUT",
 };
 
 const LOAN_TRANSACTION_TYPES = {
@@ -113,8 +114,7 @@ const LOAN_TRANSACTION_TYPES = {
   MARGIN_CALL_PRINCIPAL: "margin_call_principal",
   SENDING_BACK_COLLATERAL: "sending_back_collateral",
   RECEIVING_PRINCIPAL_BACK: "receiving_principal_back",
-}
-
+};
 
 /*
  * Future TRANSACTION_TYPES
@@ -124,133 +124,132 @@ const LOAN_TRANSACTION_TYPES = {
 const STATE_MACHINE = {
   // DEPOSIT
   // Deposit pending on the blockchain
-  DEPOSIT_PENDING: 'DEPOSIT_PENDING',
+  DEPOSIT_PENDING: "DEPOSIT_PENDING",
   // Deposit confirmed on the blockchain
-  DEPOSIT_CONFIRMED: 'DEPOSIT_CONFIRMED',
+  DEPOSIT_CONFIRMED: "DEPOSIT_CONFIRMED",
 
   // WITHDRAWAL
   // Withdrawal pending email verification by the user
-  WITHDRAWAL_PENDING_VERIFICATION: 'WITHDRAWAL_PENDING_VERIFICATION',
+  WITHDRAWAL_PENDING_VERIFICATION: "WITHDRAWAL_PENDING_VERIFICATION",
   // Large withdrawal pending Celsius approval from BO
-  WITHDRAWAL_PENDING_REVIEW: 'WITHDRAWAL_PENDING_REVIEW',
+  WITHDRAWAL_PENDING_REVIEW: "WITHDRAWAL_PENDING_REVIEW",
   // Withdrawal verified by the user, approved by Celsius & pending on the blockchain
-  WITHDRAWAL_PENDING: 'WITHDRAWAL_PENDING',
+  WITHDRAWAL_PENDING: "WITHDRAWAL_PENDING",
   // Withdrawal confirmed on the blockchain
-  WITHDRAWAL_CONFIRMED: 'WITHDRAWAL_CONFIRMED',
+  WITHDRAWAL_CONFIRMED: "WITHDRAWAL_CONFIRMED",
   // Withdrawal canceled by the user, Celsius or on the blockchain
   // NOTE: maybe 3 separate states
-  WITHDRAWAL_CANCELED: 'WITHDRAWAL_CANCELED',
+  WITHDRAWAL_CANCELED: "WITHDRAWAL_CANCELED",
 
   // INTEREST
   // Interest pending because of no SNN or something
-  INTEREST_PENDING: 'INTEREST_PENDING', // NOTE: new type
+  INTEREST_PENDING: "INTEREST_PENDING", // NOTE: new type
   // Interest confirmed
-  INTEREST_CONFIRMED: 'INTEREST_CONFIRMED', // NOTE: renamed from INTEREST
+  INTEREST_CONFIRMED: "INTEREST_CONFIRMED", // NOTE: renamed from INTEREST
 
   // LOANS
   // Loan pending Celsius approval from BO
-  LOAN_PENDING: 'LOAN_PENDING', // NOTE: new type
+  LOAN_PENDING: "LOAN_PENDING", // NOTE: new type
   // Loan approved, collateral locked
-  LOAN_APPROVED: 'LOAN_APPROVED', // NOTE: renamed from COLLATERAL
+  LOAN_APPROVED: "LOAN_APPROVED", // NOTE: renamed from COLLATERAL
   // Loan paid back, collateral unlocked
-  LOAN_FINISHED: 'LOAN_FINISHED', // NOTE: new type
+  LOAN_FINISHED: "LOAN_FINISHED", // NOTE: new type
   // Loan rejected by Celsius from BO
   // NOTE: any other way to cancel a loan, for app in the future?
-  LOAN_REJECTED: 'LOAN_REJECTED', // NOTE: new type
+  LOAN_REJECTED: "LOAN_REJECTED", // NOTE: new type
 
   // CELPAY
   // NOTE: check who sees which transaction sender|receiver
   // Large CelPay waiting email verification by the user
-  CELPAY_PENDING_VERIFICATION: 'CELPAY_PENDING_VERIFICATION', // NOTE: new type
+  CELPAY_PENDING_VERIFICATION: "CELPAY_PENDING_VERIFICATION", // NOTE: new type
   // CelPay link created and waiting to be claimed
-  CELPAY_PENDING: 'CELPAY_PENDING',
+  CELPAY_PENDING: "CELPAY_PENDING",
   // CelPay link is claimed
-  CELPAY_CLAIMED: 'CELPAY_CLAIMED',
+  CELPAY_CLAIMED: "CELPAY_CLAIMED",
   // CelPay has cleared, visible only by the CelPay sender
-  CELPAY_SENT: 'CELPAY_SENT',
+  CELPAY_SENT: "CELPAY_SENT",
   // CelPay has cleared, visible only by the CelPay receiver
-  CELPAY_RECEIVED: 'CELPAY_RECEIVED',
+  CELPAY_RECEIVED: "CELPAY_RECEIVED",
   // CelPay link has been claimed, waiting for claimer to finish KYC
-  CELPAY_ONHOLD: 'CELPAY_ONHOLD',
+  CELPAY_ONHOLD: "CELPAY_ONHOLD",
   // CelPay link has been claimed, but the user didn't pass KYC in time
-  CELPAY_EXPIRED: 'CELPAY_EXPIRED',
+  CELPAY_EXPIRED: "CELPAY_EXPIRED",
   // CelPay link has been canceled by the user
-  CELPAY_RETURNED: 'CELPAY_RETURNED',
+  CELPAY_RETURNED: "CELPAY_RETURNED",
 
   // REFERRALS
   // Referred user award for the initial $1K deposit
-  REFERRED_INITIAL: 'REFERRED_INITIAL', // NOTE: renamed from REFERRED
+  REFERRED_INITIAL: "REFERRED_INITIAL", // NOTE: renamed from REFERRED
   // Referred user HODL award waiting for 3 months to expire
-  REFERRED_HODL_PENDING: 'REFERRED_HODL_PENDING', // NOTE: new type
+  REFERRED_HODL_PENDING: "REFERRED_HODL_PENDING", // NOTE: new type
   // Referred user HODL award after 3 months
-  REFERRED_HODL: 'REFERRED_HODL',
+  REFERRED_HODL: "REFERRED_HODL",
   // Referred user HODL award failed during the 3 months
-  REFERRED_HODL_REJECTED: 'REFERRED_HODL_REJECTED', // NOTE: new type
+  REFERRED_HODL_REJECTED: "REFERRED_HODL_REJECTED", // NOTE: new type
   // Referrer user award for the initial $1K deposit
-  REFERRER_INITIAL: 'REFERRER_INITIAL', // NOTE: renamed from REFERRER
+  REFERRER_INITIAL: "REFERRER_INITIAL", // NOTE: renamed from REFERRER
   // Referrer user HODL award waiting for 3 months to expire
-  REFERRER_HODL_PENDING: 'REFERRER_HODL_PENDING', // NOTE: new type
+  REFERRER_HODL_PENDING: "REFERRER_HODL_PENDING", // NOTE: new type
   // Referrer user HODL award after 3 months
-  REFERRER_HODL: 'REFERRER_HODL',
+  REFERRER_HODL: "REFERRER_HODL",
   // Referred user HODL award failed during the 3 months
-  REFERRER_HODL_REJECTED: 'REFERRER_HODL_REJECTED', // NOTE: new type
+  REFERRER_HODL_REJECTED: "REFERRER_HODL_REJECTED", // NOTE: new type
 
   // BONUS TOKENS
   // Bonus tokens awarded for some reason
-  BONUS_TOKEN_CONFIRMED: 'BONUS_TOKEN_CONFIRMED', // NOTE: renamed from BONUS_TOKEN
+  BONUS_TOKEN_CONFIRMED: "BONUS_TOKEN_CONFIRMED", // NOTE: renamed from BONUS_TOKEN
   // Bonus tokens are locked and waithing for something
-  BONUS_TOKEN_LOCKED: 'BONUS_TOKEN_LOCKED',
+  BONUS_TOKEN_LOCKED: "BONUS_TOKEN_LOCKED",
   // Bonus tokens canceled
-  BONUS_TOKEN_CANCELED: 'BONUS_TOKEN_CANCELED',
+  BONUS_TOKEN_CANCELED: "BONUS_TOKEN_CANCELED",
 
   // OTHER/FALLBACKS
   // Fallback incoming transaction
-  IN: 'IN',
+  IN: "IN",
   // Fallback outgoing transaction
-  OUT: 'OUT',
+  OUT: "OUT",
   // Fallback cancelled/rejected/failed/removed transaction
   CANCELED: "CANCELED",
   // Amount locked for some reason
   LOCKED: "LOCKED",
 };
 
-
 const CONTACT_NETWORK = {
-  PHONE: 'Phone',
-  FACEBOOK: 'Facebook',
-  TWITTER: 'Twitter'
+  PHONE: "Phone",
+  FACEBOOK: "Facebook",
+  TWITTER: "Twitter",
 };
 
 const PREDIFINED_AMOUNTS = [
   { label: "$20", value: "20" },
   { label: "$50", value: "50" },
   { label: "$100", value: "100" },
-  { label: "ALL", value: "" }
+  { label: "ALL", value: "" },
 ];
 
 const BANK_ACCOUNT_TYPE = [
-  { label: 'Checking', value: 'Checking' },
-  { label: 'Savings', value: 'Savings' }
-]
-
+  { label: "Checking", value: "Checking" },
+  { label: "Savings", value: "Savings" },
+];
 
 const LOAN_STATUS = {
-  APPROVED: 'approved',
-  PENDING: 'pending',
-  REJECTED: 'rejected',
-  ACTIVE: 'active',
-  COMPLETED: 'completed',
-  CANCELED: 'canceled'
-}
+  APPROVED: "approved",
+  PENDING: "pending",
+  REJECTED: "rejected",
+  ACTIVE: "active",
+  COMPLETED: "completed",
+  CANCELED: "canceled",
+  REFINANCED: "refinanced",
+};
 
 const LOAN_TYPES = {
-  USD_LOAN: 'USD_LOAN',
-  STABLE_COIN_LOAN: 'STABLE_COIN_LOAN',
+  USD_LOAN: "USD_LOAN",
+  STABLE_COIN_LOAN: "STABLE_COIN_LOAN",
 };
 
 const LOAN_PAYMENT_TYPES = {
-  MONTHLY_INTEREST: 'monthly_interest',
-  RECEIVING_PRINCIPAL_BACK: 'receiving_principal_back',
+  MONTHLY_INTEREST: "monthly_interest",
+  RECEIVING_PRINCIPAL_BACK: "receiving_principal_back",
 };
 
 export {
@@ -265,5 +264,5 @@ export {
   LOAN_STATUS,
   LOAN_TYPES,
   LOAN_PAYMENT_TYPES,
-  LOAN_TRANSACTION_TYPES
-}
+  LOAN_TRANSACTION_TYPES,
+};

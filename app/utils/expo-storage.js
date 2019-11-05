@@ -1,11 +1,7 @@
 import { AsyncStorage } from "react-native";
-import loggerUtil from './logger-util';
+import loggerUtil from "./logger-util";
 
-export {
-  setSecureStoreKey,
-  getSecureStoreKey,
-  deleteSecureStoreKey,
-};
+export { setSecureStoreKey, getSecureStoreKey, deleteSecureStoreKey };
 
 /**
  * @name setSecureStoreKey
@@ -18,7 +14,7 @@ export {
  * */
 async function setSecureStoreKey(key, value) {
   try {
-    return await AsyncStorage.setItem(key, value)
+    return await AsyncStorage.setItem(key, value);
   } catch (error) {
     loggerUtil.err(error);
     return null;

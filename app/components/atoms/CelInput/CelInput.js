@@ -1,28 +1,27 @@
-import React, { Component } from 'react'
-import { View } from 'react-native'
-import PropTypes from 'prop-types'
+import React, { Component } from "react";
+import { View } from "react-native";
+import PropTypes from "prop-types";
 
-
-import CelInputStyle from './CelInput.styles'
-import CelInputPassword from './CelInputPassword'
-import CelInputText from './CelInputText'
+import CelInputStyle from "./CelInput.styles";
+import CelInputPassword from "./CelInputPassword";
+import CelInputText from "./CelInputText";
 import { getMargins } from "../../../utils/styles-util";
-import CelSelect from '../../molecules/CelSelect/CelSelect'
-import CelTextArea from '../CelTextArea/CelTextArea'
-import CelText from '../CelText/CelText'
-import { THEMES } from '../../../constants/UI';
+import CelSelect from "../../molecules/CelSelect/CelSelect";
+import CelTextArea from "../CelTextArea/CelTextArea";
+import CelText from "../CelText/CelText";
+import { THEMES } from "../../../constants/UI";
 
 class CelInput extends Component {
   static propTypes = {
     type: PropTypes.oneOf([
-      'text',
-      'password',
-      'phone',
-      'checkbox',
-      'pin',
-      'tfa',
-      'number',
-      'text-area'
+      "text",
+      "password",
+      "phone",
+      "checkbox",
+      "pin",
+      "tfa",
+      "number",
+      "text-area",
     ]),
     autoFocus: PropTypes.bool,
     // autoComplete: // android only
@@ -30,30 +29,30 @@ class CelInput extends Component {
     maxLenght: PropTypes.number,
     placeholder: PropTypes.string,
     keyboardType: PropTypes.oneOf([
-      'default',
-      'number-pad',
-      'decimal-pad',
-      'numeric',
-      'email-address',
-      'phone-pad'
+      "default",
+      "number-pad",
+      "decimal-pad",
+      "numeric",
+      "email-address",
+      "phone-pad",
     ]),
-    returnKeyType: PropTypes.oneOf(['done', 'go', 'next', 'search', 'send']),
+    returnKeyType: PropTypes.oneOf(["done", "go", "next", "search", "send"]),
     style: PropTypes.oneOfType([
       PropTypes.instanceOf(Object),
-      PropTypes.number
+      PropTypes.number,
     ]),
     autoCapitalize: PropTypes.oneOf([
-      'none',
-      'sentences',
-      'words',
-      'characters'
+      "none",
+      "sentences",
+      "words",
+      "characters",
     ]),
     onChange: PropTypes.func, //
     autoCorrect: PropTypes.bool, //
     value: PropTypes.oneOfType([
       PropTypes.instanceOf(Object),
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]), //
     field: PropTypes.string.isRequired, //
     error: PropTypes.string, //
@@ -66,105 +65,105 @@ class CelInput extends Component {
     debounce: PropTypes.bool,
     border: PropTypes.bool,
     rightText: PropTypes.string,
-    theme: PropTypes.oneOf(Object.values(THEMES))
-  }
+    theme: PropTypes.oneOf(Object.values(THEMES)),
+  };
 
   static defaultProps = {
-    type: 'text',
-    keyboardType: 'default',
+    type: "text",
+    keyboardType: "default",
     autoFocus: false,
     disabled: false,
     maxLenght: 100,
-    autoCapitalize: 'none',
-    value: '',
-    margin: '0 0 20 0',
+    autoCapitalize: "none",
+    value: "",
+    margin: "0 0 20 0",
     basic: false,
     large: true,
     debounce: false,
     border: false,
-    rightText: null
-  }
+    rightText: null,
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      active: false
-    }
+      active: false,
+    };
   }
 
   onChangeText = text => {
-    const { field, onChange, actions } = this.props
+    const { field, onChange, actions } = this.props;
     if (onChange) {
-      onChange(field, text)
+      onChange(field, text);
     } else {
-      actions.updateFormField(field, text)
+      actions.updateFormField(field, text);
     }
-  }
+  };
 
   onInputFocus = () => {
-    const { onFocus } = this.props
-    if (onFocus) onFocus()
-    this.setState({ active: true })
-  }
+    const { onFocus } = this.props;
+    if (onFocus) onFocus();
+    this.setState({ active: true });
+  };
 
   onInputBlur = () => {
-    const { onBlur } = this.props
-    if (onBlur) onBlur()
-    this.setState({ active: false })
-  }
+    const { onBlur } = this.props;
+    if (onBlur) onBlur();
+    this.setState({ active: false });
+  };
 
   getInputStyle = () => {
-    if (this.props.basic) return []
-    const { disabled, border, theme } = this.props
-    const cmpStyle = theme ? CelInputStyle(theme) : CelInputStyle()
-    const { active } = this.state
-    const style = [cmpStyle.inputWrapper]
-    if (active) style.push(cmpStyle.activeInput)
-    if (disabled) style.push(cmpStyle.disabledInput)
-    if (border) style.push(cmpStyle.borderView)
+    if (this.props.basic) return [];
+    const { disabled, border, theme } = this.props;
+    const cmpStyle = theme ? CelInputStyle(theme) : CelInputStyle();
+    const { active } = this.state;
+    const style = [cmpStyle.inputWrapper];
+    if (active) style.push(cmpStyle.activeInput);
+    if (disabled) style.push(cmpStyle.disabledInput);
+    if (border) style.push(cmpStyle.borderView);
 
-    return style
-  }
+    return style;
+  };
 
   renderInputByType = () => {
-    const { type, value, helperButton, rightText } = this.props
-    const inputStyle = this.getInputStyle()
+    const { type, value, helperButton, rightText } = this.props;
+    const inputStyle = this.getInputStyle();
 
     switch (type) {
-      case 'password':
+      case "password":
         return (
           <View style={inputStyle}>
             <CelInputPassword {...this.props} />
           </View>
-        )
-      case 'phone':
+        );
+      case "phone":
         return (
           <View
-            style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}
+            style={[inputStyle, { flexDirection: "row", alignItems: "center" }]}
           >
-            <CelSelect style={{ width: 'auto' }} {...this.props} />
+            <CelSelect style={{ width: "auto" }} {...this.props} />
             <CelInputText
               style={{ flex: 1 }}
               {...this.props}
               field={`${this.props.field}.text`}
-              value={typeof value === 'string' ? value : ''}
-              keyboardType={'phone-pad'}
+              value={typeof value === "string" ? value : ""}
+              keyboardType={"phone-pad"}
             />
           </View>
-        )
-      case 'text-area':
+        );
+      case "text-area":
         return (
-          <View style={[inputStyle, { height: 'auto' }]}>
+          <View style={[inputStyle, { height: "auto" }]}>
             <CelTextArea {...this.props} />
           </View>
-        )
-      case 'text':
+        );
+      case "text":
       default: {
         const helperButtonContainerStyle = helperButton
-          ? { alignItems: 'center', flexDirection: 'row' }
-          : {}
-        const helperButtonInputStyle = helperButton ? { flex: 1 } : {}
+          ? { alignItems: "center", flexDirection: "row" }
+          : {};
+        const helperButtonInputStyle = helperButton ? { flex: 1 } : {};
         return (
           <View style={[inputStyle, helperButtonContainerStyle]}>
             <CelInputText {...this.props} style={helperButtonInputStyle} />
@@ -173,34 +172,44 @@ class CelInput extends Component {
               <CelText style={CelInputStyle().rightText}>{rightText}</CelText>
             )}
           </View>
-        )
+        );
       }
     }
-  }
+  };
 
   render() {
-    const { error, margin, large, theme } = this.props
-    const cmpStyle = theme ? CelInputStyle(theme) : CelInputStyle()
+    const { error, margin, large, theme } = this.props;
+    const cmpStyle = theme ? CelInputStyle(theme) : CelInputStyle();
     const styleWrapper = [
       getMargins(margin),
       cmpStyle.container,
       cmpStyle.trans,
-      large ? cmpStyle.fullScreen : {}
-    ]
-    const Input = this.renderInputByType
+      large ? cmpStyle.fullScreen : {},
+    ];
+    const Input = this.renderInputByType;
 
     return (
       <View style={styleWrapper}>
         <Input />
         {error && (
-            <CelText margin='5 0 0 0' color='red' align={'left'} type={'H6'} style={{ flexWrap: 'wrap', alignSelf: 'flex-start', justifyContent: 'center', paddingLeft: 5 }}>
-              {error}
-            </CelText>
-        )
-        }
+          <CelText
+            margin="5 0 0 0"
+            color="red"
+            align={"left"}
+            type={"H6"}
+            style={{
+              flexWrap: "wrap",
+              alignSelf: "flex-start",
+              justifyContent: "center",
+              paddingLeft: 5,
+            }}
+          >
+            {error}
+          </CelText>
+        )}
       </View>
-    )
+    );
   }
 }
 
-export default CelInput
+export default CelInput;

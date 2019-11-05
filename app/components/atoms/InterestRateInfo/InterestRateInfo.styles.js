@@ -1,23 +1,27 @@
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 
 const currencyImageSize = widthPercentageToDP("10.67%");
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   mainWrapper: {
     paddingVertical: 11,
-    marginVertical: 15
+    marginVertical: 15,
   },
   mainWrapperCompact: {
     borderTopWidth: 0,
-    marginVertical: 0
+    marginVertical: 0,
   },
   mainInfoWrapper: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   imageWrapper: {
     width: currencyImageSize,
@@ -26,22 +30,21 @@ const base = {
   },
   currencyImage: {
     width: currencyImageSize,
-    height: currencyImageSize
+    height: currencyImageSize,
   },
-  infoWrapper: {
-  },
+  infoWrapper: {},
   currencyName: {
     marginBottom: 2,
-    color: STYLES.COLORS.DARK_GRAY
+    color: STYLES.COLORS.DARK_GRAY,
   },
   currencyShort: {
-    color: STYLES.COLORS.DARK_GRAY
+    color: STYLES.COLORS.DARK_GRAY,
   },
   imageInfoWrapper: {
     flexDirection: "row",
     paddingVertical: heightPercentageToDP("3.5%"),
     marginLeft: 10,
-    alignItems: 'center'
+    alignItems: "center",
   },
   celRateWrapper: {
     flexDirection: "row",
@@ -52,7 +55,7 @@ const base = {
     paddingVertical: 6,
     paddingHorizontal: 10,
     width: widthPercentageToDP("37%"),
-    height: heightPercentageToDP("5%")
+    height: heightPercentageToDP("5%"),
   },
   regularRateWrapper: {
     flexDirection: "row",
@@ -62,13 +65,13 @@ const base = {
     paddingVertical: 6,
     paddingHorizontal: 10,
     width: widthPercentageToDP("37%"),
-    height: heightPercentageToDP("5%")
+    height: heightPercentageToDP("5%"),
   },
   usdInfoWrapper: {
     marginTop: 10,
     backgroundColor: STYLES.COLORS.DARK_GRAY,
     borderRadius: 5,
-    padding: 10
+    padding: 10,
   },
   regularRateText: {
     color: STYLES.COLORS.MEDIUM_GRAY,
@@ -85,21 +88,21 @@ const base = {
   celsiusRateText: {
     color: "#fff",
     fontFamily: "Barlow-Regular",
-  }
+  },
 };
 
 const themed = {
   light: {
     inKindColor: {
       backgroundColor: STYLES.COLORS.LIGHT_GRAY,
-    }
+    },
   },
   dark: {
     inKindColor: {
       backgroundColor: STYLES.COLORS.DARKEST_HEADER,
-      }
     },
-  celsius: {}
+  },
+  celsius: {},
 };
 
 const InterestRateInfoStyle = () => getThemedStyle(base, themed);

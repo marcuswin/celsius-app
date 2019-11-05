@@ -7,30 +7,30 @@ const base = {
     alignItems: "center",
     height: 30,
     position: "absolute",
-    width: "100%"
-  }
+    width: "100%",
+  },
 };
 
 const themed = {
   light: {
     gradientColor: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.WHITE,
     },
     iconFill: {
-      color: "#e2e4e6"
-    }
+      color: "#e2e4e6",
+    },
   },
 
   dark: {
     gradientColor: {
-      color: STYLES.COLORS.DARK_HEADER
+      color: STYLES.COLORS.DARK_HEADER,
     },
     iconFill: {
-      color: STYLES.COLORS.WHITE_OPACITY5
-    }
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
   },
 
-  celsius: {}
+  celsius: {},
 };
 
 const ScrollMoreStyle = () => getThemedStyle(base, themed);

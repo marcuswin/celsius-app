@@ -1,25 +1,24 @@
-import React, { Component } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import React, { Component } from "react";
+import { View, TouchableOpacity } from "react-native";
 
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-
-import * as appActions from '../../../redux/actions'
-import CelText from '../../atoms/CelText/CelText'
-import CelButton from '../../atoms/CelButton/CelButton'
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
-import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
-import HeadingProgressBar from '../../atoms/HeadingProgressBar/HeadingProgressBar'
+import * as appActions from "../../../redux/actions";
+import CelText from "../../atoms/CelText/CelText";
+import CelButton from "../../atoms/CelButton/CelButton";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
+import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
 import { KEYPAD_PURPOSES, THEMES } from "../../../constants/UI";
-import formatter from '../../../utils/formatter'
-import STYLES from '../../../constants/STYLES'
-import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
-import { getPadding } from '../../../utils/styles-util'
+import formatter from "../../../utils/formatter";
+import STYLES from "../../../constants/STYLES";
+import PredefinedAmounts from "../../organisms/PredefinedAmounts/PredefinedAmounts";
+import { getPadding } from "../../../utils/styles-util";
 import Icon from "../../atoms/Icon/Icon";
 import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
-import { LOAN_TYPES } from '../../../constants/DATA';
-import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
+import CoinPicker from "../../molecules/CoinPicker/CoinPicker";
+import userBehaviorUtil from "../../../utils/user-behavior-util";
 
 let timeout;
 
@@ -36,199 +35,218 @@ let timeout;
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowEnterAmount extends Component {
-  static propTypes = {}
-  static defaultProps = {}
+  static propTypes = {};
+  static defaultProps = {};
 
   static navigationOptions = () => ({
-    title: 'Enter the loan amount'
-  })
+    title: "Enter the loan amount",
+  });
 
   constructor(props) {
-    super(props)
-    const { loanCompliance, walletSummary, minimumLoanAmount, currencies } = props
+    super(props);
+    const {
+      loanCompliance,
+      walletSummary,
+      minimumLoanAmount,
+      currencies,
+      formData,
+    } = props;
     const eligibleCoins = walletSummary.coins.filter(coinData =>
       loanCompliance.collateral_coins.includes(coinData.short)
-    )
+    );
 
     const coinSelectItems = currencies
       .filter(c => loanCompliance.loan_coins.includes(c.short))
-      .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
-
-    coinSelectItems.push({ label: `US Dollar ($)`, value: 'USD' })
+      .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }));
 
     this.state = {
-      activePeriod: '',
+      activePeriod: "",
       coinSelectItems,
-    }
+    };
 
     const maxAmount =
       eligibleCoins.reduce(
         (max, element) => (element.amount_usd > max ? element.amount_usd : max),
         0
-      ) / 2
+      ) / 2;
 
     props.actions.initForm({
       loanAmount: minimumLoanAmount.toString(),
       maxAmount,
-      coin: 'USD',
-      loanType: LOAN_TYPES.USD_LOAN
-    })
+      coin: formData.coin,
+      loanType: formData.loanType,
+    });
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
-    const { formData, minimumLoanAmount, actions } = this.props
-    let amount
-    if (value === 'max') amount = formatter.floor10(formData.maxAmount, 0)
-    if (value === 'min') amount = minimumLoanAmount.toString()
-    this.handleAmountChange(amount, label)
-    actions.toggleKeypad(false)
-  }
+    const { formData, minimumLoanAmount, actions } = this.props;
+    let amount;
+    if (value === "max") amount = formatter.floor10(formData.maxAmount, 0);
+    if (value === "min") amount = minimumLoanAmount.toString();
+    this.handleAmountChange(amount, label);
+    actions.toggleKeypad(false);
+  };
 
   getAmountColor = () => {
-    const { keypadOpen } = this.props
+    const { keypadOpen } = this.props;
 
-    if (keypadOpen) return STYLES.COLORS.CELSIUS_BLUE
+    if (keypadOpen) return STYLES.COLORS.CELSIUS_BLUE;
 
-    return STYLES.COLORS.DARK_GRAY
-  }
+    return STYLES.COLORS.DARK_GRAY;
+  };
 
-  handleAmountChange = (newValue, predefined = '') => {
-    const { actions, formData, minimumLoanAmount } = this.props
+  handleAmountChange = (newValue, predefined = "") => {
+    const { actions, formData, minimumLoanAmount } = this.props;
 
     if (timeout) clearTimeout(timeout);
     if (Number(newValue) < Number(minimumLoanAmount)) {
       timeout = setTimeout(() => {
         actions.showMessage(
-          'warning',
+          "warning",
           `$${minimumLoanAmount} is currently the minimum loan amount. Please adjust your loan amount to proceed.`
-        )
-      }, 3000)
+        );
+      }, 3000);
     }
 
     if (newValue > formData.maxAmount) {
-      return actions.showMessage('warning', 'Insufficient funds!')
+      return actions.showMessage("warning", "Insufficient funds!");
     }
 
-    actions.updateFormField('loanAmount', newValue)
-    this.setState({ activePeriod: predefined })
-  }
+    actions.updateFormField("loanAmount", newValue);
+    this.setState({ activePeriod: predefined });
+  };
 
   renderButton() {
-    const { formData, actions, minimumLoanAmount } = this.props
+    const { formData, actions, minimumLoanAmount } = this.props;
 
     if (Number(formData.loanAmount) > Number(formData.maxAmount)) {
       return (
         <CelButton
           onPress={() => {
-            actions.navigateTo('Deposit')
-            actions.toggleKeypad()
+            actions.navigateTo("Deposit");
+            actions.toggleKeypad();
           }}
-          margin='40 0 0 0'
+          margin="40 0 0 0"
         >
           Deposit more
         </CelButton>
-      )
+      );
     }
 
     return (
       <CelButton
-        disabled={Number(formData.loanAmount) < Number(minimumLoanAmount)}
-        onPress={() => {
-          actions.navigateTo('BorrowCollateral')
-          actions.toggleKeypad()
-          actions.getLinkedBankAccount()
+        disabled={
+          Number(formData.loanAmount) < Number(minimumLoanAmount) ||
+          !formData.coin
+        }
+        onPress={async () => {
+          actions.navigateTo("BorrowCollateral");
+          actions.toggleKeypad();
+          actions.getLinkedBankAccount();
+          await userBehaviorUtil.loanType(formData.loanType);
+          await userBehaviorUtil.loanAmount({
+            coin: formData.coin,
+            amount: formData.loanAmount,
+          });
           // actions.navigateTo('VerifyProfile', { onSuccess: () => actions.openModal(UI.MODALS.BORROW_CONFIRM)})
         }}
-        margin='20 0 0 0'
-        iconRight='arrowRight'
+        margin="20 0 0 0"
+        iconRight="arrowRight"
       >
         Choose collateral
       </CelButton>
-    )
+    );
   }
 
   renderCoinIcon = () => {
-    const { appSettings, formData } = this.props
-    if (formData.coin === 'USD') return <CelText type={"H1"} weight={"300"} style={{opacity: 0.6}}>$</CelText>
+    const { appSettings, formData } = this.props;
+    if (formData.coin === "USD")
+      return (
+        <CelText type={"H1"} weight={"300"} style={{ opacity: 0.6 }}>
+          $
+        </CelText>
+      );
     return (
       <Icon
         name={`Icon${formData.coin}`}
-        width='40'
-        height='40'
-        fill={appSettings.theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3}
+        width="40"
+        height="40"
+        fill={
+          appSettings.theme !== THEMES.DARK
+            ? STYLES.COLORS.DARK_GRAY3
+            : STYLES.COLORS.WHITE_OPACITY3
+        }
       />
-    )
-  }
+    );
+  };
 
   render() {
-    const { activePeriod, coinSelectItems } = this.state
-    const {
-      actions,
-      formData,
-      minimumLoanAmount
-    } = this.props
+    const { activePeriod, coinSelectItems } = this.state;
+    const { actions, formData, minimumLoanAmount } = this.props;
 
-    const styles = BorrowEnterAmountStyle()
+    const styles = BorrowEnterAmountStyle();
 
-    const coin = formData.coin || ''
+    const coin = formData.coin || "";
 
     const predifinedAmount = [
-      { label: `${minimumLoanAmount} min`, value: 'min' },
+      { label: `${minimumLoanAmount} min`, value: "min" },
       {
         label: `${formatter.floor10(formData.maxAmount, 0)} max`,
-        value: 'max'
-      }
-    ]
+        value: "max",
+      },
+    ];
 
-    const CoinIcon = this.renderCoinIcon
+    const CoinIcon = this.renderCoinIcon;
 
     return (
-      <RegularLayout padding='0 0 0 0' fabType={'hide'}>
+      <RegularLayout padding="0 0 0 0" fabType={"hide"}>
         <HeadingProgressBar steps={6} currentStep={1} />
         <View
           style={[
-            { flex: 1, width: '100%', height: '100%' },
-            { ...getPadding('20 20 100 20') }
+            { flex: 1, width: "100%", height: "100%" },
+            { ...getPadding("20 20 100 20") },
           ]}
         >
-          <View style={{ alignItems: 'center' }}>
-            <CelText align='center' type='H4' weight={"300"} margin='0 0 60 0'>
+          <View style={{ alignItems: "center" }}>
+            <CelText align="center" type="H4" weight={"300"} margin="0 0 10 0">
               How much would you like to borrow?
             </CelText>
 
-            <View style={styles.selectWrapper}>
-              <CoinPicker
-                type={'enterAmount'}
-                onChange={(field, value) => actions.updateFormFields({ [field]: value, loanType: value === 'USD' ? LOAN_TYPES.USD_LOAN : LOAN_TYPES.STABLE_COIN_LOAN })}
-                updateFormField={actions.updateFormField}
-                value={coin}
-                field='coin'
-                coinCompliance={coinSelectItems}
-                navigateTo={actions.navigateTo}
-              />
-            </View>
+            <CoinPicker
+              type={"withIcon"}
+              onChange={(field, value) =>
+                actions.updateFormFields({
+                  [field]: value,
+                })
+              }
+              updateFormField={actions.updateFormField}
+              coin={coin}
+              field="coin"
+              availableCoins={coinSelectItems}
+              navigateTo={actions.navigateTo}
+            />
 
-            <View style={{ width: '100%' }}>
+            <View style={{ width: "100%" }}>
               <TouchableOpacity
                 onPress={actions.toggleKeypad}
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
               >
                 <View style={styles.coinIconWrapper}>
                   <CoinIcon />
                 </View>
                 <CelText
                   color={this.getAmountColor()}
-                  type='H1'
-                  weight='regular'
-                  align='center'
+                  type="H1"
+                  weight="regular"
+                  align="center"
                 >
                   {formatter.usd(formData.loanAmount, {
-                    code: '',
-                    precision: 0
+                    code: "",
+                    precision: 0,
                   })}
                 </CelText>
                 <View style={styles.coinTextWrapper}>
-                  <CelText color='gray' type='H3'>
+                  <CelText color="gray" type="H3">
                     {formData.coin}
                   </CelText>
                 </View>
@@ -251,8 +269,8 @@ class BorrowEnterAmount extends Component {
           {this.renderButton()}
 
           <CelNumpad
-            field={'loanAmount'}
-            value={formData.loanAmount || ''}
+            field={"loanAmount"}
+            value={formData.loanAmount || ""}
             updateFormField={actions.updateFormField}
             setKeypadInput={actions.setKeypadInput}
             toggleKeypad={actions.toggleKeypad}
@@ -261,8 +279,8 @@ class BorrowEnterAmount extends Component {
           />
         </View>
       </RegularLayout>
-    )
+    );
   }
 }
 
-export default BorrowEnterAmount
+export default BorrowEnterAmount;

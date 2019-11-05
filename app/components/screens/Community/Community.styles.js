@@ -1,24 +1,29 @@
 // import STYLES from '../../../constants/STYLES';
-import { Platform } from 'react-native'
+import { Platform } from "react-native";
 
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   text: {
-    marginTop: heightPercentageToDP("1.25%") },
+    marginTop: heightPercentageToDP("1.25%"),
+  },
 
   secondText: {
-    marginTop: heightPercentageToDP("0.5%")
+    marginTop: heightPercentageToDP("0.5%"),
   },
   amountsView: {
     flex: 1,
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   amountsCard: {
-    marginTop: heightPercentageToDP("2%")
+    marginTop: heightPercentageToDP("2%"),
   },
   image: {
     alignItems: "center",
@@ -30,7 +35,7 @@ const base = {
     resizeMode: "cover",
     height: widthPercentageToDP("35%"),
     width: widthPercentageToDP("30%"),
-    overflow: "visible"
+    overflow: "visible",
   },
   imageView: {
     flexDirection: "row",
@@ -40,7 +45,7 @@ const base = {
   },
   coinImage: {
     width: 38,
-    height: 38
+    height: 38,
   },
   bulldogImage: {
     position: "absolute",
@@ -49,23 +54,25 @@ const base = {
     resizeMode: "cover",
     width: widthPercentageToDP("22%"),
     height: widthPercentageToDP("20.4%"),
-    overflow: "hidden"
+    overflow: "hidden",
   },
   graphMargin: {
-    marginTop: Platform.OS === 'android' ?  heightPercentageToDP("-15%") : heightPercentageToDP("5%")
+    marginTop:
+      Platform.OS === "android"
+        ? heightPercentageToDP("-15%")
+        : heightPercentageToDP("5%"),
   },
   coinLabel: {
-    marginTop: -15
-  }
+    marginTop: -15,
+  },
 };
-
 
 const themed = {
   light: {},
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const CommunityStyle = () => getThemedStyle(base, themed);

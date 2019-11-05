@@ -1,5 +1,8 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   container: {
@@ -10,20 +13,20 @@ const base = {
     flex: 1,
     flexDirection: "row",
     paddingHorizontal: 12,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
   buttons: {
     marginLeft: 10,
-    justifyContent: 'center',
-    alignContent:  'center'
+    justifyContent: "center",
+    alignContent: "center",
   },
   coinAmountWrapper: {
     justifyContent: "space-between",
   },
   amountFlexBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 14,
   },
   coinImage: {
@@ -32,25 +35,23 @@ const base = {
   },
   separator: {
     right: 0,
-    position: 'absolute'
+    position: "absolute",
   },
   interestCardWrapper: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
+    flexDirection: "column",
+    justifyContent: "flex-start",
     paddingVertical: widthPercentageToDP("3%"),
     paddingHorizontal: widthPercentageToDP("3%"),
-
   },
   interestWrapper: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   interestRateWrapper: {
-    justifyContent: 'flex-start',
-    alignContent: 'flex-end',
-    paddingTop: 12
-
+    justifyContent: "flex-start",
+    alignContent: "flex-end",
+    paddingTop: 12,
   },
   buttonItself: {
     flex: 1,
@@ -58,10 +59,10 @@ const base = {
     paddingBottom: 5,
   },
   buttonIcon: {
-    opacity: 0.5
+    opacity: 0.5,
   },
-  graphContainer: {justifyContent: "center", alignItems: "center"},
-  priceIndicator : { paddingHorizontal: 20 }
+  graphContainer: { justifyContent: "center", alignItems: "center" },
+  priceIndicator: { paddingHorizontal: 20 },
 };
 
 const themed = {
@@ -69,7 +70,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const CoinDetailsStyle = () => getThemedStyle(base, themed);

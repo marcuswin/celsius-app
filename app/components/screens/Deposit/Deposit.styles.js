@@ -1,37 +1,37 @@
-import { getThemedStyle } from '../../../utils/styles-util';
-import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from "../../../utils/styles-util";
+import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
     flex: 1,
     marginHorizontal: 20,
-    marginTop: 10
+    marginTop: 10,
   },
 
   copyShareWrapper: {
-    width: '100%',
+    width: "100%",
     // marginTop: 15
   },
 
   copyShareButtonsWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    paddingTop: 15
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingTop: 15,
   },
   infoBubble: {
-    alignContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: '2%',
-    paddingVertical: '2%'
+    alignContent: "center",
+    alignItems: "center",
+    paddingHorizontal: "2%",
+    paddingVertical: "2%",
   },
   qrCodeWrapper: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 10,
-    borderRadius: 4
+    borderRadius: 4,
   },
   qrCode: {
-    alignItems: 'center',
-  }
+    alignItems: "center",
+  },
 };
 
 const themed = {
@@ -39,7 +39,7 @@ const themed = {
     promotion: {
       marginLeft: 20,
       marginRight: 20,
-      backgroundColor: STYLES.COLORS.WHITE
+      backgroundColor: STYLES.COLORS.WHITE,
     },
   },
 
@@ -47,17 +47,16 @@ const themed = {
     promotion: {
       marginLeft: 20,
       marginRight: 20,
-      backgroundColor: STYLES.COLORS.DARK_HEADER
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
     },
     importantInfo: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.WHITE,
     },
   },
 
-  celsius: {
-  }
+  celsius: {},
 };
 
 const DepositStyle = () => getThemedStyle(base, themed);
 
-export default DepositStyle
+export default DepositStyle;

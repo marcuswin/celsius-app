@@ -15,7 +15,6 @@ function initialState() {
 }
 
 export default function graphReducer(state = initialState(), action) {
-
   switch (action.type) {
     case ACTIONS.GET_ACTIVE_TIMELINE:
       return {
@@ -24,31 +23,31 @@ export default function graphReducer(state = initialState(), action) {
           ...state.timeline,
           period: action.period,
           time: action.time,
-        }
+        },
       };
     case ACTIONS.GET_WALLET_BALANCE_DATA_SUCCESS:
       return {
         ...state,
-        walletTotalChartData: action.walletTotal
+        walletTotalChartData: action.walletTotal,
       };
 
     case ACTIONS.GET_COIN_WALLET_BALANCE_DATA_SUCCESS:
       return {
         ...state,
         coinWalletChartData: action.coinWallet,
-        coinLastValue: action.coinLastValue
+        coinLastValue: action.coinLastValue,
       };
 
     case ACTIONS.GET_INTEREST_GRAPH_DATA_SUCCESS:
       return {
         ...state,
-        interestChartData: action.interestChart
+        interestChartData: action.interestChart,
       };
 
     case ACTIONS.GET_COIN_INTEREST_GRAPH_DATA_SUCCESS:
       return {
         ...state,
-        coinInterestChartData: action.coinInterestChart
+        coinInterestChartData: action.coinInterestChart,
       };
 
     default:

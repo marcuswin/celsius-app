@@ -1,17 +1,21 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
-import STYLES from '../../../constants/STYLES';
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
+import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   contentWrapper: {
-      marginHorizontal: 20,
-      marginTop: heightPercentageToDP("1.5%"),
-      alignItems: "center",
-      justifyContent: "center"
-    },
+    marginHorizontal: 20,
+    marginTop: heightPercentageToDP("1.5%"),
+    alignItems: "center",
+    justifyContent: "center",
+  },
   starIcon: {
     resizeMode: "contain",
     width: widthPercentageToDP("23.3%"),
@@ -22,18 +26,18 @@ const base = {
   wrapper: {
     paddingHorizontal: widthPercentageToDP("5%"),
     paddingVertical: heightPercentageToDP("3%"),
-    marginVertical: heightPercentageToDP('1.5%'),
+    marginVertical: heightPercentageToDP("1.5%"),
     backgroundColor: STYLES.COLORS.WHITE,
-    borderRadius: 8
+    borderRadius: 8,
   },
   circle: {
-    position: 'absolute',
+    position: "absolute",
     top: heightPercentageToDP("-7%"),
     width: widthPercentageToDP("17%"),
     height: widthPercentageToDP("17%"),
     borderRadius: heightPercentageToDP("17%") / 2,
     backgroundColor: STYLES.COLORS.WHITE,
-    alignSelf: 'center',
+    alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
     marginTop: heightPercentageToDP("3%"),
@@ -46,30 +50,29 @@ const base = {
   },
   loyalityQuestion: {
     marginTop: heightPercentageToDP("1.5%"),
-    color: STYLES.COLORS.CELSIUS_BLUE
+    color: STYLES.COLORS.CELSIUS_BLUE,
   },
   explanation: {
-    marginBottom: heightPercentageToDP("2.73%")
+    marginBottom: heightPercentageToDP("2.73%"),
   },
 };
 
 const themed = {
   light: {
     wrapper: {
-      backgroundColor: STYLES.COLORS.WHITE
+      backgroundColor: STYLES.COLORS.WHITE,
     },
-  
   },
 
   dark: {
     wrapper: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER
-    }
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
+    },
   },
 
-  celsius: {}
+  celsius: {},
 };
 
 const MyCelLoansTabStyle = () => getThemedStyle(base, themed);
 
-export default MyCelLoansTabStyle
+export default MyCelLoansTabStyle;

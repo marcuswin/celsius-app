@@ -7,7 +7,7 @@ const { MIXPANEL_TOKEN } = Constants;
 
 const mixpanelService = {
   track,
-  engage
+  engage,
 };
 
 /**
@@ -18,7 +18,7 @@ const mixpanelService = {
 function track(event, payload = {}) {
   let data = {
     event,
-    properties: payload
+    properties: payload,
   };
   data.properties.token = MIXPANEL_TOKEN;
   data = new Buffer(JSON.stringify(data)).toString("base64");

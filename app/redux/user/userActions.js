@@ -1,7 +1,7 @@
 import _ from "lodash";
 import moment from "moment";
 
-import Constants from '../../../constants';
+import Constants from "../../../constants";
 import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
@@ -19,6 +19,7 @@ import { getWalletSummary } from "../wallet/walletActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants;
 
+// TODO rename
 export {
   // User & Profile Actions
   getProfileInfo,
@@ -26,23 +27,20 @@ export {
   getCelsiusMemberStatus,
   getUserAppSettings,
   setUserAppSettings,
-
   // TODO move to contacts
   connectPhoneContacts,
   getConnectedContacts,
-
   // TODO move to KYC actions
   getLinkedBankAccount,
   linkBankAccount,
-  profileTaxpayerInfo, // TODO rename
-
+  profileTaxpayerInfo,
   // Security Actions
   getTwoFactorSecret,
   enableTwoFactor,
   disableTwoFactor,
   checkPIN,
   checkTwoFactor,
-  getPreviousPinScreen
+  getPreviousPinScreen,
 };
 
 /**
@@ -83,7 +81,6 @@ function profileTaxpayerInfo() {
   };
 }
 
-
 /**
  * TODO add JSDoc
  */
@@ -91,10 +88,9 @@ function profileTaxpayerInfoSuccess(taxPayerInfo) {
   return {
     type: ACTIONS.GET_USER_TAXPAYER_INFO_SUCCESS,
     callName: API.GET_USER_TAXPAYER_INFO,
-    taxPayerInfo
+    taxPayerInfo,
   };
 }
-
 
 /**
  * TODO add JSDoc
@@ -103,10 +99,9 @@ export function getUserPersonalInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS,
     callName: API.GET_USER_PERSONAL_INFO,
-    personalInfo
+    personalInfo,
   };
 }
-
 
 /**
  * Updates users profile picture
@@ -125,7 +120,6 @@ function updateProfilePicture(image) {
   };
 }
 
-
 /**
  * TODO add JSDoc
  */
@@ -133,10 +127,9 @@ function updateProfilePictureSuccess(image) {
   return {
     type: ACTIONS.UPLOAD_PLOFILE_IMAGE_SUCCESS,
     callName: API.UPLOAD_PLOFILE_IMAGE,
-    image
+    image,
   };
 }
-
 
 /**
  * gets two factor secret for user
@@ -155,7 +148,6 @@ function getTwoFactorSecret(pin) {
   };
 }
 
-
 /**
  * Enables two factor authentication for user
  * @param {string} code - eg. 111111
@@ -171,7 +163,6 @@ function enableTwoFactor(code) {
   };
 }
 
-
 /**
  * Disables two factor for user, pin is fallback
  */
@@ -183,14 +174,18 @@ function disableTwoFactor() {
       await TwoFactorService.disableTwoFactor(code);
       dispatch({ type: ACTIONS.DISABLE_TWO_FACTOR_SUCCESS });
       dispatch(navigateTo("SecuritySettings"));
-      dispatch(showMessage("success", "In order to completely remove Two-Factor Verification check your email."));
+      dispatch(
+        showMessage(
+          "success",
+          "In order to completely remove Two-Factor Verification check your email."
+        )
+      );
     } catch (error) {
       dispatch(apiError(API.DISABLE_TWO_FACTOR));
       dispatch(showMessage("error", error.msg));
     }
   };
 }
-
 
 /**
  * Checks user pin code
@@ -218,7 +213,6 @@ function checkPIN(onSuccess, onError) {
   };
 }
 
-
 /**
  * TODO add JSDoc
  */
@@ -243,7 +237,6 @@ function checkTwoFactor(onSuccess, onError) {
   };
 }
 
-
 /**
  * Saves all contacts from users Phonebook
  * @param {Object[]} contacts
@@ -267,30 +260,36 @@ function connectPhoneContacts(contacts) {
 function getConnectedContacts() {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.GET_CONNECT_CONTACTS));
-    const { activeScreen } = getState().nav
-    const { friendsWithApp } = getState().user.contacts
+    const { activeScreen } = getState().nav;
+    const { friendsWithApp } = getState().user.contacts;
 
     try {
       const res = await usersService.getConnectedContacts();
       dispatch(getConnectedContactsSuccess(res.data.contacts));
-      const newFriendsWithApp = res.data.contacts.friendsWithApp
+      const newFriendsWithApp = res.data.contacts.friendsWithApp;
 
       if (friendsWithApp.length !== newFriendsWithApp.length) {
-        const action = activeScreen === 'CelPayChooseFriend' ? { text: 'Go to CelPay', action: () => dispatch(navigateTo('CelPayChooseFriend')) } : null;
-        dispatch(showMessage(
-          'success',
-          'Congrats! Your contacts have been added to your wallet. Get started with CelPay and transfer crypto between friends faster and easier than ever before.',
-          false,
-          action,
-        ))
+        const action =
+          activeScreen === "CelPayChooseFriend"
+            ? {
+                text: "Go to CelPay",
+                action: () => dispatch(navigateTo("CelPayChooseFriend")),
+              }
+            : null;
+        dispatch(
+          showMessage(
+            "success",
+            "Congrats! Your contacts have been added to your wallet. Get started with CelPay and transfer crypto between friends faster and easier than ever before.",
+            false,
+            action
+          )
+        );
       }
-
     } catch (err) {
       logger.err(err);
     }
   };
 }
-
 
 /**
  * TODO add JSDoc
@@ -299,7 +298,7 @@ function getConnectedContactsSuccess(contacts) {
   return {
     type: ACTIONS.GET_CONNECTED_CONTACTS_SUCCESS,
     callName: API.GET_CONNECT_CONTACTS,
-    contacts
+    contacts,
   };
 }
 
@@ -314,7 +313,7 @@ function getLinkedBankAccount() {
       const res = await usersService.getLinkedBankAccount();
       dispatch({
         type: ACTIONS.GET_LINKED_BANK_ACCOUNT_SUCCESS,
-        bankAccountInfo: res.data
+        bankAccountInfo: res.data,
       });
     } catch (err) {
       logger.err(err);
@@ -341,7 +340,7 @@ function linkBankAccount(bankAccountInfo) {
       const bankRes = await usersService.linkBankAccount(bankAccountInfo);
       dispatch({ type: ACTIONS.LINK_BANK_ACCOUNT_SUCCESS });
       dispatch(updateFormField("bankInfo", bankRes.data));
-      dispatch(navigateTo('ConfirmYourLoan'))
+      dispatch(navigateTo("ConfirmYourLoan"));
     } catch (err) {
       if (err.status === 422) {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -352,7 +351,6 @@ function linkBankAccount(bankAccountInfo) {
     }
   };
 }
-
 
 /**
  * TODO add JSDoc
@@ -367,7 +365,7 @@ function getPreviousPinScreen(activeScreen) {
         dispatch({
           type: ACTIONS.GET_PREVIOUS_SCREEN_SUCCESS,
           callName: API.GET_PREVIOUS_SCREEN,
-          screen
+          screen,
         });
       }
     } catch (err) {
@@ -376,7 +374,6 @@ function getPreviousPinScreen(activeScreen) {
     }
   };
 }
-
 
 /**
  * If user has never been a member, he receives 1CEL and becomes a member
@@ -390,10 +387,10 @@ function getCelsiusMemberStatus() {
         dispatch(openModal(MODALS.BECAME_CEL_MEMBER_MODAL));
       }
       dispatch(getWalletSummary());
-      dispatch(getProfileInfo())
+      dispatch(getProfileInfo());
       dispatch({
         type: ACTIONS.GET_MEMBER_STATUS_SUCCESS,
-        isNewMember: celMemberStatus.data.is_new_member
+        isNewMember: celMemberStatus.data.is_new_member,
       });
     } catch (err) {
       dispatch(showMessage("error", err.msg));
@@ -401,7 +398,6 @@ function getCelsiusMemberStatus() {
     }
   };
 }
-
 
 /**
  * Gets app settings for user
@@ -413,7 +409,7 @@ function getUserAppSettings() {
       const userAppData = await usersService.getUserAppSettings();
       dispatch({
         type: ACTIONS.GET_APP_SETTINGS_SUCCESS,
-        userAppData: userAppData.data
+        userAppData: userAppData.data,
       });
     } catch (e) {
       dispatch(apiError(API.GET_APP_SETTINGS, e));
@@ -421,7 +417,6 @@ function getUserAppSettings() {
     }
   };
 }
-
 
 /**
  * Sets app settings for user
@@ -437,7 +432,9 @@ function setUserAppSettings(data) {
 
       const newData = { ...data };
       if (newData.interest_in_cel_per_coin) {
-        newData.interest_in_cel_per_coin = JSON.stringify(newData.interest_in_cel_per_coin);
+        newData.interest_in_cel_per_coin = JSON.stringify(
+          newData.interest_in_cel_per_coin
+        );
       }
 
       const userAppData = await usersService.setUserAppSettings(newData);
@@ -445,14 +442,17 @@ function setUserAppSettings(data) {
 
       dispatch({
         type: ACTIONS.SET_APP_SETTINGS_SUCCESS,
-        userAppData: newSettings
+        userAppData: newSettings,
       });
 
       const currentDate = moment.utc();
 
       const newDataKeys = Object.keys(newData);
 
-      if (newDataKeys.includes("interest_in_cel") || newDataKeys.includes("interest_in_cel_per_coin")) {
+      if (
+        newDataKeys.includes("interest_in_cel") ||
+        newDataKeys.includes("interest_in_cel_per_coin")
+      ) {
         const coins = Object.keys(newSettings.interest_in_cel_per_coin);
 
         const changedCoins = [];
@@ -463,39 +463,108 @@ function setUserAppSettings(data) {
             coinsInCel.push(c);
           }
 
-          if (newSettings.interest_in_cel_per_coin[c] !== appSettings.interest_in_cel_per_coin[c]) {
+          if (
+            newSettings.interest_in_cel_per_coin[c] !==
+            appSettings.interest_in_cel_per_coin[c]
+          ) {
             changedCoins.push(c);
           }
         });
         if (newSettings.interest_in_cel !== appSettings.interest_in_cel) {
-
           if (currentDate.day() <= 5 && currentDate.hour() < 17) {
-
             if (newSettings.interest_in_cel && changedCoins === coinsInCel) {
-              return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income in CEL on all deposited coins.`));
+              return dispatch(
+                showMessage(
+                  "success",
+                  `Congrats! Starting next Monday, ${currentDate
+                    .day(8)
+                    .format(
+                      "DD MMMM"
+                    )}, you will receive interest income in CEL on all deposited coins.`
+                )
+              );
             }
-            if (!newSettings.interest_in_cel) return dispatch(showMessage("warning", `You’re missing out on better rates! Upgrade your interest settings at any time and unlock even greater rewards by choosing to earn interest income in CEL.`));
+            if (!newSettings.interest_in_cel)
+              return dispatch(
+                showMessage(
+                  "warning",
+                  `You’re missing out on better rates! Upgrade your interest settings at any time and unlock even greater rewards by choosing to earn interest income in CEL.`
+                )
+              );
           } else {
             if (newSettings.interest_in_cel) {
-              return dispatch(showMessage("success", `Congrats! You have chosen to earn interest income in CEL for all deposited coins. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
+              return dispatch(
+                showMessage(
+                  "success",
+                  `Congrats! You have chosen to earn interest income in CEL for all deposited coins. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate
+                    .day(15)
+                    .format("DD MMMM")}. `
+                )
+              );
             }
-            if (!newSettings.interest_in_cel) return dispatch(showMessage("success", `You have chosen to earn interest income in-kind for all deposited coins. Interest has already been calculated for this week, so you will receive interest in-kind beginning Monday, ${currentDate.day(15).format("DD MMMM")}.`));
+            if (!newSettings.interest_in_cel)
+              return dispatch(
+                showMessage(
+                  "success",
+                  `You have chosen to earn interest income in-kind for all deposited coins. Interest has already been calculated for this week, so you will receive interest in-kind beginning Monday, ${currentDate
+                    .day(15)
+                    .format("DD MMMM")}.`
+                )
+              );
           }
         }
 
-        if (!_.isEqual(newSettings.interest_in_cel_per_coin, appSettings.interest_in_cel_per_coin)) {
-
+        if (
+          !_.isEqual(
+            newSettings.interest_in_cel_per_coin,
+            appSettings.interest_in_cel_per_coin
+          )
+        ) {
           if (currentDate.day() <= 5 && currentDate.hour() < 17) {
             if (coinsInCel.length) {
-              return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on selected coins in CEL.`));
+              return dispatch(
+                showMessage(
+                  "success",
+                  `Congrats! Starting next Monday, ${currentDate
+                    .day(8)
+                    .format(
+                      "DD MMMM"
+                    )}, you will receive interest income on selected coins in CEL.`
+                )
+              );
             }
-            return dispatch(showMessage("success", `Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on selected coinsin in original coins.`));
+            return dispatch(
+              showMessage(
+                "success",
+                `Starting next Monday, ${currentDate
+                  .day(8)
+                  .format(
+                    "DD MMMM"
+                  )}, you will receive interest income on selected coinsin in original coins.`
+              )
+            );
           }
 
           if (coinsInCel.length) {
-              return dispatch(showMessage("success", `Congrats! You have chosen to earn interest income in CEL. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate.day(15).format("DD MMMM")}`));
-            }
-            return dispatch(showMessage("success", `You have chosen to earn interest income in ${ changedCoins.join(', ') }. Interest has already been calculated for this week, so you will receive interest in selected  coins beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
+            return dispatch(
+              showMessage(
+                "success",
+                `Congrats! You have chosen to earn interest income in CEL. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate
+                  .day(15)
+                  .format("DD MMMM")}`
+              )
+            );
+          }
+          return dispatch(
+            showMessage(
+              "success",
+              `You have chosen to earn interest income in ${changedCoins.join(
+                ", "
+              )}. Interest has already been calculated for this week, so you will receive interest in selected  coins beginning Monday, ${currentDate
+                .day(15)
+                .format("DD MMMM")}. `
+            )
+          );
         }
       }
     } catch (e) {

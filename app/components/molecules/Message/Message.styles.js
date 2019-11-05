@@ -9,9 +9,9 @@ const { width } = Dimensions.get("window");
 const baseContainer = {
   flexDirection: "row",
   position: "absolute",
-  alignSelf: 'center',
+  alignSelf: "center",
   top: 0,
-  width, 
+  width,
   zIndex: 100,
   paddingTop: 40,
   paddingBottom: 15,
@@ -25,19 +25,19 @@ const baseContainer = {
 const base = {
   infoContainer: {
     ...baseContainer,
-    backgroundColor: COLORS.CELSIUS_BLUE
+    backgroundColor: COLORS.CELSIUS_BLUE,
   },
   warningContainer: {
     ...baseContainer,
-    backgroundColor: COLORS.ORANGE
+    backgroundColor: COLORS.ORANGE,
   },
   errorContainer: {
     ...baseContainer,
-    backgroundColor: COLORS.RED
+    backgroundColor: COLORS.RED,
   },
   successContainer: {
     ...baseContainer,
-    backgroundColor: COLORS.GREEN
+    backgroundColor: COLORS.GREEN,
   },
   circle: {
     width: 29,
@@ -58,8 +58,8 @@ const base = {
   closeButtonView: {
     width: 50,
     height: 50,
-    paddingTop: 12
-  }
+    paddingTop: 12,
+  },
 };
 
 const themed = {
@@ -67,7 +67,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const MessageStyle = () => getThemedStyle(base, themed);

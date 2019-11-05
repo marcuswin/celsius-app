@@ -1,21 +1,18 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    fillColor: {}
-}
+  fillColor: {},
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const IconStyle = () => getThemedStyle(base, themed);
 
-export default IconStyle
+export default IconStyle;

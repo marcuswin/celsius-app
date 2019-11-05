@@ -5,28 +5,16 @@ export default {
   FONT_SMALL,
   FONT_MEDIUM,
   FONT_LARGE,
-}
+};
 
-const DARK = {
+const DARK = {};
 
-}
+const LIGHT = {};
 
-const LIGHT = {
+const CELSIUS = {};
 
-}
+const FONT_SMALL = {};
 
-const CELSIUS = {
-  
-}
+const FONT_MEDIUM = {};
 
-const FONT_SMALL = {
-
-}
-
-const FONT_MEDIUM = {
-
-}
-
-const FONT_LARGE = {
-
-}
+const FONT_LARGE = {};

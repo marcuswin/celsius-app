@@ -4,12 +4,12 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import LoadingState from "../../atoms/LoadingState/LoadingState";
 
 class LoadingScreen extends Component {
-  static defaultProps = {}
+  static defaultProps = {};
   render() {
     const { loadingState } = this.props;
     return (
       <RegularLayout>
-        <LoadingState { ...loadingState } />
+        <LoadingState {...loadingState} />
       </RegularLayout>
     );
   }

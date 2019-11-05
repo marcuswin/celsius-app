@@ -1,27 +1,30 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, widthPercentageToDP } from '../../../utils/styles-util';
+import {
+  getThemedStyle,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   buttonsWrapper: {
     flex: 1,
     marginLeft: 12,
-    marginRight: 12
+    marginRight: 12,
   },
   buttonsIconText: {
-    flexDirection: 'row',
+    flexDirection: "row",
     justifyContent: "space-around",
     flex: 1,
   },
   buttonIconText: {
     flex: 1,
     marginLeft: widthPercentageToDP("1.3%"),
-    marginRight: widthPercentageToDP("1.3%")
+    marginRight: widthPercentageToDP("1.3%"),
   },
   buttonItself: {
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     flex: 1,
   },
   buttonIconHand: {
@@ -36,19 +39,16 @@ const base = {
     marginBottom: 5,
     marginTop: 6,
   },
-}
+};
 
 const themed = {
-  light: {
-  },
+  light: {},
 
-  dark: {
-  },
+  dark: {},
 
-  celsius: {
-  }
-}
+  celsius: {},
+};
 
 const WiringBankInfomationStyle = () => getThemedStyle(base, themed);
 
-export default WiringBankInfomationStyle
+export default WiringBankInfomationStyle;

@@ -4,7 +4,9 @@ import { View, StyleSheet } from "react-native";
 
 import SeparatorStyle from "./Separator.styles";
 import CelText from "../CelText/CelText";
-import { getMargins } from "../../../utils/styles-util";
+import { getMargins, getTheme } from "../../../utils/styles-util";
+import { THEMES } from "../../../constants/UI";
+import STYLES from "../../../constants/STYLES";
 
 class Separator extends Component {
   static propTypes = {
@@ -19,7 +21,7 @@ class Separator extends Component {
     textOpacity: PropTypes.number,
     margin: PropTypes.string,
     height: PropTypes.string,
-    top: PropTypes.number
+    top: PropTypes.number,
   };
   static defaultProps = {
     vertical: false,
@@ -28,11 +30,11 @@ class Separator extends Component {
     allCaps: true,
     dashed: false,
     color: "",
-    opacity: 0.08,
+    opacity: 1,
     textOpacity: 1,
     margin: "0 0 0 0",
     height: "100%",
-    top: 0
+    top: 0,
   };
 
   getSeparatorColor = style => StyleSheet.flatten(style.separatorColor).color; // get color from raw json depending on style theme
@@ -54,9 +56,9 @@ class Separator extends Component {
             borderStyle: dashed ? "dashed" : "solid",
             opacity,
             height,
-            top
+            top,
           },
-          margins
+          margins,
         ]}
       />
     );
@@ -76,9 +78,9 @@ class Separator extends Component {
             borderColor: separatorColor,
             borderWidth: size / 2,
             borderStyle: dashed ? "dashed" : "solid",
-            opacity
+            opacity,
           },
-          margins
+          margins,
         ]}
       />
     );
@@ -94,11 +96,12 @@ class Separator extends Component {
       fontType,
       color,
       dashed,
-      margin
+      margin,
     } = this.props;
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
     const margins = getMargins(margin);
+    const theme = getTheme();
 
     return (
       <View style={[style.content, margins]}>
@@ -109,14 +112,18 @@ class Separator extends Component {
               borderColor: separatorColor,
               borderWidth: size / 2,
               borderStyle: dashed ? "dashed" : "solid",
-              opacity
-            }
+              opacity,
+            },
           ]}
         />
         <View style={[style.center, { opacity: textOpacity }]}>
           <CelText
             allCaps={allCaps}
-            color={separatorColor}
+            color={
+              theme === THEMES.LIGHT
+                ? STYLES.COLORS.MEDIUM_GRAY
+                : STYLES.COLORS.DARK_GRAY5
+            }
             align="center"
             type={fontType}
           >
@@ -130,8 +137,8 @@ class Separator extends Component {
               borderColor: separatorColor,
               borderWidth: size / 2,
               borderStyle: dashed ? "dashed" : "solid",
-              opacity
-            }
+              opacity,
+            },
           ]}
         />
       </View>

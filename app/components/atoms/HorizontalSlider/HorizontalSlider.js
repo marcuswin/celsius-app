@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { TouchableOpacity, View } from 'react-native'
-import Slider from '@react-native-community/slider'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { TouchableOpacity, View } from "react-native";
+import Slider from "@react-native-community/slider";
 
-
-
-import HorizontalSliderStyle from './HorizontalSlider.styles'
-import STYLES from '../../../constants/STYLES'
+import HorizontalSliderStyle from "./HorizontalSlider.styles";
+import STYLES from "../../../constants/STYLES";
 
 class HorizontalSlider extends Component {
   static propTypes = {
@@ -14,27 +12,27 @@ class HorizontalSlider extends Component {
     field: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
-    updateFormField: PropTypes.func
-  }
-  static defaultProps = {}
+    updateFormField: PropTypes.func,
+  };
+  static defaultProps = {};
 
   handleChangeSlideValue = value => {
-    const { onChange, updateFormField, field } = this.props
+    const { onChange, updateFormField, field } = this.props;
 
     if (onChange) {
-      onChange(field, value)
+      onChange(field, value);
     } else {
-      updateFormField(field, value)
+      updateFormField(field, value);
     }
-  }
+  };
 
   // lifecycle methods
   // event handlers
   // rendering methods
-  render () {
-    const { items, value } = this.props
-    const values = items.map(i => i.value)
-    const style = HorizontalSliderStyle()
+  render() {
+    const { items, value } = this.props;
+    const values = items.map(i => i.value);
+    const style = HorizontalSliderStyle();
 
     return (
       <View style={style.container}>
@@ -53,9 +51,9 @@ class HorizontalSlider extends Component {
         <View
           style={{
             flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end'
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
           }}
         >
           {items.map((item, index) => (
@@ -66,9 +64,9 @@ class HorizontalSlider extends Component {
                 marginTop: -12,
                 height: 33,
                 width: 30,
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                zIndex: -1
+                alignItems: "center",
+                justifyContent: "flex-end",
+                zIndex: -1,
               }}
             >
               {item.label}
@@ -76,8 +74,8 @@ class HorizontalSlider extends Component {
           ))}
         </View>
       </View>
-    )
+    );
   }
 }
 
-export default HorizontalSlider
+export default HorizontalSlider;

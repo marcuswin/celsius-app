@@ -1,12 +1,16 @@
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
-import STYLES from '../../../constants/STYLES'
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
+import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {},
   fabButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 30,
-    right: 20
+    right: 20,
   },
   menuContainer: {
     position: "absolute",
@@ -19,42 +23,42 @@ const base = {
     left: widthPercentageToDP("30%"),
     top: heightPercentageToDP("5.5%"),
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   opacityCircle: {
     backgroundColor: STYLES.COLORS.CELSIUS,
     width: 60,
     height: 60,
-    borderRadius: 30
+    borderRadius: 30,
   },
   menuItemsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 30
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 30,
   },
   background: {
     opacity: 0.95,
-    backgroundColor: 'white',
-  }
-}
+    backgroundColor: "white",
+  },
+};
 
 const themed = {
   light: {
     background: {
       opacity: 0.95,
-      backgroundColor: 'white',
-    }
+      backgroundColor: "white",
+    },
   },
 
   dark: {
     background: {
-      backgroundColor: 'rgba(21, 30, 39, 0.98)',
-    }
+      backgroundColor: "rgba(21, 30, 39, 0.98)",
+    },
   },
 
-  celsius: {}
-}
+  celsius: {},
+};
 
-const FabMenuStyle = () => getThemedStyle(base, themed)
+const FabMenuStyle = () => getThemedStyle(base, themed);
 
-export default FabMenuStyle
+export default FabMenuStyle;

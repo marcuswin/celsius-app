@@ -31,13 +31,13 @@ let timeout;
     walletSummary: state.wallet.summary,
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
-      : KYC_STATUSES.collecting
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowCalculator extends Component {
   static propTypes = {
-    purpose: PropTypes.string
+    purpose: PropTypes.string,
   };
   constructor(props) {
     super(props);
@@ -48,27 +48,27 @@ class BorrowCalculator extends Component {
       .filter(c => loanCompliance.collateral_coins.includes(c.short))
       .map(c => ({
         label: `${c.displayName} (${c.short})`,
-        value: c.short
+        value: c.short,
       }));
 
     this.state = {
       coinSelectItems,
       loanParams: {},
-      loanParamsProps: this.props.loanParams
+      loanParamsProps: this.props.loanParams,
     };
 
     this.sliderItems = [
       { value: 6, label: <CelText>6M</CelText> },
       { value: 12, label: <CelText>1Y</CelText> },
       { value: 24, label: <CelText>2Y</CelText> },
-      { value: 48, label: <CelText>4Y</CelText> }
+      { value: 48, label: <CelText>4Y</CelText> },
     ];
 
     props.actions.initForm({
       coin: "BTC",
       termOfLoan: 6,
       amount: 0,
-      ltv: ltv[0]
+      ltv: ltv[0],
     });
 
     this.style = BorrowCalculatorStyle();
@@ -101,7 +101,7 @@ class BorrowCalculator extends Component {
       iconColor:
         themeModal || theme !== THEMES.DARK
           ? STYLES.COLORS.DARK_HEADER
-          : STYLES.COLORS.LIGHT_GRAY
+          : STYLES.COLORS.LIGHT_GRAY,
     };
   };
 
@@ -121,7 +121,7 @@ class BorrowCalculator extends Component {
           >
             6M
           </CelText>
-        )
+        ),
       },
       {
         value: 12,
@@ -135,7 +135,7 @@ class BorrowCalculator extends Component {
           >
             1Y
           </CelText>
-        )
+        ),
       },
       {
         value: 24,
@@ -149,7 +149,7 @@ class BorrowCalculator extends Component {
           >
             2Y
           </CelText>
-        )
+        ),
       },
       {
         value: 48,
@@ -163,8 +163,8 @@ class BorrowCalculator extends Component {
           >
             4Y
           </CelText>
-        )
-      }
+        ),
+      },
     ];
   };
   calculateLoanParams = () => {
@@ -183,7 +183,7 @@ class BorrowCalculator extends Component {
           "warning",
           `Minimum amount for a loan is ${formatter.usd(minimumLoanAmount)}`
         );
-      }, 3000)
+      }, 3000);
     }
 
     actions.updateFormField(field, value);
@@ -192,25 +192,24 @@ class BorrowCalculator extends Component {
   render() {
     const { coinSelectItems, loanParams } = this.state;
 
-    const { actions,
+    const {
+      actions,
       formData,
       ltv,
       theme,
       themeModal,
-      minimumLoanAmount
+      minimumLoanAmount,
     } = this.props;
 
     const style = BorrowCalculatorStyle(themeModal || theme);
     if (!formData.ltv) return null;
-    let numberOfDigits
+    let numberOfDigits;
     if (loanParams.monthlyInterest && loanParams.totalInterest) {
       numberOfDigits = Math.max(
-        (loanParams.monthlyInterest).length,
-        (loanParams.totalInterest).length
-      )
+        loanParams.monthlyInterest.length,
+        loanParams.totalInterest.length
+      );
     }
-
-
 
     const textType = numberOfDigits > 8 ? "H3" : "H2";
     const themeColors = this.getThemeColors();
@@ -222,7 +221,9 @@ class BorrowCalculator extends Component {
           rightText="USD"
           field={"amount"}
           type={"number"}
-          placeholder={`${formatter.usd(minimumLoanAmount, { precision: 0 })} min`}
+          placeholder={`${formatter.usd(minimumLoanAmount, {
+            precision: 0,
+          })} min`}
           keyboardType={"numeric"}
           value={formData.amount}
           onChange={this.changeAmount}
@@ -239,36 +240,37 @@ class BorrowCalculator extends Component {
             Choose your annual interest rate.
           </CelText>
           <View style={style.ltvWrapper}>
-            {sortedLtv && sortedLtv.map(c => (
-              <Card
-                size={"thirdExtra"}
-                margin="20 5 20 5"
-                noBorder
-                theme={themeModal}
-                key={c.interest}
-                styles={
-                  formData.ltv.interest === c.interest
-                    ? style.selectedCardStyle
-                    : style.cardStyle
-                }
-                onPress={() => {
-                  actions.updateFormField("ltv", c);
-                }}
-              >
-                <CelText
-                  align={"center"}
-                  weight="bold"
-                  type={"H6"}
-                  style={
+            {sortedLtv &&
+              sortedLtv.map(c => (
+                <Card
+                  size={"thirdExtra"}
+                  margin="20 5 20 5"
+                  noBorder
+                  theme={themeModal}
+                  key={c.interest}
+                  styles={
                     formData.ltv.interest === c.interest
-                      ? style.selectedTextStyle
-                      : style.percentageTextStyle
+                      ? style.selectedCardStyle
+                      : style.cardStyle
                   }
+                  onPress={() => {
+                    actions.updateFormField("ltv", c);
+                  }}
                 >
-                  {formatter.percentageDisplay(c.interest)}
-                </CelText>
-              </Card>
-            ))}
+                  <CelText
+                    align={"center"}
+                    weight="bold"
+                    type={"H6"}
+                    style={
+                      formData.ltv.interest === c.interest
+                        ? style.selectedTextStyle
+                        : style.percentageTextStyle
+                    }
+                  >
+                    {formatter.percentageDisplay(c.interest)}
+                  </CelText>
+                </Card>
+              ))}
           </View>
           <Separator />
           <CelText
@@ -363,11 +365,11 @@ class BorrowCalculator extends Component {
           <View style={style.selectWrapper}>
             <SimpleSelect
               items={coinSelectItems}
-              field='coin'
+              field="coin"
               displayValue={formData.coin}
               value={formData.coin}
               updateFormField={actions.updateFormField}
-              placeholder='Choose a coin'
+              placeholder="Choose a coin"
             />
           </View>
         </View>

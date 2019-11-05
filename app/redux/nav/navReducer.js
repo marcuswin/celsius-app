@@ -1,20 +1,20 @@
-import ACTIONS from '../../constants/ACTIONS'
+import ACTIONS from "../../constants/ACTIONS";
 
 /**
  * TODO make it a function add JSDoc & desc for return
  */
 const initialState = {
-  activeScreen: ''
-}
+  activeScreen: "",
+};
 
 export default function navReducer(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.SET_ACTIVE_SCREEN: {
-      const { screenName } = action.payload
+      const { screenName } = action.payload;
       return {
         ...state,
-        activeScreen: screenName
-      }
+        activeScreen: screenName,
+      };
     }
     default:
       return { ...state };

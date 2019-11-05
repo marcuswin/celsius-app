@@ -1,27 +1,30 @@
 // import STYLES from '../../../constants/STYLES';
-import {getThemedStyle, widthPercentageToDP} from '../../../utils/styles-util';
+import {
+  getThemedStyle,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   buttonsWrapper: {
     flex: 1,
     marginLeft: 12,
-    marginRight: 12
+    marginRight: 12,
   },
   buttonsIconText: {
-    flexDirection: 'row',
+    flexDirection: "row",
     justifyContent: "space-around",
     flex: 1,
   },
   buttonIconText: {
     flex: 0.5,
     marginLeft: widthPercentageToDP("1.3%"),
-    marginRight: widthPercentageToDP("1.3%")
+    marginRight: widthPercentageToDP("1.3%"),
   },
   buttonItself: {
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     flex: 1,
   },
   buttonIconHand: {
@@ -40,13 +43,13 @@ const base = {
   },
   firstLoanWrapper: {
     flex: 1,
-    alignItems: 'center',
-    alignContent: 'center',
-    paddingTop: '20%'
+    alignItems: "center",
+    alignContent: "center",
+    paddingTop: "20%",
   },
   firstLoanTitle: {
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   firstLoanSubtitle: {
     marginRight: 25,
@@ -55,20 +58,17 @@ const base = {
   firstLoanButton: {
     marginTop: 20,
     marginBottom: 20,
-  }
-}
+  },
+};
 
 const themed = {
-  light: {
-  },
+  light: {},
 
-  dark: {
-  },
+  dark: {},
 
-  celsius: {
-  }
-}
+  celsius: {},
+};
 
 const BorrowLandingStyle = () => getThemedStyle(base, themed);
 
-export default BorrowLandingStyle
+export default BorrowLandingStyle;

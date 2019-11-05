@@ -1,31 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 // import { View } from 'react-native';
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
 
 import * as appActions from "../../../redux/actions";
 // import NotificationsSettingsStyle from "./NotificationsSettings.styles";
-import CelText from '../../atoms/CelText/CelText';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import IconButton from '../../organisms/IconButton/IconButton';
+import CelText from "../../atoms/CelText/CelText";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import IconButton from "../../organisms/IconButton/IconButton";
 
 @connect(
   () => ({}),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class NotificationsSettings extends Component {
-
   static propTypes = {
     // text: PropTypes.string
   };
-  static defaultProps = {
-  }
+  static defaultProps = {};
   static navigationOptions = () => ({
-    title: "Notifications"
+    title: "Notifications",
   });
-
 
   render() {
     return (
@@ -39,4 +35,4 @@ class NotificationsSettings extends Component {
   }
 }
 
-export default NotificationsSettings
+export default NotificationsSettings;

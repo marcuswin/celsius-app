@@ -6,7 +6,7 @@ const TwoFactorService = {
   beginTwoFactorActivation,
   enableTwoFactor,
   disableTwoFactor,
-}
+};
 
 /**
  * Initializes the 2FA activation process
@@ -21,7 +21,9 @@ async function beginTwoFactorActivation(pin) {
   });
 
   if (!response.data.ok) {
-    throw new Error('There was a problem generating your Two Factor secret. Please try again later.')
+    throw new Error(
+      "There was a problem generating your Two Factor secret. Please try again later."
+    );
   }
 
   return response.data.secret;
@@ -51,7 +53,7 @@ async function enableTwoFactor(code) {
  */
 async function disableTwoFactor(twoFactorCode) {
   const response = await axios.post(`${apiUrl}/users/two_factor/deactivate`, {
-    twoFactorCode
+    twoFactorCode,
   });
 
   return response.data;

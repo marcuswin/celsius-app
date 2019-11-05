@@ -1,23 +1,20 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        width: '100%'
-    }
-}
+  container: {
+    width: "100%",
+  },
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const AllTransactionStyle = () => getThemedStyle(base, themed);
 
-export default AllTransactionStyle
+export default AllTransactionStyle;

@@ -13,15 +13,12 @@ if (__DEV__) {
   composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
     require("remote-redux-devtools").composeWithDevTools)({
     name: Platform.OS,
-    ...require("../../package.json").remotedev
+    ...require("../../package.json").remotedev,
   });
   /* eslint-enable no-underscore-dangle */
 }
 
-const middleware = [
-  thunk,
-  standaloneLogger
-];
+const middleware = [thunk, standaloneLogger];
 
 const enhancer = composeEnhancers(applyMiddleware(...middleware));
 
@@ -36,10 +33,9 @@ function configureStore(initialState) {
 }
 
 function standaloneLogger() {
-  return (next) => (action) => 
+  return next => action =>
     // TODO(fj) log something for testflight testing
-     next(action)
-  ;
+    next(action);
 }
 
 export default configureStore();

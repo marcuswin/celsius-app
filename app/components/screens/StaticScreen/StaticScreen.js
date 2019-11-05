@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import EmptyState from "../../atoms/EmptyState/EmptyState";

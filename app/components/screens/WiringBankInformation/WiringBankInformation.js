@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import { View, TouchableOpacity, Image } from "react-native";
 import { connect } from "react-redux";
@@ -22,54 +21,56 @@ import CelButton from "../../atoms/CelButton/CelButton";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class WiringBankInformation extends Component {
-
   static navigationOptions = () => ({
     title: "Wiring Information",
-    right: "info"
+    right: "info",
   });
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       isLoading: false,
-    }
+    };
   }
 
   getCopy = () => {
-    const { formData } = this.props
+    const { formData } = this.props;
 
     if (formData.amountUsd) {
-      return `Use the wire transfer details provided below to complete your prepayment of ${formatter.usd(formData.amountUsd)}.`
+      return `Use the wire transfer details provided below to complete your prepayment of ${formatter.usd(
+        formData.amountUsd
+      )}.`;
     }
 
-    return `Use the wire transfer details provided below to complete your prepayment in USD.`
-  }
+    return `Use the wire transfer details provided below to complete your prepayment in USD.`;
+  };
 
   setInterestInDollars = async () => {
-    const { actions, navigation } = this.props
-    const id = navigation.getParam('id')
-    const reason = navigation.getParam('reason')
+    const { actions, navigation } = this.props;
+    const id = navigation.getParam("id");
+    const reason = navigation.getParam("reason");
 
-    this.setState({ isLoading: true })
-    await actions.updateLoanSettings(id, { interest_payment_asset: "USD" })
-    actions.showMessage("success", `You have successfully changed interest payment method to USD`)
-    actions.navigateTo('ChoosePaymentMethod', { id, reason })
-    this.setState({ isLoading: false })
-  }
+    this.setState({ isLoading: true });
+    await actions.updateLoanSettings(id, { interest_payment_asset: "USD" });
+    actions.showMessage(
+      "success",
+      `You have successfully changed interest payment method to USD`
+    );
+    actions.navigateTo("ChoosePaymentMethod", { id, reason });
+    this.setState({ isLoading: false });
+  };
 
   render() {
     const { navigation, actions } = this.props;
     const { isLoading } = this.state;
-    const style = WiringBankInfomationStyle()
-    const copy = this.getCopy()
-    const reason = navigation.getParam('reason')
+    const style = WiringBankInfomationStyle();
+    const copy = this.getCopy();
+    const reason = navigation.getParam("reason");
 
     return (
       <RegularLayout>
-        <CelText align={"center"}>
-          {copy}
-        </CelText>
+        <CelText align={"center"}>{copy}</CelText>
         <Separator margin={"20 0 20 0"} text="Wiring Information" />
         <View style={{ marginBottom: 30 }}>
           <CelText weight={"bold"}>Beneficiary Account:</CelText>
@@ -104,22 +105,19 @@ class WiringBankInformation extends Component {
           <CelText>SIGNUS33XXX</CelText>
         </View>
 
-        <Card padding='12 12 12 12'>
+        <Card padding="12 12 12 12">
           <View style={style.buttonsWrapper}>
             <View style={style.buttonsIconText}>
               <TouchableOpacity
                 style={style.buttonIconText}
                 onPress={() => actions.sendBankDetailsEmail()}
               >
-                <View
-                  style={style.buttonItself}>
+                <View style={style.buttonItself}>
                   <Image
                     style={style.buttonIconEmail}
                     source={require("../../../../assets/images/icons/icon-email.png")}
                   />
-                  <CelText align='center'>
-                    Send Bank Info via Email
-                </CelText>
+                  <CelText align="center">Send Bank Info via Email</CelText>
                 </View>
               </TouchableOpacity>
             </View>
@@ -128,7 +126,7 @@ class WiringBankInformation extends Component {
 
         {reason === LOAN_PAYMENT_REASONS.INTEREST && (
           <CelButton
-            margin='20 0 0 0'
+            margin="20 0 0 0"
             onPress={this.setInterestInDollars}
             loading={isLoading}
             disabled={isLoading}

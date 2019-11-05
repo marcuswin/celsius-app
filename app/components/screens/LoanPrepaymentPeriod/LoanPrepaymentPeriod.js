@@ -29,7 +29,7 @@ class LoanPrepaymentPeriod extends Component {
   static navigationOptions = () => ({
     title: "Prepayment period",
     right: "profile",
-    left: "back"
+    left: "back",
   });
 
   constructor(props) {
@@ -38,52 +38,58 @@ class LoanPrepaymentPeriod extends Component {
   }
 
   setPrepaymentPeriod = () => {
-    const { actions, formData, navigation, allLoans } = this.props
-    const reason = navigation.getParam("reason")
-    const id = navigation.getParam("id")
-    const loan = allLoans.find(l => l.id === id)
+    const { actions, formData, navigation, allLoans } = this.props;
+    const reason = navigation.getParam("reason");
+    const id = navigation.getParam("id");
+    const loan = allLoans.find(l => l.id === id);
 
     if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
-      if (formData.coin === 'USD') {
-        const amountUsd = formData.prepaidPeriod * loan.monthly_payment
-        actions.updateFormField('amountUsd', amountUsd)
-        actions.navigateTo('WiringBankInformation')
+      if (formData.coin === "USD") {
+        const amountUsd = formData.prepaidPeriod * loan.monthly_payment;
+        actions.updateFormField("amountUsd", amountUsd);
+        actions.navigateTo("WiringBankInformation");
       } else {
-        actions.navigateTo('VerifyProfile', {
+        actions.navigateTo("VerifyProfile", {
           onSuccess: () => actions.prepayInterest(id),
-        })
+        });
       }
     }
-  }
+  };
 
   getMonthValues = () => {
     const { allLoans, navigation } = this.props;
-    const loanId = navigation.getParam('id')
-    const loan = allLoans.find(l => l.id === loanId)
+    const loanId = navigation.getParam("id");
+    const loan = allLoans.find(l => l.id === loanId);
 
     // const monthValues = [6, 7, 8, 9, 10, 11, 12]
-    const monthValues = []
-    let month = 6
+    const monthValues = [];
+    let month = 6;
     while (month <= Math.min(loan.max_possible_prepayment_period, 12)) {
-      monthValues.push(month)
-      month ++;
+      monthValues.push(month);
+      month++;
     }
 
-    return monthValues
-  }
+    return monthValues;
+  };
 
   calculatePrepaidValue = (usdValue, coinRate, coin) => {
-    const rate = coin === 'USD' ? 1 : coinRate
+    const rate = coin === "USD" ? 1 : coinRate;
     return formatter.crypto(usdValue / rate, coin);
   };
 
   renderSlider = () => {
-    const { allLoans, actions, formData, navigation, currencyRates } = this.props;
-    const loanId = navigation.getParam('id')
-    const loan = allLoans.find(l => l.id === loanId)
-    const coinRate = currencyRates[formData.coin.toLowerCase()]
+    const {
+      allLoans,
+      actions,
+      formData,
+      navigation,
+      currencyRates,
+    } = this.props;
+    const loanId = navigation.getParam("id");
+    const loan = allLoans.find(l => l.id === loanId);
+    const coinRate = currencyRates[formData.coin.toLowerCase()];
 
-    const monthValues = this.getMonthValues()
+    const monthValues = this.getMonthValues();
 
     const sliderItems = monthValues.map(m => ({
       value: m,
@@ -92,7 +98,9 @@ class LoanPrepaymentPeriod extends Component {
           <CelText
             type="H6"
             weight="bold"
-            color={formData.prepaidPeriod === m ? STYLES.COLORS.CELSIUS_BLUE : null}
+            color={
+              formData.prepaidPeriod === m ? STYLES.COLORS.CELSIUS_BLUE : null
+            }
           >
             {m} MONTHS
           </CelText>
@@ -105,8 +113,8 @@ class LoanPrepaymentPeriod extends Component {
             )}
           </CelText>
         </>
-      )
-    }))
+      ),
+    }));
 
     return (
       <VerticalSlider
@@ -115,15 +123,19 @@ class LoanPrepaymentPeriod extends Component {
         value={formData.prepaidPeriod}
         updateFormField={actions.updateFormField}
       />
-    )
-  }
+    );
+  };
 
   renderWhenOnly6Months = () => {
-    const { allLoans, currencyRates, formData, navigation } = this.props
-    const coinRate = currencyRates[formData.coin.toLowerCase()]
-    const loanId = navigation.getParam('id')
-    const loan = allLoans.find(l => l.id === loanId)
-    const amount = this.calculatePrepaidValue(Number(loan.monthly_payment * 6), coinRate, formData.coin)
+    const { allLoans, currencyRates, formData, navigation } = this.props;
+    const coinRate = currencyRates[formData.coin.toLowerCase()];
+    const loanId = navigation.getParam("id");
+    const loan = allLoans.find(l => l.id === loanId);
+    const amount = this.calculatePrepaidValue(
+      Number(loan.monthly_payment * 6),
+      coinRate,
+      formData.coin
+    );
 
     return (
       <RegularLayout>
@@ -131,7 +143,7 @@ class LoanPrepaymentPeriod extends Component {
           Minimum prepayment time period is 6 months
         </CelText>
         <CelText align="center" weight={"300"}>
-          You can payout { amount } of your interest now
+          You can payout {amount} of your interest now
         </CelText>
 
         <CelButton
@@ -142,15 +154,15 @@ class LoanPrepaymentPeriod extends Component {
           Continue
         </CelButton>
       </RegularLayout>
-    )
-  }
+    );
+  };
 
   render() {
     const style = LoanPrepaymentPeriodStyle();
     const verticalSlider = this.renderSlider();
-    const monthValues = this.getMonthValues()
+    const monthValues = this.getMonthValues();
 
-    if (monthValues.length === 1) return this.renderWhenOnly6Months()
+    if (monthValues.length === 1) return this.renderWhenOnly6Months();
 
     return (
       <View style={style.container}>
@@ -163,9 +175,7 @@ class LoanPrepaymentPeriod extends Component {
               Minimum period is 6 months.
             </CelText>
           </View>
-          <View>
-            { verticalSlider }
-          </View>
+          <View>{verticalSlider}</View>
 
           <CelButton
             margin="50 0 30 0"

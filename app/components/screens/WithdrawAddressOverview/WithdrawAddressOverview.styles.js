@@ -3,7 +3,7 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   card: {
     flex: 1,
@@ -15,7 +15,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const AddressOverviewStyle = () => getThemedStyle(base, themed);
