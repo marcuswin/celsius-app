@@ -3,12 +3,12 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   coinImage: {
     width: 40,
     height: 40,
-    marginRight: 12
+    marginRight: 12,
   },
 };
 
@@ -17,7 +17,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const CoinListCardStyle = () => getThemedStyle(base, themed);

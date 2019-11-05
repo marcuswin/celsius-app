@@ -22,18 +22,20 @@ export default function transfersReducer(state = initialState(), action) {
         transfers: {
           ...state.transfers,
           ...transfers,
-        }
+        },
       };
 
     case ACTIONS.GET_TRANSFER_SUCCESS:
       return {
         ...state,
-        transfers: action.transfer ? {
-          ...state.transfers,
-          [action.transfer.hash]: action.transfer,
-        } : {
-          ...state.transfers,
-        }
+        transfers: action.transfer
+          ? {
+              ...state.transfers,
+              [action.transfer.hash]: action.transfer,
+            }
+          : {
+              ...state.transfers,
+            },
       };
 
     case ACTIONS.CLAIM_TRANSFER_SUCCESS:
@@ -44,7 +46,7 @@ export default function transfersReducer(state = initialState(), action) {
         transfers: {
           ...state.transfers,
           [action.transfer.hash]: action.transfer,
-        }
+        },
       };
 
     default:

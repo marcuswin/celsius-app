@@ -9,7 +9,7 @@ const base = {
     alignSelf: "center",
     alignItems: "center",
     width: 60,
-    height: 60
+    height: 60,
   },
   view: {
     width: 60,
@@ -21,12 +21,11 @@ const base = {
     shadowColor: STYLES.COLORS.DARK_GRAY,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
-    zIndex: -1
-
+    zIndex: -1,
   },
   text: {
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 };
 
 const themed = {
@@ -34,28 +33,28 @@ const themed = {
     container: {
       ...Platform.select({
         android: {
-          ...STYLES.ANDROID_SHADOW_STYLES
+          ...STYLES.ANDROID_SHADOW_STYLES,
         },
         ios: {
-          ...STYLES.SHADOW_STYLES
-        }
-      })
+          ...STYLES.SHADOW_STYLES,
+        },
+      }),
     },
     viewmenu: {
-      backgroundColor: STYLES.COLORS.WHITE
+      backgroundColor: STYLES.COLORS.WHITE,
     },
     textmenu: {
-      color: STYLES.COLORS.DARK_GRAY
+      color: STYLES.COLORS.DARK_GRAY,
     },
     viewcoin: {
-      backgroundColor: STYLES.COLORS.WHITE
+      backgroundColor: STYLES.COLORS.WHITE,
     },
     textcoin: {
-      color: STYLES.COLORS.DARK_GRAY
+      color: STYLES.COLORS.DARK_GRAY,
     },
     fillColor: {
-      color: STYLES.COLORS.DARK_GRAY
-    }
+      color: STYLES.COLORS.DARK_GRAY,
+    },
   },
 
   dark: {
@@ -63,47 +62,47 @@ const themed = {
       ...Platform.select({
         android: {
           ...STYLES.ANDROID_SHADOW_STYLES,
-          borderColor: "transparent"
+          borderColor: "transparent",
         },
         ios: {
-          ...STYLES.SHADOW_STYLES
-        }
-      })
+          ...STYLES.SHADOW_STYLES,
+        },
+      }),
     },
     viewmenu: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
     },
     textmenu: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.WHITE,
     },
     viewcoin: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
     },
     textcoin: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.WHITE,
     },
     fillColor: {
-      color: STYLES.COLORS.WHITE_OPACITY5
-    }
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
   },
 
   celsius: {
     viewmenu: {
-      backgroundColor: STYLES.COLORS.CELSIUS
+      backgroundColor: STYLES.COLORS.CELSIUS,
     },
     textmenu: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.WHITE,
     },
     viewcoin: {
-      backgroundColor: STYLES.COLORS.CELSIUS
+      backgroundColor: STYLES.COLORS.CELSIUS,
     },
     textcoin: {
-      color: STYLES.COLORS.WHITE
+      color: STYLES.COLORS.WHITE,
     },
     fillColor: {
-      color: STYLES.COLORS.WHITE
-    }
-  }
+      color: STYLES.COLORS.WHITE,
+    },
+  },
 };
 
 const CircleButtonStyle = theme =>

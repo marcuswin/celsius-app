@@ -1,5 +1,5 @@
-import { NavigationActions, StackActions } from 'react-navigation';
-import ACTIONS from '../../constants/ACTIONS'
+import { NavigationActions, StackActions } from "react-navigation";
+import ACTIONS from "../../constants/ACTIONS";
 import userBehavior from "../../utils/user-behavior-util";
 
 let _navigator;
@@ -12,16 +12,14 @@ export {
   resetToFlow,
 };
 
-
 /**
  * TODO add JSDoc
  */
 function setActiveScreen(screenName) {
   return dispatch => {
-      dispatch({type: ACTIONS.SET_ACTIVE_SCREEN, payload: {screenName}})
-  }
+    dispatch({ type: ACTIONS.SET_ACTIVE_SCREEN, payload: { screenName } });
+  };
 }
-
 
 /**
  * Sets _navigator
@@ -30,7 +28,6 @@ function setActiveScreen(screenName) {
 function setTopLevelNavigator(navigatorRef) {
   _navigator = navigatorRef;
 }
-
 
 /**
  * Navigates to a screen
@@ -46,8 +43,8 @@ function navigateTo(routeName, params) {
       })
     );
 
-    userBehavior.navigated(routeName)
-  }
+    userBehavior.navigated(routeName);
+  };
 }
 
 /**
@@ -55,25 +52,20 @@ function navigateTo(routeName, params) {
  */
 function navigateBack(backScreenName) {
   return () => {
-
     // If back button leads to VerifyProfile, skip it and go back one more screen
-    if (backScreenName === 'VerifyProfile') {
-      userBehavior.navigated('Back')
+    if (backScreenName === "VerifyProfile") {
+      userBehavior.navigated("Back");
       // n: 2 indicates we want to navigate 2 screens back
       // return () => {
-        _navigator.dispatch(
-          StackActions.pop({ n: 1 })
-        )
+      _navigator.dispatch(StackActions.pop({ n: 1 }));
       // }
     }
 
-    userBehavior.navigated(backScreenName)
+    userBehavior.navigated(backScreenName);
     // return () => {
-      _navigator.dispatch(
-        NavigationActions.back()
-      );
-//    }
-  }
+    _navigator.dispatch(NavigationActions.back());
+    //    }
+  };
 }
 
 function resetToFlow(flow, params) {
@@ -82,10 +74,8 @@ function resetToFlow(flow, params) {
       StackActions.reset({
         index: 0,
         key: null,
-        actions: [
-          NavigationActions.navigate({ routeName: flow, params })
-        ]
+        actions: [NavigationActions.navigate({ routeName: flow, params })],
       })
-    )
-  }
+    );
+  };
 }

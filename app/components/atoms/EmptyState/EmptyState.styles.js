@@ -4,7 +4,7 @@ const base = {
   container: {
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 };
 
 const themed = {
@@ -12,7 +12,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const EmptyStateStyle = () => getThemedStyle(base, themed);

@@ -1,6 +1,5 @@
-import { createStackNavigator } from 'react-navigation';
-import Profile from '../../components/screens/Profile/Profile';
-import Settings from "../../components/screens/Settings/Settings";
+import { createStackNavigator } from "react-navigation";
+import Profile from "../../components/screens/Profile/Profile";
 import TermsOfUse from "../../components/screens/TermsOfUse/TermsOfUse";
 import Appearance from "../../components/screens/Appearance/Appearance";
 import ApiAuthorizationPermissions from "../../components/screens/ApiAuthorizationPermissions/ApiAuthorizationPermissions";
@@ -16,8 +15,11 @@ import ChangeAvatar from "../../components/screens/ChangeAvatar/ChangeAvatar";
 import CameraScreen from "../../components/screens/CameraScreen/CameraScreen";
 import ApiAuthorization from "../../components/screens/ApiAuthorization/ApiAuthorization";
 import ConfirmCamera from "../../components/screens/ConfirmCamera/ConfirmCamera";
-import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
-import TwoFaAuthAppConfirmationCode from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
+import {
+  defaultNavigationOptions,
+  transitionConfig,
+} from "../navigationConfig";
+import TwoFaAuthAppConfirmationCode from "../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode";
 import LoyaltyProgram from "../../components/screens/LoyaltyProgram/LoyaltyProgram";
 import CellphoneEnter from "../../components/screens/CellphoneEnter/CellphoneEnter";
 import CellphoneVerify from "../../components/screens/CellphoneVerify/CellphoneVerify";
@@ -28,11 +30,9 @@ import WithdrawAddressLabel from "../../components/screens/WithdrawAddressLabel/
 import PersonalInformation from "../../components/screens/PersonalInformation/PersonalInformation";
 import Support from "../../components/screens/Support/Support";
 
-
 export const profileFlow = {
   screens: {
     Profile,
-    Settings,
     TermsOfUse,
     NotificationsSettings,
     SecuritySettings,
@@ -57,13 +57,16 @@ export const profileFlow = {
     WithdrawAddressOverview,
     WithdrawAddressLabel,
     PersonalInformation,
-    Support
+    Support,
   },
   props: {
-    initialRouteName: 'Profile',
+    initialRouteName: "Profile",
     defaultNavigationOptions,
-    transitionConfig
-  }
-}
+    transitionConfig,
+  },
+};
 
-export const profileNavigator = createStackNavigator(profileFlow.screens, profileFlow.props);
+export const profileNavigator = createStackNavigator(
+  profileFlow.screens,
+  profileFlow.props
+);

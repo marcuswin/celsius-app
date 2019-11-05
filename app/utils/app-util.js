@@ -11,7 +11,7 @@ import Constants from "../../constants";
 import {
   deleteSecureStoreKey,
   getSecureStoreKey,
-  setSecureStoreKey
+  setSecureStoreKey,
 } from "./expo-storage";
 import baseUrl from "../services/api-url";
 import store from "../redux/store";
@@ -25,7 +25,7 @@ const {
   TWITTER_SECRET_KEY,
   APPSFLYER_KEY_ANDROID,
   APPSFLYER_KEY_IOS,
-  APPSFLYER_IOS_APP_ID
+  APPSFLYER_IOS_APP_ID,
 } = Constants;
 
 export default {
@@ -36,7 +36,7 @@ export default {
   cacheImages,
   cacheFonts,
   recursiveMap,
-  getRevisionId
+  getRevisionId,
 };
 
 /**
@@ -51,7 +51,6 @@ async function initializeThirdPartyServices() {
   const appsFlyerOptions = {
     devKey:
       Platform.OS === "android" ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
-    isDebug: true
   };
 
   if (Platform.OS === "ios") {
@@ -157,7 +156,7 @@ function recursiveMap(children, fn) {
 
     if (child.props.children) {
       newChild = React.cloneElement(child, {
-        children: recursiveMap(child.props.children, fn)
+        children: recursiveMap(child.props.children, fn),
       });
     }
 
@@ -178,18 +177,18 @@ async function getRevisionId() {
   if (!metadata) {
     return {
       codePushVersion: {},
-      revisionId: "local"
+      revisionId: "local",
     };
   }
 
   const codePushVersion = {
     label: metadata.label,
     version: metadata.appVersion,
-    description: metadata.description
+    description: metadata.description,
   };
 
   return {
     codePushVersion,
-    revisionId: `${codePushVersion.version}@${codePushVersion.label}`
+    revisionId: `${codePushVersion.version}@${codePushVersion.label}`,
   };
 }

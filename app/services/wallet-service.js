@@ -1,5 +1,5 @@
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from "axios";
+import apiUrl from "./api-url";
 
 const walletService = {
   getWalletSummary,
@@ -9,7 +9,6 @@ const walletService = {
   getAllCoinWithdrawalAddresses,
   withdrawCrypto, // TODO move to transactions-service
 };
-
 
 /**
  * Gets wallet summary and details for user
@@ -21,7 +20,6 @@ function getWalletSummary() {
   return axios.get(`${apiUrl}/wallet/summary`);
 }
 
-
 /**
  * Gets deposit address for coin for user
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#16084590-d24a-4beb-b704-4b2397650d7b
@@ -32,7 +30,6 @@ function getWalletSummary() {
 function getCoinAddress(coin) {
   return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/address`);
 }
-
 
 /**
  * Sets originating/withdrawal address for coin for user
@@ -46,10 +43,13 @@ function getCoinAddress(coin) {
  * @return {Promise}
  */
 function setCoinWithdrawalAddress(coin, address, verification) {
-  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdrawal_address`, {
-    address,
-    ...verification
-  });
+  return axios.post(
+    `${apiUrl}/wallet/${coin.toLowerCase()}/withdrawal_address`,
+    {
+      address,
+      ...verification,
+    }
+  );
 }
 
 /**
@@ -61,9 +61,12 @@ function setCoinWithdrawalAddress(coin, address, verification) {
  * @return {Promise}
  */
 function setCoinWithdrawalAddressLabel(coin, label) {
-  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdrawal_address/label`, {
-    label,
-  });
+  return axios.post(
+    `${apiUrl}/wallet/${coin.toLowerCase()}/withdrawal_address/label`,
+    {
+      label,
+    }
+  );
 }
 
 /**
@@ -78,7 +81,10 @@ function setCoinWithdrawalAddressLabel(coin, label) {
  * @return {Promise}
  */
 function withdrawCrypto(coin, amount, verification) {
-  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, {amount, ...verification});
+  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, {
+    amount,
+    ...verification,
+  });
 }
 
 export default walletService;

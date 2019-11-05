@@ -18,7 +18,7 @@ import API from "../../../constants/API";
     formData: state.forms.formData,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
     walletAddressLabels: state.wallet.walletAddressLabels,
-    callsInProgress: state.api.callsInProgress
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -28,13 +28,13 @@ class WithdrawAddressLabel extends Component {
 
   static navigationOptions = () => ({
     title: "Add label",
-    right: "profile"
+    right: "profile",
   });
 
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
     };
 
     this.badges = [
@@ -49,7 +49,7 @@ class WithdrawAddressLabel extends Component {
       "HitBTC address",
       "Liquid address",
       "IDEX address",
-      "Switcheo address"
+      "Switcheo address",
     ];
   }
 
@@ -60,16 +60,14 @@ class WithdrawAddressLabel extends Component {
     Object.keys(withdrawalAddresses).forEach(key => {
       const label = withdrawalAddresses[key].label;
       if (label) {
-        if (!this.badges.includes(label))
-          usersLabels.unshift(label);
+        if (!this.badges.includes(label)) usersLabels.unshift(label);
       }
     });
     // add labels to redux
     actions.setCoinWithdrawalAddressLabels(usersLabels);
   }
 
-
-  onPressBadge = (badge) => {
+  onPressBadge = badge => {
     const { actions } = this.props;
     actions.updateFormField("withdrawAddressLabel", badge);
   };
@@ -78,22 +76,27 @@ class WithdrawAddressLabel extends Component {
     const { actions, formData } = this.props;
     const coin = formData.coin;
 
-    actions.updateFormField("withdrawAddressLabel", formData.withdrawAddressLabel);
-    await actions.setCoinWithdrawalAddressLabel(coin, formData.withdrawAddressLabel);
+    actions.updateFormField(
+      "withdrawAddressLabel",
+      formData.withdrawAddressLabel
+    );
+    await actions.setCoinWithdrawalAddressLabel(
+      coin,
+      formData.withdrawAddressLabel
+    );
   };
 
   render() {
     const { formData, walletAddressLabels, callsInProgress } = this.props;
 
-    const isLoading = apiUtil.areCallsInProgress([API.SET_COIN_WITHDRAWAL_ADDRESS_LABEL], callsInProgress);
+    const isLoading = apiUtil.areCallsInProgress(
+      [API.SET_COIN_WITHDRAWAL_ADDRESS_LABEL],
+      callsInProgress
+    );
 
     return (
       <RegularLayout>
-        <CelText
-          align={"center"}
-          weight={"300"}
-          type={"H4"}
-        >
+        <CelText align={"center"} weight={"300"} type={"H4"}>
           With which wallet is this address connected?
         </CelText>
 
@@ -105,7 +108,11 @@ class WithdrawAddressLabel extends Component {
         />
         <BadgeSelector
           onPressBadge={this.onPressBadge}
-          badges={walletAddressLabels && walletAddressLabels.length > 0 ? walletAddressLabels : this.badges}
+          badges={
+            walletAddressLabels && walletAddressLabels.length > 0
+              ? walletAddressLabels
+              : this.badges
+          }
         />
         <CelButton
           loading={isLoading}
@@ -114,7 +121,6 @@ class WithdrawAddressLabel extends Component {
         >
           Finish
         </CelButton>
-
       </RegularLayout>
     );
   }

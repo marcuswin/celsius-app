@@ -1,9 +1,13 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   tabs: {
     flex: 0.2,
@@ -12,9 +16,9 @@ const base = {
     paddingHorizontal: widthPercentageToDP("5.33%"),
     marginTop: heightPercentageToDP("3.02%"),
   },
-  activeTabContent : {
+  activeTabContent: {
     flex: 0.7,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   underlineActive: {
     flex: 0.1,
@@ -22,21 +26,18 @@ const base = {
     marginBottom: 10,
     width: widthPercentageToDP("3.5%"),
     borderTopColor: "rgba(65,86,166,1)",
-    borderTopWidth: 1
+    borderTopWidth: 1,
   },
 };
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const CelTabsStyle = () => getThemedStyle(base, themed);
 
-export default CelTabsStyle
+export default CelTabsStyle;

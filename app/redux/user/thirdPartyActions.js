@@ -3,19 +3,19 @@ import { GoogleSignin } from "react-native-google-signin";
 import { Platform } from "react-native";
 import * as Facebook from "expo-facebook";
 
-import Constants from '../../../constants'
-import ACTIONS from '../../constants/ACTIONS'
-import API from '../../constants/API'
-import { startApiCall, apiError } from '../api/apiActions'
-import { navigateTo } from '../nav/navActions'
-import { showMessage } from '../ui/uiActions'
-import { updateFormFields } from '../forms/formsActions'
-import { setSecureStoreKey } from '../../utils/expo-storage'
-import usersService from '../../services/users-service'
-import { initAppData } from '../app/appActions'
-import { claimAllBranchTransfers } from '../transfers/transfersActions'
-import branchUtil from '../../utils/branch-util'
-import userBehaviorUtil from '../../utils/user-behavior-util';
+import Constants from "../../../constants";
+import ACTIONS from "../../constants/ACTIONS";
+import API from "../../constants/API";
+import { startApiCall, apiError } from "../api/apiActions";
+import { navigateTo } from "../nav/navActions";
+import { showMessage } from "../ui/uiActions";
+import { updateFormFields } from "../forms/formsActions";
+import { setSecureStoreKey } from "../../utils/expo-storage";
+import usersService from "../../services/users-service";
+import { initAppData } from "../app/appActions";
+import { claimAllBranchTransfers } from "../transfers/transfersActions";
+import branchUtil from "../../utils/branch-util";
+import userBehaviorUtil from "../../utils/user-behavior-util";
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
@@ -34,7 +34,7 @@ export {
   authFacebook,
   registerUserFacebook,
   authGoogle,
-  registerUserGoogle
+  registerUserGoogle,
 };
 
 /**
@@ -54,7 +54,7 @@ function authTwitter(type, twitterUser) {
       dispatch(
         loginTwitter({
           ...user,
-          ...twitterUser
+          ...twitterUser,
         })
       );
     } else {
@@ -67,7 +67,7 @@ function authTwitter(type, twitterUser) {
           twitterId: twitterUser.id_str,
           accessToken: user.twitter_oauth_token,
           secretToken: user.twitter_oauth_secret,
-          profilePicture: twitterUser.profile_image_url
+          profilePicture: twitterUser.profile_image_url,
         })
       );
     }
@@ -92,7 +92,7 @@ function registerUserTwitter() {
         access_token: formData.accessToken,
         secret_token: formData.secretToken,
         twitter_screen_name: formData.twitter_screen_name,
-        referral_link_id: referralLinkId || undefined
+        referral_link_id: referralLinkId || undefined,
       };
 
       dispatch(startApiCall(API.REGISTER_USER_TWITTER));
@@ -126,7 +126,7 @@ function loginTwitter(twitterUser) {
         first_name: twitterUser.name,
         twitter_id: twitterUser.id_str,
         access_token: twitterUser.twitter_oauth_token,
-        secret_token: twitterUser.twitter_oauth_secret
+        secret_token: twitterUser.twitter_oauth_secret,
       };
 
       const res = await usersService.twitterLogin(user);
@@ -145,7 +145,7 @@ function loginTwitter(twitterUser) {
  */
 function twitterClose() {
   return {
-    type: ACTIONS.TWITTER_CLOSE
+    type: ACTIONS.TWITTER_CLOSE,
   };
 }
 
@@ -155,7 +155,7 @@ function twitterClose() {
  */
 function twitterOpen() {
   return {
-    type: ACTIONS.TWITTER_OPEN
+    type: ACTIONS.TWITTER_OPEN,
   };
 }
 
@@ -167,7 +167,7 @@ function twitterOpen() {
 function twitterGetAccessToken(tokens) {
   return {
     type: ACTIONS.TWITTER_GET_ACCESS_TOKEN,
-    twitter_tokens: tokens
+    twitter_tokens: tokens,
   };
 }
 
@@ -185,7 +185,7 @@ function authFacebook(authReason) {
         FACEBOOK_APP_ID.toString(),
         {
           permissions: ["public_profile", "email"],
-          behavior: "system"
+          behavior: "system",
         }
       );
 
@@ -204,7 +204,7 @@ function authFacebook(authReason) {
               firstName: user.first_name,
               lastName: user.last_name,
               facebookId: user.id,
-              accessToken: user.accessToken
+              accessToken: user.accessToken,
             })
           );
         }
@@ -230,7 +230,7 @@ function registerUserFacebook() {
         last_name: formData.lastName,
         facebook_id: formData.facebookId,
         access_token: formData.accessToken,
-        referral_link_id: referralLinkId
+        referral_link_id: referralLinkId,
       };
 
       dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
@@ -264,7 +264,7 @@ function loginFacebook(facebookUser) {
         first_name: facebookUser.first_name,
         last_name: facebookUser.last_name,
         facebook_id: facebookUser.id,
-        access_token: facebookUser.accessToken
+        access_token: facebookUser.accessToken,
       };
 
       const res = await usersService.facebookLogin(user);
@@ -287,7 +287,7 @@ function authGoogle(authReason) {
     if (!["login", "register"].includes(authReason)) return;
 
     try {
-      let user
+      let user;
       if (Platform.OS === "android") {
         await GoogleSignInAndroid.initAsync({ clientId: GOOGLE_ANDROID_ID });
         await GoogleSignInAndroid.askForPlayServicesAsync();
@@ -308,7 +308,6 @@ function authGoogle(authReason) {
             !user.accessToken && user.auth
               ? user.auth.accessToken
               : user.accessToken;
-
         } else {
           return { cancelled: true };
         }
@@ -327,7 +326,6 @@ function authGoogle(authReason) {
         user.googleId = user.id || user.uid;
         user.profilePicture = user.photo;
         user.accessToken = tokens.accessToken;
-
       }
 
       if (authReason === "login") {
@@ -357,7 +355,7 @@ function registerUserGoogle() {
         google_id: formData.googleId,
         profile_picture: formData.profilePicture,
         access_token: formData.accessToken,
-        referral_link_id: referralLinkId
+        referral_link_id: referralLinkId,
       };
 
       dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
@@ -393,7 +391,7 @@ function loginGoogle(googleUser) {
         last_name: googleUser.lastName,
         google_id: googleUser.googleId,
         profile_picture: googleUser.profilePicture,
-        access_token: googleUser.accessToken
+        access_token: googleUser.accessToken,
       };
 
       const res = await usersService.googleLogin(user);
@@ -427,7 +425,7 @@ function loginSocialSuccess(network, token) {
 
     dispatch({
       type: ACTIONS[`LOGIN_USER_${network.toUpperCase()}_SUCCESS`],
-      user
+      user,
     });
 
     // dispatch(claimAllBranchTransfers());
@@ -449,11 +447,11 @@ function registerSocialSuccess(network, token, user) {
 
     dispatch({
       type: ACTIONS[`REGISTER_USER_${network.toUpperCase()}_SUCCESS`],
-      user
+      user,
     });
 
-    userBehaviorUtil.sessionStarted()
-    dispatch(claimAllBranchTransfers())
+    userBehaviorUtil.sessionStarted("User register social");
+    dispatch(claimAllBranchTransfers());
 
     await dispatch(initAppData(token));
     const { profile } = getState().user;

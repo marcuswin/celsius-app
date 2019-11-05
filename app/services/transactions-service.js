@@ -1,12 +1,11 @@
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from "axios";
+import apiUrl from "./api-url";
 
 const transactionsService = {
   getAll,
   getTransaction,
   cancelWithdrawalService,
 };
-
 
 /**
  * Gets all filtered transactions for user
@@ -22,7 +21,6 @@ function getAll(query) {
   return axios.get(`${apiUrl}/transactions`, { params: query });
 }
 
-
 /**
  * Gets transaction details by id
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#1ba8f93d-04fc-4a13-96d8-e351ea3b960a
@@ -32,14 +30,13 @@ function getAll(query) {
  */
 function getTransaction(transactionId) {
   return axios.get(`${apiUrl}/wallet/transactions/${transactionId}`);
-
 }
 
 /**
  * TODO add JSDoc
  */
 function cancelWithdrawalService(withdrawalId) {
-  return axios.post(`${apiUrl}/wallet/withdrawal/cancel/${withdrawalId}`)
+  return axios.post(`${apiUrl}/wallet/withdrawal/cancel/${withdrawalId}`);
 }
 
 export default transactionsService;

@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
 import formatter from "../../../utils/formatter";
 import * as appActions from "../../../redux/actions";
 import BalanceHistoryStyle from "./BalanceHistory.styles";
@@ -13,9 +12,9 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
-import {hasPassedKYC} from "../../../utils/user-util";
+import { hasPassedKYC } from "../../../utils/user-util";
 import StaticScreen from "../StaticScreen/StaticScreen";
-import {EMPTY_STATES} from "../../../constants/UI";
+import { EMPTY_STATES } from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -32,8 +31,8 @@ class BalanceHistory extends Component {
   static defaultProps = {};
 
   static navigationOptions = {
-    title: 'Wallet',
-    right: 'profile'
+    title: "Wallet",
+    right: "profile",
   };
 
   constructor(props) {
@@ -43,20 +42,20 @@ class BalanceHistory extends Component {
       header: {
         title: "Wallet",
         left: "back",
-        right: "profile"
+        right: "profile",
       },
       dateArray: [],
       priceArray: [],
-      timeInterval: "1d"
+      timeInterval: "1d",
     };
   }
 
   handleGetAllTransactions = async () => {
     const { actions } = this.props;
 
-    await actions.navigateTo("AllTransactions")
-    await actions.getAllTransactions()
-  }
+    await actions.navigateTo("AllTransactions");
+    await actions.getAllTransactions();
+  };
 
   render() {
     const { walletSummary } = this.props;
@@ -64,27 +63,25 @@ class BalanceHistory extends Component {
 
     if (!hasPassedKYC()) {
       return (
-        <StaticScreen
-          emptyState={{ purpose: EMPTY_STATES.NO_TRANSACTIONS }}
-        />
-      )
+        <StaticScreen emptyState={{ purpose: EMPTY_STATES.NO_TRANSACTIONS }} />
+      );
     }
 
     return (
       <RegularLayout padding="20 0 100 0">
         <View>
           <View style={style.container}>
-            <Card styles={{ alignSelf: 'center' }}>
-              <CelText weight='300' type="H6">Total wallet balance</CelText>
-              <CelText weight='600' type="H3">{walletSummary && formatter.usd(walletSummary.total_amount_usd)}</CelText>
+            <Card styles={{ alignSelf: "center" }}>
+              <CelText weight="300" type="H6">
+                Total wallet balance
+              </CelText>
+              <CelText weight="600" type="H3">
+                {walletSummary && formatter.usd(walletSummary.total_amount_usd)}
+              </CelText>
             </Card>
           </View>
 
-          <GraphContainer
-            showCursor
-            showPeriods
-            type={"total-balance"}
-          />
+          <GraphContainer showCursor showPeriods type={"total-balance"} />
 
           <View style={style.container}>
             <TransactionsHistory
@@ -92,10 +89,7 @@ class BalanceHistory extends Component {
               additionalFilter={{ limit: 5 }}
             />
 
-            <CelButton
-              basic
-              onPress={ () => this.handleGetAllTransactions() }
-            >
+            <CelButton basic onPress={() => this.handleGetAllTransactions()}>
               See all
             </CelButton>
           </View>
@@ -105,4 +99,4 @@ class BalanceHistory extends Component {
   }
 }
 
-export default BalanceHistory
+export default BalanceHistory;

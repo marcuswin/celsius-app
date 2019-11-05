@@ -28,73 +28,82 @@ class PaymentCel extends Component {
   static navigationOptions = ({ navigation }) => {
     const reason = navigation.getParam("reason");
 
-    let title = "Pay with CEL"
+    let title = "Pay with CEL";
     if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
-      title = "Prepay with CEL"
+      title = "Prepay with CEL";
     }
 
     return {
       title,
-      right: "info"
-    }
+      right: "info",
+    };
   };
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       isLoading: false,
-    }
+    };
   }
 
   navigate = async () => {
-    const {actions, navigation} = this.props;
+    const { actions, navigation } = this.props;
     const reason = navigation.getParam("reason");
     const id = navigation.getParam("id");
 
     if (reason) {
-       await actions.updateLoanSettings(id, {interest_payment_asset: "CEL"})
-       actions.showMessage("success", "You have successfully changed interest payment method")
+      await actions.updateLoanSettings(id, { interest_payment_asset: "CEL" });
+      actions.showMessage(
+        "success",
+        "You have successfully changed interest payment method"
+      );
 
-      return actions.navigateTo("LoanSettings")
-     }
+      return actions.navigateTo("LoanSettings");
+    }
 
-    actions.navigateTo("LoanPrepaymentPeriod", { coin: "CEL", id })
+    actions.navigateTo("LoanPrepaymentPeriod", { coin: "CEL", id });
   };
 
   payInCel = async () => {
-    const { actions, navigation } = this.props
+    const { actions, navigation } = this.props;
     const reason = navigation.getParam("reason");
     const id = navigation.getParam("id");
 
     if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
-      actions.updateFormField('coin', 'CEL')
-      actions.navigateTo('LoanPrepaymentPeriod', { id, reason })
+      actions.updateFormField("coin", "CEL");
+      actions.navigateTo("LoanPrepaymentPeriod", { id, reason });
     }
 
     if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
-      this.setState({ isLoading: true })
-      await actions.updateLoanSettings(id, {interest_payment_asset: "CEL"})
-      actions.showMessage("success", "You have successfully changed interest payment method")
-      actions.navigateTo('ChoosePaymentMethod', { id, reason })
-      this.setState({ isLoading: false })
+      this.setState({ isLoading: true });
+      await actions.updateLoanSettings(id, { interest_payment_asset: "CEL" });
+      actions.showMessage(
+        "success",
+        "You have successfully changed interest payment method"
+      );
+      actions.navigateTo("ChoosePaymentMethod", { id, reason });
+      this.setState({ isLoading: false });
     }
 
     if (reason === LOAN_PAYMENT_REASONS.MANUAL_INTEREST) {
-      actions.navigateTo('VerifyProfile', {
-        onSuccess: () => actions.payMonthlyInterest(id, 'CEL'),
-      })
+      actions.navigateTo("VerifyProfile", {
+        onSuccess: () => actions.payMonthlyInterest(id, "CEL"),
+      });
     }
-  }
+  };
 
   render() {
     // const style = PaymentCelCelStyle();
     const { actions, loyaltyInfo, navigation, allLoans } = this.props;
     const { isLoading } = this.state;
     const id = navigation.getParam("id");
-    const loan = allLoans.find(l => l.id === id)
-    const celDiscount = formatter.percentageDisplay(loyaltyInfo.tier.loanInterestBonus);
-    const discountedInterest = (1 - loyaltyInfo.tier.loanInterestBonus) * Number(loan.monthly_payment)
+    const loan = allLoans.find(l => l.id === id);
+    const celDiscount = formatter.percentageDisplay(
+      loyaltyInfo.tier.loanInterestBonus
+    );
+    const discountedInterest =
+      (1 - loyaltyInfo.tier.loanInterestBonus) * Number(loan.monthly_payment);
 
     return (
       <RegularLayout fabType={"hide"}>
@@ -106,16 +115,23 @@ class PaymentCel extends Component {
               style={{ color: STYLES.COLORS.CELSIUS_BLUE }}
             >
               Loyalty Level
-            </CelText>, your next interest payment would be:
+            </CelText>
+            , your next interest payment would be:
           </CelText>
           <CelText type={"H1"} weight={"700"} align={"center"}>
             {celDiscount} less
           </CelText>
-          <Separator margin={"10 0 12 0"}/>
+          <Separator margin={"10 0 12 0"} />
           <CelText>
             Decrease your monthly interest payment from{" "}
-            <CelText weight={"500"}>{ formatter.usd(loan.monthly_payment) }</CelText> to{" "}
-            <CelText weight={"500"}>{ formatter.usd(discountedInterest) }</CelText> when paying with CEL.
+            <CelText weight={"500"}>
+              {formatter.usd(loan.monthly_payment)}
+            </CelText>{" "}
+            to{" "}
+            <CelText weight={"500"}>
+              {formatter.usd(discountedInterest)}
+            </CelText>{" "}
+            when paying with CEL.
           </CelText>
         </Card>
         <CelButton

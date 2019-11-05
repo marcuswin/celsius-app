@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
 import formatter from "../../../utils/formatter";
 import * as appActions from "../../../redux/actions";
 import CelText from "../../atoms/CelText/CelText";
@@ -33,7 +32,7 @@ class WithdrawAddressOverview extends Component {
 
   static navigationOptions = () => ({
     title: "Withdrawal addresses ",
-    right: "profile"
+    right: "profile",
   });
 
   componentDidMount() {
@@ -41,22 +40,24 @@ class WithdrawAddressOverview extends Component {
     actions.getAllCoinWithdrawalAddresses();
   }
 
-  handlePress = (coin) => {
+  handlePress = coin => {
     const { actions } = this.props;
     actions.updateFormFields({ coin });
-    actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo("WithdrawNewAddressSetup") });
+    actions.navigateTo("VerifyProfile", {
+      onSuccess: () => actions.navigateTo("WithdrawNewAddressSetup"),
+    });
   };
 
   handleLabelPress = (coin, addressLabel) => {
     const { actions } = this.props;
     actions.updateFormFields({
       withdrawAddressLabel: addressLabel,
-      coin
-    })
+      coin,
+    });
     actions.navigateTo("WithdrawAddressLabel");
-  }
+  };
 
-  renderCoinDetails = (key) => {
+  renderCoinDetails = key => {
     const { currencies } = this.props;
     const coin = currencies.find(c => c.short === key);
     return `${formatter.capitalize(coin.name)} - ${coin.short}`;
@@ -64,32 +65,42 @@ class WithdrawAddressOverview extends Component {
 
   renderSelectedCoin = () => {
     const { withdrawalAddresses, currenciesRates } = this.props;
-    return withdrawalAddresses ? (
-      Object.keys(withdrawalAddresses).map(key => {
-        const imageUrl = currenciesRates.filter(image => image.short === key)[0].image_url
-        return withdrawalAddresses[key] ? (
-          <WithdrawalAddressCard
-            imageUrl={imageUrl}
-            key={key}
-            coinShort={key}
-            withdrawalAddress={withdrawalAddresses[key]}
-            onPress={() => this.handlePress(key)}
-            onPressAddressLabel={() => this.handleLabelPress(key, withdrawalAddresses[key].label)}
-          />
-        ) : null;
-      })
-    ) : null;
+    return withdrawalAddresses
+      ? Object.keys(withdrawalAddresses).map(key => {
+          const imageUrl = currenciesRates.filter(
+            image => image.short === key
+          )[0].image_url;
+          return withdrawalAddresses[key] ? (
+            <WithdrawalAddressCard
+              imageUrl={imageUrl}
+              key={key}
+              coinShort={key}
+              withdrawalAddress={withdrawalAddresses[key]}
+              onPress={() => this.handlePress(key)}
+              onPressAddressLabel={() =>
+                this.handleLabelPress(key, withdrawalAddresses[key].label)
+              }
+            />
+          ) : null;
+        })
+      : null;
   };
-
 
   render() {
     const { withdrawalAddresses, callsInProgress } = this.props;
     // const RenderSelectedCoin = this.renderSelectedCoin;
 
-    const isLoading = apiUtil.areCallsInProgress([API.GET_ALL_COIN_WITHDRAWAL_ADDRESSES], callsInProgress);
-    if (isLoading) return <LoadingScreen/>;
-    if (!Object.keys(withdrawalAddresses).length) return <StaticScreen
-      emptyState={{ purpose: EMPTY_STATES.NO_WITHDRAWAL_ADDRESSES }}/>;
+    const isLoading = apiUtil.areCallsInProgress(
+      [API.GET_ALL_COIN_WITHDRAWAL_ADDRESSES],
+      callsInProgress
+    );
+    if (isLoading) return <LoadingScreen />;
+    if (!Object.keys(withdrawalAddresses).length)
+      return (
+        <StaticScreen
+          emptyState={{ purpose: EMPTY_STATES.NO_WITHDRAWAL_ADDRESSES }}
+        />
+      );
 
     return (
       <RegularLayout>
@@ -97,11 +108,18 @@ class WithdrawAddressOverview extends Component {
           <Card color={STYLES.COLORS.CELSIUS_BLUE}>
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1, paddingRight: 5 }}>
-                <Icon name={"Info"} width="25" height="25" fill={STYLES.COLORS.WHITE} />
+                <Icon
+                  name={"Info"}
+                  width="25"
+                  height="25"
+                  fill={STYLES.COLORS.WHITE}
+                />
               </View>
               <View style={{ flex: 6 }}>
                 <CelText type={"H5"} weight={"300"} color={STYLES.COLORS.WHITE}>
-                For your security, if changes are made to a withdrawal address, withdrawals of that coin will be unavailable for 24 hours.
+                  For your security, if changes are made to a withdrawal
+                  address, withdrawals of that coin will be unavailable for 24
+                  hours.
                 </CelText>
               </View>
             </View>
@@ -113,4 +131,4 @@ class WithdrawAddressOverview extends Component {
   }
 }
 
-export default WithdrawAddressOverview
+export default WithdrawAddressOverview;

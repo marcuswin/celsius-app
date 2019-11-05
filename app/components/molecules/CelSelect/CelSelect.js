@@ -1,30 +1,39 @@
-import React, { Component } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import RNPickerSelect from 'react-native-picker-select';
+import RNPickerSelect from "react-native-picker-select";
 import { lookup, countries } from "country-data";
 
 import * as appActions from "../../../redux/actions";
 
 import CelSelectStyle from "./CelSelect.styles";
-import { getMargins } from '../../../utils/styles-util';
-import Icon from '../../atoms/Icon/Icon';
-import SELECT_VALUES from '../../../constants/SELECT_VALUES';
-import CelText from '../../atoms/CelText/CelText';
-import STYLES from '../../../constants/STYLES'
+import { getMargins } from "../../../utils/styles-util";
+import Icon from "../../atoms/Icon/Icon";
+import SELECT_VALUES from "../../../constants/SELECT_VALUES";
+import CelText from "../../atoms/CelText/CelText";
+import STYLES from "../../../constants/STYLES";
 
-const { PERSON_TITLE, GENDER, STATE, DAYS, YEARS, MONTHS } = SELECT_VALUES
+const { PERSON_TITLE, GENDER, STATE, DAYS, YEARS, MONTHS } = SELECT_VALUES;
 
 @connect(
   () => ({}),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class CelSelect extends Component {
-
   static propTypes = {
-    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year', 'phone']),
+    type: PropTypes.oneOf([
+      "gender",
+      "title",
+      "country",
+      "native",
+      "state",
+      "day",
+      "month",
+      "year",
+      "phone",
+    ]),
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
       PropTypes.instanceOf(Object),
@@ -39,19 +48,19 @@ class CelSelect extends Component {
     onChange: PropTypes.func,
     transparent: PropTypes.bool,
     showCountryFlag: PropTypes.bool,
-    hideCallingCodes: PropTypes.bool
+    hideCallingCodes: PropTypes.bool,
   };
   static defaultProps = {
-    type: 'native',
-    value: '',
+    type: "native",
+    value: "",
     items: [],
-    labelText: '',
-    margin: '0 0 15 0',
+    labelText: "",
+    margin: "0 0 15 0",
     disabled: false,
     transparent: false,
     showCountryFlag: false,
-    hideCallingCodes: false
-  }
+    hideCallingCodes: false,
+  };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const value = nextProps.value;
@@ -59,9 +68,12 @@ class CelSelect extends Component {
     const items = prevState.items;
 
     if (value && items && type) {
-      const item = type === 'country' ? lookup.countries({ name: value.name })[0] : items.filter(i => i.value === value)[0];
+      const item =
+        type === "country"
+          ? lookup.countries({ name: value.name })[0]
+          : items.filter(i => i.value === value)[0];
       return {
-        value: item
+        value: item,
       };
     }
     return null;
@@ -72,7 +84,6 @@ class CelSelect extends Component {
 
     const items = this.getItems(props);
 
-
     this.state = {
       visible: false,
       items,
@@ -81,29 +92,27 @@ class CelSelect extends Component {
   }
 
   componentDidMount() {
-
-    this.changeColorProp()
+    this.changeColorProp();
   }
-
 
   getItems = ({ type, items }) => {
     switch (type) {
-      case 'title':
+      case "title":
         return PERSON_TITLE;
-      case 'gender':
+      case "gender":
         return GENDER;
-      case 'state':
+      case "state":
         return STATE;
-      case 'day':
+      case "day":
         return DAYS;
-      case 'year':
+      case "year":
         return YEARS;
-      case 'month':
+      case "month":
         return MONTHS;
       default:
         return items;
     }
-  }
+  };
 
   getInputStyle = () => {
     const { disabled, margin, transparent } = this.props;
@@ -111,36 +120,36 @@ class CelSelect extends Component {
     const cmpStyle = CelSelectStyle();
     const style = [];
 
-    if (!transparent) style.push(cmpStyle.container, getMargins(margin))
-    if (disabled) style.push(cmpStyle.disabledInput)
+    if (!transparent) style.push(cmpStyle.container, getMargins(margin));
+    if (disabled) style.push(cmpStyle.disabledInput);
 
     return style;
-  }
+  };
 
-  getIconColor = (style) => StyleSheet.flatten(style.iconColor).color; // get color from raw json depending on style theme
+  getIconColor = style => StyleSheet.flatten(style.iconColor).color; // get color from raw json depending on style theme
 
-  getTextColor = (style) => {
+  getTextColor = style => {
     const { value } = this.state;
     if (value) return StyleSheet.flatten(style.textColor).color; // get color from raw json depending on style theme
     return this.getIconColor(style);
-  }
+  };
 
   changeColorProp = () => {
-    const { items } = this.state
-    const tempItems = []
-    let item
+    const { items } = this.state;
+    const tempItems = [];
+    let item;
     items.forEach(element => {
-      item = element
-      item.color = STYLES.COLORS.DARK_GRAY
-      tempItems.push(item)
-    })
+      item = element;
+      item.color = STYLES.COLORS.DARK_GRAY;
+      tempItems.push(item);
+    });
 
     this.setState({
-      items: tempItems
-    })
-  }
+      items: tempItems,
+    });
+  };
 
-  handlePickerSelect = (value) => {
+  handlePickerSelect = value => {
     const { actions, field } = this.props;
 
     if (value) {
@@ -149,7 +158,15 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { disabled, labelText, type, actions, field, showCountryFlag, hideCallingCodes } = this.props;
+    const {
+      disabled,
+      labelText,
+      type,
+      actions,
+      field,
+      showCountryFlag,
+      hideCallingCodes,
+    } = this.props;
     const { visible, value } = this.state;
 
     const inputStyle = this.getInputStyle();
@@ -159,61 +176,106 @@ class CelSelect extends Component {
 
     let onPress = () => this.setState({ visible: !visible });
 
-    if (type === 'country') {
-      onPress = () => actions.navigateTo('SelectCountry', { field_name: field, hideCallingCodes });
-    } else if (type === 'phone') {
-      onPress = () => actions.navigateTo('SelectCountry', { field_name: field, hideCallingCodes });
+    if (type === "country") {
+      onPress = () =>
+        actions.navigateTo("SelectCountry", {
+          field_name: field,
+          hideCallingCodes,
+        });
+    } else if (type === "phone") {
+      onPress = () =>
+        actions.navigateTo("SelectCountry", {
+          field_name: field,
+          hideCallingCodes,
+        });
     }
 
     const country = this.props.value ? this.props.value : countries.US;
 
-    if (type === 'phone') {
+    if (type === "phone") {
       return (
         <TouchableOpacity onPress={onPress}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 10, borderRadius: 8 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              paddingRight: 10,
+              borderRadius: 8,
+            }}
+          >
             {this.renderImage(cmpStyle.flagImage, country.alpha2)}
-            <CelText type="H4" align="left" style={{ marginLeft: 10, marginRight: 5 }}>{country.countryCallingCodes ? country.countryCallingCodes[0] : ''}</CelText>
-            <View style={{ height: 30, justifyContent: 'center', alignItems: 'center' }}>
-              <Icon name='CaretDown' height='9' width='15' fill={iconColor} />
+            <CelText
+              type="H4"
+              align="left"
+              style={{ marginLeft: 10, marginRight: 5 }}
+            >
+              {country.countryCallingCodes
+                ? country.countryCallingCodes[0]
+                : ""}
+            </CelText>
+            <View
+              style={{
+                height: 30,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Icon name="CaretDown" height="9" width="15" fill={iconColor} />
             </View>
           </View>
         </TouchableOpacity>
       );
     }
 
-    const countryInput = type === 'country' && showCountryFlag && this.state.value && this.state.value.alpha2
+    const countryInput =
+      type === "country" &&
+      showCountryFlag &&
+      this.state.value &&
+      this.state.value.alpha2;
 
     return (
       <TouchableOpacity
         onPress={onPress}
-        style={[inputStyle, { flexDirection: 'row', alignItems: 'center'}]}
+        style={[inputStyle, { flexDirection: "row", alignItems: "center" }]}
       >
-        {countryInput ?
-          this.renderImage([cmpStyle.flagImage, { marginRight: 5 }], this.state.value.alpha2)
-          : null
-        }
+        {countryInput
+          ? this.renderImage(
+              [cmpStyle.flagImage, { marginRight: 5 }],
+              this.state.value.alpha2
+            )
+          : null}
         <View style={{ flexDirection: "row" }}>
-            <CelText type="H4" color={textColor}>
-              {value ? (value.label || value.name) : labelText}
-            </CelText>
-          {!disabled &&
-            <View style={{
-              flex: 1,
-              marginTop: countryInput ? 11 : 2,
-              position: countryInput ? 'absolute' : 'relative',
-              marginLeft: countryInput ? 292 : 0,
-              justifyContent: 'center',
-              alignItems: countryInput ? 'center' : 'flex-end',
-            }}>
-              <Icon name='CaretDown' height='9' width='15' fill={iconColor} />
+          <CelText type="H4" color={textColor}>
+            {value ? value.label || value.name : labelText}
+          </CelText>
+          {!disabled && (
+            <View
+              style={{
+                flex: 1,
+                marginTop: countryInput ? 11 : 2,
+                position: countryInput ? "absolute" : "relative",
+                marginLeft: countryInput ? 292 : 0,
+                justifyContent: "center",
+                alignItems: countryInput ? "center" : "flex-end",
+              }}
+            >
+              <Icon name="CaretDown" height="9" width="15" fill={iconColor} />
             </View>
-          }
+          )}
         </View>
       </TouchableOpacity>
     );
   }
 
-  renderImage = (style, iso = "") => <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style} />;
+  renderImage = (style, iso = "") => (
+    <Image
+      source={{
+        uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png`,
+      }}
+      resizeMode="cover"
+      style={style}
+    />
+  );
 
   render() {
     const { type, flex, disabled, onChange, error, style } = this.props;
@@ -221,17 +283,19 @@ class CelSelect extends Component {
 
     return (
       <View style={[flex ? { flex } : {}, style]}>
-        {type !== 'country' && type !== 'phone' ?
+        {type !== "country" && type !== "phone" ? (
           <RNPickerSelect
             disabled={disabled}
             items={items}
             onValueChange={onChange || this.handlePickerSelect}
             value={value ? value.value : null}
-            style={{ height: 23 }}>
+            style={{ height: 23 }}
+          >
             {this.renderSelect()}
-          </RNPickerSelect> :
+          </RNPickerSelect>
+        ) : (
           this.renderSelect()
-        }
+        )}
         {/* {type === 'state' &&
           <SelectStateModal
             visible={propVisible}
@@ -240,7 +304,9 @@ class CelSelect extends Component {
         } */}
         {!!error && (
           <View>
-            <CelText margin="5 0 0 0" color="red" style={{ height: 20 }}>{!!error && error}</CelText>
+            <CelText margin="5 0 0 0" color="red" style={{ height: 20 }}>
+              {!!error && error}
+            </CelText>
           </View>
         )}
       </View>
@@ -248,4 +314,4 @@ class CelSelect extends Component {
   }
 }
 
-export default CelSelect
+export default CelSelect;

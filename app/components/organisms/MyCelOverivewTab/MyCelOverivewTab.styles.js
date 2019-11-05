@@ -1,9 +1,12 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
-import STYLES from '../../../constants/STYLES';
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
+import STYLES from "../../../constants/STYLES";
 
 const base = {
-
   container: {
     height: heightPercentageToDP("75%"),
     marginHorizontal: 20,
@@ -26,13 +29,13 @@ const base = {
     borderRadius: 8,
   },
   circle: {
-    position: 'absolute',
+    position: "absolute",
     top: heightPercentageToDP("-7%"),
     width: widthPercentageToDP("17%"),
     height: widthPercentageToDP("17%"),
     borderRadius: heightPercentageToDP("17%") / 2,
     backgroundColor: STYLES.COLORS.WHITE,
-    alignSelf: 'center',
+    alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
     marginTop: heightPercentageToDP("3%"),
@@ -45,7 +48,7 @@ const base = {
   },
   loyalityQuestion: {
     marginTop: heightPercentageToDP("1.5%"),
-    color: STYLES.COLORS.CELSIUS_BLUE
+    color: STYLES.COLORS.CELSIUS_BLUE,
   },
   explanation: {
     marginBottom: heightPercentageToDP("3.73%"),
@@ -56,19 +59,19 @@ const base = {
 const themed = {
   light: {
     wrapper: {
-      backgroundColor: STYLES.COLORS.WHITE
+      backgroundColor: STYLES.COLORS.WHITE,
     },
   },
 
   dark: {
     wrapper: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
     },
   },
 
-  celsius: {}
+  celsius: {},
 };
 
 const MyCelOverivewTabStyle = () => getThemedStyle(base, themed);
 
-export default MyCelOverivewTabStyle
+export default MyCelOverivewTabStyle;

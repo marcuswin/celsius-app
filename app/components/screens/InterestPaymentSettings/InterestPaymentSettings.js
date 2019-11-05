@@ -4,7 +4,6 @@ import { Platform, Switch, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
 import * as appActions from "../../../redux/actions";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
@@ -15,18 +14,17 @@ import { getTheme } from "../../../utils/styles-util";
 import Spinner from "../../atoms/Spinner/Spinner";
 import { LOAN_PAYMENT_REASONS, THEMES } from "../../../constants/UI";
 
-
 @connect(
   state => ({
     allLoans: state.loans.allLoans,
-    loanSettings: state.loans.loanSettings
+    loanSettings: state.loans.loanSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class InterestPaymentSettings extends Component {
   static navigationOptions = () => ({
     title: "Interest Payment",
-    right: "profile"
+    right: "profile",
   });
 
   constructor(props) {
@@ -34,13 +32,20 @@ class InterestPaymentSettings extends Component {
 
     this.state = {
       isAutomaticInterestPaymentEnabled: undefined,
-      loading: false
+      loading: false,
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.loanSettings && (nextProps.loanSettings.automatic_interest_payment !== prevState.isAutomaticInterestPaymentEnabled)) {
-      return { isAutomaticInterestPaymentEnabled: nextProps.loanSettings.automatic_interest_payment };
+    if (
+      nextProps.loanSettings &&
+      nextProps.loanSettings.automatic_interest_payment !==
+        prevState.isAutomaticInterestPaymentEnabled
+    ) {
+      return {
+        isAutomaticInterestPaymentEnabled:
+          nextProps.loanSettings.automatic_interest_payment,
+      };
     }
     return null;
   }
@@ -56,8 +61,16 @@ class InterestPaymentSettings extends Component {
       <Switch
         onValueChange={this.handleSwitchChange}
         value={isAutomaticInterestPaymentEnabled}
-        thumbColor={theme === THEMES.LIGHT ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND}
-        ios_backgroundColor={theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND}
+        thumbColor={
+          theme === THEMES.LIGHT
+            ? STYLES.COLORS.WHITE
+            : STYLES.COLORS.DARK_TOGGLE_FOREGROUND
+        }
+        ios_backgroundColor={
+          theme === THEMES.LIGHT
+            ? STYLES.COLORS.DARK_GRAY3
+            : STYLES.COLORS.DARK_TOGGLE_BACKGROUND
+        }
         trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
       />
     );
@@ -69,16 +82,20 @@ class InterestPaymentSettings extends Component {
     const id = navigation.getParam("id");
 
     this.setState({
-      loading: true
+      loading: true,
     });
 
-    await actions.updateLoanSettings(id, { automatic_interest_payment: !isAutomaticInterestPaymentEnabled });
+    await actions.updateLoanSettings(id, {
+      automatic_interest_payment: !isAutomaticInterestPaymentEnabled,
+    });
 
     this.setState({
-      loading: false
+      loading: false,
     });
 
-    const msg = !isAutomaticInterestPaymentEnabled ? `Automatic Interest Payments Enabled.` : `Manual Interest Payments Enabled.`;
+    const msg = !isAutomaticInterestPaymentEnabled
+      ? `Automatic Interest Payments Enabled.`
+      : `Manual Interest Payments Enabled.`;
     actions.showMessage("success", msg);
   };
 
@@ -92,31 +109,39 @@ class InterestPaymentSettings extends Component {
       <RegularLayout>
         <View>
           <Card close>
-            <CelText weight={"500"} type={"H5"}>Automatic Interest Payment</CelText>
-            <CelText weight={"300"} type={"H6"} margin={"10 0 0 0"}>By enabling automatic interest payments, your
-              monthly payment will be automatically deducted from your total wallet balance.</CelText>
+            <CelText weight={"500"} type={"H5"}>
+              Automatic Interest Payment
+            </CelText>
+            <CelText weight={"300"} type={"H6"} margin={"10 0 0 0"}>
+              By enabling automatic interest payments, your monthly payment will
+              be automatically deducted from your total wallet balance.
+            </CelText>
           </Card>
-          < IconButton margin={"20 0 0 0"} right={loading ? <Spinner size={30} /> : <Switcher />} hideIconRight>
+          <IconButton
+            margin={"20 0 0 0"}
+            right={loading ? <Spinner size={30} /> : <Switcher />}
+            hideIconRight
+          >
             Automatic Interest Payment
           </IconButton>
 
-          {!isAutomaticInterestPaymentEnabled ?
-            <Card margin={'20 0 0 0'} color={STYLES.COLORS.ORANGE}>
-              <CelText
-                weight='300'
-                alignItems='center'
-                color='#FFFFFF'
-              >
+          {!isAutomaticInterestPaymentEnabled ? (
+            <Card margin={"20 0 0 0"} color={STYLES.COLORS.ORANGE}>
+              <CelText weight="300" alignItems="center" color="#FFFFFF">
                 You must manually complete your monthly interest payments.
               </CelText>
             </Card>
-            : null
-          }
+          ) : null}
 
           {isAutomaticInterestPaymentEnabled && (
             <IconButton
               margin={"20 0 0 0"}
-              onPress={() => actions.navigateTo("ChoosePaymentMethod", { reason: LOAN_PAYMENT_REASONS.INTEREST, id })}
+              onPress={() =>
+                actions.navigateTo("ChoosePaymentMethod", {
+                  reason: LOAN_PAYMENT_REASONS.INTEREST,
+                  id,
+                })
+              }
             >
               Change Interest Payment Type
             </IconButton>

@@ -12,7 +12,7 @@ import { MODALS } from "../../../constants/UI";
 
 @connect(
   state => ({
-    state
+    state,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

@@ -1,11 +1,15 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const base = {
   cardWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   image: {
     width: widthPercentageToDP("9%"),
@@ -15,22 +19,19 @@ const base = {
   buttonWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: heightPercentageToDP("1.1%")
+    marginBottom: heightPercentageToDP("1.1%"),
   },
-  icon: {marginTop: heightPercentageToDP("2.5%")}
+  icon: { marginTop: heightPercentageToDP("2.5%") },
 };
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const MultiInfoCardStyle = () => getThemedStyle(base, themed);
 
-export default MultiInfoCardStyle
+export default MultiInfoCardStyle;

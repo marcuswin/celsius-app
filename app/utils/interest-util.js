@@ -2,8 +2,8 @@ import formatter from "./formatter";
 import store from "../redux/store";
 
 const interestUtil = {
-    getUserInterestForCoin,
-}
+  getUserInterestForCoin,
+};
 
 /**
  * Gets interest rate for user for a single coin
@@ -20,19 +20,23 @@ function getUserInterestForCoin(coinShort) {
   const interestRates = store.getState().generalData.interestRates;
   const appSettings = store.getState().user.appSettings;
 
-  let interestRate = 0
-  let interestRateDisplay
-  let inCEL = false
-  let eligible = false
+  let interestRate = 0;
+  let interestRateDisplay;
+  let inCEL = false;
+  let eligible = false;
   if (interestRates[coinShort]) {
-    eligible = true
-    inCEL = (appSettings.interest_in_cel_per_coin[coinShort] || (appSettings.interest_in_cel && appSettings.interest_in_cel_per_coin[coinShort] === null)) && (coinShort !== "CEL")
+    eligible = true;
+    inCEL =
+      (appSettings.interest_in_cel_per_coin[coinShort] ||
+        (appSettings.interest_in_cel &&
+          appSettings.interest_in_cel_per_coin[coinShort] === null)) &&
+      coinShort !== "CEL";
     interestRateDisplay = !inCEL
       ? formatter.percentageDisplay(interestRates[coinShort].rate)
-      : formatter.percentageDisplay(interestRates[coinShort].cel_rate)
+      : formatter.percentageDisplay(interestRates[coinShort].cel_rate);
     interestRate = !inCEL
       ? interestRates[coinShort].rate
-      : interestRates[coinShort].cel_rate
+      : interestRates[coinShort].cel_rate;
   }
 
   return {
@@ -41,7 +45,7 @@ function getUserInterestForCoin(coinShort) {
     display: interestRateDisplay,
     inCEL,
     eligible,
-  }
+  };
 }
 
 export default interestUtil;

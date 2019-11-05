@@ -1,27 +1,28 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "../../../utils/styles-util";
 
 const width = widthPercentageToDP("100%");
 
 const base = {
-  xValues : {
+  xValues: {
     width,
     height: heightPercentageToDP("5%"),
-    flexDirection: "row"
+    flexDirection: "row",
   },
 };
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const XTicksStyle = () => getThemedStyle(base, themed);
 
-export default XTicksStyle
+export default XTicksStyle;

@@ -1,23 +1,20 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        paddingHorizontal: 20,
-    }
-}
+  container: {
+    paddingHorizontal: 20,
+  },
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {},
+};
 
 const BalanceHistoryStyle = () => getThemedStyle(base, themed);
 
-export default BalanceHistoryStyle
+export default BalanceHistoryStyle;

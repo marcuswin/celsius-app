@@ -1,7 +1,7 @@
 // TODO(fj): split into auth service and profile service?
 
-import axios from 'axios'
-import apiUrl from './api-url'
+import axios from "axios";
+import apiUrl from "./api-url";
 
 const usersService = {
   // TODO: auth service
@@ -40,7 +40,7 @@ const usersService = {
   updateProfileInfo,
   setProfileImage,
   addExpoPushToken,
-}
+};
 
 /**
  * Registers a user with email/password
@@ -54,8 +54,8 @@ const usersService = {
  * @param {Object} user.referral_link_id
  * @return {Promise}
  */
-function register (user) {
-  return axios.post(`${apiUrl}/users/register`, user)
+function register(user) {
+  return axios.post(`${apiUrl}/users/register`, user);
 }
 
 /**
@@ -73,8 +73,8 @@ function register (user) {
  * @param {string} twitterUser.referral_link_id
  * @return {Promise}
  */
-function registerTwitter (twitterUser) {
-  return axios.post(`${apiUrl}/users/twitter`, twitterUser)
+function registerTwitter(twitterUser) {
+  return axios.post(`${apiUrl}/users/twitter`, twitterUser);
 }
 
 /**
@@ -90,8 +90,8 @@ function registerTwitter (twitterUser) {
  * @param {Object} facebookUser.referral_link_id
  * @return {Promise}
  */
-function registerFacebook (facebookUser) {
-  return axios.post(`${apiUrl}/users/facebook`, facebookUser)
+function registerFacebook(facebookUser) {
+  return axios.post(`${apiUrl}/users/facebook`, facebookUser);
 }
 
 /**
@@ -108,10 +108,9 @@ function registerFacebook (facebookUser) {
  * @param {Object} googleUser.referral_link_id
  * @return {Promise}
  */
-function registerGoogle (googleUser) {
-  return axios.post(`${apiUrl}/users/google`, googleUser)
+function registerGoogle(googleUser) {
+  return axios.post(`${apiUrl}/users/google`, googleUser);
 }
-
 
 /**
  * Logs a user into Celsius with email/password
@@ -122,11 +121,11 @@ function registerGoogle (googleUser) {
  * @param {string} user.password
  * @return {Promise}
  */
-function login ({ email, password }) {
+function login({ email, password }) {
   return axios.post(`${apiUrl}/users/login`, {
     email,
-    password
-  })
+    password,
+  });
 }
 
 /**
@@ -136,10 +135,10 @@ function login ({ email, password }) {
  * @param {string} email
  * @return {Promise}
  */
-function sendResetLink (email) {
+function sendResetLink(email) {
   return axios.post(`${apiUrl}/users/send_reset_link`, {
-    email
-  })
+    email,
+  });
 }
 
 /**
@@ -150,11 +149,11 @@ function sendResetLink (email) {
  * @param {string} newPassword
  * @return {Promise}
  */
-function resetPassword (currentPassword, newPassword) {
+function resetPassword(currentPassword, newPassword) {
   return axios.post(`${apiUrl}/users/reset_password`, {
     current_password: currentPassword,
-    new_password: newPassword
-  })
+    new_password: newPassword,
+  });
 }
 
 /**
@@ -170,8 +169,8 @@ function resetPassword (currentPassword, newPassword) {
  * @param {string} googleUser.access_token
  * @return {Promise}
  */
-function googleLogin (googleUser) {
-  return axios.post(`${apiUrl}/users/google/login`, googleUser)
+function googleLogin(googleUser) {
+  return axios.post(`${apiUrl}/users/google/login`, googleUser);
 }
 
 /**
@@ -186,8 +185,8 @@ function googleLogin (googleUser) {
  * @param {string} facebookUser.access_token
  * @return {Promise}
  */
-function facebookLogin (facebookUser) {
-  return axios.post(`${apiUrl}/users/facebook/login`, facebookUser)
+function facebookLogin(facebookUser) {
+  return axios.post(`${apiUrl}/users/facebook/login`, facebookUser);
 }
 
 /**
@@ -202,8 +201,8 @@ function facebookLogin (facebookUser) {
  * @param {string} twitterUser.secret_token
  * @return {Promise}
  */
-function twitterLogin (twitterUser) {
-  return axios.post(`${apiUrl}/users/twitter/login`, twitterUser)
+function twitterLogin(twitterUser) {
+  return axios.post(`${apiUrl}/users/twitter/login`, twitterUser);
 }
 
 /**
@@ -212,10 +211,9 @@ function twitterLogin (twitterUser) {
  *
  * @return {Promise}
  */
-function getPersonalInfo () {
-  return axios.get(`${apiUrl}/me`)
+function getPersonalInfo() {
+  return axios.get(`${apiUrl}/me`);
 }
-
 
 /**
  * Gets taxpayer info for user
@@ -223,8 +221,8 @@ function getPersonalInfo () {
  *
  * @return {Promise}
  */
-function getProfileTaxpayerInfo () {
-  return axios.get(`${apiUrl}/me/taxpayer_info`)
+function getProfileTaxpayerInfo() {
+  return axios.get(`${apiUrl}/me/taxpayer_info`);
 }
 
 /**
@@ -235,8 +233,8 @@ function getProfileTaxpayerInfo () {
  * @param {Object} profileInfo
  * @return {Promise}
  */
-function updateProfileInfo (profileInfo) {
-  return axios.patch(`${apiUrl}/me`, profileInfo)
+function updateProfileInfo(profileInfo) {
+  return axios.patch(`${apiUrl}/me`, profileInfo);
 }
 
 /**
@@ -253,8 +251,8 @@ function updateProfileInfo (profileInfo) {
  * @param {string} [profileAddressInfo.flat_number]
  * @return {Promise}
  */
-function updateProfileAddressInfo (profileAddressInfo) {
-  return axios.post(`${apiUrl}/me/address`, profileAddressInfo)
+function updateProfileAddressInfo(profileAddressInfo) {
+  return axios.post(`${apiUrl}/me/address`, profileAddressInfo);
 }
 
 /**
@@ -267,8 +265,8 @@ function updateProfileAddressInfo (profileAddressInfo) {
  * @param {string} profileTaxpayerInfo.national_id
  * @return {Promise}
  */
-function updateProfileTaxpayerInfo (profileTaxpayerInfo) {
-  return axios.post(`${apiUrl}/me/taxpayer_info`, profileTaxpayerInfo)
+function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
+  return axios.post(`${apiUrl}/me/taxpayer_info`, profileTaxpayerInfo);
 }
 
 /**
@@ -278,23 +276,23 @@ function updateProfileTaxpayerInfo (profileTaxpayerInfo) {
  * @param {Object} image - file object
  * @return {Promise}
  */
-function setProfileImage (image) {
-  const formData = new FormData()
-  let pictureUrl
-  if (typeof image === 'string' && image.includes('https')) {
-    pictureUrl = { profile_picture_url: image }
+function setProfileImage(image) {
+  const formData = new FormData();
+  let pictureUrl;
+  if (typeof image === "string" && image.includes("https")) {
+    pictureUrl = { profile_picture_url: image };
   } else {
-    formData.append('profile_picture', {
-      name: 'picture.jpg',
-      type: 'image/jpg',
-      uri: image.uri
-    })
+    formData.append("profile_picture", {
+      name: "picture.jpg",
+      type: "image/jpg",
+      uri: image.uri,
+    });
   }
 
   return axios.post(
     `${apiUrl}/user/profile/profile_picture`,
     pictureUrl || formData
-  )
+  );
 }
 
 /**
@@ -304,10 +302,10 @@ function setProfileImage (image) {
  * @param {string} token
  * @return {Promise}
  */
-async function addExpoPushToken (token) {
+async function addExpoPushToken(token) {
   return axios.put(`${apiUrl}/users/expoPushToken`, {
-    expo_push_token: token
-  })
+    expo_push_token: token,
+  });
 }
 
 /**
@@ -317,7 +315,7 @@ async function addExpoPushToken (token) {
  */
 
 function getLoyaltyInfo() {
-  return axios.get(`${apiUrl}/user/loyalty`)
+  return axios.get(`${apiUrl}/user/loyalty`);
 }
 
 /**
@@ -327,8 +325,8 @@ function getLoyaltyInfo() {
  * @param {Object} contacts - @todo check payload
  * @return {Promise}
  */
-function connectPhoneContacts (contacts) {
-  return axios.post(`${apiUrl}/users/friends/contacts`, { contacts })
+function connectPhoneContacts(contacts) {
+  return axios.post(`${apiUrl}/users/friends/contacts`, { contacts });
 }
 
 /**
@@ -337,8 +335,8 @@ function connectPhoneContacts (contacts) {
  *
  * @return {Promise}
  */
-function getConnectedContacts () {
-  return axios.get(`${apiUrl}/users/friends`)
+function getConnectedContacts() {
+  return axios.get(`${apiUrl}/users/friends`);
 }
 
 /**
@@ -347,8 +345,8 @@ function getConnectedContacts () {
  *
  * @return {Promise}
  */
-function getLinkedBankAccount () {
-  return axios.get(`${apiUrl}/bank/account`)
+function getLinkedBankAccount() {
+  return axios.get(`${apiUrl}/bank/account`);
 }
 
 /**
@@ -364,8 +362,8 @@ function getLinkedBankAccount () {
  * @param {string} bankAccountInfo.swift
  * @return {Promise}
  */
-function linkBankAccount (bankAccountInfo) {
-  return axios.post(`${apiUrl}/bank/account`, bankAccountInfo)
+function linkBankAccount(bankAccountInfo) {
+  return axios.post(`${apiUrl}/bank/account`, bankAccountInfo);
 }
 
 /**
@@ -374,28 +372,28 @@ function linkBankAccount (bankAccountInfo) {
  *
  * @return {Promise}
  */
-function invalidateSession () {
-  return axios.post(`${apiUrl}/user/invalidate_session`)
+function invalidateSession() {
+  return axios.post(`${apiUrl}/user/invalidate_session`);
 }
 
 /**
  * Get the user member status
  * @return {Promise}
  */
-function getCelsiusMemberStatus () {
-  return axios.post(`${apiUrl}/user/membership`)
+function getCelsiusMemberStatus() {
+  return axios.post(`${apiUrl}/user/membership`);
 }
 
 /**
  * Get user app setings
  * @returns {Promise}
  */
-function getUserAppSettings () {
-  return axios.get(`${apiUrl}/user_app_settings`)
+function getUserAppSettings() {
+  return axios.get(`${apiUrl}/user_app_settings`);
 }
 
-function setUserAppSettings (data) {
-  return axios.put(`${apiUrl}/user_app_settings`, data)
+function setUserAppSettings(data) {
+  return axios.put(`${apiUrl}/user_app_settings`, data);
 }
 
 /**
@@ -403,7 +401,7 @@ function setUserAppSettings (data) {
  * @returns {Promise}
  */
 function getUserSecurityOverview() {
-  return axios.get(`${apiUrl}/user/security_overview`)
+  return axios.get(`${apiUrl}/user/security_overview`);
 }
 
-export default usersService
+export default usersService;

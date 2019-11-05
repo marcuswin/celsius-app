@@ -1,24 +1,23 @@
-import React, { Component } from 'react'
-import { View, TouchableOpacity, Image } from 'react-native'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { Component } from "react";
+import { View, TouchableOpacity, Image } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-
-import formatter from '../../../utils/formatter'
-import * as appActions from '../../../redux/actions'
-import CelText from '../../atoms/CelText/CelText'
-import Card from '../../atoms/Card/Card'
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
-import STYLES from '../../../constants/STYLES'
-import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory'
-import CelButton from '../../atoms/CelButton/CelButton'
-import WalletInterestStyle from './WalletInterest.styles'
-import { EMPTY_STATES, MODALS } from '../../../constants/UI'
-import GraphContainer from '../../graphs/GraphContainer/GraphContainer'
-import LoadingScreen from '../../screens/LoadingScreen/LoadingScreen'
-import Separator from '../../atoms/Separator/Separator'
-import InterestCalculatorModal from '../../organisms/InterestCalculatorModal/InterestCalculatorModal'
-import InterestCalculatorScreen from '../InterestCalculatorScreen/InterestCalculatorScreen'
+import formatter from "../../../utils/formatter";
+import * as appActions from "../../../redux/actions";
+import CelText from "../../atoms/CelText/CelText";
+import Card from "../../atoms/Card/Card";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import STYLES from "../../../constants/STYLES";
+import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
+import CelButton from "../../atoms/CelButton/CelButton";
+import WalletInterestStyle from "./WalletInterest.styles";
+import { EMPTY_STATES, MODALS } from "../../../constants/UI";
+import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
+import LoadingScreen from "../../screens/LoadingScreen/LoadingScreen";
+import Separator from "../../atoms/Separator/Separator";
+import InterestCalculatorModal from "../../organisms/InterestCalculatorModal/InterestCalculatorModal";
+import InterestCalculatorScreen from "../InterestCalculatorScreen/InterestCalculatorScreen";
 import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
 
 @connect(
@@ -31,40 +30,40 @@ import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
     loyaltyInfo: state.user.loyaltyInfo,
     appSettings: state.user.appSettings,
     interestCompliance: state.compliance.interest,
-    email: state.user.profile.email
+    email: state.user.profile.email,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class WalletInterest extends Component {
   static navigationOptions = {
-    title: 'Interest earned',
-    right: 'profile'
-  }
+    title: "Interest earned",
+    right: "profile",
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       header: {
-        title: 'Interest earned',
-        left: 'back',
-        right: 'profile'
+        title: "Interest earned",
+        left: "back",
+        right: "profile",
       },
-      loading: true
-    }
+      loading: true,
+    };
   }
 
   async componentDidMount() {
-    const { actions } = this.props
-    await actions.getLoyaltyInfo()
-    await actions.getUserAppSettings()
-    this.setState({ loading: false })
+    const { actions } = this.props;
+    await actions.getLoyaltyInfo();
+    await actions.getUserAppSettings();
+    this.setState({ loading: false });
   }
 
   navigateToAllTransactions = () => {
-    const { actions } = this.props
-    actions.navigateTo('AllTransactions', { transactionType: 'interest' })
-  }
+    const { actions } = this.props;
+    actions.navigateTo("AllTransactions", { transactionType: "interest" });
+  };
 
   render() {
     const {
@@ -73,66 +72,74 @@ class WalletInterest extends Component {
       appSettings,
       loyaltyInfo,
       actions,
-      interestCompliance
-    } = this.props
-    const { loading } = this.state
-    const style = WalletInterestStyle()
+      interestCompliance,
+    } = this.props;
+    const { loading } = this.state;
+    const style = WalletInterestStyle();
 
-    if (loading || !appSettings || !loyaltyInfo) return <LoadingScreen />
+    if (loading || !appSettings || !loyaltyInfo) return <LoadingScreen />;
     if (!interestCompliance) {
-      return <InterestCalculatorScreen purpose={EMPTY_STATES.COMPLIANCE} />
+      return <InterestCalculatorScreen purpose={EMPTY_STATES.COMPLIANCE} />;
     }
     if (isUSCitizen() && !user.ssn) {
-      return <InterestCalculatorScreen purpose={EMPTY_STATES.NO_SSN_INTEREST} />
+      return (
+        <InterestCalculatorScreen purpose={EMPTY_STATES.NO_SSN_INTEREST} />
+      );
     }
     if (!user.celsius_member) {
       return (
         <InterestCalculatorScreen purpose={EMPTY_STATES.NON_MEMBER_INTEREST} />
-      )
+      );
     }
     if (walletSummary.total_interest_earned <= 0) {
-      return <InterestCalculatorScreen purpose={EMPTY_STATES.ZERO_INTEREST} />
+      return <InterestCalculatorScreen purpose={EMPTY_STATES.ZERO_INTEREST} />;
     }
     if (!hasPassedKYC()) {
-      return <InterestCalculatorScreen purpose={EMPTY_STATES.NON_VERIFIED_INTEREST} />
+      return (
+        <InterestCalculatorScreen
+          purpose={EMPTY_STATES.NON_VERIFIED_INTEREST}
+        />
+      );
     }
 
     return (
-      <RegularLayout padding='20 0 100 0'>
+      <RegularLayout padding="20 0 100 0">
         <View style={style.container}>
           <Card>
             <>
-              <CelText type='H6' weight='300'>
+              <CelText type="H6" weight="300">
                 Total interest earned
               </CelText>
               <View style={style.amountWrapper}>
-                <CelText weight='600' type='H3'>
+                <CelText weight="600" type="H3">
                   {formatter.usd(walletSummary.total_interest_earned)}
                 </CelText>
-                  <TouchableOpacity onPress={() => actions.navigateTo("InterestRates")}>
-                      <CelText color={STYLES.COLORS.CELSIUS_BLUE}>
-                          Rates this week
-                      </CelText>
-                  </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => actions.navigateTo("InterestRates")}
+                >
+                  <CelText color={STYLES.COLORS.CELSIUS_BLUE}>
+                    Rates this week
+                  </CelText>
+                </TouchableOpacity>
               </View>
-              <Separator  margin="10 0 0 0" />
+              <Separator margin="10 0 0 0" />
               <TouchableOpacity
                 onPress={() => {
-                  actions.openModal(MODALS.INTEREST_CALCULATOR_MODAL)
+                  actions.openModal(MODALS.INTEREST_CALCULATOR_MODAL);
                 }}
                 style={{ marginTop: 10 }}
               >
                 <Image
                   style={{
-                    alignSelf: 'center',
+                    alignSelf: "center",
                     width: 25,
                     height: 25,
                     marginBottom: 5,
-                    marginTop: 6
+                    marginTop: 6,
                   }}
-                  source={require('../../../../assets/images/calculator.png')}
+                  source={require("../../../../assets/images/calculator.png")}
                 />
-                <CelText align='center'>Calculator</CelText>
+                <CelText align="center">Calculator</CelText>
               </TouchableOpacity>
             </>
           </Card>
@@ -142,18 +149,18 @@ class WalletInterest extends Component {
           showCursor
           showPeriods
           interest
-          type={'total-interest'}
+          type={"total-interest"}
         />
 
         <View style={style.container}>
           <TransactionsHistory
             hasFilter={false}
-            additionalFilter={{ type: 'interest', limit: 5 }}
+            additionalFilter={{ type: "interest", limit: 5 }}
           />
 
           <CelButton
             basic
-            margin='0 0 15 0'
+            margin="0 0 15 0"
             onPress={this.navigateToAllTransactions}
           >
             See all
@@ -161,8 +168,8 @@ class WalletInterest extends Component {
         </View>
         <InterestCalculatorModal />
       </RegularLayout>
-    )
+    );
   }
 }
 
-export default WalletInterest
+export default WalletInterest;

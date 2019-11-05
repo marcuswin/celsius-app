@@ -3,15 +3,15 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   text: {
-    fontFamily: "Barlow-Regular"
-  }
+    fontFamily: "Barlow-Regular",
+  },
 };
 
 const themed = {
   light: {
     textColor: {
-      color: STYLES.COLORS.DARK_GRAY // medium_gray je bilo 30.01.
-    }
+      color: STYLES.COLORS.DARK_GRAY, // medium_gray je bilo 30.01.
+    },
   },
   dark: {
     textColor: { color: STYLES.COLORS.WHITE_OPACITY5 },
@@ -21,11 +21,12 @@ const themed = {
   },
   celsius: {
     textColor: {
-      color: STYLES.COLORS.DARK_GRAY
-    }
-  }
+      color: STYLES.COLORS.DARK_GRAY,
+    },
+  },
 };
 
-const CelTextStyle = theme => theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed);
+const CelTextStyle = theme =>
+  theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed);
 
 export default CelTextStyle;

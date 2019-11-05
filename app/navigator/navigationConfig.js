@@ -1,8 +1,7 @@
 // Screen Transitioning animation
-import React from 'react';
-import { Animated, Easing } from 'react-native'
-import CelHeading from '../components/organisms/CelHeading/CelHeading'
-
+import React from "react";
+import { Animated, Easing } from "react-native";
+import CelHeading from "../components/organisms/CelHeading/CelHeading";
 
 export const transitionConfig = () => ({
   transitionSpec: {
@@ -17,24 +16,24 @@ export const transitionConfig = () => ({
 
     const opacity = position.interpolate({
       inputRange: [thisSceneIndex - 1, thisSceneIndex],
-      outputRange: [0, 1]
+      outputRange: [0, 1],
     });
 
-    const lastSceneIndex = scenes[scenes.length - 1].index
+    const lastSceneIndex = scenes[scenes.length - 1].index;
 
     // Test whether we're skipping back more than one screen
     if (lastSceneIndex - index > 1) {
       // Do not transform the screen being navigated to
-      if (scene.index === index) return
+      if (scene.index === index) return;
       // Hide all screens in between
-      if (scene.index !== lastSceneIndex) return { opacity: 0 }
+      if (scene.index !== lastSceneIndex) return { opacity: 0 };
     }
 
-    return { opacity }
-  }
-})
+    return { opacity };
+  },
+});
 
 export const defaultNavigationOptions = {
   header: props => <CelHeading {...props} />,
-  gesturesEnabled: false
-}
+  gesturesEnabled: false,
+};

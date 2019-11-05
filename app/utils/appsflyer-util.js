@@ -5,6 +5,7 @@ import store from "../redux/store";
 import appUtil from "./app-util";
 import userBehaviorUtil from "./user-behavior-util";
 import loggerUtil from "./logger-util";
+import constants from "../../constants";
 
 let advertisingId;
 
@@ -12,13 +13,12 @@ let revisionId = "";
 let version = "";
 
 const appInfo = { os: Platform.OS };
+const { ENV } = constants;
 
 const appsFlyerUtil = {
   registrationCompleted,
   kycStarted,
-  withdrawCompleted,
-  celpayCompleted,
-  loanApplied
+  loanApplied,
 };
 
 /**
@@ -28,31 +28,33 @@ const appsFlyerUtil = {
  * @param {Object} payload - payload
  */
 async function appsFlyerEvent(event, payload) {
-  if (!advertisingId) {
-    advertisingId = store.getState().app.advertisingId;
-    appInfo.advertisingId = advertisingId;
-  }
-  if (!revisionId || !version) {
-    try {
-      const metadata = await appUtil.getRevisionId();
-      version = metadata.codePushVersion.version;
-      revisionId = metadata.codePushVersion.label;
-
-      appInfo.revisionId = revisionId;
-      appInfo.appVersion = version;
-    } catch (error) {
-      loggerUtil.err(error);
+  if (ENV === "PRODUCTION") {
+    if (!advertisingId) {
+      advertisingId = store.getState().app.advertisingId;
+      appInfo.advertisingId = advertisingId;
     }
+    if (!revisionId || !version) {
+      try {
+        const metadata = await appUtil.getRevisionId();
+        version = metadata.codePushVersion.version;
+        revisionId = metadata.codePushVersion.label;
+
+        appInfo.revisionId = revisionId;
+        appInfo.appVersion = version;
+      } catch (error) {
+        loggerUtil.err(error);
+      }
+    }
+    const response = await appsFlyer.trackEvent(event, {
+      ...appInfo,
+      ...payload,
+    });
+    userBehaviorUtil.sendEvent("Appsflyer event", {
+      event,
+      payload,
+      response,
+    });
   }
-  const response = await appsFlyer.trackEvent(event, {
-    ...appInfo,
-    ...payload
-  });
-  userBehaviorUtil.sendEvent("Appsflyer event", {
-    event,
-    payload,
-    response
-  });
 }
 
 /**
@@ -78,9 +80,9 @@ async function registrationCompleted(user) {
     action: "User completed registration",
     content_items: [
       {
-        $og_description: method
-      }
-    ]
+        $og_description: method,
+      },
+    ],
   });
 }
 
@@ -100,65 +102,10 @@ async function kycStarted() {
       action: "User started KYC",
       content_item: [
         {
-          $sku: 1
-        }
-      ]
-    }
-  });
-}
-
-/**
- * Fires an event when a user finishes a withdrawal
- * @todo: check if needs moving to BE?
- *
- * @param {object} withdrawTransaction
- */
-async function withdrawCompleted(withdrawTransaction) {
-  const { currencyRatesShort } = store.getState().currencies;
-  const payload = {
-    ...withdrawTransaction,
-    amountUsd:
-      withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin]
-  };
-
-  await appsFlyerEvent("ADD_TO_WISHLIST", {
-    af_revenue: Number(payload.amountUsd),
-    af_currency: "USD",
-    revenue: Number(payload.amountUsd),
-    currency: "USD",
-    amount_usd: payload.amountUsd.toString(),
-    amount_crypto: payload.amount.toString(),
-    coin: payload.coin,
-    action: "Withdraw",
-    id: payload.id
-  });
-}
-
-/**
- * Fires an event when a user finishes a CelPay
- *
- * @param {object} celPayTransfer
- * @param {string} celPayTransfer.amount
- * @param {string} celPayTransfer.coin - eg. BTC|ETH
- * @param {uuid} celPayTransfer.id
- */
-async function celpayCompleted(celPayTransfer) {
-  const { currencyRatesShort } = store.getState().currencies;
-
-  const amountUsd =
-    celPayTransfer.amount *
-    currencyRatesShort[celPayTransfer.coin.toLowerCase()];
-
-  await appsFlyerEvent("SPEND_CREDITS", {
-    af_revenue: Number(amountUsd),
-    af_currency: "USD",
-    revenue: Number(amountUsd),
-    currency: "USD",
-    amount_usd: amountUsd.toString(),
-    amount_crypto: celPayTransfer.amount.toString(),
-    coin: celPayTransfer.coin,
-    id: celPayTransfer.id,
-    action: "CelPay"
+          $sku: 1,
+        },
+      ],
+    },
   });
 }
 
@@ -188,7 +135,7 @@ async function loanApplied({ loan, transaction_id: transactionId }) {
     originating_date: loan.originating_date,
     collateral_usd_rate: loan.collateral_usd_rate,
     term_of_loan: loan.term_of_loan,
-    total_interest: loan.total_interest
+    total_interest: loan.total_interest,
   });
 }
 

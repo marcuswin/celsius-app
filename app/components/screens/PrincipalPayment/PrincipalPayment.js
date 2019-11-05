@@ -17,7 +17,7 @@ import { THEMES } from "../../../constants/UI";
   state => ({
     user: state.user.profile,
     formData: state.forms.formData,
-    loanSettings: state.loans.loanSettings
+    loanSettings: state.loans.loanSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -29,7 +29,7 @@ class PrincipalPayment extends Component {
 
   static navigationOptions = () => ({
     title: "Principal Payout",
-    right: "profile"
+    right: "profile",
   });
 
   constructor(props) {
@@ -37,13 +37,19 @@ class PrincipalPayment extends Component {
 
     this.state = {
       payOutPrincipalFromCollateral: undefined,
-      loading: false
+      loading: false,
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.loanSettings && (nextProps.loanSettings !== prevState.payOutPrincipalFromCollateral)) {
-      return { payOutPrincipalFromCollateral: nextProps.loanSettings.payout_principal_from_collateral };
+    if (
+      nextProps.loanSettings &&
+      nextProps.loanSettings !== prevState.payOutPrincipalFromCollateral
+    ) {
+      return {
+        payOutPrincipalFromCollateral:
+          nextProps.loanSettings.payout_principal_from_collateral,
+      };
     }
     return null;
   }
@@ -65,34 +71,46 @@ class PrincipalPayment extends Component {
       <Switch
         onValueChange={this.handleSwitchChange}
         value={payOutPrincipalFromCollateral}
-        thumbColor={theme === THEMES.LIGHT ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND}
-        ios_backgroundColor={theme === THEMES.LIGHT ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND}
+        thumbColor={
+          theme === THEMES.LIGHT
+            ? STYLES.COLORS.WHITE
+            : STYLES.COLORS.DARK_TOGGLE_FOREGROUND
+        }
+        ios_backgroundColor={
+          theme === THEMES.LIGHT
+            ? STYLES.COLORS.DARK_GRAY3
+            : STYLES.COLORS.DARK_TOGGLE_BACKGROUND
+        }
         trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
       />
     );
   };
 
-   handleSwitchChange = async () => {
+  handleSwitchChange = async () => {
     const { navigation, actions } = this.props;
     const { payOutPrincipalFromCollateral } = this.state;
     const id = navigation.getParam("id");
 
     this.setState({
-      loading: true
+      loading: true,
     });
 
-    await actions.updateLoanSettings(id, { payout_principal_from_collateral: !payOutPrincipalFromCollateral });
+    await actions.updateLoanSettings(id, {
+      payout_principal_from_collateral: !payOutPrincipalFromCollateral,
+    });
     this.setState({
-      loading: false
+      loading: false,
     });
     this.renderMessage();
   };
 
-
   renderMessage = () => {
     const { actions } = this.props;
     if (this.state.payOutPrincipalFromCollateral) {
-      actions.showMessage("success", "You have successfully set up an automatic collateral payout.");
+      actions.showMessage(
+        "success",
+        "You have successfully set up an automatic collateral payout."
+      );
     }
   };
 
@@ -108,35 +126,30 @@ class PrincipalPayment extends Component {
       <RegularLayout>
         <IconButton
           margin={"10 0 10 0"}
-          right={loading ? <Spinner size={30}/> : <Switcher/>}
+          right={loading ? <Spinner size={30} /> : <Switcher />}
           hideIconRight
         >
           Payout From Collateral
         </IconButton>
-        {payOutPrincipalFromCollateral ?
+        {payOutPrincipalFromCollateral ? (
           <Card color={STYLES.COLORS.ORANGE}>
-            <CelText
-              weight='300'
-              alignItems='center'
-              color='#FFFFFF'
-            >
-              Your principal loan amount and any unpaid interest will automatically be deducted from your collateral upon loan maturity date. Any additional collateral will then be unlocked and available in your wallet balance.
+            <CelText weight="300" alignItems="center" color="#FFFFFF">
+              Your principal loan amount and any unpaid interest will
+              automatically be deducted from your collateral upon loan maturity
+              date. Any additional collateral will then be unlocked and
+              available in your wallet balance.
             </CelText>
           </Card>
-          : null
-        }
+        ) : null}
 
-        {!payOutPrincipalFromCollateral ?
+        {!payOutPrincipalFromCollateral ? (
           <IconButton
-            margin='10 0 10 0'
-            onPress={() => actions.navigateTo("PrincipalPaymentType", {id})}
+            margin="10 0 10 0"
+            onPress={() => actions.navigateTo("PrincipalPaymentType", { id })}
           >
             Change Principal Payment Type
           </IconButton>
-          : null
-        }
-
-
+        ) : null}
       </RegularLayout>
     );
   }

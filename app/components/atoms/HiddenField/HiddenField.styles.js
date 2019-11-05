@@ -4,17 +4,17 @@ import STYLES from "../../../constants/STYLES";
 
 const base = {
   wrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 5
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 5,
   },
   basicCircle: {
     width: 18,
     height: 18,
     backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
     borderRadius: 10,
-    margin: 10
+    margin: 10,
   },
   activeCircle: {
     backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
@@ -24,7 +24,7 @@ const base = {
   },
   errorCircle: {
     backgroundColor: STYLES.COLORS.RED,
-  }
+  },
 };
 
 const themed = {
@@ -32,7 +32,7 @@ const themed = {
 
   dark: {},
 
-  celsius: {}
+  celsius: {},
 };
 
 const HiddenPinStyle = () => getThemedStyle(base, themed);

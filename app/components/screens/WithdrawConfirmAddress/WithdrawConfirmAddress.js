@@ -3,7 +3,6 @@ import { Keyboard, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
 import * as appActions from "../../../redux/actions";
 import WithdrawalAddressStyle from "./WithdrawConfirmAddress.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
@@ -22,16 +21,15 @@ import InfoModal from "../../molecules/InfoModal/InfoModal";
   state => ({
     walletSummary: state.wallet.summary,
     formData: state.forms.formData,
-    withdrawalAddresses: state.wallet.withdrawalAddresses
+    withdrawalAddresses: state.wallet.withdrawalAddresses,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class WithdrawConfirmAddress extends Component {
-
   static propTypes = {
     // text: PropTypes.string
   };
-  static defaultProps = {}
+  static defaultProps = {};
 
   static navigationOptions = () => ({
     title: "Withdrawal address",
@@ -43,29 +41,37 @@ class WithdrawConfirmAddress extends Component {
 
     const { formData, walletSummary, withdrawalAddresses } = props;
     const coin = formData.coin;
-    const coinData = coin && walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
-
+    const coinData =
+      coin &&
+      walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
 
     this.state = {
       coin,
       balanceCrypto: coinData.amount,
       balanceUsd: coinData.amount_usd,
-      address: coin && withdrawalAddresses[coin.toUpperCase()]
+      address: coin && withdrawalAddresses[coin.toUpperCase()],
     };
   }
 
   confirmAddress = () => {
     const { actions, withdrawalAddresses, formData } = this.props;
 
-    actions.updateFormField("withdrawAddress", formData.coin && withdrawalAddresses[formData.coin.toUpperCase()] && withdrawalAddresses[formData.coin.toUpperCase()].address);
-    actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo("WithdrawConfirm") });
+    actions.updateFormField(
+      "withdrawAddress",
+      formData.coin &&
+        withdrawalAddresses[formData.coin.toUpperCase()] &&
+        withdrawalAddresses[formData.coin.toUpperCase()].address
+    );
+    actions.navigateTo("VerifyProfile", {
+      onSuccess: () => actions.navigateTo("WithdrawConfirm"),
+    });
   };
 
   navigate = () => {
     const { actions } = this.props;
     actions.closeModal();
-    actions.navigateTo("WithdrawAddressOverview")
-  }
+    actions.navigateTo("WithdrawAddressOverview");
+  };
 
   render() {
     const { coin, balanceCrypto, balanceUsd, address } = this.state;
@@ -90,14 +96,23 @@ class WithdrawConfirmAddress extends Component {
     const addressDisplay = addressUtil.splitAddressTag(address.address);
 
     return (
-      <RegularLayout padding='0 0 0 0'>
+      <RegularLayout padding="0 0 0 0">
         <View style={style.container}>
-          <BalanceView opacity={0.80} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
+          <BalanceView
+            opacity={0.8}
+            coin={coin}
+            crypto={balanceCrypto}
+            usd={balanceUsd}
+          />
           <View style={style.wrapper}>
             <View style={style.coinAmountContainer}>
               <CelText type={"H2"}>{formData.coin}</CelText>
-              <CelText type={"H1"}>{formatter.getEllipsisAmount(formData.amountCrypto, -5)}</CelText>
-              <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
+              <CelText type={"H1"}>
+                {formatter.getEllipsisAmount(formData.amountCrypto, -5)}
+              </CelText>
+              <CelText color={"gray"} type={"H3"}>
+                {formatter.usd(formData.amountUsd)}
+              </CelText>
             </View>
 
             <View style={style.containerWithMargin}>
@@ -109,12 +124,14 @@ class WithdrawConfirmAddress extends Component {
               placeholder={"Withdrawal address"}
               value={addressDisplay.newAddress}
               disabled
-              type='text-area'
+              type="text-area"
               multiline
               numberOfLines={2}
               returnKeyType={hasTag ? "next" : "done"}
               blurOnSubmit={!hasTag}
-              onSubmitEditing={() => hasTag ? this.tag.focus() : Keyboard.dismiss() }
+              onSubmitEditing={() =>
+                hasTag ? this.tag.focus() : Keyboard.dismiss()
+              }
             />
 
             <InfoBox
@@ -123,8 +140,19 @@ class WithdrawConfirmAddress extends Component {
               backgroundColor={STYLES.COLORS.ORANGE}
               titleText={"Your withdrawal address"}
               left
-              explanationText={<CelText color='white'>Please confirm the withdrawal address where your funds will be sent. If you previously transferred money from an exchange, this may not be your correct withdrawal address.
-              {"\n\n"}You can change your withdrawal address at any time from your <CelText color='white' weight={'700'}>wallet settings</CelText> or by pressing on the link below.</CelText>}
+              explanationText={
+                <CelText color="white">
+                  Please confirm the withdrawal address where your funds will be
+                  sent. If you previously transferred money from an exchange,
+                  this may not be your correct withdrawal address.
+                  {"\n\n"}You can change your withdrawal address at any time
+                  from your{" "}
+                  <CelText color="white" weight={"700"}>
+                    wallet settings
+                  </CelText>{" "}
+                  or by pressing on the link below.
+                </CelText>
+              }
             />
 
             {hasTag ? (
@@ -134,46 +162,54 @@ class WithdrawConfirmAddress extends Component {
                 field="coinTag"
                 margin="10 0 10 0"
                 disabled
-                refs={(input) => { this.tag = input }}
+                refs={input => {
+                  this.tag = input;
+                }}
               />
-            ) : null
-            }
+            ) : null}
 
             {hasTag ? (
               <View>
                 <View style={style.containerWithMargin}>
-                  <CelText type={"H5"} style={style.tagText}>{tagText}</CelText>
+                  <CelText type={"H5"} style={style.tagText}>
+                    {tagText}
+                  </CelText>
                 </View>
 
                 <InfoBox
                   left
                   color={"white"}
                   backgroundColor={STYLES.COLORS.ORANGE}
-                  titleText={"To prevent a permanent loss of your funds, please check if your address has a destination tag."}
+                  titleText={
+                    "To prevent a permanent loss of your funds, please check if your address has a destination tag."
+                  }
                 />
               </View>
             ) : null}
 
-
             <View style={style.button}>
               <CelButton onPress={this.confirmAddress}>
                 Confirm withdrawal
-          </CelButton>
+              </CelButton>
             </View>
 
             <CelButton
               margin={"30 0 20 0"}
-              onPress={() => actions.openModal(MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL)}
+              onPress={() =>
+                actions.openModal(MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL)
+              }
               basic
             >
               Change withdrawal address
-        </CelButton>
+            </CelButton>
             <InfoModal
               name={MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL}
               yesCopy={"Change address"}
               onYes={() => this.navigate()}
               heading={"Changing a withdrawal address"}
-              paragraphs={[`If changes are made to your current withdrawal address for ${coin}, making a withdraw of ${coin} will be unavailable for the next 24 hours.`]}
+              paragraphs={[
+                `If changes are made to your current withdrawal address for ${coin}, making a withdraw of ${coin} will be unavailable for the next 24 hours.`,
+              ]}
             />
           </View>
         </View>
@@ -182,4 +218,4 @@ class WithdrawConfirmAddress extends Component {
   }
 }
 
-export default WithdrawConfirmAddress
+export default WithdrawConfirmAddress;

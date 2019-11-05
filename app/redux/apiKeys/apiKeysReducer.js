@@ -11,25 +11,24 @@ function initialState() {
 }
 
 export default function apiKeysReducer(state = initialState(), action) {
-
   switch (action.type) {
     case ACTIONS.GET_API_KEYS_SUCCESS:
-        return {
-          ...state,
-          keys: action.apiKeys,
-        };
+      return {
+        ...state,
+        keys: action.apiKeys,
+      };
 
     case ACTIONS.CREATE_API_KEY_SUCCESS:
-        return {
-          ...state,
-          lastGeneratedKey: action.apiKey,
-        };
+      return {
+        ...state,
+        lastGeneratedKey: action.apiKey,
+      };
 
     case ACTIONS.DELETE_API_KEY_SUCCESS:
-        return {
-          ...state,
-          keys: state.keys.filter(ak => ak.id !== action.keyId),
-        };
+      return {
+        ...state,
+        keys: state.keys.filter(ak => ak.id !== action.keyId),
+      };
 
     default:
       return { ...state };

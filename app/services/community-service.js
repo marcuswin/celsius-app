@@ -1,5 +1,5 @@
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from "axios";
+import apiUrl from "./api-url";
 
 const communityService = {
   getCommunityStatistics, // TODO add JSDoc
@@ -8,6 +8,5 @@ const communityService = {
 function getCommunityStatistics() {
   return axios.get(`${apiUrl}/community`);
 }
-
 
 export default communityService;

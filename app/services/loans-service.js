@@ -1,6 +1,6 @@
-import axios from 'axios';
-import apiUrl from './api-url';
-import { mocks } from '../../dev-settings'
+import axios from "axios";
+import apiUrl from "./api-url";
+import { mocks } from "../../dev-settings";
 import loanUtil from "../utils/loan-util";
 
 const loansService = {
@@ -42,7 +42,7 @@ const loansService = {
 function apply(loanApplication, verification) {
   return axios.post(`${apiUrl}/loans/apply`, {
     ...loanApplication,
-    ...verification
+    ...verification,
   });
 }
 
@@ -69,8 +69,6 @@ function loanApplyPreviewData(loanApplication) {
   });
 }
 
-
-
 /**
  * Gets all loans for user from BackOffice db
  *
@@ -78,41 +76,40 @@ function loanApplyPreviewData(loanApplication) {
  */
 function setConfirmLoanInfo(loanData) {
   if (mocks.USE_MOCK_LOAN_INFO) {
-    return { data: {loan: (require("../mock-data/loans.mock").default.CONFIRM_LOAN)} }
+    return {
+      data: { loan: require("../mock-data/loans.mock").default.CONFIRM_LOAN },
+    };
   }
   return axios.post(`${apiUrl}/loans/new-loan-preview`, {
-    loanData
+    loanData,
   });
 }
 
-
 /**
-* Gets confirm loan information
-*
-* @returns {Promise}
-*/
-async function getAllLoans () {
-  let loans
+ * Gets confirm loan information
+ *
+ * @returns {Promise}
+ */
+async function getAllLoans() {
+  let loans;
   if (mocks.USE_MOCK_LOANS) {
-     loans = Object.values(require("../mock-data/loans.mock").default.ALL_LOANS)
+    loans = Object.values(require("../mock-data/loans.mock").default.ALL_LOANS);
   } else {
     const res = await axios.get(`${apiUrl}/loans`);
-    loans = res.data
+    loans = res.data;
   }
-  return loans.map(l => loanUtil.mapLoan(l))
+  return loans.map(l => loanUtil.mapLoan(l));
 }
-
 
 /**
-* Get loan by id
-*
-* @param {Number} id
-* @returns {Promise}
-*/
-async function getLoanById (id) {
+ * Get loan by id
+ *
+ * @param {Number} id
+ * @returns {Promise}
+ */
+async function getLoanById(id) {
   return axios.get(`${apiUrl}/loans/${id}`);
 }
-
 
 /**
  * Cancels desired pending loan
@@ -121,7 +118,7 @@ async function getLoanById (id) {
  * @returns {Promise}
  */
 function cancelLoan(id) {
-  return axios.put(`${apiUrl}/loans/${id}/cancel`)
+  return axios.put(`${apiUrl}/loans/${id}/cancel`);
 }
 
 /**
@@ -132,7 +129,7 @@ function cancelLoan(id) {
  * @returns {Promise}
  */
 function updateLoanSettings(loanId, value) {
-  return axios.put(`${apiUrl}/loans/${loanId}/settings`, value)
+  return axios.put(`${apiUrl}/loans/${loanId}/settings`, value);
 }
 
 /**
@@ -140,8 +137,8 @@ function updateLoanSettings(loanId, value) {
  * @param {Number}loanId
  * @returns {Promise}
  */
-function getLoanSettings(loanId){
-  return axios.get(`${apiUrl}/loans/${loanId}/settings`)
+function getLoanSettings(loanId) {
+  return axios.get(`${apiUrl}/loans/${loanId}/settings`);
 }
 
 /**
@@ -159,8 +156,8 @@ function prepayInterest(numberOfInstallments, coin, id, verification) {
   return axios.post(`${apiUrl}/loans/${id}/payment/prepayment`, {
     numberOfInstallments,
     coin,
-    ...verification
-  })
+    ...verification,
+  });
 }
 
 /**
@@ -173,7 +170,10 @@ function prepayInterest(numberOfInstallments, coin, id, verification) {
  * @returns {Promise}
  */
 function payPrincipal(id, verification) {
-  return axios.post(`${apiUrl}/loans/${id}/payment/receiving_principal_back`, verification)
+  return axios.post(
+    `${apiUrl}/loans/${id}/payment/receiving_principal_back`,
+    verification
+  );
 }
 
 /**
@@ -182,11 +182,11 @@ function payPrincipal(id, verification) {
  * @param {string} verification.pin - eg '1234'
  * @param {string} verification.twoFactorCode - eg '123456'
  */
-function lockMarginCallCollateral(id, coin,  verification) {
+function lockMarginCallCollateral(id, coin, verification) {
   return axios.post(`${apiUrl}/loans/${id}/payment/margin_call_collateral`, {
     ...verification,
-    coin
-  })
+    coin,
+  });
 }
 
 /**
@@ -203,7 +203,7 @@ function payMonthlyInterest(id, coin, verification) {
   return axios.post(`${apiUrl}/loans/${id}/payment/monthly_interest`, {
     ...verification,
     coin,
-  })
+  });
 }
 
 /**
@@ -213,7 +213,7 @@ function payMonthlyInterest(id, coin, verification) {
  */
 // TODO: remove
 function getAmortizationTable(id) {
-  return axios.get(`${apiUrl}/loans/${id}/amortization-table`)
+  return axios.get(`${apiUrl}/loans/${id}/amortization-table`);
 }
 
 /**
@@ -222,9 +222,7 @@ function getAmortizationTable(id) {
  * @returns {Promise}
  */
 function sendBankDetailsEmail() {
-  return axios.get(`${apiUrl}/loans/bank-details`)
+  return axios.get(`${apiUrl}/loans/bank-details`);
 }
 
 export default loansService;
-
-

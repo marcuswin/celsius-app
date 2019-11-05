@@ -2,20 +2,17 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   wrapper: {
-    flex: 1
-  }
-}
+    flex: 1,
+  },
+};
 
 const themed = {
-  light: {
-  },
+  light: {},
 
-  dark: {
-  },
+  dark: {},
 
-  celsius: {
-  }
-}
+  celsius: {},
+};
 
 const InterestCalculatorScreenStyle = () => getThemedStyle(base, themed);
 
