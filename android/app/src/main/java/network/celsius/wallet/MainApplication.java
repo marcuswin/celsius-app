@@ -7,13 +7,10 @@ import io.branch.rnbranch.RNBranchModule;
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import io.branch.rnbranch.RNBranchPackage;
-import info.applike.advertisingid.RNAdvertisingIdPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.appsflyer.reactnative.RNAppsFlyerPackage;
 import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
 import com.microsoft.appcenter.reactnative.analytics.AppCenterReactNativeAnalyticsPackage;
-import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
 import com.microsoft.codepush.react.CodePush;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
@@ -52,10 +49,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new ReactSliderPackage(),
             new RNGoogleSigninPackage(),
-            new RNBranchPackage(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new RNAppsFlyerPackage(),
-            new RNAdvertisingIdPackage(),
             new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
             new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
             new AppCenterReactNativePackage(MainApplication.this),

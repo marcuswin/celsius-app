@@ -20,7 +20,7 @@
 #import <UMReactNativeAdapter/UMNativeModulesProxy.h>
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
 
-#import <react-native-branch/RNBranch.h>
+#import <react-native-branch/RNBranch/RNBranch.h>
 
 
 @import AppsFlyerLib;
