@@ -42,8 +42,64 @@ class SecurityOverview extends Component {
   }
 
   getIcon = item => {
-    if (item.action === "set-pin") {
-      return { name: "Lock", color: "green", action: "Set Pin" };
+    if (item.action === "withdrawal-request") {
+      return {
+        name: "CaretUp",
+        color: STYLES.COLORS.ORANGE,
+        action: "Withdraw Request",
+      };
+    }
+
+    if (item.action === "successful-login") {
+      return {
+        name: "Checked",
+        color: STYLES.COLORS.GREEN,
+        action: "Successful Login",
+      };
+    }
+
+    if (item.action === "loan-rejected") {
+      return {
+        name: "Loan",
+        color: STYLES.COLORS.RED,
+        action: "Loan Rejected",
+      };
+    }
+
+    if (item.action === "loan-approved") {
+      return {
+        name: "Loan",
+        color: STYLES.COLORS.GREEN,
+        action: "Loan Approved",
+      };
+    }
+
+    if (item.action === "loan-canceled") {
+      return {
+        name: "Loan",
+        color: STYLES.COLORS.RED,
+        action: "Loan Canceled",
+      };
+    }
+
+    if (item.action === "change-email") {
+      return {
+        name: "Mail",
+        color: STYLES.COLORS.CELSIUS_BLUE,
+        action: "Change Email",
+      };
+    }
+
+    if (item.action === "change-pin") {
+      return {
+        name: "Lock",
+        color: STYLES.COLORS.CELSIUS_BLUE,
+        action: "Change Pin",
+      };
+    }
+
+    if (item.action === "pin-activated") {
+      return { name: "Lock", color: STYLES.COLORS.GREEN, action: "Set Pin" };
     }
     if (item.action === "confirm-celpay") {
       return {
@@ -53,27 +109,49 @@ class SecurityOverview extends Component {
       };
     }
     if (item.action === "loan-apply") {
-      return { name: "Lock", color: "green", action: "Loan apply" };
+      return { name: "Lock", color: STYLES.COLORS.GREEN, action: "Loan apply" };
     }
-    if (item.action === "change-pass") {
+    if (item.action === "change-password-confirm") {
       return {
         name: "Key",
-        color: `${STYLES.COLORS.CELSIUS_BLUE}`,
+        color: `${STYLES.COLORS.GREEN}`,
         action: "Password changed",
       };
     }
-    if (item.action === "deactivation-2fa") {
+    if (item.action === "2fa-deactivated") {
       return {
-        name: "Shield",
+        name: "NotSecure",
         color: `${STYLES.COLORS.RED}`,
         action: "2FA Deactivated",
       };
     }
-    if (item.action === "activation-2fa") {
-      return { name: "Shield", color: "green", action: "2FA Activated" };
+    if (item.action === "2fa-deactivation-confirm") {
+      return {
+        name: "NotSecure",
+        color: `${STYLES.COLORS.CELSIUS_BLUE}`,
+        action: "2FA Deactivation Confirm ",
+      };
     }
-    if (item.action === "claim-celpay") {
-      return { name: "CaretDown", color: "green", action: "CelPay Claimed" };
+    if (item.action === "2fa-activation-confirm") {
+      return {
+        name: "Shield",
+        color: `${STYLES.COLORS.CELSIUS_BLUE}`,
+        action: "2FA Activation Confirm ",
+      };
+    }
+    if (item.action === "2fa-activated") {
+      return {
+        name: "Shield",
+        color: STYLES.COLORS.GREEN,
+        action: "2FA Activated",
+      };
+    }
+    if (item.action === "celpay-claim") {
+      return {
+        name: "CaretDown",
+        color: STYLES.COLORS.GREEN,
+        action: "CelPay Claimed",
+      };
     }
     if (item.action === "withdraw-info") {
       return {
@@ -83,13 +161,24 @@ class SecurityOverview extends Component {
       };
     }
     if (item.action === "deposit-success") {
-      return { name: "CaretDown", color: "green", action: "Deposit" };
+      return {
+        name: "CaretDown",
+        color: STYLES.COLORS.GREEN,
+        action: "Deposit",
+      };
     }
     if (item.action === "confirm-withdrawal-request") {
       return {
         name: "CaretUp",
-        color: `${STYLES.COLORS.RED}`,
-        action: "Withrdaw confirm request",
+        color: `${STYLES.COLORS.GREEN}`,
+        action: "Withdraw confirm request",
+      };
+    }
+    if (item.action === "withdrawal-address-change") {
+      return {
+        name: "QrCode",
+        color: `${STYLES.COLORS.CELSIUS_BLUE}`,
+        action: "Withdrawal address change",
       };
     }
   };
@@ -118,11 +207,11 @@ class SecurityOverview extends Component {
     const style = SecurityOverviewStyle();
 
     return securityOverview &&
-      securityOverview.user_activity_log &&
-      securityOverview.user_activity_log.length > 0 ? (
+      securityOverview.user_actions_log &&
+      securityOverview.user_actions_log.length > 0 ? (
       <>
         <Separator margin="0 0 10 0" text="User actions log" />
-        {securityOverview.user_activity_log.map(item => {
+        {securityOverview.user_actions_log.map(item => {
           const actions = this.getIcon(item);
 
           return (
@@ -145,8 +234,8 @@ class SecurityOverview extends Component {
                 </CelText>
               </View>
               <View style={{ marginBottom: 0 }}>
-                {securityOverview.user_activity_log[
-                  securityOverview.user_activity_log.length - 1
+                {securityOverview.user_actions_log[
+                  securityOverview.user_actions_log.length - 1
                 ] !== item ? (
                   <Separator />
                 ) : null}

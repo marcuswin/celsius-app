@@ -92,16 +92,6 @@ class BorrowLanding extends Component {
     return Math.max(...ltv.map(x => x.percent));
   };
 
-  applyForAnother = () => {
-    const { actions, minimumLoanAmount, maxAmount } = this.props;
-
-    if (maxAmount < minimumLoanAmount / this.bestLtv) {
-      actions.showMessage("warning", "Insufficient funds!");
-    } else {
-      actions.navigateTo("BorrowEnterAmount");
-    }
-  };
-
   transitionAnimation = index => ({
     transform: [
       { perspective: 800 },
@@ -314,17 +304,7 @@ class BorrowLanding extends Component {
         />
       );
 
-    // if (isLoading && allLoans.length !== 0) return <LoadingScreen/>;
-
-    if (!hasLoans && !this.hasEnoughForLoan())
-      return (
-        <BorrowCalculatorScreen
-          emitParams={this.emitParams}
-          purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}
-        />
-      );
-
-    if (allLoans.length === 0) return this.renderNoLoans();
+    if (!hasLoans) return this.renderNoLoans();
 
     return this.renderDefaultView();
   }
