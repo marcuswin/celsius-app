@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { MODALS } from "../../../constants/UI";
-import InfoModal from "../InfoModal/InfoModal";
+import InfoModalNew from "../InfoModalNew/InfoModalNew";
 
 const LoseTierModal = ({ navigateToNextStep, tierTitle, closeModal }) => (
-  <InfoModal
+  <InfoModalNew
     picture={require("../../../../assets/images/modal-alert.png")}
     name={MODALS.LOSE_TIER_MODAL}
     heading="Watch out"
