@@ -29,6 +29,7 @@ import { hasPassedKYC } from "../../../utils/user-util";
 import ProfileStyle from "./Profile.styles";
 import Icon from "../../atoms/Icon/Icon";
 import { getTheme } from "../../../utils/styles-util";
+import Constants from "../../../../constants";
 
 @connect(
   state => ({
@@ -105,6 +106,7 @@ class Profile extends Component {
     const { revisionId } = this.state;
     const style = ProfileStyle();
     const theme = getTheme();
+    const { ENV } = Constants;
 
     return (
       <RegularLayout>
@@ -323,6 +325,16 @@ class Profile extends Component {
               App Version: {revisionId}
             </CelText>
           </View>
+
+          {ENV === "STAGING" ? (
+            <CelButton
+              margin="10 0 0 0"
+              basic
+              onPress={() => actions.navigateTo("Storybook")}
+            >
+              Open Storybook
+            </CelButton>
+          ) : null}
         </View>
 
         <ReferralSendModal />

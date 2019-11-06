@@ -21,8 +21,7 @@
     "prettier:format": "prettier --trailing-comma --write \"app/**/*.js\"",
     "prettier:hook": "pretty-quick --staged",
     "pre:commit": "yarn prettier:hook && yarn lint",
-    "storybook": "start-storybook -p 7007",
-    "storybook1": "(adb reverse tcp:7007 tcp:7007 || true) && start-storybook"
+    "storybook": "(adb reverse tcp:7007 tcp:7007 || true) && start-storybook"
   },
   "husky": {
     "hooks": {
