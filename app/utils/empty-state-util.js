@@ -30,7 +30,7 @@ function getProps(purpose, componentProps) {
         paragraphs: [
           "Get a USD or stablecoin loan at the best interest rates on the block!",
         ],
-        onPress: () => actions.navigateTo("BorrowEnterAmount"),
+        onPress: () => actions.navigateTo("BorrowChooseLoan"),
         button: "Apply for a loan",
         secondaryOnPress: () =>
           actions.openModal(MODALS.BORROW_CALCULATOR_MODAL),
