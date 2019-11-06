@@ -25,6 +25,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+  let profile;
   switch (action.type) {
     case ACTIONS.EXPIRE_SESSION:
       return {
@@ -32,10 +33,11 @@ export default (state = initialState, action) => {
         expiredSession: true,
       };
     case ACTIONS.LOGIN_USER_SUCCESS:
+      profile = mapProfile(action.user);
       return {
         ...state,
         tokens: action.tokens,
-        profile: action.user,
+        profile,
       };
 
     case ACTIONS.REGISTER_USER_SUCCESS:
@@ -45,9 +47,10 @@ export default (state = initialState, action) => {
     case ACTIONS.LOGIN_USER_GOOGLE_SUCCESS:
     case ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS:
     case ACTIONS.LOGIN_USER_TWITTER_SUCCESS:
+      profile = mapProfile(action.user);
       return {
         ...state,
-        profile: action.user,
+        profile,
       };
 
     case ACTIONS.TWITTER_GET_ACCESS_TOKEN:
@@ -63,11 +66,12 @@ export default (state = initialState, action) => {
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
     case ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS:
     case ACTIONS.GET_USER_TAXPAYER_INFO_SUCCESS:
+      profile = mapProfile(action.personalInfo);
       return {
         ...state,
         profile: {
           ...state.profile,
-          ...action.personalInfo,
+          ...profile,
           ...action.taxPayerInfo,
         },
       };
@@ -195,3 +199,17 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+// TODO: should be moved to user model or util, thisi s a quickfix for CN-4320
+function mapProfile(userProfile) {
+  const profile = { ...userProfile };
+
+  if (profile.profile_picture && profile.profile_picture.includes("http:/")) {
+    profile.profile_picture = profile.profile_picture.replace(
+      "http:",
+      "https:"
+    );
+  }
+
+  return profile;
+}
