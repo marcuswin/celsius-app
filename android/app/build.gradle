@@ -149,7 +149,6 @@ dependencies {
     implementation project(':appcenter-analytics')
     implementation project(':react-native-device-info')
     implementation project(':@react-native-community_netinfo')
-    implementation project(':react-native-splash-screen')
     implementation project(':react-native-svg')
     implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
