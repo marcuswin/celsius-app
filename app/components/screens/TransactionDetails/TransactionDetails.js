@@ -277,7 +277,7 @@ class TransactionDetails extends Component {
           <CelButton
             margin="12 0 10 0"
             key={sectionType}
-            onPress={() => actions.navigateTo("BorrowEnterAmount")}
+            onPress={() => actions.navigateTo("BorrowChooseLoan")}
           >
             Apply for another loan
           </CelButton>

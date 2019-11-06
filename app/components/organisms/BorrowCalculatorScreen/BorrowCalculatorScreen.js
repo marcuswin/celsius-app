@@ -204,7 +204,7 @@ class BorrowCalculatorScreen extends Component {
           bottomHeading: null,
           bottomParagraph: null,
           buttonCopy: "Create a loan",
-          onPress: () => actions.navigateTo("BorrowEnterAmount"),
+          onPress: () => actions.navigateTo("BorrowChooseLoan"),
         };
 
       default:
