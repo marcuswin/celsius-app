@@ -20,7 +20,8 @@
     "postinstall": "node set-facebook-pods && node ./fixAndroid/android-release-fix.js",
     "prettier:format": "prettier --trailing-comma --write \"app/**/*.js\"",
     "prettier:hook": "pretty-quick --staged",
-    "pre:commit": "yarn prettier:hook && yarn lint"
+    "pre:commit": "yarn prettier:hook && yarn lint",
+    "storybook": "(adb reverse tcp:7007 tcp:7007 || true) && start-storybook"
   },
   "husky": {
     "hooks": {
@@ -95,7 +96,13 @@
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/runtime": "^7.4.5",
+    "@storybook/addon-actions": "^5.2.5",
+    "@storybook/addon-links": "^5.2.5",
+    "@storybook/addons": "^5.2.5",
+    "@storybook/react-native": "^5.2.5",
+    "@storybook/react-native-server": "^5.2.5",
     "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
     "eslint": "4.17.0",
     "eslint-config-equimper": "2.2.2",
     "eslint-config-prettier": "2.9.0",
@@ -109,6 +116,7 @@
     "pre-commit": "1.2.2",
     "prettier": "1.18.2",
     "pretty-quick": "^2.0.0",
+    "react-dom": "16.8.3",
     "react-native-cli": "^2.0.1",
     "react-test-renderer": "16.8.3",
     "remote-redux-devtools": "^0.5.13"
