@@ -84,6 +84,7 @@ class CelModalButton extends Component {
         <TouchableOpacity
           style={[style.buttonStyle, borderRadius, buttonColor]}
           onPress={buttonStyle !== "disabled" ? onPress : null}
+          disabled={buttonStyle === "disabled"}
         >
           <CelText color={textColor} type={"H4"} weight={"500"}>
             {children}
