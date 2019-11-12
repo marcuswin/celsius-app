@@ -73,7 +73,6 @@ class WithdrawEnterAmount extends Component {
         coinSelectItems[0].value) ||
         ""
     );
-
     const coinSelectItems = currencies
       .filter(c => withdrawCompliance.coins.includes(c.short))
       .filter(c => {
@@ -89,7 +88,8 @@ class WithdrawEnterAmount extends Component {
       activePeriod: { label: "", value: "" },
     };
 
-    props.actions.initForm({ coin: coin || coinSelectItems[0].value });
+    if (coin || coinSelectItems.length > 0)
+      props.actions.initForm({ coin: coin || coinSelectItems[0].value });
     props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL);
     props.actions.getAllCoinWithdrawalAddresses();
   }
