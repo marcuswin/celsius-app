@@ -7,6 +7,7 @@ import "./rn-addons";
 configure(() => {
   // require('./stories');
   require("../app/components/atoms/CelButton/CelButton.stories");
+  require("../app/components/modals/VerifyAuthAppModal/VerifyAuthAppModal.stories");
 }, module);
 
 // Refer to https://github.com/storybookjs/storybook/tree/master/app/react-native#start-command-parameters

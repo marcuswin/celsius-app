@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import { MODALS } from "../../../constants/UI";
-import CelModalStyle from "./CelModal.styles";
+import CelModalStyle from "../../modals/CelModalNew/CelModalNew.styles";
 import Icon from "../../atoms/Icon/Icon";
 
 @connect(
@@ -24,28 +24,22 @@ class CelModal extends Component {
       PropTypes.instanceOf(Object),
       PropTypes.number,
     ]),
-    scrollable: PropTypes.bool,
+    pictureDimensions: PropTypes.instanceOf(Object),
   };
   static defaultProps = {
     hasCloseButton: true,
     picture: null,
+    pictureDimensions: {},
   };
 
-  // constructor(props) {
-  //   super(props);
-  // }
-
   renderPicture = () => {
-    const { picture } = this.props;
+    const { picture, pictureDimensions } = this.props;
     const style = CelModalStyle();
+    const pictureStyle = [style.pictureStyle, pictureDimensions];
 
     return (
       <View style={style.pictureWrapper}>
-        <Image
-          source={picture}
-          style={style.pictureStyle}
-          resizeMode="contain"
-        />
+        <Image source={picture} style={pictureStyle} resizeMode="contain" />
       </View>
     );
   };
@@ -93,8 +87,10 @@ class CelModal extends Component {
       >
         <View style={style.wrapper}>
           <View style={style.modal}>
-            {!!hasCloseButton && this.renderClose()}
-            {!!picture && this.renderPicture()}
+            <View style={{ height: picture || hasCloseButton ? 50 : 0 }}>
+              {!!hasCloseButton && this.renderClose()}
+              {!!picture && this.renderPicture()}
+            </View>
             {children}
           </View>
           <BlurView

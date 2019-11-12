@@ -19,7 +19,6 @@ const base = {
   modal: {
     backgroundColor: "white",
     width: widthPercentageToDP("90%"),
-    paddingBottom: heightPercentageToDP("4%"),
     marginBottom: heightPercentageToDP("4%"),
     borderRadius: 8,
     zIndex: 3,
@@ -37,6 +36,8 @@ const base = {
     width: 80,
     borderRadius: 40,
     backgroundColor: STYLES.COLORS.WHITE,
+    justifyContent: "center",
+    alignItems: "center",
     alignSelf: "center",
     transform: [
       {
@@ -52,8 +53,8 @@ const base = {
   },
   closeBtn: {
     position: "absolute",
-    top: 20,
-    right: 20,
+    top: 5,
+    right: 5,
     width: 40,
     height: 40,
     flex: 1,
