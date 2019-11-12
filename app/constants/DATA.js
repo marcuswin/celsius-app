@@ -29,12 +29,12 @@ const BLOCKEXPLORERS_STAGING = {
 };
 const BLOCKEXPLORERS_PRODUCTION = {
   btc: "https://blockexplorer.com/tx/",
-  bch: "https://bchsvexplorer.com/tx/",
+  bch: "https://www.blockchain.com/bch/tx/",
   ltc: "https://chainz.cryptoid.info/ltc/tx.dws?",
   xrp: "https://xrpcharts.ripple.com/#/transactions/",
   xlm: "https://steexp.com/tx/",
   dash: "https://chainz.cryptoid.info/dash/tx.dws?",
-  zec: "https://chain.so/tx/ZEC/`, ",
+  zec: "https://zcash.blockexplorer.com/tx/",
   btg: "https://btgexplorer.com/tx/",
   eth: "https://etherscan.io/tx/",
   eos: "https://bloks.io/transaction/",
