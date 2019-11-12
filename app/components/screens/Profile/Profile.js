@@ -306,7 +306,7 @@ class Profile extends Component {
               See Terms of Use
             </CelButton>
             <CelText weight="light" align="center" type="H7">
-              App Version: {revisionId}
+              {`App Version: ${revisionId}`}
             </CelText>
           </View>
 

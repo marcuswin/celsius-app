@@ -39,6 +39,13 @@ function getTransactionType(transaction) {
     return TRANSACTION_TYPES.CANCELED;
   }
 
+  if (
+    transaction.nature === "referred_award" &&
+    !transaction.referral_data.referrer &&
+    !transaction.referral_data.referred
+  ) {
+    return TRANSACTION_TYPES.PROMO_CODE_BONUS;
+  }
   if (transaction.nature === "deposit" && !transaction.is_confirmed)
     return TRANSACTION_TYPES.DEPOSIT_PENDING;
   if (transaction.nature === "deposit" && transaction.is_confirmed)
@@ -427,7 +434,13 @@ function getTransactionProps(transaction) {
         iconName: "TransactionLocked",
         statusText: "Liquidated Collateral",
       };
-
+    case TRANSACTION_TYPES.PROMO_CODE_BONUS:
+      return {
+        title: () => "Promo Code Bonus",
+        color: STYLES.COLORS.GREEN,
+        iconName: "Present",
+        statusText: "Promo Code Bonus",
+      };
     case TRANSACTION_TYPES.REFERRED_HODL:
       return {
         title: () => `HODL Award`,
@@ -506,6 +519,8 @@ function getTransactionProps(transaction) {
  */
 function getTransactionSections(transaction) {
   switch (transaction.type) {
+    case TRANSACTION_TYPES.PROMO_CODE_BONUS:
+      return ["info", "date", "time", "status:noSeparator", "button:back"];
     case TRANSACTION_TYPES.PENDING_INTEREST:
       return [
         "info",
