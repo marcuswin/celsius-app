@@ -14,6 +14,7 @@ const InfoModal = props => {
     paragraphs,
     onYes,
     yesCopy,
+    color,
   } = props;
   return (
     <CelModal
@@ -21,7 +22,13 @@ const InfoModal = props => {
       picture={picture}
       pictureDimensions={pictureDimensions}
     >
-      <CelText margin={"0 12 15 12"} align="center" type="H2" weight="bold">
+      <CelText
+        margin={"0 12 15 12"}
+        align="center"
+        type="H2"
+        weight="bold"
+        color={color}
+      >
         {heading}
       </CelText>
 
@@ -33,6 +40,7 @@ const InfoModal = props => {
             type="H4"
             weight={"300"}
             key={paragraph}
+            color={color}
           >
             {paragraph}
           </CelText>
@@ -57,6 +65,7 @@ InfoModal.propTypes = {
   paragraphs: PropTypes.instanceOf(Array),
   yesCopy: PropTypes.string,
   onYes: PropTypes.func,
+  color: PropTypes.string,
 };
 
 export default InfoModal;

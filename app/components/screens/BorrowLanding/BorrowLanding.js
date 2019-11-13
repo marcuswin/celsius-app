@@ -19,7 +19,7 @@ import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
 import Separator from "../../atoms/Separator/Separator";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
-import LoanCancelModal from "../../organisms/LoanCancelModal/LoanCancelModal";
+import LoanCancelModal from "../../modals/LoanCancelModal/LoanCancelModal.js";
 
 const cardWidth = widthPercentageToDP("70%");
 

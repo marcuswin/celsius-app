@@ -31,7 +31,7 @@ class LoanCancelModal extends React.Component {
     const { isLoading } = this.state;
 
     return (
-      <CelModal name={MODALS.LOAN_CANCEL_MODAL}>
+      <CelModal name={MODALS.LOAN_CANCEL}>
         <CelText align="center" type="H2" weight="bold" margin="20 0 20 0">
           Confirm Loan Request Cancelation
         </CelText>
