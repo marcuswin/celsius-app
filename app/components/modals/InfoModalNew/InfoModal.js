@@ -15,6 +15,10 @@ const InfoModal = props => {
     onYes,
     yesCopy,
     color,
+    noCopy,
+    onNo,
+    buttonStyleNo,
+    buttonStyleYes,
   } = props;
   return (
     <CelModal
@@ -46,8 +50,16 @@ const InfoModal = props => {
           </CelText>
         ))}
       <View>
+        {noCopy && onNo ? (
+          <CelModalButton onPress={onNo} buttonStyle={buttonStyleNo}>
+            {noCopy}
+          </CelModalButton>
+        ) : null}
+
         {yesCopy && onYes ? (
-          <CelModalButton onPress={onYes}>{yesCopy}</CelModalButton>
+          <CelModalButton onPress={onYes} buttonStyle={buttonStyleYes}>
+            {yesCopy}
+          </CelModalButton>
         ) : null}
       </View>
     </CelModal>
@@ -65,7 +77,11 @@ InfoModal.propTypes = {
   paragraphs: PropTypes.instanceOf(Array),
   yesCopy: PropTypes.string,
   onYes: PropTypes.func,
+  noCopy: PropTypes.string,
+  onNo: PropTypes.func,
   color: PropTypes.string,
+  buttonStyleNo: PropTypes.string,
+  buttonStyleYes: PropTypes.string,
 };
 
 export default InfoModal;
