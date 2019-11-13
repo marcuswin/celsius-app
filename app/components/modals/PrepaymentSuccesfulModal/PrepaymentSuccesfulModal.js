@@ -17,8 +17,17 @@ class PrepaymentSuccesfulModal extends Component {
   }
 
   navigate = () => {
+    const {
+      actions,
+      //  loan
+    } = this.props;
+    // actions.navigateTo("LoanRequestDetails", { id: loan.id })
+    actions.closeModal();
+  };
+
+  loanOverview = () => {
     const { actions } = this.props;
-    actions.navigateTo("KYCVerifyID");
+    actions.navigateTo("LoanOverview");
     actions.closeModal();
   };
 
@@ -31,7 +40,7 @@ class PrepaymentSuccesfulModal extends Component {
           "This means you don’t need to make any payments in the next 7 months! We will let you know when your interest payment resumes.",
         ]}
         noCopy={"Visit Loan Overview"}
-        onNo={this.navigate}
+        onNo={this.loanOverview}
         yesCopy={"Check Details"}
         onYes={this.navigate}
         buttonStyleNo={"white"}
