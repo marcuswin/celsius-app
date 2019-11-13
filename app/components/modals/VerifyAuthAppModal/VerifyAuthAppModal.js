@@ -29,9 +29,7 @@ const VerifyAuthAppModal = props => {
           To complete your Two-Factor verification request follow the email
           instructions.
         </CelText>
-        <View style={style.buttonBottom}>
-          <CelModalButton onPress={onVerify}>Go To Wallet</CelModalButton>
-        </View>
+        <CelModalButton onPress={onVerify}>Go To Wallet</CelModalButton>
       </View>
     </CelModal>
   );

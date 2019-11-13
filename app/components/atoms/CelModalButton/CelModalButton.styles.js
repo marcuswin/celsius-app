@@ -3,7 +3,8 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1,
+    flexDirection: "row",
+    height: 50,
   },
   buttonStyle: {
     flex: 1,
