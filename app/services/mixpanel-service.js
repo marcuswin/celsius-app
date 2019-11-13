@@ -2,7 +2,7 @@ import axios from "axios";
 import { Buffer } from "buffer";
 import Constants from "../../constants";
 
-const MIXPANEL_API_URL = "http://api.mixpanel.com";
+const MIXPANEL_API_URL = "https://api.mixpanel.com";
 const { MIXPANEL_TOKEN } = Constants;
 
 const mixpanelService = {
