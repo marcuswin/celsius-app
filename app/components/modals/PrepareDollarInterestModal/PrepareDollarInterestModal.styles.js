@@ -11,6 +11,6 @@ const themed = {
   celsius: {},
 };
 
-const VerifyAuthAppModalStyle = () => getThemedStyle(base, themed);
+const PrepareDollarInterestModalStyle = () => getThemedStyle(base, themed);
 
-export default VerifyAuthAppModalStyle;
+export default PrepareDollarInterestModalStyle;
