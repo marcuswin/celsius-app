@@ -32,7 +32,7 @@ class CelModalButton extends Component {
         return {
           backgroundColor: STYLES.COLORS.LIGHT_GRAY,
         };
-      case "cancel":
+      case "red":
         return {
           backgroundColor: STYLES.COLORS.RED,
         };
