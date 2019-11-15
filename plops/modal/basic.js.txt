@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+import {CelModal} form "../CelModal/CelModal.js"
+import {MODALS} from "../../../constants/UI";
 
 class {{pascalCase name}} extends Component {
 
@@ -28,9 +30,9 @@ class {{pascalCase name}} extends Component {
   render() {
     const style = {{pascalCase name}}Style()
     return (
-      <View style={style.container}>
+      <CelModal style={style.container}>
         <{{pascalCase name}} />
-      </View>
+      </CelModal>
     );
   }
 }

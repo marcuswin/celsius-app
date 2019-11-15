@@ -1,9 +1,9 @@
 import React from "react";
 import { View } from "react-native";
 import PropTypes from "prop-types";
-import CelModal from "../../modals/CelModalNew/CelModalNew";
 import CelModalButton from "../../atoms/CelModalButton/CelModalButton";
 import CelText from "../../atoms/CelText/CelText";
+import CelModal from "../CelModal/CelModal";
 
 const InfoModal = props => {
   const {

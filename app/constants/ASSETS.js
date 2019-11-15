@@ -72,6 +72,7 @@ const CACHE_IMAGES = [
   require("../../assets/images/bear-happyKYC3x.png"),
   require("../../assets/images/diane-sad.png"),
   require("../../assets/images/alert.png"),
+  require("../../assets/images/modal-withdraw.png"),
   require("../../assets/images/monkey-on-a-laptop-illustration.png"),
   require("../../assets/images/empty-profile/empty-profile.png"),
   require("../../assets/images/icons/contacts-circle/contacts-circle.png"),

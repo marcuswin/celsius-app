@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import { MODALS } from "../../../constants/UI";
-import CelModalStyle from "../../modals/CelModalNew/CelModalNew.styles";
+import CelModalStyle from "./CelModal.styles";
 import Icon from "../../atoms/Icon/Icon";
 
 @connect(

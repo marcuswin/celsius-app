@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+import {MultistepModal} from "../MultistepModal/MultistepModal.js"
+import {MODALS} from "../../../constants/UI";
+
 
 class {{pascalCase name}} extends Component {
 
@@ -28,9 +31,18 @@ class {{pascalCase name}} extends Component {
   render() {
     const style = {{pascalCase name}}Style()
     return (
-      <View style={style.container}>
-        <{{pascalCase name}} />
-      </View>
+      <MultistepModal style={style.container}>
+        <View>
+          {/* Step 1.*/}
+        </View>
+        <View>
+         {/* Step 2.*/}
+        </View>
+        {/* ... */}
+        <View>
+         {/* Step n */}
+        </View>
+      </MultistepModal>
     );
   }
 }
