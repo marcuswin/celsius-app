@@ -26,20 +26,14 @@ const InfoModal = props => {
       picture={picture}
       pictureDimensions={pictureDimensions}
     >
-      <CelText
-        margin={"0 12 15 12"}
-        align="center"
-        type="H2"
-        weight="bold"
-        color={color}
-      >
+      <CelText margin={"0 40 15 40"} align="center" type="H2" weight="bold">
         {heading}
       </CelText>
 
       {paragraphs &&
         paragraphs.map(paragraph => (
           <CelText
-            margin={"0 12 25 12"}
+            margin={"0 25 25 25"}
             align="center"
             type="H4"
             weight={"300"}

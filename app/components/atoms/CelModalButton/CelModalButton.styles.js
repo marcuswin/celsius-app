@@ -8,7 +8,6 @@ const base = {
   },
   buttonStyle: {
     flex: 1,
-    borderWidth: 2,
     borderStyle: "solid",
     justifyContent: "center",
     alignItems: "center",

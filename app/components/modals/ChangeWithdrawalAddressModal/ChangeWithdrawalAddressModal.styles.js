@@ -11,6 +11,6 @@ const themed = {
   celsius: {},
 };
 
-const VerifyAuthAppModalStyle = () => getThemedStyle(base, themed);
+const ChangeWithdrawalAddressModallStyle = () => getThemedStyle(base, themed);
 
-export default VerifyAuthAppModalStyle;
+export default ChangeWithdrawalAddressModallStyle;
