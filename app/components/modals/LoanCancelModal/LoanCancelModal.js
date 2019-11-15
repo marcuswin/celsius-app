@@ -32,6 +32,7 @@ class LoanCancelModal extends Component {
         paragraphs={[
           "By doing this you won’t be receiving any funds and your loan status will change to canceled.",
         ]}
+        buttonStyleYes={"cancel"}
         yesCopy={"Cancel Loan Request"}
         onYes={this.navigate}
       />
