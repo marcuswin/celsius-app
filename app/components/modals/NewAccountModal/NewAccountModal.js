@@ -11,7 +11,7 @@ import STYLES from "../../../constants/STYLES";
   () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-class LoanCancelModal extends Component {
+class NewAccountModal extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -19,25 +19,24 @@ class LoanCancelModal extends Component {
 
   navigate = () => {
     const { actions } = this.props;
-    actions.navigateTo("KYCVerifyID");
     actions.closeModal();
   };
 
   render() {
     return (
       <InfoModal
+        name={MODALS.NEW_ACCOUNT_MODAL}
+        picture={require("../../../../assets/images/checkmark-circle.png")}
         color={STYLES.COLORS.DARK_BACKGROUND}
-        name={MODALS.LOAN_CANCEL_MODAL}
-        heading={"You Are About To Cancel Your Loan Request"}
+        heading={"Congrats On Creating a New Account!"}
         paragraphs={[
-          "By doing this you won’t be receiving any funds and your loan status will change to canceled.",
+          `Don’t forget that you can enter your invitation code from REWARDS SECTION before you make your first deposit.`,
         ]}
-        buttonStyleYes={"red"}
-        yesCopy={"Cancel Loan Request"}
+        yesCopy={"Done"}
         onYes={this.navigate}
       />
     );
   }
 }
 
-export default LoanCancelModal;
+export default NewAccountModal;

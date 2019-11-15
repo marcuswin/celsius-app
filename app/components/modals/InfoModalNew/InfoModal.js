@@ -26,7 +26,13 @@ const InfoModal = props => {
       picture={picture}
       pictureDimensions={pictureDimensions}
     >
-      <CelText margin={"0 40 15 40"} align="center" type="H2" weight="bold">
+      <CelText
+        margin={"0 40 15 40"}
+        align="center"
+        type="H2"
+        weight="bold"
+        color={color}
+      >
         {heading}
       </CelText>
 
