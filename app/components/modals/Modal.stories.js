@@ -13,6 +13,7 @@ import SsnModal from "./SsnModal/SsnModal";
 import WithdrawWarningModal from "./WithdrawWarningModal/WithdrawWarningModal";
 import ChangeWithdrawalAddressModal from "./ChangeWithdrawalAddressModal/ChangeWithdrawalAddressModal";
 import PrepareDollarInterestModal from "./PrepareDollarInterestModal/PrepareDollarInterestModal";
+import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal";
 
 storiesOf("Modals", module)
   .addDecorator(getStory => (
@@ -70,5 +71,15 @@ storiesOf("Modals", module)
         Open PrepareDollarInterestModal
       </CelButton>
       <PrepareDollarInterestModal onPressConfirm={action("onPressConfirm")} />
+    </View>
+  ))
+  .add("WithdrawalInfoModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.WITHDRAW_INFO_MODAL))}
+      >
+        Open WithdrawalInfoModal
+      </CelButton>
+      <WithdrawInfoModal onPressConfirm={action("onPressConfirm")} />
     </View>
   ));
