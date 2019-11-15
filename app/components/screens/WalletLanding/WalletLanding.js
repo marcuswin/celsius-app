@@ -12,7 +12,7 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import Icon from "../../atoms/Icon/Icon";
 import CelPayReceivedModal from "../../organisms/CelPayReceivedModal/CelPayReceivedModal";
 import { WALLET_LANDING_VIEW_TYPES, MODALS } from "../../../constants/UI";
-import BecameCelMemberModal from "../../organisms/BecameCelMemberModal/BecameCelMemberModal";
+import BecameCelMemberModalNew from "../../modals/BecameCelMemberModal/BecameCelMemberModalNew";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import EarnInterestCelModal from "../../organisms/EarnInterestCelModal/EarnInterestCelModal";
 import { getSecureStoreKey } from "../../../utils/expo-storage";
@@ -261,9 +261,7 @@ class WalletLanding extends Component {
           closeModal={actions.closeModal}
           transfer={branchTransfer}
         />
-        <BecameCelMemberModal
-          title={"Congrats! You have earned 1 CEL token!"}
-        />
+        <BecameCelMemberModalNew />
         <EarnInterestCelModal />
         <LoanAlertsModal />
       </RegularLayout>
