@@ -14,7 +14,7 @@ class CelModalButton extends Component {
       "basic",
       "secondary",
       "disabled",
-      "cancel",
+      "red",
       "green",
       "white",
     ]),
@@ -85,7 +85,7 @@ class CelModalButton extends Component {
     const buttonColor = this.handleButtonStyle();
     const textColor =
       buttonStyle === "basic" ||
-      buttonStyle === "cancel" ||
+      buttonStyle === "red" ||
       buttonStyle === "disabled" ||
       buttonStyle === "green"
         ? STYLES.COLORS.WHITE

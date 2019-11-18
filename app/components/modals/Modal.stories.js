@@ -22,6 +22,7 @@ import ApiKeySuccessModal from "./ApiKeySuccessModal/ApiKeySuccessModal";
 import ConfirmWithdrawalAddressModal from "./ConfirmWithdrawalAddressModal/ConfirmWithdrawalAddressModal";
 import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal";
 import LoanApplicationSuccessModal from "./LoanApplicationSuccessModal/LoanApplicationSuccessModal";
+import CancelLoanModal from "./CancelLoanModal/CancelLoanModal";
 
 storiesOf("Modals", module)
   .addDecorator(getStory => (
@@ -159,5 +160,15 @@ storiesOf("Modals", module)
         onPressConfirm={action("onPressConfirm")}
         loanId={42}
       />
+    </View>
+  ))
+  .add("CancelLoanModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_CANCEL_MODAL))}
+      >
+        Open CancelLoanModal
+      </CelButton>
+      <CancelLoanModal onPressConfirm={action("onPressConfirm")} />
     </View>
   ));
