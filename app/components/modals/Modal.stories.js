@@ -23,6 +23,7 @@ import ConfirmWithdrawalAddressModal from "./ConfirmWithdrawalAddressModal/Confi
 import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal";
 import LoanApplicationSuccessModal from "./LoanApplicationSuccessModal/LoanApplicationSuccessModal";
 import CancelLoanModal from "./CancelLoanModal/CancelLoanModal";
+import BecomeCelMemberModal from "./BecomeCelMemberModal/BecomeCelMemberModal";
 
 storiesOf("Modals", module)
   .addDecorator(getStory => (
@@ -170,5 +171,17 @@ storiesOf("Modals", module)
         Open CancelLoanModal
       </CelButton>
       <CancelLoanModal onPressConfirm={action("onPressConfirm")} />
+    </View>
+  ))
+  .add("BecomeCelMemberModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() =>
+          store.dispatch(openModal(MODALS.BECAME_CEL_MEMBER_MODAL))
+        }
+      >
+        Open BecomeCelMemberModal
+      </CelButton>
+      <BecomeCelMemberModal />
     </View>
   ));
