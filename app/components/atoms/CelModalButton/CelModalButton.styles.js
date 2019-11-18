@@ -5,6 +5,11 @@ const base = {
   container: {
     flex: 1,
     height: 50,
+    transform: [
+      {
+        translateY: 0.5,
+      },
+    ],
   },
   buttonStyle: {
     flex: 1,

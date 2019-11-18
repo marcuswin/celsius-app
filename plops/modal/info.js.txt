@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import {InfoModal} from "../InfoModal/InfoModal.js"
+import InfoModal from "../InfoModal/InfoModal.js"
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
 import {MODALS} from "../../../constants/UI";
 
@@ -10,6 +10,7 @@ const {{pascalCase name}} = (props) => {
   return (
     <InfoModal
       style={style.container}
+      name={}
     />
   )
 }

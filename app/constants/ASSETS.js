@@ -150,7 +150,9 @@ const CACHE_IMAGES = [
   require("../../assets/images/icons/support-dark.png"),
   require("../../assets/images/icons/support.png"),
   require("../../assets/images/illustrations-v3/monkey-success/monkey-success.png"),
-  require("../../assets/images/checkmark-circle.png"),
+  require("../../assets/images/checkmark-circle.png"), // to remove after modals redesign
+  require("../../assets/images/checkmark-square.png"),
+  require("../../assets/images/coin-stack-icon.png"),
   require("../../assets/images/gift-circle.png"),
   require("../../assets/images/icon-apply-for-a-new-loan.png"),
   require(".././../assets/images/icons/cel-dark.png"),

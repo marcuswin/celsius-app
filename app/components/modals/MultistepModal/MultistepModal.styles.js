@@ -48,6 +48,9 @@ const base = {
     ],
     ...STYLES.SHADOW_STYLES,
   },
+  pictureNoneWrapper: {
+    opacity: 0.0,
+  },
   pictureStyle: {
     alignSelf: "center",
     height: 80,

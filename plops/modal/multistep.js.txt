@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
-import {MultistepModal} from "../MultistepModal/MultistepModal.js"
+import MultistepModal from "../MultistepModal/MultistepModal.js"
 import {MODALS} from "../../../constants/UI";
 
 
@@ -31,7 +31,10 @@ class {{pascalCase name}} extends Component {
   render() {
     const style = {{pascalCase name}}Style()
     return (
-      <MultistepModal style={style.container}>
+      <MultistepModal
+        style={style.container}
+        name={}
+      >
         <View>
           {/* Step 1.*/}
         </View>

@@ -177,6 +177,7 @@ class MultistepModal extends Component {
       children,
       hasCloseButton,
       verticalScroll,
+      imagesArray,
     } = this.props;
     const { xOffset } = this.state;
 
@@ -192,9 +193,16 @@ class MultistepModal extends Component {
         <View style={style.wrapper}>
           <View style={[style.modal]}>
             {!!hasCloseButton && this.renderClose()}
-            <View style={style.pictureWrapper}>
-              {this.renderMultiStepPicture()}
-            </View>
+            {
+              <View
+                style={[
+                  style.pictureWrapper,
+                  imagesArray.length === 0 && style.pictureNoneWrapper,
+                ]}
+              >
+                {imagesArray.length !== 0 && this.renderMultiStepPicture()}
+              </View>
+            }
             {this.renderDots()}
 
             <ScrollView>

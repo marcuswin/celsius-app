@@ -5,7 +5,10 @@ import { storiesOf } from "@storybook/react-native/dist";
 import { action } from "@storybook/addon-actions";
 import store from "../../redux/store";
 import { openModal } from "../../redux/ui/uiActions";
-import { updateFormField } from "../../redux/forms/formsActions";
+import {
+  updateFormField,
+  updateFormFields,
+} from "../../redux/forms/formsActions";
 import { MODALS } from "../../constants/UI";
 import ACTIONS from "../../constants/ACTIONS";
 import CelButton from "../atoms/CelButton/CelButton";
@@ -18,6 +21,7 @@ import PrepareDollarInterestModal from "./PrepareDollarInterestModal/PrepareDoll
 import ApiKeySuccessModal from "./ApiKeySuccessModal/ApiKeySuccessModal";
 import ConfirmWithdrawalAddressModal from "./ConfirmWithdrawalAddressModal/ConfirmWithdrawalAddressModal";
 import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal";
+import LoanApplicationSuccessModal from "./LoanApplicationSuccessModal/LoanApplicationSuccessModal";
 
 storiesOf("Modals", module)
   .addDecorator(getStory => (
@@ -120,5 +124,40 @@ storiesOf("Modals", module)
         Open WithdrawalInfoModal
       </CelButton>
       <WithdrawInfoModal onPressConfirm={action("onPressConfirm")} />
+    </View>
+  ))
+  .add("LoanApplicationSuccessModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        style={{ marginBottom: 5 }}
+        onPress={() => {
+          store.dispatch(
+            updateFormFields({
+              loanAmount: 1,
+              coin: "CEL",
+            })
+          );
+          store.dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL));
+        }}
+      >
+        Open Multi LoanApplicationSuccessModal
+      </CelButton>
+      <CelButton
+        onPress={() => {
+          store.dispatch(
+            updateFormFields({
+              loanAmount: 1000000000,
+              coin: "USD",
+            })
+          );
+          store.dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL));
+        }}
+      >
+        Open Info LoanApplicationSuccessModal
+      </CelButton>
+      <LoanApplicationSuccessModal
+        onPressConfirm={action("onPressConfirm")}
+        loanId={42}
+      />
     </View>
   ));
