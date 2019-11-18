@@ -23,6 +23,9 @@ const base = {
     width: 25,
     height: 25,
   },
+  buttonWrapper: {
+    height: 50,
+  },
 };
 
 const themed = {

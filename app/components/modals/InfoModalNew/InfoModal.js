@@ -1,9 +1,11 @@
 import React from "react";
 import { View } from "react-native";
 import PropTypes from "prop-types";
+import InfoModalStyle from "./InfoModal.styles";
+
+import CelModal from "../CelModal/CelModal";
 import CelModalButton from "../../atoms/CelModalButton/CelModalButton";
 import CelText from "../../atoms/CelText/CelText";
-import CelModal from "../CelModal/CelModal";
 
 const InfoModal = props => {
   const {
@@ -15,6 +17,8 @@ const InfoModal = props => {
     onYes,
     yesCopy,
   } = props;
+  const style = InfoModalStyle();
+
   return (
     <CelModal
       name={name}
@@ -37,7 +41,7 @@ const InfoModal = props => {
             {paragraph}
           </CelText>
         ))}
-      <View>
+      <View style={style.buttonWrapper}>
         {yesCopy ? (
           <CelModalButton onPress={onYes}>{yesCopy}</CelModalButton>
         ) : null}

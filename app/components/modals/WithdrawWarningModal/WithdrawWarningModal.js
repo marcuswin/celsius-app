@@ -5,11 +5,11 @@ import { MODALS, THEMES } from "../../../constants/UI";
 
 import WithdrawWarningModalStyle from "./WithdrawWarningModal.styles";
 import CelText from "../../atoms/CelText/CelText";
+import CelModal from "../CelModal/CelModal";
 import STYLES from "../../../constants/STYLES";
 import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import CelModalButton from "../../atoms/CelModalButton/CelModalButton";
 import Separator from "../../atoms/Separator/Separator";
-import CelModal from "../CelModal/CelModal";
 
 class WithdrawWarningModal extends Component {
   static propTypes = {
@@ -66,7 +66,7 @@ class WithdrawWarningModal extends Component {
             />
           </View>
         </View>
-        <View>
+        <View style={style.buttonWrapper}>
           <CelModalButton
             buttonStyle={isChecked === false ? "disabled" : "basic"}
             onPress={navigateNext}

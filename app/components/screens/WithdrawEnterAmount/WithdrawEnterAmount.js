@@ -58,7 +58,6 @@ class WithdrawEnterAmount extends Component {
 
   constructor(props) {
     super(props);
-
     const {
       navigation,
       currencies,
@@ -73,6 +72,7 @@ class WithdrawEnterAmount extends Component {
         coinSelectItems[0].value) ||
         ""
     );
+
     const coinSelectItems = currencies
       .filter(c => withdrawCompliance.coins.includes(c.short))
       .filter(c => {

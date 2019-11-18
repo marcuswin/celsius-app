@@ -5,7 +5,9 @@ import { storiesOf } from "@storybook/react-native/dist";
 import { action } from "@storybook/addon-actions";
 import store from "../../redux/store";
 import { openModal } from "../../redux/ui/uiActions";
+import { updateFormField } from "../../redux/forms/formsActions";
 import { MODALS } from "../../constants/UI";
+import ACTIONS from "../../constants/ACTIONS";
 import CelButton from "../atoms/CelButton/CelButton";
 import VerifyAuthAppModal from "./VerifyAuthAppModal/VerifyAuthAppModal";
 import CenterView from "../../../storybook/stories/CenterView";
@@ -13,6 +15,8 @@ import SsnModal from "./SsnModal/SsnModal";
 import WithdrawWarningModal from "./WithdrawWarningModal/WithdrawWarningModal";
 import ChangeWithdrawalAddressModal from "./ChangeWithdrawalAddressModal/ChangeWithdrawalAddressModal";
 import PrepareDollarInterestModal from "./PrepareDollarInterestModal/PrepareDollarInterestModal";
+import ApiKeySuccessModal from "./ApiKeySuccessModal/ApiKeySuccessModal";
+import ConfirmWithdrawalAddressModal from "./ConfirmWithdrawalAddressModal/ConfirmWithdrawalAddressModal";
 import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal";
 
 storiesOf("Modals", module)
@@ -71,6 +75,41 @@ storiesOf("Modals", module)
         Open PrepareDollarInterestModal
       </CelButton>
       <PrepareDollarInterestModal onPressConfirm={action("onPressConfirm")} />
+    </View>
+  ))
+  .add("ApiKeySuccessModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => {
+          store.dispatch(openModal(MODALS.GENERATE_API_KEY_MODAL));
+          store.dispatch({
+            type: ACTIONS.CREATE_API_KEY_SUCCESS,
+            apiKey: "1234-5678-1234-5678",
+          });
+        }}
+      >
+        Open ApiKeySuccessModal
+      </CelButton>
+      <ApiKeySuccessModal />
+    </View>
+  ))
+  .add("ConfirmWithdrawalAddressModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => {
+          store.dispatch(
+            updateFormField(
+              "withdrawAddress",
+              "2Mawkjflkwjafk394LfIOEslwdksaKJLdKJkl"
+            )
+          );
+          store.dispatch(updateFormField("coin", "BTC"));
+          store.dispatch(openModal(MODALS.CONFIRM_WITHDRAWAL_ADDRESS_MODAL));
+        }}
+      >
+        Open ConfirmWithdrawalAddressModal
+      </CelButton>
+      <ConfirmWithdrawalAddressModal />
     </View>
   ))
   .add("WithdrawalInfoModal", () => (
