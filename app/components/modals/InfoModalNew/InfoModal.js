@@ -15,8 +15,12 @@ const InfoModal = props => {
     pictureDimensions,
     heading,
     paragraphs,
+    yesButtonStyle,
     onYes,
     yesCopy,
+    noButtonStyle,
+    onNo,
+    noCopy,
   } = props;
 
   const style = InfoModalStyle();
@@ -55,7 +59,15 @@ const InfoModal = props => {
 
         <View style={style.buttonWrapper}>
           {yesCopy ? (
-            <CelModalButton onPress={onYes}>{yesCopy}</CelModalButton>
+            <CelModalButton buttonStyle={yesButtonStyle} onPress={onYes}>
+              {yesCopy}
+            </CelModalButton>
+          ) : null}
+
+          {noCopy ? (
+            <CelModalButton buttonStyle={noButtonStyle} onPress={onNo}>
+              {noCopy}
+            </CelModalButton>
           ) : null}
         </View>
       </View>
@@ -72,8 +84,12 @@ InfoModal.propTypes = {
   ]),
   pictureDimensions: PropTypes.instanceOf(Object),
   paragraphs: PropTypes.instanceOf(Array),
+  yesButtonStyle: PropTypes.string,
   yesCopy: PropTypes.string,
   onYes: PropTypes.func,
+  noButtonStyle: PropTypes.string,
+  noCopy: PropTypes.string,
+  onNo: PropTypes.func,
 };
 
 export default InfoModal;
