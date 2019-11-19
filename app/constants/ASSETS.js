@@ -153,6 +153,7 @@ const CACHE_IMAGES = [
   require("../../assets/images/checkmark-circle.png"), // to remove after modals redesign
   require("../../assets/images/checkmark-square.png"),
   require("../../assets/images/coin-stack-icon.png"),
+  require("../../assets/images/deposit-icn.png"),
   require("../../assets/images/gift-circle.png"),
   require("../../assets/images/icon-apply-for-a-new-loan.png"),
   require(".././../assets/images/icons/cel-dark.png"),
