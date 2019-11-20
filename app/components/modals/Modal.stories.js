@@ -24,6 +24,9 @@ import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal
 import LoanApplicationSuccessModal from "./LoanApplicationSuccessModal/LoanApplicationSuccessModal";
 import CancelLoanModal from "./CancelLoanModal/CancelLoanModal";
 import BecomeCelMemberModal from "./BecomeCelMemberModal/BecomeCelMemberModal";
+import DepositInfoModal from "./DepositInfoModal/DepositInfoModal";
+
+let type = "";
 
 storiesOf("Modals", module)
   .addDecorator(getStory => (
@@ -157,6 +160,7 @@ storiesOf("Modals", module)
       >
         Open Info LoanApplicationSuccessModal
       </CelButton>
+
       <LoanApplicationSuccessModal
         onPressConfirm={action("onPressConfirm")}
         loanId={42}
@@ -183,5 +187,27 @@ storiesOf("Modals", module)
         Open BecomeCelMemberModal
       </CelButton>
       <BecomeCelMemberModal />
+    </View>
+  ))
+  .add("DepositInfoModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        style={{ marginBottom: 5 }}
+        onPress={() => {
+          type = "USDT ERC20";
+          store.dispatch(openModal(MODALS.DEPOSIT_INFO_MODAL));
+        }}
+      >
+        Open Multi DepositInfoModal
+      </CelButton>
+      <CelButton
+        onPress={() => {
+          type = "XRP";
+          store.dispatch(openModal(MODALS.DEPOSIT_INFO_MODAL));
+        }}
+      >
+        Open Info DepositInfoModal
+      </CelButton>
+      <DepositInfoModal onPressConfirm={action("onPressConfirm")} type={type} />
     </View>
   ));
