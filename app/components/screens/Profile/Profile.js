@@ -225,8 +225,8 @@ class Profile extends Component {
             >
               <Icon
                 name={"Twitter"}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
@@ -244,8 +244,8 @@ class Profile extends Component {
             >
               <Icon
                 name={"Facebook"}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
@@ -263,8 +263,8 @@ class Profile extends Component {
             >
               <Icon
                 name={"Reddit"}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
@@ -280,8 +280,8 @@ class Profile extends Component {
             >
               <Icon
                 name={"Telegram"}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
@@ -297,6 +297,7 @@ class Profile extends Component {
 
           <View style={style.bottomSegment}>
             <CelButton
+              textSize="H6"
               basic
               onPress={() => {
                 actions.navigateTo("TermsOfUse");
