@@ -253,6 +253,17 @@ const LOAN_PAYMENT_TYPES = {
   RECEIVING_PRINCIPAL_BACK: "receiving_principal_back",
 };
 
+// TODO: should be returned from BE and set in BO, hadrcoded for now
+const LOAN_INTEREST_COINS = [
+  "BTC",
+  "ETH",
+  "USDC",
+  "GUSD",
+  "TUSD",
+  "USDT",
+  "PAX",
+];
+
 export {
   BLOCKEXPLORERS,
   KYC_STATUSES,
@@ -266,4 +277,5 @@ export {
   LOAN_TYPES,
   LOAN_PAYMENT_TYPES,
   LOAN_TRANSACTION_TYPES,
+  LOAN_INTEREST_COINS,
 };
