@@ -206,7 +206,7 @@ class PerformanceGraph extends React.Component {
           </Svg>
           <View style={{ position: "absolute" }}>
             <View ref={this.cursor.label} style={[styles.pointer]}>
-              <View style={styles.label}>
+              <View style={[styles.label, styles.labelBackground]}>
                 <TextInput
                   ref={this.cursor.labelText}
                   style={{

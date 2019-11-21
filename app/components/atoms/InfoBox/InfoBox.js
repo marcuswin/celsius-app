@@ -102,10 +102,9 @@ class InfoBox extends Component {
               <View style={{ paddingRight: 20 }}>
                 <Icon
                   name="WarningCircle"
-                  width="23"
-                  height="23"
-                  stroke={backgroundColor}
-                  fill={color}
+                  height="29"
+                  width="29"
+                  fill={STYLES.COLORS.WHITE}
                 />
               </View>
             )}

@@ -19,10 +19,12 @@ const base = {
   modal: {
     backgroundColor: "white",
     width: widthPercentageToDP("90%"),
-    paddingBottom: heightPercentageToDP("4%"),
     marginBottom: heightPercentageToDP("4%"),
     borderRadius: 8,
     zIndex: 3,
+  },
+  modalContent: {
+    flex: 1,
   },
   outsideCloseModal: {
     top: 0,
@@ -38,12 +40,16 @@ const base = {
     borderRadius: 40,
     backgroundColor: STYLES.COLORS.WHITE,
     alignSelf: "center",
+    zIndex: -5,
     transform: [
       {
         translateY: -40,
       },
     ],
     ...STYLES.SHADOW_STYLES,
+  },
+  pictureNoneWrapper: {
+    opacity: 0.0,
   },
   pictureStyle: {
     alignSelf: "center",
@@ -52,8 +58,8 @@ const base = {
   },
   closeBtn: {
     position: "absolute",
-    top: 20,
-    right: 20,
+    top: 5,
+    right: 5,
     width: 40,
     height: 40,
     flex: 1,
@@ -61,6 +67,25 @@ const base = {
     alignItems: "center",
     backgroundColor: "transparent",
     zIndex: 10,
+  },
+  screen: {
+    flex: 1,
+    width: widthPercentageToDP("90%"),
+    borderRadius: 25,
+    backgroundColor: "white",
+    marginTop: 40,
+  },
+  dots: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: -35,
+    transform: [
+      {
+        translateY: -13,
+      },
+    ],
   },
 };
 
@@ -72,6 +97,6 @@ const themed = {
   celsius: {},
 };
 
-const CelModalStyle = () => getThemedStyle(base, themed);
+const MultistepModalStyle = () => getThemedStyle(base, themed);
 
-export default CelModalStyle;
+export default MultistepModalStyle;

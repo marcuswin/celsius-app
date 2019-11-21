@@ -87,10 +87,21 @@ class Login extends Component {
           Log in
         </CelButton>
 
-        {ENV !== "STAGING" ? (
-          <CelButton basic onPress={() => actions.navigateTo("ForgotPassword")}>
-            Forgot password
+        {ENV === "STAGING" ? (
+          <CelButton basic onPress={() => actions.navigateTo("Storybook")}>
+            Open Storybook
           </CelButton>
+        ) : null}
+
+        {ENV !== "STAGING" ? (
+          <>
+            <CelButton
+              basic
+              onPress={() => actions.navigateTo("ForgotPassword")}
+            >
+              Forgot password
+            </CelButton>
+          </>
         ) : null}
       </AuthLayout>
     );

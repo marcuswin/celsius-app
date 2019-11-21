@@ -57,7 +57,7 @@ class BorrowChooseLoan extends Component {
         onPressAction: () => {
           actions.navigateTo("BorrowEnterAmount");
           actions.updateFormFields({
-            coin: "",
+            coin: "USDC",
             loanType: LOAN_TYPES.STABLE_COIN_LOAN,
           });
         },
