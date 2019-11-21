@@ -395,7 +395,7 @@ class Graph extends React.Component {
               editable={false}
             />
           </View>
-          <View style={[style.triangle, style.triangleBackgroundColor]} />
+          <View style={[style.triangle]} />
         </View>
       </View>
     ) : null;

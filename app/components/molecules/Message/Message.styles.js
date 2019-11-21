@@ -1,6 +1,9 @@
 // import STYLES from '../../../constants/STYLES';
 import { Dimensions } from "react-native";
-import { getThemedStyle } from "../../../utils/styles-util";
+import {
+  getThemedStyle,
+  heightPercentageToDP,
+} from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 
 const { COLORS } = STYLES;
@@ -13,13 +16,14 @@ const baseContainer = {
   top: 0,
   width,
   zIndex: 100,
-  paddingTop: 40,
+  paddingTop: 25,
   paddingBottom: 15,
   paddingLeft: 20,
   paddingRight: 20,
-  alignItems: "flex-start",
+  alignItems: "center",
   justifyContent: "space-between",
   elevation: 1,
+  minHeight: heightPercentageToDP("13%"),
 };
 
 const base = {
@@ -48,7 +52,6 @@ const base = {
     alignItems: "center",
   },
   closeButton: {
-    marginTop: -8,
     width: "15%",
     flexDirection: "row",
     alignItems: "center",

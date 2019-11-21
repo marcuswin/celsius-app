@@ -59,7 +59,7 @@ class ExpandableItem extends Component {
           width="21"
           fill={
             theme === THEMES.DARK
-              ? STYLES.COLORS.DARK_GRAY5
+              ? STYLES.COLORS.WHITE_OPACITY5
               : STYLES.COLORS.GRAY
           }
         />

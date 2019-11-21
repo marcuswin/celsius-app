@@ -55,16 +55,16 @@ const themed = {
 
   dark: {
     leftSegment: {
-      borderColor: STYLES.COLORS.DARK_GRAY5,
+      borderColor: STYLES.COLORS.WHITE_OPACITY5,
     },
     left: {
-      borderColor: STYLES.COLORS.DARK_GRAY5,
+      borderColor: STYLES.COLORS.WHITE_OPACITY5,
     },
     right: {
-      borderColor: STYLES.COLORS.DARK_GRAY5,
+      borderColor: STYLES.COLORS.WHITE_OPACITY5,
     },
     centralText: {
-      color: STYLES.COLORS.DARK_GRAY5,
+      color: STYLES.COLORS.WHITE_OPACITY5,
     },
   },
 
