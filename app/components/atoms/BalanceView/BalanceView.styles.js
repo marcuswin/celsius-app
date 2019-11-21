@@ -16,10 +16,6 @@ const base = {
     alignItems: "center",
     padding: 10,
     marginBottom: 20,
-    backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
-  },
-  text: {
-    color: STYLES.COLORS.WHITE,
   },
 };
 
@@ -35,10 +31,10 @@ const themed = {
 
   dark: {
     view: {
-      backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
+      backgroundColor: STYLES.COLORS.DARK_GRAY,
     },
     text: {
-      color: STYLES.COLORS.DARK_HEADER,
+      color: STYLES.COLORS.WHITE,
     },
   },
 

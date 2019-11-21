@@ -11,7 +11,7 @@ export default {
  * get if the user will lose cel membership
  *
  * @param {String} coin - eg. BTC|ETH|CEL
- * @param {String} newBalance
+ * @param {number} newBalance
  * @returns {boolean}
  */
 function isLosingMembership(coin, newBalance) {
@@ -32,8 +32,8 @@ function isLosingTier(coin, newBalance) {
   if (coin !== "CEL") return false;
 
   const { min_for_tier: minForTier } = store.getState().user.loyaltyInfo;
-  const celRatio = calculateCelRatio(newBalance);
 
+  const celRatio = calculateCelRatio(newBalance);
   return celRatio < minForTier;
 }
 
@@ -61,11 +61,14 @@ async function refetchMembershipIfChanged(coin) {
  */
 function calculateCelRatio(newCelBalance) {
   const walletSummary = store.getState().wallet.summary;
+  const celRate = store.getState().currencies.currencyRatesShort.cel;
 
   const celBalance =
-    newCelBalance ||
+    newCelBalance * celRate ||
     walletSummary.coins.find(c => c.short === "CEL").amount_usd;
-  const otherCoinsBalance = walletSummary.total_amount_usd - celBalance;
+  const otherCoinsBalance =
+    walletSummary.total_amount_usd -
+    walletSummary.coins.find(c => c.short === "CEL").amount_usd;
   const celRatio = otherCoinsBalance ? celBalance / otherCoinsBalance : 1;
 
   return celRatio;

@@ -29,12 +29,12 @@ const BLOCKEXPLORERS_STAGING = {
 };
 const BLOCKEXPLORERS_PRODUCTION = {
   btc: "https://blockexplorer.com/tx/",
-  bch: "https://bchsvexplorer.com/tx/",
+  bch: "https://www.blockchain.com/bch/tx/",
   ltc: "https://chainz.cryptoid.info/ltc/tx.dws?",
   xrp: "https://xrpcharts.ripple.com/#/transactions/",
   xlm: "https://steexp.com/tx/",
   dash: "https://chainz.cryptoid.info/dash/tx.dws?",
-  zec: "https://chain.so/tx/ZEC/`, ",
+  zec: "https://zcash.blockexplorer.com/tx/",
   btg: "https://btgexplorer.com/tx/",
   eth: "https://etherscan.io/tx/",
   eos: "https://bloks.io/transaction/",
@@ -90,6 +90,7 @@ const TRANSACTION_TYPES = {
   COLLATERAL_UNLOCKED: "COLLATERAL_UNLOCKED",
   COLLATERAL_LIQUIDATED: "COLLATERAL_LIQUIDATED",
 
+  PROMO_CODE_BONUS: "PROMO_CODE_BONUS",
   REFERRED_HODL: "REFERRED_HODL",
   REFERRED: "REFERRED",
   REFERRED_PENDING: "REFERRED_PENDING",
@@ -252,6 +253,17 @@ const LOAN_PAYMENT_TYPES = {
   RECEIVING_PRINCIPAL_BACK: "receiving_principal_back",
 };
 
+// TODO: should be returned from BE and set in BO, hadrcoded for now
+const LOAN_INTEREST_COINS = [
+  "BTC",
+  "ETH",
+  "USDC",
+  "GUSD",
+  "TUSD",
+  "USDT",
+  "PAX",
+];
+
 export {
   BLOCKEXPLORERS,
   KYC_STATUSES,
@@ -265,4 +277,5 @@ export {
   LOAN_TYPES,
   LOAN_PAYMENT_TYPES,
   LOAN_TRANSACTION_TYPES,
+  LOAN_INTEREST_COINS,
 };

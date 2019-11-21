@@ -291,7 +291,7 @@ class Community extends Component {
         <CommunityDashboard
           name={"INTEREST"}
           info
-          buttonTypes={["Average", "Earned"]}
+          buttonTypes={["Earned", "Average"]}
         />
 
         {/* { this.renderCommunityStatsTable() }*/}

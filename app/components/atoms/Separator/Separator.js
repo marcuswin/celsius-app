@@ -122,7 +122,7 @@ class Separator extends Component {
             color={
               theme === THEMES.LIGHT
                 ? STYLES.COLORS.MEDIUM_GRAY
-                : STYLES.COLORS.DARK_GRAY5
+                : STYLES.COLORS.WHITE_OPACITY5
             }
             align="center"
             type={fontType}

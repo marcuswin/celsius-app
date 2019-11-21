@@ -17,7 +17,6 @@ const base = {
     borderRadius: 10,
     backgroundColor: "white",
     flex: 1,
-    alignItems: "center",
   },
   taxID: {
     borderRadius: 10,
@@ -45,7 +44,6 @@ const themed = {
       backgroundColor: STYLES.COLORS.WHITE,
     },
   },
-
   dark: {
     taxID: {
       backgroundColor: STYLES.COLORS.DARK_HEADER,

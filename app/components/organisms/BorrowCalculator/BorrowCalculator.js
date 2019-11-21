@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -32,6 +32,7 @@ let timeout;
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
+    loyaltyInfo: state.user.loyaltyInfo,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -75,6 +76,8 @@ class BorrowCalculator extends Component {
   }
 
   componentDidMount() {
+    const { actions } = this.props;
+    actions.getLoyaltyInfo();
     this.updateSliderItems();
   }
 
@@ -191,7 +194,6 @@ class BorrowCalculator extends Component {
 
   render() {
     const { coinSelectItems, loanParams } = this.state;
-
     const {
       actions,
       formData,
@@ -199,16 +201,32 @@ class BorrowCalculator extends Component {
       theme,
       themeModal,
       minimumLoanAmount,
+      loyaltyInfo,
+      currencies,
     } = this.props;
 
     const style = BorrowCalculatorStyle(themeModal || theme);
     if (!formData.ltv) return null;
     let numberOfDigits;
+    let monthly;
+    let total;
     if (loanParams.monthlyInterest && loanParams.totalInterest) {
       numberOfDigits = Math.max(
         loanParams.monthlyInterest.length,
         loanParams.totalInterest.length
       );
+      const celPrice = currencies.find(c => c.short === "CEL").market_quotes_usd
+        .price;
+      monthly =
+        (Number(loanParams.monthlyInterest.split("$")[1]) -
+          Number(loanParams.monthlyInterest.split("$")[1]) *
+            loyaltyInfo.tier.loanInterestBonus) /
+        celPrice;
+      total =
+        (Number(loanParams.totalInterest.split("$")[1]) -
+          Number(loanParams.totalInterest.split("$")[1]) *
+            loyaltyInfo.tier.loanInterestBonus) /
+        celPrice;
     }
 
     const textType = numberOfDigits > 8 ? "H3" : "H2";
@@ -345,6 +363,45 @@ class BorrowCalculator extends Component {
               </CelText>
             </Card>
           </View>
+          <Card color={"#4156A6"}>
+            <CelText type={"H6"} align={"center"}>
+              Reduce your interest rate by
+            </CelText>
+            <CelText
+              weight={"600"}
+              type={"H3"}
+              align={"center"}
+            >{`${formatter.percentage(
+              loyaltyInfo.tier.loanInterestBonus
+            )}%`}</CelText>
+            <CelText type={"H6"} align={"center"}>
+              by paying out in CEL
+            </CelText>
+            <Separator
+              margin={"10 0 10 0"}
+              color={StyleSheet.flatten(style.separator).color}
+            />
+            <CelText type={"H6"} align={"center"}>
+              Monthly Interest
+            </CelText>
+            <CelText
+              weight={"600"}
+              type={"H3"}
+              align={"center"}
+            >{`${formatter.round(monthly) || 0} CEL`}</CelText>
+            <Separator
+              margin={"10 0 10 0"}
+              color={StyleSheet.flatten(style.separator).color}
+            />
+            <CelText type={"H6"} align={"center"}>
+              Total Interest
+            </CelText>
+            <CelText
+              weight={"600"}
+              type={"H3"}
+              align={"center"}
+            >{`${formatter.round(total) || 0} CEL`}</CelText>
+          </Card>
         </Card>
         <CelText
           align={"center"}

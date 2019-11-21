@@ -29,6 +29,7 @@ import { hasPassedKYC } from "../../../utils/user-util";
 import ProfileStyle from "./Profile.styles";
 import Icon from "../../atoms/Icon/Icon";
 import { getTheme } from "../../../utils/styles-util";
+import Constants from "../../../../constants";
 
 @connect(
   state => ({
@@ -105,6 +106,7 @@ class Profile extends Component {
     const { revisionId } = this.state;
     const style = ProfileStyle();
     const theme = getTheme();
+    const { ENV } = Constants;
 
     return (
       <RegularLayout>
@@ -223,8 +225,8 @@ class Profile extends Component {
             >
               <Icon
                 name={"Twitter"}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
@@ -242,8 +244,8 @@ class Profile extends Component {
             >
               <Icon
                 name={"Facebook"}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
@@ -261,8 +263,8 @@ class Profile extends Component {
             >
               <Icon
                 name={"Reddit"}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
@@ -278,8 +280,8 @@ class Profile extends Component {
             >
               <Icon
                 name={"Telegram"}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
@@ -295,6 +297,7 @@ class Profile extends Component {
 
           <View style={style.bottomSegment}>
             <CelButton
+              textSize="H6"
               basic
               onPress={() => {
                 actions.navigateTo("TermsOfUse");
@@ -304,9 +307,19 @@ class Profile extends Component {
               See Terms of Use
             </CelButton>
             <CelText weight="light" align="center" type="H7">
-              App Version: {revisionId}
+              {`App Version: ${revisionId}`}
             </CelText>
           </View>
+
+          {ENV === "STAGING" ? (
+            <CelButton
+              margin="10 0 0 0"
+              basic
+              onPress={() => actions.navigateTo("Storybook")}
+            >
+              Open Storybook
+            </CelButton>
+          ) : null}
         </View>
 
         <ReferralSendModal />

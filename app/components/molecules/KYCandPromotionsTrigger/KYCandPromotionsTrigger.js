@@ -150,7 +150,7 @@ class KYCandPromotionsTrigger extends Component {
     if (hasPassedKYC()) return null;
 
     return (
-      <View style={{ marginBottom: heightPercentageToDP("26%") }}>
+      <View style={{ marginBottom: heightPercentageToDP("24%") }}>
         <View style={[style.container, { backgroundColor: this.getColor() }]}>
           <View style={style.mainWrapper}>
             <View style={style.halfCircleRight}>
