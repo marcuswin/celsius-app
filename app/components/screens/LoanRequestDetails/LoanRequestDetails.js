@@ -75,6 +75,8 @@ class LoanRequestDetails extends Component {
   renderSection = sectionType => {
     const { activeLoan } = this.props;
 
+    if (!activeLoan) return null;
+
     switch (sectionType) {
       case "completion:date":
         return (
@@ -86,11 +88,14 @@ class LoanRequestDetails extends Component {
         );
       case "rejection:date":
         return (
-          <BasicSection
-            key={sectionType}
-            label={"Loan Rejection Date"}
-            value={moment(activeLoan.approved_at).format("D MMM YYYY")}
-          />
+          !!activeLoan.rejected_at &&
+          activeLoan.rejected_at > "2017-01-01T00:00:00.000Z" && (
+            <BasicSection
+              key={sectionType}
+              label={"Loan Rejection Date"}
+              value={moment(activeLoan.rejected_at).format("D MMM YYYY")}
+            />
+          )
         );
       case "cancellation:date":
         return (

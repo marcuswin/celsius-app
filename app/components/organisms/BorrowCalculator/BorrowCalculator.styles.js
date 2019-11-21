@@ -36,6 +36,9 @@ const base = {
 
 const themed = {
   light: {
+    separator: {
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
     cardStyle: {
       backgroundColor: STYLES.COLORS.WHITE,
       borderColor: STYLES.COLORS.DARK_GRAY3,
@@ -49,6 +52,9 @@ const themed = {
     },
   },
   dark: {
+    separator: {
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
     cardStyle: {
       backgroundColor: STYLES.COLORS.DARK_HEADER,
       borderColor: STYLES.COLORS.WHITE_OPACITY5,

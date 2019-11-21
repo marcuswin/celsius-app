@@ -11,7 +11,7 @@ class {{pascalCase name}} extends Component {
   };
   static defaultProps = {
   }
-  
+
   constructor(props) {
     super(props);
 
@@ -23,7 +23,7 @@ class {{pascalCase name}} extends Component {
   }
 
   // lifecycle methods
-  // event hanlders
+  // event handlers
   // rendering methods
   render() {
     const style = {{pascalCase name}}Style()

@@ -1,0 +1,43 @@
+import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
+import { View } from 'react-native';
+
+import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+import CelModal form "../CelModal/CelModal.js"
+import {MODALS} from "../../../constants/UI";
+
+class {{pascalCase name}} extends Component {
+
+  static propTypes = {
+    // text: PropTypes.string
+  };
+  static defaultProps = {
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      // initial state
+    };
+
+    // binders
+  }
+
+  // lifecycle methods
+  // event handlers
+  // rendering methods
+  render() {
+    const style = {{pascalCase name}}Style()
+    return (
+      <CelModal
+        style={style.container}
+        name={}
+      >
+        <{{pascalCase name}} />
+      </CelModal>
+    );
+  }
+}
+
+export default {{pascalCase name}}

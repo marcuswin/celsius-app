@@ -12,6 +12,7 @@ import TermsOfUse from "../../components/screens/TermsOfUse/TermsOfUse";
 import Welcome from "../../components/screens/Welcome/Welcome";
 import VerifyProfile from "../../components/screens/VerifyProfile/VerifyProfile";
 import LockedAccount from "../../components/screens/LockedAccount/LockedAccount";
+import Storybook from "../../components/screens/Storybook/Storybook";
 
 export const authFlow = {
   screens: {
@@ -23,6 +24,7 @@ export const authFlow = {
     TermsOfUse,
     Welcome,
     VerifyProfile,
+    Storybook,
   },
   props: {
     initialRouteName: "Welcome",
