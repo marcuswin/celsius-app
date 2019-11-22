@@ -11,8 +11,8 @@ const base = {
     alignSelf: "center",
   },
   circleButton: {
-    marginBottom: 0,
-    marginTop: 20,
+    marginBottom: 20,
+    marginTop: 10,
   },
   circleWrapper: {
     width: 60,
@@ -74,7 +74,7 @@ const themed = {
       backgroundColor: STYLES.COLORS.WHITE,
     },
     iconColor: {
-      color: STYLES.COLORS.DARK_GRAY,
+      color: STYLES.COLORS.DARK_GRAY_OPACITY,
     },
   },
 

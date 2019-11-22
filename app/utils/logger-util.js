@@ -86,7 +86,6 @@ async function err(e, isFatal = false) {
     const state = store.getState();
 
     const { profile } = state.user;
-    const { lastTenActions } = state.app;
     const userData = profile && { user_id: profile.id, email: profile.email };
 
     const { activeScreen } = state.nav;
@@ -104,7 +103,6 @@ async function err(e, isFatal = false) {
       is_fatal: isFatal && typeof isFatal === "string" && isFatal === "true",
       app_version: revisionId,
       platform: Constants.platform,
-      lastTenActions,
     };
 
     axios.post(`${API_URL}/graylog`, errorObject);

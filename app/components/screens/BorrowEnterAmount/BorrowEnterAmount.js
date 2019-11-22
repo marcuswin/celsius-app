@@ -254,13 +254,11 @@ class BorrowEnterAmount extends Component {
             </View>
           </View>
 
-          {formData.maxAmount > minimumLoanAmount && (
-            <PredefinedAmounts
-              data={predifinedAmount}
-              onSelect={this.onPressPredefinedAmount}
-              activePeriod={activePeriod}
-            />
-          )}
+          <PredefinedAmounts
+            data={predifinedAmount}
+            onSelect={this.onPressPredefinedAmount}
+            activePeriod={activePeriod}
+          />
 
           {/* <Card margin='20 0 5 0'>
             <CelText type="H6" color='gray' >

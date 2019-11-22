@@ -51,7 +51,7 @@ const themed = {
 
   dark: {
     celTierWrapper: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER,
+      backgroundColor: STYLES.COLORS.SEMI_GRAY,
     },
   },
 

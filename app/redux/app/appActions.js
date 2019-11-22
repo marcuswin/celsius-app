@@ -1,30 +1,30 @@
-import * as Permissions from "expo-permissions";
-import * as Location from "expo-location";
-import { Platform } from "react-native";
-import RNAdvertisingId from "react-native-advertising";
-import { IDFA } from "react-native-idfa";
-import appsFlyer from "react-native-appsflyer";
-import Constants from "../../../constants";
-import store from "../../redux/store";
-import * as actions from "../actions";
+// import * as Permissions from "expo-permissions";
+// import * as Location from "expo-location";
+import {Platform} from 'react-native';
+// import RNAdvertisingId from "react-native-advertising";
+import {IDFA} from 'react-native-idfa';
+import appsFlyer from 'react-native-appsflyer';
+import Constants from '../../../constants';
+import store from '../../redux/store';
+import * as actions from '../actions';
 import {
   getSecureStoreKey,
   deleteSecureStoreKey,
-} from "../../utils/expo-storage";
-import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../constants/DATA";
-import ACTIONS from "../../constants/ACTIONS";
-import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
-import appUtil from "../../utils/app-util";
-import branchUtil from "../../utils/branch-util";
-import { disableAccessibilityFontScaling } from "../../utils/styles-util";
-import ASSETS from "../../constants/ASSETS";
-import loggerUtil from "../../utils/logger-util";
-import { requestForPermission } from "../../utils/device-permissions";
-import { hasPassedKYC } from "../../utils/user-util";
-import { showMessage } from "../ui/uiActions";
-import userBehaviorUtil from "../../utils/user-behavior-util";
+} from '../../utils/expo-storage';
+import {BRANCH_LINKS, TRANSFER_STATUSES} from '../../constants/DATA';
+import ACTIONS from '../../constants/ACTIONS';
+import {registerForPushNotificationsAsync} from '../../utils/push-notifications-util';
+import appUtil from '../../utils/app-util';
+import branchUtil from '../../utils/branch-util';
+import {disableAccessibilityFontScaling} from '../../utils/styles-util';
+import ASSETS from '../../constants/ASSETS';
+import loggerUtil from '../../utils/logger-util';
+import {requestForPermission} from '../../utils/device-permissions';
+import {hasPassedKYC} from '../../utils/user-util';
+import {showMessage} from '../ui/uiActions';
+import userBehaviorUtil from '../../utils/user-behavior-util';
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants;
+const {SECURITY_STORAGE_AUTH_KEY} = Constants;
 
 // TODO add more JSDoc description
 // TODO add more JSDoc description
@@ -55,14 +55,14 @@ function initCelsiusApp() {
     if (getState().app.appInitializing) return;
 
     try {
-      dispatch({ type: ACTIONS.APP_INIT_START });
+      dispatch({type: ACTIONS.APP_INIT_START});
 
       timeout = setTimeout(() => {
         dispatch(
           showMessage(
-            "info",
-            "Hmm… this is taking a bit longer than usual. If your app doesn’t load shortly, try restarting or checking back in a few minutes."
-          )
+            'info',
+            'Hmm… this is taking a bit longer than usual. If your app doesn’t load shortly, try restarting or checking back in a few minutes.',
+          ),
         );
         clearTimeout(timeout);
       }, 30000);
@@ -78,7 +78,7 @@ function initCelsiusApp() {
 
       await dispatch(branchUtil.initBranch());
 
-      dispatch({ type: ACTIONS.APP_INIT_DONE });
+      dispatch({type: ACTIONS.APP_INIT_DONE});
       clearTimeout(timeout);
     } catch (e) {
       clearTimeout(timeout);
@@ -95,9 +95,9 @@ function resetCelsiusApp() {
     try {
       // Logout user
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      dispatch({ type: ACTIONS.RESET_APP });
+      dispatch({type: ACTIONS.RESET_APP});
       // Dev warning message
-      dispatch(actions.showMessage("warning", "Reseting Celsius App!"));
+      dispatch(actions.showMessage('warning', 'Reseting Celsius App!'));
 
       await dispatch(initCelsiusApp());
     } catch (e) {
@@ -111,23 +111,23 @@ function resetCelsiusApp() {
  */
 function loadCelsiusAssets() {
   return async dispatch => {
-    dispatch({ type: ACTIONS.START_LOADING_ASSETS });
+    dispatch({type: ACTIONS.START_LOADING_ASSETS});
 
     await appUtil.cacheFonts(ASSETS.FONTS);
     await appUtil.cacheImages(ASSETS.CACHE_IMAGES);
 
-    dispatch({ type: ACTIONS.FINISH_LOADING_ASSETS });
+    dispatch({type: ACTIONS.FINISH_LOADING_ASSETS});
   };
 }
 
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   data => {
     loggerUtil.log(data);
-  }
+  },
 );
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution(res => {
-  const { data } = res;
+  const {data} = res;
   switch (data.type) {
     case BRANCH_LINKS.NAVIGATE_TO:
       store.dispatch(actions.navigateTo(data.screen));
@@ -147,52 +147,52 @@ let startOfBackgroundTimer;
 
 function handleAppStateChange(nextAppState) {
   return dispatch => {
-    const { profile } = store.getState().user;
-    const { appState } = store.getState().app;
-    const { activeScreen } = store.getState().nav;
+    const {profile} = store.getState().user;
+    const {appState} = store.getState().app;
+    const {activeScreen} = store.getState().nav;
 
-    if (Platform.OS === "ios") {
-      if (appState.match(/inactive|background/) && nextAppState === "active") {
+    if (Platform.OS === 'ios') {
+      if (appState.match(/inactive|background/) && nextAppState === 'active') {
         appsFlyer.trackAppLaunch();
       }
     }
 
     // if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
-    if (nextAppState.match(/inactive|background/) && appState === "active") {
+    if (nextAppState.match(/inactive|background/) && appState === 'active') {
       // ONLY FOR DEBUG PURPOSE
       if (onInstallConversionDataCanceller) {
         onInstallConversionDataCanceller();
-        loggerUtil.log("unregister onInstallConversionDataCanceller");
+        loggerUtil.log('unregister onInstallConversionDataCanceller');
       }
       if (onAppOpenAttributionCanceller) {
         onAppOpenAttributionCanceller();
-        loggerUtil.log("unregister onAppOpenAttributionCanceller");
+        loggerUtil.log('unregister onAppOpenAttributionCanceller');
       }
     }
 
     if (profile && profile.has_pin) {
-      if (nextAppState === "active") {
+      if (nextAppState === 'active') {
         dispatch(actions.getLoyaltyInfo());
         dispatch(actions.getInitialCelsiusData());
         dispatch(actions.getCurrencyRates());
 
-        if (Platform.OS === "ios") {
+        if (Platform.OS === 'ios') {
           clearTimeout(pinTimeout);
         }
 
         if (
-          Platform.OS === "android" &&
+          Platform.OS === 'android' &&
           new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER
         ) {
           startOfBackgroundTimer = null;
           dispatch(
-            actions.navigateTo("VerifyProfile", {
+            actions.navigateTo('VerifyProfile', {
               activeScreen,
               showLogOutBtn: true,
-            })
+            }),
           );
         }
-        userBehaviorUtil.sessionStarted("Foreground");
+        userBehaviorUtil.sessionStarted('Foreground');
         // Fix for CN-4253, CN-4235, CN-4205
         // dispatch(getGeolocation());
       }
@@ -201,25 +201,25 @@ function handleAppStateChange(nextAppState) {
         nextAppState.match(/inactive|background/) &&
         profile &&
         profile.has_pin &&
-        appState === "active"
+        appState === 'active'
       ) {
-        if (Platform.OS === "ios") {
+        if (Platform.OS === 'ios') {
           pinTimeout = setTimeout(() => {
             dispatch(
-              actions.navigateTo("VerifyProfile", {
+              actions.navigateTo('VerifyProfile', {
                 activeScreen,
                 showLogOutBtn: true,
-              })
+              }),
             );
             clearTimeout(pinTimeout);
           }, ASK_FOR_PIN_AFTER);
         }
 
-        if (Platform.OS === "android") {
+        if (Platform.OS === 'android') {
           startOfBackgroundTimer = new Date().getTime();
         }
 
-        userBehaviorUtil.sessionEnded("Background");
+        userBehaviorUtil.sessionEnded('Background');
       }
     }
 
@@ -259,15 +259,15 @@ function initAppData(initToken = null) {
     if (token) await dispatch(actions.getProfileInfo());
 
     // get expired session
-    const { expiredSession } = getState().user;
+    const {expiredSession} = getState().user;
 
     if (token && !expiredSession) {
-      userBehaviorUtil.sessionStarted("Init app");
+      userBehaviorUtil.sessionStarted('Init app');
       registerForPushNotificationsAsync();
       dispatch(actions.claimAllBranchTransfers());
 
       // get all KYC document types and claimed transfers for non-verified users
-      const { profile } = getState().user;
+      const {profile} = getState().user;
       if (profile) {
         await dispatch(actions.getUserAppSettings());
         await dispatch(actions.getLoyaltyInfo());
@@ -277,7 +277,7 @@ function initAppData(initToken = null) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
-        const { allowed } = getState().compliance.loan;
+        const {allowed} = getState().compliance.loan;
         // get wallet details for verified users
         if (profile.kyc && hasPassedKYC()) {
           await dispatch(actions.getWalletSummary());
@@ -310,12 +310,12 @@ function showVerifyScreen(defaultVerifyState = true) {
 function setAdvertisingId() {
   return async dispatch => {
     let userAID;
-    if (Platform.OS === "ios") {
+    if (Platform.OS === 'ios') {
       const res = await IDFA.getIDFA();
       userAID = res;
     } else {
-      const res = await RNAdvertisingId.getAdvertisingId();
-      userAID = res.advertisingId;
+      // const res = await RNAdvertisingId.getAdvertisingId();
+      // userAID = res.advertisingId;
     }
     dispatch({
       type: ACTIONS.SET_ADVERTISING_ID,
@@ -351,7 +351,7 @@ function getGeolocation() {
 
     if (!permission) return;
 
-    const location = await Location.getCurrentPositionAsync({});
+    // const location = await Location.getCurrentPositionAsync({});
     if (location && location.coords) {
       dispatch({
         type: ACTIONS.SET_GEOLOCATION,

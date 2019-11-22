@@ -40,8 +40,6 @@ class Appearance extends Component {
       theme,
     } = this.props;
 
-    if (!walletSummary || !currenciesGraphs || !currenciesRates) return null;
-
     const btcCoin = walletSummary.coins.find(c => c.short === "BTC");
     const btcGraph = currenciesGraphs.BTC;
     const btcRates = currenciesRates.find(c => c.short === "BTC");

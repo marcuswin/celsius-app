@@ -56,8 +56,10 @@ class CommunityDashboard extends Component {
     }
     if (name === "INTEREST") {
       this.setState({
-        primaryNumber: formatter.usd(communityStats.total_interests_usd),
-        explanation: "Total community earn in the last 12 months",
+        primaryNumber: formatter.usd(
+          communityStats.average_interest_earned_usd
+        ),
+        explanation: "The average earn per user in the last 12 months",
       });
     }
   }

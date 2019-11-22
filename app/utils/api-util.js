@@ -12,7 +12,6 @@ import { getSecureStoreKey } from "../utils/expo-storage";
 import store from "../redux/store";
 import * as actions from "../redux/actions";
 import { isKYCRejectedForever } from "./user-util";
-import userBehaviorUtil from "./user-behavior-util";
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
@@ -173,8 +172,6 @@ function initInterceptors() {
           };
 
       if (!err.msg) err.msg = defaultMsg;
-
-      userBehaviorUtil.apiError(err);
 
       if (err.status === 401 && err.slug === "SESSION_EXPIRED") {
         store.dispatch(actions.expireSession());

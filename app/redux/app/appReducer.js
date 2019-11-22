@@ -16,20 +16,14 @@ function initialState() {
     showVerifyScreen: false, // TODO move to security
     advertisingId: null,
     appsFlyerUID: null,
-    lastTenActions: [],
   };
 }
 
 export default function appReducer(state = initialState(), action) {
-  // last ten actions for sending mixpanel event
-  const newState = { ...state };
-  newState.lastTenActions.unshift(action.type);
-  newState.lastTenActions = newState.lastTenActions.slice(0, 10);
-
   switch (action.type) {
     case ACTIONS.APP_INIT_START:
       return {
-        ...newState,
+        ...state,
         appInitialized: false,
         appInitializing: true,
       };
@@ -46,42 +40,42 @@ export default function appReducer(state = initialState(), action) {
     case ACTIONS.CHECK_PIN_SUCCESS:
     case ACTIONS.APP_INIT_DONE:
       return {
-        ...newState,
+        ...state,
         appInitialized: true,
         appInitializing: false,
       };
 
     case ACTIONS.RESET_APP:
       return {
-        ...newState,
+        ...state,
         appInitialized: false,
       };
 
     case ACTIONS.SET_APP_STATE:
       return {
-        ...newState,
+        ...state,
         appState: action.appState,
       };
 
     case ACTIONS.FINISH_LOADING_ASSETS:
       return {
-        ...newState,
+        ...state,
         assetsLoaded: true,
       };
 
     case ACTIONS.SET_INTERNET_CONNECTION:
       return {
-        ...newState,
+        ...state,
         internetConnected: action.internetConnected,
       };
     case ACTIONS.SHOW_VERIFY_SCREEN:
       return {
-        ...newState,
+        ...state,
         showVerifyScreen: action.showVerifyScreen,
       };
     case ACTIONS.SET_GEOLOCATION:
       return {
-        ...newState,
+        ...state,
         geolocation: {
           geoLat: action.geoLat,
           geoLong: action.geoLong,
@@ -89,15 +83,15 @@ export default function appReducer(state = initialState(), action) {
       };
     case ACTIONS.SET_ADVERTISING_ID:
       return {
-        ...newState,
+        ...state,
         advertisingId: action.advertisingId,
       };
     case ACTIONS.SET_DEVICE_APPSFLYER_UID:
       return {
-        ...newState,
+        ...state,
         appsFlyerUID: action.appsFlyerUID,
       };
     default:
-      return { ...newState };
+      return { ...state };
   }
 }

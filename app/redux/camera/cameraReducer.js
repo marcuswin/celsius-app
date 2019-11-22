@@ -13,8 +13,9 @@ const initialState = {
   cameraCopy: undefined,
   cameraType: "back",
   photo: undefined,
-  mask: undefined,
+  mask: undefined
 };
+
 
 export default function cameraReducer(state = initialState, action) {
   let cameraRollPhotos;

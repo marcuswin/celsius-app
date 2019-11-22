@@ -168,7 +168,7 @@ class CelInput extends Component {
           <View style={[inputStyle, helperButtonContainerStyle]}>
             <CelInputText {...this.props} style={helperButtonInputStyle} />
             {helperButton && helperButton()}
-            {!!rightText && (
+            {rightText && (
               <CelText style={CelInputStyle().rightText}>{rightText}</CelText>
             )}
           </View>
@@ -191,7 +191,7 @@ class CelInput extends Component {
     return (
       <View style={styleWrapper}>
         <Input />
-        {!!error && (
+        {error && (
           <CelText
             margin="5 0 0 0"
             color="red"

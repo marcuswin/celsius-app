@@ -31,7 +31,6 @@ const userBehaviorUtil = {
   celpayCompleted,
   loanApplied,
   setPin,
-  apiError,
 };
 
 let userData = {};
@@ -342,10 +341,6 @@ async function loanApplied({ loan, transaction_id: transactionId }) {
  */
 async function setPin() {
   await sendEvent("Set PIN");
-}
-
-async function apiError(data) {
-  await sendEvent("Api Error", data);
 }
 
 export default userBehaviorUtil;

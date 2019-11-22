@@ -7,7 +7,7 @@ const base = {
   },
   socialIcons: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
   },
   bottomSegment: {
     flexDirection: "row",

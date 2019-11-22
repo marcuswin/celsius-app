@@ -10,14 +10,7 @@ class CelModalButton extends Component {
   static propTypes = {
     position: PropTypes.oneOf(["single", "middle", "left", "right"]).isRequired,
     onPress: PropTypes.func,
-    buttonStyle: PropTypes.oneOf([
-      "basic",
-      "secondary",
-      "disabled",
-      "red",
-      "green",
-      "white",
-    ]),
+    buttonStyle: PropTypes.oneOf(["basic", "secondary", "disabled", "cancel"]),
   };
   static defaultProps = {
     buttonStyle: "basic",
@@ -31,26 +24,22 @@ class CelModalButton extends Component {
       case "secondary":
         return {
           backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+          borderColor: STYLES.COLORS.LIGHT_GRAY,
         };
-      case "red":
+      case "cancel":
         return {
           backgroundColor: STYLES.COLORS.RED,
+          borderColor: STYLES.COLORS.RED,
         };
       case "disabled":
         return {
           backgroundColor: STYLES.COLORS.DISABLED_BASIC_BUTTON25,
-        };
-      case "green":
-        return {
-          backgroundColor: STYLES.COLORS.GREEN,
-        };
-      case "white":
-        return {
-          backgroundColor: STYLES.COLORS.WHITE,
+          borderColor: STYLES.COLORS.DISABLED_BASIC_BUTTON01,
         };
       default:
         return {
           backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
+          borderColor: STYLES.COLORS.CELSIUS_BLUE,
         };
     }
   };
@@ -85,9 +74,8 @@ class CelModalButton extends Component {
     const buttonColor = this.handleButtonStyle();
     const textColor =
       buttonStyle === "basic" ||
-      buttonStyle === "red" ||
-      buttonStyle === "disabled" ||
-      buttonStyle === "green"
+      buttonStyle === "cancel" ||
+      buttonStyle === "disabled"
         ? STYLES.COLORS.WHITE
         : STYLES.COLORS.DARK_GRAY;
 

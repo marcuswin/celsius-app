@@ -1,16 +1,15 @@
-import React, { Component } from "react";
-// import Constants from 'expo-constants';
-import { View, Image } from "react-native";
+import React, {Component} from 'react';
+import {View, Image} from 'react-native';
 // import PropTypes from 'prop-types';
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as appActions from "../../../redux/actions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as appActions from '../../../redux/actions';
 
-import WelcomeStyle from "./Welcome.styles";
-import CelText from "../../atoms/CelText/CelText";
-import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import CelButton from "../../atoms/CelButton/CelButton";
-import appUtil from "../../../utils/app-util";
+import WelcomeStyle from './Welcome.styles';
+import CelText from '../../atoms/CelText/CelText';
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import CelButton from '../../atoms/CelButton/CelButton';
+import appUtil from '../../../utils/app-util';
 // import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 // import STYLES from '../../../constants/STYLES';
 
@@ -19,7 +18,7 @@ import appUtil from "../../../utils/app-util";
     advertisingId: state.app.advertisingId,
     appsFlyerUID: state.app.appsFlyerUID,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
+  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
 )
 class Welcome extends Component {
   static propTypes = {};
@@ -31,29 +30,29 @@ class Welcome extends Component {
   });
 
   state = {
-    revisionId: "",
+    revisionId: '',
   };
 
   async componentDidMount() {
     const appVersion = await appUtil.getRevisionId();
-    this.setState({ revisionId: appVersion.revisionId });
+    this.setState({revisionId: appVersion.revisionId});
   }
 
   onPressLogin = () => {
-    const { actions } = this.props;
-    actions.navigateTo("Login");
+    const {actions} = this.props;
+    actions.navigateTo('Login');
   };
   render() {
     const style = WelcomeStyle();
-    const { actions } = this.props;
+    const {actions} = this.props;
 
-    const { revisionId } = this.state;
+    const {revisionId} = this.state;
     return (
       <RegularLayout fabType="hide">
         <View style={style.wrapper}>
           <Image
-            source={require("../../../../assets/images/Onboarding-Welcome3x.png")}
-            style={{ height: 140, resizeMode: "contain" }}
+            source={require('../../../../assets/images/Onboarding-Welcome3x.png')}
+            style={{height: 140, resizeMode: 'contain'}}
           />
           <CelText weight="bold" align="center" type="H1" style={style.title}>
             Welcome to Celsius Network
@@ -64,8 +63,7 @@ class Welcome extends Component {
           </CelText>
           <CelButton
             style={style.button}
-            onPress={() => actions.navigateTo("RegisterInitial")}
-          >
+            onPress={() => actions.navigateTo('RegisterInitial')}>
             Join Celsius
           </CelButton>
           <CelButton basic onPress={() => this.onPressLogin()}>
@@ -77,8 +75,7 @@ class Welcome extends Component {
             weight="light"
             align="center"
             type="H7"
-            style={{ opacity: 0.5 }}
-          >
+            style={{opacity: 0.5}}>
             Celsius App version: {revisionId}
           </CelText>
         </View>

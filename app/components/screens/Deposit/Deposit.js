@@ -267,11 +267,11 @@ class Deposit extends Component {
         >
           {" "}
           If your wallet doesn't support{" "}
-          <CelText weight="semi-bold" color="#FFFFFF">
+          <CelText weight="bold" color="#FFFFFF">
             {alternateText1}-format
           </CelText>{" "}
           addresses you can use a{" "}
-          <CelText weight="semi-bold" color="#FFFFFF">
+          <CelText weight="bold" color="#FFFFFF">
             {alternateText2}-format
           </CelText>{" "}
           {currency} address.
@@ -405,8 +405,8 @@ class Deposit extends Component {
                     >
                       <Icon
                         name="Info"
-                        height="20"
-                        width="20"
+                        height="19"
+                        width="19"
                         fill={infoColor}
                         stroke="rgba(61,72,83, 1)"
                         style={{ marginLeft: 10, marginTop: 2 }}

@@ -1,7 +1,8 @@
-import * as Permissions from "expo-permissions";
-import { Linking, Platform } from "react-native";
+// TODO(sb): RN update dependencies fixes
+// import * as Permissions from "expo-permissions";
+import {Linking, Platform} from 'react-native';
 
-export { hasPermission, requestForPermission };
+export {hasPermission, requestForPermission};
 
 /**
  * Checks if a user has allowed some permission
@@ -10,8 +11,8 @@ export { hasPermission, requestForPermission };
  * @returns {boolean}
  */
 async function hasPermission(permission) {
-  const { status } = await Permissions.getAsync(permission);
-  return status === "granted";
+  // const { status } = await Permissions.getAsync(permission);
+  // return status === "granted";
 }
 
 /**
@@ -24,7 +25,7 @@ async function hasPermission(permission) {
  * @returns {boolean}
  */
 async function requestForPermission(permission, options) {
-  let { status } = await Permissions.getAsync(permission);
+  // let { status } = await Permissions.getAsync(permission);
   const defaultOpts = {
     goToSettings: true,
     askAnyway: true,
@@ -34,17 +35,17 @@ async function requestForPermission(permission, options) {
     ...defaultOpts,
     ...options,
   };
-  if (Platform.OS === "ios") {
-    if (status === "undetermined" && opts.askAnyway) {
-      const perm = await Permissions.askAsync(permission);
-      status = perm.status;
-    } else if (opts.goToSettings) {
-      Linking.openURL("app-settings:");
-    }
-  } else if (Platform.OS === "android" && opts && opts.askAnyway) {
-    const perm = await Permissions.askAsync(permission);
-    status = perm.status;
-  }
+  // if (Platform.OS === "ios") {
+  //   if (status === "undetermined" && opts.askAnyway) {
+  //     const perm = await Permissions.askAsync(permission);
+  //     status = perm.status;
+  //   } else if (opts.goToSettings) {
+  //     Linking.openURL("app-settings:");
+  //   }
+  // } else if (Platform.OS === "android" && opts && opts.askAnyway) {
+  //   const perm = await Permissions.askAsync(permission);
+  //   status = perm.status;
+  // }
 
-  return status === "granted";
+  // return status === "granted";
 }

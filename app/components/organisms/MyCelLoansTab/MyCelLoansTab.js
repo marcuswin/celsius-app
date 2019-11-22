@@ -35,7 +35,7 @@ class MyCelInterestTab extends Component {
                 Lower interest on Loans
               </CelText>
               <CelText align={"center"} type={"H4"} weight={"300"}>
-                Payout your loan interest with CEL to decrease your monthly
+                Payout your loan interest with CEL to decrease you monthly
                 payment.
               </CelText>
             </View>

@@ -215,16 +215,6 @@ class TransactionDetails extends Component {
             Go back to wallet
           </CelButton>
         ) : null;
-      case "button:back:main":
-        return kycPassed ? (
-          <CelButton
-            margin="12 0 10 0"
-            key={sectionType}
-            onPress={() => actions.navigateTo("WalletLanding")}
-          >
-            Go back to wallet
-          </CelButton>
-        ) : null;
       case "button:deposit":
         return (
           <CelButton
@@ -235,6 +225,7 @@ class TransactionDetails extends Component {
             Deposit coins
           </CelButton>
         );
+
       case "button:celpay:another":
         return kycPassed ? (
           <CelButton
@@ -258,7 +249,7 @@ class TransactionDetails extends Component {
       case "button:cancel:withdrawal":
         return (
           <CelButton
-            margin="16 0 80 0"
+            margin="16 0 10 0"
             textColor={STYLES.COLORS.RED}
             key={sectionType}
             onPress={() => actions.cancelWithdrawal(transactionId)}

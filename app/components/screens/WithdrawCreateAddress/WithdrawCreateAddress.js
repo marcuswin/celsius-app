@@ -1,47 +1,48 @@
-import React, { Component } from "react";
-import { View, TouchableOpacity, Keyboard } from "react-native";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as Permissions from "expo-permissions";
+import React, {Component} from 'react';
+import {View, TouchableOpacity, Keyboard} from 'react-native';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+// TODO(sb): RN update dependencies fixes
+// import * as Permissions from "expo-permissions";
 
-import cryptoUtil from "../../../utils/crypto-util";
+import cryptoUtil from '../../../utils/crypto-util';
 
-import { MODALS } from "../../../constants/UI";
-import addressUtil from "../../../utils/address-util";
-import * as appActions from "../../../redux/actions";
-import WithdrawalAddressConfirmationStyle from "./WithdrawCreateAddress.styles";
-import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import BalanceView from "../../atoms/BalanceView/BalanceView";
-import formatter from "../../../utils/formatter";
-import CelText from "../../atoms/CelText/CelText";
-import STYLES from "../../../constants/STYLES";
-import CelButton from "../../atoms/CelButton/CelButton";
-import InfoBox from "../../atoms/InfoBox/InfoBox";
-import CelInput from "../../atoms/CelInput/CelInput";
-import WithdrawWarningModal from "../../organisms/WithdrawWarningModal/WithdrawWarningModal";
-import MemoIdModal from "../../organisms/MemoIdModal/MemoIdModal";
-import DestinationTagModal from "../../organisms/DestinationTagModal/DestinationTagModal";
+import {MODALS} from '../../../constants/UI';
+import addressUtil from '../../../utils/address-util';
+import * as appActions from '../../../redux/actions';
+import WithdrawalAddressConfirmationStyle from './WithdrawCreateAddress.styles';
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import BalanceView from '../../atoms/BalanceView/BalanceView';
+import formatter from '../../../utils/formatter';
+import CelText from '../../atoms/CelText/CelText';
+import STYLES from '../../../constants/STYLES';
+import CelButton from '../../atoms/CelButton/CelButton';
+import InfoBox from '../../atoms/InfoBox/InfoBox';
+import CelInput from '../../atoms/CelInput/CelInput';
+import WithdrawWarningModal from '../../organisms/WithdrawWarningModal/WithdrawWarningModal';
+import MemoIdModal from '../../organisms/MemoIdModal/MemoIdModal';
+import DestinationTagModal from '../../organisms/DestinationTagModal/DestinationTagModal';
 
 @connect(
   state => ({
     walletSummary: state.wallet.summary,
     formData: state.forms.formData,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
+  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
 )
 class WithdrawCreateAddress extends Component {
   static navigationOptions = () => ({
-    title: "Withdrawal address",
-    right: "profile",
+    title: 'Withdrawal address',
+    right: 'profile',
   });
 
   constructor(props) {
     super(props);
 
-    const { formData, walletSummary } = props;
+    const {formData, walletSummary} = props;
     const coin = formData.coin;
     const coinData = walletSummary.coins.filter(
-      c => c.short === coin.toUpperCase()
+      c => c.short === coin.toUpperCase(),
     )[0];
 
     this.state = {
@@ -52,67 +53,67 @@ class WithdrawCreateAddress extends Component {
   }
 
   getCameraPermissions = async () => {
-    let perm = await Permissions.getAsync(Permissions.CAMERA);
-    if (perm.status !== "granted") {
-      perm = await Permissions.askAsync(Permissions.CAMERA);
-    }
-    return perm;
+    // let perm = await Permissions.getAsync(Permissions.CAMERA);
+    // if (perm.status !== "granted") {
+    //   perm = await Permissions.askAsync(Permissions.CAMERA);
+    // }
+    // return perm;
   };
 
   handleScan = code => {
-    const { actions } = this.props;
+    const {actions} = this.props;
     const address = addressUtil.splitAddressTag(code);
-    actions.updateFormField("withdrawAddress", address.newAddress);
-    actions.updateFormField("coinTag", address.newTag);
+    actions.updateFormField('withdrawAddress', address.newAddress);
+    actions.updateFormField('coinTag', address.newTag);
   };
 
   handleScanClick = async () => {
-    const { actions } = this.props;
+    const {actions} = this.props;
     const perm = await this.getCameraPermissions();
-    if (perm.status === "granted") {
-      actions.navigateTo("QRScanner", {
+    if (perm.status === 'granted') {
+      actions.navigateTo('QRScanner', {
         onScan: this.handleScan,
       });
     }
   };
 
   handeConfirmWithdrawal = () => {
-    const { actions, formData } = this.props;
+    const {actions, formData} = this.props;
 
-    if (!formData.coinTag && ["XRP", "XLM", "EOS"].includes(formData.coin)) {
+    if (!formData.coinTag && ['XRP', 'XLM', 'EOS'].includes(formData.coin)) {
       actions.openModal(MODALS.WITHDRAW_WARNING_MODAL);
     } else {
-      actions.navigateTo("VerifyProfile", {
+      actions.navigateTo('VerifyProfile', {
         onSuccess: actions.setCoinWithdrawalAddress,
       });
     }
   };
 
   handleConfirmWithdrawalFromModal = () => {
-    const { actions } = this.props;
+    const {actions} = this.props;
 
-    actions.navigateTo("VerifyProfile", {
+    actions.navigateTo('VerifyProfile', {
       onSuccess: actions.setCoinWithdrawalAddress,
     });
     actions.closeModal();
   };
 
   render() {
-    const { coin, balanceCrypto, balanceUsd } = this.state;
-    const { formData, actions } = this.props;
+    const {coin, balanceCrypto, balanceUsd} = this.state;
+    const {formData, actions} = this.props;
     const style = WithdrawalAddressConfirmationStyle();
     let tagText;
     let placeHolderText;
 
-    if (formData.coin && formData.coin.toLowerCase() === "xrp") {
-      tagText = "What is XRP Destination tag";
-      placeHolderText = "Destination Tag";
-    } else if (formData.coin && formData.coin.toLowerCase() === "xlm") {
-      tagText = "What is XLM Memo Id";
-      placeHolderText = "Memo Id";
-    } else if (formData.coin && formData.coin.toLowerCase() === "eos") {
-      tagText = "What is EOS Memo Id";
-      placeHolderText = "Memo Id";
+    if (formData.coin && formData.coin.toLowerCase() === 'xrp') {
+      tagText = 'What is XRP Destination tag';
+      placeHolderText = 'Destination Tag';
+    } else if (formData.coin && formData.coin.toLowerCase() === 'xlm') {
+      tagText = 'What is XLM Memo Id';
+      placeHolderText = 'Memo Id';
+    } else if (formData.coin && formData.coin.toLowerCase() === 'eos') {
+      tagText = 'What is EOS Memo Id';
+      placeHolderText = 'Memo Id';
     }
 
     const explainText = `Your ${formData.coin} withdrawal address is not set. Please, enter the address, or scan QR code.`;
@@ -129,27 +130,27 @@ class WithdrawCreateAddress extends Component {
           />
           <View style={style.wrapper}>
             <View style={style.coinAmountContainer}>
-              <CelText type={"H2"}>{formData.coin}</CelText>
-              <CelText type={"H1"} weight={"semi-bold"}>
+              <CelText type={'H2'}>{formData.coin}</CelText>
+              <CelText type={'H1'} weight={'semi-bold'}>
                 {formatter.getEllipsisAmount(formData.amountCrypto, -5)}
               </CelText>
-              <CelText color={"gray"} type={"H3"}>
+              <CelText color={'gray'} type={'H3'}>
                 {formatter.usd(formData.amountUsd)}
               </CelText>
             </View>
 
             <View style={style.containerWithMargin}>
-              <CelText type={"H4"}>{explainText}</CelText>
+              <CelText type={'H4'}>{explainText}</CelText>
             </View>
 
             <CelInput
               field="withdrawAddress"
-              placeholder={"Withdrawal address"}
+              placeholder={'Withdrawal address'}
               value={formData.withdrawAddress}
               type="text-area"
               multiline
               numberOfLines={formData.withdrawAddress ? 2 : 1}
-              returnKeyType={hasTag ? "next" : "done"}
+              returnKeyType={hasTag ? 'next' : 'done'}
               blurOnSubmit={!hasTag}
               onSubmitEditing={() =>
                 hasTag ? this.tag.focus() : Keyboard.dismiss()
@@ -158,7 +159,7 @@ class WithdrawCreateAddress extends Component {
 
             <View style={style.containerWithMargin}>
               <TouchableOpacity onPress={this.handleScanClick}>
-                <CelText type={"H5"} style={style.tagText}>
+                <CelText type={'H5'} style={style.tagText}>
                   Scan QR Code
                 </CelText>
               </TouchableOpacity>
@@ -170,20 +171,19 @@ class WithdrawCreateAddress extends Component {
                   placeholder={placeHolderText}
                   value={formData.coinTag}
                   field={`coinTag`}
-                  margin={"10 0 10 0"}
+                  margin={'10 0 10 0'}
                   refs={input => {
                     this.tag = input;
                   }}
                 />
-                <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
+                <View style={{marginBottom: 10, alignSelf: 'flex-start'}}>
                   <TouchableOpacity
                     onPress={() =>
-                      formData.coin.toLowerCase() === "xrp"
+                      formData.coin.toLowerCase() === 'xrp'
                         ? actions.openModal(MODALS.DESTINATION_TAG_MODAL)
                         : actions.openModal(MODALS.MEMO_ID_MODAL)
-                    }
-                  >
-                    <CelText type={"H5"} style={style.tagText}>
+                    }>
+                    <CelText type={'H5'} style={style.tagText}>
                       {tagText}
                     </CelText>
                   </TouchableOpacity>
@@ -193,19 +193,19 @@ class WithdrawCreateAddress extends Component {
             {formData.coin &&
             cryptoUtil.isERC20(formData.coin.toLowerCase()) ? (
               <InfoBox
-                color={"white"}
+                color={'white'}
                 backgroundColor={STYLES.COLORS.ORANGE}
                 titleText={
-                  "Note: we use a smart-contract to send ERC20 tokens, some wallets do not support such transactions."
+                  'Note: we use a smart-contract to send ERC20 tokens, some wallets do not support such transactions.'
                 }
                 left
               />
             ) : (
               <InfoBox
-                color={"white"}
+                color={'white'}
                 backgroundColor={STYLES.COLORS.ORANGE}
                 titleText={
-                  "Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours."
+                  'Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours.'
                 }
                 left
               />
@@ -213,8 +213,7 @@ class WithdrawCreateAddress extends Component {
             <View style={style.button}>
               <CelButton
                 disabled={!formData.withdrawAddress}
-                onPress={this.handeConfirmWithdrawal}
-              >
+                onPress={this.handeConfirmWithdrawal}>
                 Confirm withdrawal
               </CelButton>
             </View>

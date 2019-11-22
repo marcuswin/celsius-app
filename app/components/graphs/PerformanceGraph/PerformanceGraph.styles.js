@@ -4,7 +4,6 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "../../../utils/styles-util";
-import STYLES from "../../../constants/STYLES";
 
 const height = heightPercentageToDP("25%");
 const { width } = Dimensions.get("window");
@@ -31,11 +30,25 @@ const base = {
     height: heightPercentageToDP("5.2%"),
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(61,72,83,1)",
   },
   labelText: {
     fontFamily: "Barlow-Regular",
     color: "white",
     height: heightPercentageToDP("2.7%"),
+  },
+  triangle: {
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderLeftWidth: widthPercentageToDP("1.5%"),
+    borderRightWidth: widthPercentageToDP("1.5%"),
+    borderBottomWidth: widthPercentageToDP("1.5%"),
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderBottomColor: "rgba(61,72,83,1)",
+    transform: [{ rotate: "180deg" }],
   },
   scrollPointer: {
     position: "absolute",
@@ -56,17 +69,9 @@ const base = {
 };
 
 const themed = {
-  light: {
-    labelBackground: {
-      backgroundColor: STYLES.COLORS.DARK_GRAY,
-    },
-  },
+  light: {},
 
-  dark: {
-    labelBackground: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER,
-    },
-  },
+  dark: {},
 
   celsius: {},
 };
