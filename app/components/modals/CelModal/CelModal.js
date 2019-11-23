@@ -9,6 +9,7 @@ import * as appActions from "../../../redux/actions";
 import { MODALS } from "../../../constants/UI";
 import CelModalStyle from "./CelModal.styles";
 import Icon from "../../atoms/Icon/Icon";
+import { heightPercentageToDP } from "../../../utils/styles-util";
 
 @connect(
   state => ({
@@ -25,11 +26,13 @@ class CelModal extends Component {
       PropTypes.number,
     ]),
     pictureDimensions: PropTypes.instanceOf(Object),
+    maxHeight: PropTypes.string,
   };
   static defaultProps = {
     hasCloseButton: true,
     picture: null,
     pictureDimensions: {},
+    maxHeight: "60%",
   };
 
   renderPicture = () => {
@@ -75,6 +78,7 @@ class CelModal extends Component {
       children,
       picture,
       hasCloseButton,
+      maxHeight,
     } = this.props;
     const style = CelModalStyle();
 
@@ -86,7 +90,12 @@ class CelModal extends Component {
         visible={openedModal === name}
       >
         <View style={style.wrapper}>
-          <View style={style.modal}>
+          <View
+            style={[
+              style.modal,
+              { maxHeight: heightPercentageToDP(maxHeight) },
+            ]}
+          >
             <View style={{ height: picture || hasCloseButton ? 50 : 0 }}>
               {!!hasCloseButton && this.renderClose()}
               {!!picture && this.renderPicture()}
