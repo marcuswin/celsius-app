@@ -20,8 +20,9 @@ import STYLES from "../../../constants/STYLES";
 import * as appActions from "../../../redux/actions";
 import Separator from "../../atoms/Separator/Separator";
 import { widthPercentageToDP } from "../../../utils/styles-util";
+import formatter from "../../../utils/formatter";
 
-// TODO: move to cosntants
+// TODO: move to cosntant24s
 const DATE_OPTIONS = [
   "Anytime",
   "Last Day",
@@ -33,7 +34,7 @@ const DATE_OPTIONS = [
 const TRANSACTION_TYPE = [
   {
     name: "All Transactions",
-    icon: "CloseCircle",
+    icon: "CircleCheckIcon",
   },
   {
     name: "Interest",
@@ -58,11 +59,16 @@ const TRANSACTION_TYPE = [
 ];
 
 // TODO: move to atom
-const TransactionsFilterItem = ({ item, activeCoin, customStyles }) => {
+const TransactionsFilterItem = ({
+  item,
+  activeCoin,
+  customStyles,
+  onPressIcon,
+}) => {
   const style = TransactionFilterModalStyle();
   return (
     <View style={style.itemStyle}>
-      <TouchableOpacity style={style.optionPickerWrapper}>
+      <TouchableOpacity style={style.optionPickerWrapper} onpress={onPressIcon}>
         <View
           style={[
             style.iconWrapper,
@@ -111,8 +117,31 @@ class TransactionFilterModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {}; // TODO: create init state
+    const coinsList = this.handleCoinsList();
+
+    this.state = {
+      dateFilter: DATE_OPTIONS[0],
+      transactionTypeFilter: TRANSACTION_TYPE[0].name,
+      coinsFilter: coinsList[0],
+    };
   }
+
+  handleCoinsList = () => {
+    const { coins } = this.props;
+
+    const coinsList = coins.map(c => ({
+      ...c,
+      icon: `Icon${c.short}`,
+      name: formatter.capitalize(c.name),
+    }));
+
+    coinsList.unshift({
+      name: "All Transactions",
+      icon: "CircleCheckIcon",
+    });
+
+    return coinsList;
+  };
 
   renderDateList = () => {
     const style = TransactionFilterModalStyle();
@@ -129,7 +158,16 @@ class TransactionFilterModal extends Component {
         >
           <FlatList
             data={DATE_OPTIONS}
-            renderItem={({ item }) => <TransactionsFilterItem item={item} />}
+            renderItem={({ item, index }) => (
+              <TransactionsFilterItem
+                item={item}
+                onPressIcon={() => {
+                  this.setState({
+                    dateFilter: DATE_OPTIONS[index],
+                  });
+                }}
+              />
+            )}
           />
         </ExpandableItem>
       </View>
@@ -159,13 +197,8 @@ class TransactionFilterModal extends Component {
   };
 
   renderCoinsList = () => {
-    const { coins } = this.props;
     const style = TransactionFilterModalStyle();
-
-    const coinsList = coins.map(c => ({
-      ...c,
-      icon: `Icon${c.short}`,
-    }));
+    const coinsList = this.handleCoinsList();
 
     // TODO: add selection to state
 
