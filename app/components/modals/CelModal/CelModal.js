@@ -30,6 +30,7 @@ class CelModal extends Component {
     hasCloseButton: true,
     picture: null,
     pictureDimensions: {},
+    onClose: PropTypes.func,
   };
 
   renderPicture = () => {
@@ -45,13 +46,14 @@ class CelModal extends Component {
   };
 
   renderClose = () => {
-    const { actions } = this.props;
+    const { actions, onClose } = this.props;
     const style = CelModalStyle();
 
     return (
       <TouchableOpacity
         style={style.closeBtn}
         onPress={() => {
+          if (onClose) onClose();
           actions.closeModal();
         }}
       >
@@ -75,6 +77,7 @@ class CelModal extends Component {
       children,
       picture,
       hasCloseButton,
+      onClose,
     } = this.props;
     const style = CelModalStyle();
 
@@ -101,6 +104,7 @@ class CelModal extends Component {
             <TouchableOpacity
               style={style.outsideCloseModal}
               onPress={() => {
+                if (onClose) onClose();
                 actions.closeModal();
               }}
             />
