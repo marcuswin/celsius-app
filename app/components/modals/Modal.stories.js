@@ -28,6 +28,8 @@ import DepositInfoModal from "./DepositInfoModal/DepositInfoModal";
 import RemoveAuthAppModal from "./RemoveAuthAppModal/RemoveAuthAppModal";
 import LoseTierModal from "./LoseTierModal/LoseTierModal";
 import LoseMembershipModal from "./LoseMembershipModal/LoseMembershipModal";
+import MemoIdModal from "./MemoIdModal/MemoIdModal";
+import ApiKeyRevokeModal from "./ApiKeyRevokeModal/ApiKeyRevokeModal";
 
 let type = "";
 
@@ -242,5 +244,25 @@ storiesOf("Modals", module)
         Open LoseMembershipModal
       </CelButton>
       <LoseMembershipModal />
+    </View>
+  ))
+  .add("MemoIdModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.MEMO_ID_MODAL))}
+      >
+        Open MemoIdModal
+      </CelButton>
+      <MemoIdModal coin={"EOS"} />
+    </View>
+  ))
+  .add("ApiKeyRevokeModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.API_KEY_REVOKE_MODAL))}
+      >
+        Open ApiKeyRevokeModal
+      </CelButton>
+      <ApiKeyRevokeModal />
     </View>
   ));
