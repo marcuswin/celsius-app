@@ -42,6 +42,19 @@ class ApiAuthorization extends Component {
     actions.getAllAPIKeys();
   }
 
+  handleModal = () => {
+    const { actions } = this.props;
+    const { openedApiDropdown } = this.state;
+
+    actions.closeModal();
+    actions.revokeAPIKey(openedApiDropdown.id);
+  };
+
+  closeModal = () => {
+    const { actions } = this.props;
+    actions.closeModal();
+  };
+
   render() {
     // const style = ApiAuthorizationStyle();
     const { apiKeys, actions } = this.props;
@@ -76,7 +89,11 @@ class ApiAuthorization extends Component {
             </CelApiDropdown>
           ))}
 
-        <ApiKeyRevokeModal apiKey={openedApiDropdown} />
+        <ApiKeyRevokeModal
+          apiKey={openedApiDropdown}
+          handleModal={this.handleModal}
+          closeModal={this.closeModal}
+        />
       </RegularLayout>
     );
   }
