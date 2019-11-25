@@ -12,7 +12,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import CelApiDropdown from "../../molecules/CelApiDropdown/CelApiDropdown";
-import ApiKeyRevokeModal from "../../organisms/ApiKeyRevokeModal/ApiKeyRevokeModal";
+import ApiKeyRevokeModal from "../../modals/ApiKeyRevokeModal/ApiKeyRevokeModal";
 
 @connect(
   state => ({
@@ -41,14 +41,6 @@ class ApiAuthorization extends Component {
     const { actions } = this.props;
     actions.getAllAPIKeys();
   }
-
-  handleModal = () => {
-    const { actions } = this.props;
-    const { openedApiDropdown } = this.state;
-
-    actions.closeModal();
-    actions.revokeAPIKey(openedApiDropdown.id);
-  };
 
   closeModal = () => {
     const { actions } = this.props;
@@ -89,11 +81,7 @@ class ApiAuthorization extends Component {
             </CelApiDropdown>
           ))}
 
-        <ApiKeyRevokeModal
-          apiKey={openedApiDropdown}
-          handleModal={this.handleModal}
-          closeModal={this.closeModal}
-        />
+        <ApiKeyRevokeModal apiKey={openedApiDropdown} />
       </RegularLayout>
     );
   }
