@@ -1,9 +1,16 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import InfoModal from "../InfoModalNew/InfoModal.js";
 import RemoveAuthAppModalStyle from "./RemoveAuthAppModal.styles";
 import { MODALS } from "../../../constants/UI";
+import * as appActions from "../../../redux/actions";
 
+@connect(
+  () => ({}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
+)
 class RemoveAuthAppModal extends Component {
   removeTwoFactor = async () => {
     const { actions } = this.props;

@@ -263,6 +263,6 @@ storiesOf("Modals", module)
       >
         Open ApiKeyRevokeModal
       </CelButton>
-      <ApiKeyRevokeModal />
+      <ApiKeyRevokeModal apiKey={"fake-api-key"} />
     </View>
   ));

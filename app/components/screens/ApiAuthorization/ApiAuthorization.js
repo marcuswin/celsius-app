@@ -12,7 +12,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import CelApiDropdown from "../../molecules/CelApiDropdown/CelApiDropdown";
-import ApiKeyRevokeModal from "../../modals/ApiKeyRevokeModal/ApiKeyRevokeModal";
+import ApiKeyRevokeModal from "../../organisms/ApiKeyRevokeModal/ApiKeyRevokeModal";
 
 @connect(
   state => ({
