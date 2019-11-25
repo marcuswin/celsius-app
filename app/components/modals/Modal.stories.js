@@ -29,6 +29,7 @@ import LoanAlertsMarginCallDepositCoinsModal from "./LoanAlertsModals/LoanAlerts
 import LoanAlertsDepositCoinsModal from "./LoanAlertsModals/LoanAlertsDepositCoinsModal/LoanAlertsDepositCoinsModal";
 import LoanAlertsMarginCallLockCoinModal from "./LoanAlertsModals/LoanAlertsMarginCallLockCoinModal/LoanAlertsMarginCallLockCoinModal";
 import DepositInfoModal from "./DepositInfoModal/DepositInfoModal";
+import CalculateLoayltyLevelModal from "./CalculateLoayltyLevelModal/CalculateLoayltyLevelModal";
 
 let type = "";
 
@@ -265,5 +266,17 @@ storiesOf("Modals", module)
         Open Info DepositInfoModal
       </CelButton>
       <DepositInfoModal onPressConfirm={action("onPressConfirm")} type={type} />
+    </View>
+  ))
+  .add("CalculateLoayltyLevelModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() =>
+          store.dispatch(openModal(MODALS.MY_CEL_LOYALTY_CALCULATOR_MODAL))
+        }
+      >
+        Open CalculateLoayltyLevelModal
+      </CelButton>
+      <CalculateLoayltyLevelModal />
     </View>
   ));
