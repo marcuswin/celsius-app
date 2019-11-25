@@ -24,6 +24,10 @@ import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal
 import LoanApplicationSuccessModal from "./LoanApplicationSuccessModal/LoanApplicationSuccessModal";
 import CancelLoanModal from "./CancelLoanModal/CancelLoanModal";
 import BecomeCelMemberModal from "./BecomeCelMemberModal/BecomeCelMemberModal";
+import LoanAlertsPayoutPrincipalModal from "./LoanAlertsModals/LoanAlertsPayoutPrincipalModal/LoanAlertsPayoutPrincipalModal";
+import LoanAlertsMarginCallDepositCoinsModal from "./LoanAlertsModals/LoanAlertsMarginCallDepositCoinsModal/LoanAlertsMarginCallDepositCoinsModal";
+import LoanAlertsDepositCoinsModal from "./LoanAlertsModals/LoanAlertsDepositCoinsModal/LoanAlertsDepositCoinsModal";
+import LoanAlertsMarginCallLockCoinModal from "./LoanAlertsModals/LoanAlertsMarginCallLockCoinModal/LoanAlertsMarginCallLockCoinModal";
 import DepositInfoModal from "./DepositInfoModal/DepositInfoModal";
 
 let type = "";
@@ -175,6 +179,58 @@ storiesOf("Modals", module)
         Open CancelLoanModal
       </CelButton>
       <CancelLoanModal onPressConfirm={action("onPressConfirm")} />
+    </View>
+  ))
+  .add("BecomeCelMemberModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() =>
+          store.dispatch(openModal(MODALS.BECAME_CEL_MEMBER_MODAL))
+        }
+      >
+        Open BecomeCelMemberModal
+      </CelButton>
+      <BecomeCelMemberModal />
+    </View>
+  ))
+  .add("LoanAlertsPayoutPrincipalModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_ALERT_MODAL))}
+      >
+        Open LoanAlertsPayoutPrincipalModal
+      </CelButton>
+      <LoanAlertsPayoutPrincipalModal />
+    </View>
+  ))
+  .add("LoanAlertsDepositCoinsModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_ALERT_MODAL))}
+      >
+        Open LoanAlertsDepositCoinsModal
+      </CelButton>
+      <LoanAlertsDepositCoinsModal />
+    </View>
+  ))
+  .add("LoanAlertsMarginCallDepositCoinsModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_ALERT_MODAL))}
+      >
+        Open LoanAlertsMarginCallDepositCoinsModal
+      </CelButton>
+      <LoanAlertsMarginCallDepositCoinsModal yesCopy={"Deposit coins"} />
+    </View>
+  ))
+  .add("LoanAlertsMarginCallLockCoinModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_ALERT_MODAL))}
+      >
+        Open LoanAlertsMarginCallLockCoinModal
+      </CelButton>
+      <LoanAlertsMarginCallLockCoinModal />
     </View>
   ))
   .add("BecomeCelMemberModal", () => (
