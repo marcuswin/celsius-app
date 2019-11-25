@@ -25,6 +25,9 @@ import LoanApplicationSuccessModal from "./LoanApplicationSuccessModal/LoanAppli
 import CancelLoanModal from "./CancelLoanModal/CancelLoanModal";
 import BecomeCelMemberModal from "./BecomeCelMemberModal/BecomeCelMemberModal";
 import DepositInfoModal from "./DepositInfoModal/DepositInfoModal";
+import RemoveAuthAppModal from "./RemoveAuthAppModal/RemoveAuthAppModal";
+import LoseTierModal from "./LoseTierModal/LoseTierModal";
+import LoseMembershipModal from "./LoseMembershipModal/LoseMembershipModal";
 
 let type = "";
 
@@ -209,5 +212,35 @@ storiesOf("Modals", module)
         Open Info DepositInfoModal
       </CelButton>
       <DepositInfoModal onPressConfirm={action("onPressConfirm")} type={type} />
+    </View>
+  ))
+  .add("RemoveAuthAppModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.REMOVE_AUTHAPP_MODAL))}
+      >
+        Open RemoveAuthAppModal
+      </CelButton>
+      <RemoveAuthAppModal />
+    </View>
+  ))
+  .add("LoseTierModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOSE_TIER_MODAL))}
+      >
+        Open LoseTierModal
+      </CelButton>
+      <LoseTierModal tierTitle={"PLATINUM"} />
+    </View>
+  ))
+  .add("LoseMembershipModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOSE_MEMBERSHIP_MODAL))}
+      >
+        Open LoseMembershipModal
+      </CelButton>
+      <LoseMembershipModal />
     </View>
   ));
