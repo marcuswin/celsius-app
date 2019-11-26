@@ -5,6 +5,11 @@ const base = {
   container: {
     flex: 1,
   },
+  buttonsWrapper: {
+    justifyContent: "flex-end",
+    marginTop: 20,
+    height: 50,
+  },
 };
 
 const themed = {

@@ -1,14 +1,16 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import { MODALS } from "../../../constants/UI";
 import CelText from "../../atoms/CelText/CelText";
-import CelButton from "../../atoms/CelButton/CelButton";
 import CelModal from "../CelModal/CelModal";
 import { heightPercentageToDP } from "../../../utils/styles-util";
+import CelModalButton from "../../atoms/CelModalButton/CelModalButton";
+import MemoIdModalStyle from "./MemoIdModal.styles";
 
 const MemoIdModal = props => {
   const { closeModal, coin } = props;
+  const style = MemoIdModalStyle();
   return (
     <CelModal name={MODALS.MEMO_ID_MODAL}>
       <ScrollView style={{ maxHeight: heightPercentageToDP("60%") }}>
@@ -29,11 +31,10 @@ const MemoIdModal = props => {
           Exchanges require Memo ID, so please make sure to provide it, or you
           risk losing your money.
         </CelText>
-
-        <CelButton margin={"0 0 20 0"} onPress={closeModal}>
-          Got it
-        </CelButton>
       </ScrollView>
+      <View style={style.buttonsWrapper}>
+        <CelModalButton onPress={closeModal}>Got it</CelModalButton>
+      </View>
     </CelModal>
   );
 };
