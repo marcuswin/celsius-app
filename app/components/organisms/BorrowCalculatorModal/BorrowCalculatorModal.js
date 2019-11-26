@@ -18,7 +18,13 @@ const BorrowCalculatorModal = props => (
       How much you like to borrow?
     </CelText>
 
-    <View style={{ padding: 10, backgroundColor: STYLES.COLORS.LIGHT_GRAY }}>
+    <View
+      style={{
+        padding: 15,
+        paddingTop: 25,
+        backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+      }}
+    >
       <BorrowCalculator
         emitParams={props.emitParams}
         themeModal={THEMES.LIGHT}

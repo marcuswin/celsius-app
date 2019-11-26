@@ -560,9 +560,8 @@ function getTransactionSections(transaction) {
         "date",
         "time",
         "status:noSeparator",
-        "button:deposit",
+        "button:back:main",
         "button:cancel:withdrawal",
-        "button:back",
       ];
     case TRANSACTION_TYPES.WITHDRAWAL_PENDING_REVIEW:
       return [
@@ -571,7 +570,6 @@ function getTransactionSections(transaction) {
         "date",
         "time",
         "status:noSeparator",
-        "button:deposit",
         "button:back",
       ];
     case TRANSACTION_TYPES.WITHDRAWAL_PENDING:
@@ -582,7 +580,6 @@ function getTransactionSections(transaction) {
         "time",
         "status:noSeparator",
         "transactionId",
-        "button:deposit",
         "button:back",
       ];
     case TRANSACTION_TYPES.WITHDRAWAL_CANCELED:

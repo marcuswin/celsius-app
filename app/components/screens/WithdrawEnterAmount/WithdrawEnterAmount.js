@@ -58,7 +58,6 @@ class WithdrawEnterAmount extends Component {
 
   constructor(props) {
     super(props);
-
     const {
       navigation,
       currencies,
@@ -73,6 +72,7 @@ class WithdrawEnterAmount extends Component {
         coinSelectItems[0].value) ||
         ""
     );
+
     const coinSelectItems = currencies
       .filter(c => withdrawCompliance.coins.includes(c.short))
       .filter(c => {
@@ -241,6 +241,7 @@ class WithdrawEnterAmount extends Component {
       withdrawalAddresses,
       loyaltyInfo,
       kycStatus,
+      withdrawCompliance,
     } = this.props;
 
     const style = WithdrawEnterAmountStyle();
@@ -260,6 +261,9 @@ class WithdrawEnterAmount extends Component {
         />
       );
     }
+    if (!withdrawCompliance.allowed) {
+      return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
+    }
     if (!cryptoUtil.isGreaterThan(walletSummary.total_amount_usd, 0)) {
       return (
         <StaticScreen
@@ -273,12 +277,6 @@ class WithdrawEnterAmount extends Component {
       c => c.short === coin.toUpperCase()
     ) || { amount: "", amount_usd: "" };
 
-    if (!hasPassedKYC())
-      return (
-        <StaticScreen
-          emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }}
-        />
-      );
     if (!withdrawalAddresses) return <LoadingScreen />;
 
     const isAddressLocked =

@@ -4,10 +4,15 @@ import { getThemedStyle } from "../../../utils/styles-util";
 const base = {
   container: {
     flex: 1,
+    height: 50,
+    transform: [
+      {
+        translateY: 0.5,
+      },
+    ],
   },
   buttonStyle: {
     flex: 1,
-    borderWidth: 2,
     borderStyle: "solid",
     justifyContent: "center",
     alignItems: "center",
