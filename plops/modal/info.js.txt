@@ -1,14 +1,17 @@
 import React from 'react';
 import { View } from 'react-native';
 
+import InfoModal from "../InfoModal/InfoModal.js"
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+import {MODALS} from "../../../constants/UI";
 
 const {{pascalCase name}} = (props) => {
   const style = {{pascalCase name}}Style(props.theme)
   return (
-    <View style={style.container}>
-      <{{pascalCase name}} />
-    </View>
+    <InfoModal
+      style={style.container}
+      name={}
+    />
   )
 }
 
