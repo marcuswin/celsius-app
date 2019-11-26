@@ -269,11 +269,12 @@ class FabMenu extends Component {
 
     if (Platform.OS !== "android") {
       return (
-        <BlurView
-          tint={tintColor}
-          intensity={100}
-          style={[StyleSheet.absoluteFill]}
-        >
+        <>
+          <BlurView
+            tint={tintColor}
+            intensity={100}
+            style={[StyleSheet.absoluteFill]}
+          />
           <Card
             styles={style.helpCard}
             size={"half"}
@@ -299,7 +300,7 @@ class FabMenu extends Component {
           <View style={style.menuContainer}>
             {menuItems.map(this.renderMenuRow)}
           </View>
-        </BlurView>
+        </>
       );
     }
     return (

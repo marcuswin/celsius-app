@@ -346,19 +346,19 @@ function setAppsFlyerUID() {
  */
 function getGeolocation() {
   return async dispatch => {
-    const permission = await requestForPermission(Permissions.LOCATION, {
-      goToSettings: false,
-    });
+    // const permission = await requestForPermission(Permissions.LOCATION, {
+    //   goToSettings: false,
+    // });
 
-    if (!permission) return;
+    // if (!permission) return;
 
     // const location = await Location.getCurrentPositionAsync({});
-    if (location && location.coords) {
-      dispatch({
-        type: ACTIONS.SET_GEOLOCATION,
-        geoLat: location.coords.latitude,
-        geoLong: location.coords.longitude,
-      });
-    }
+    // if (location && location.coords) {
+    //   dispatch({
+    //     type: ACTIONS.SET_GEOLOCATION,
+    //     geoLat: location.coords.latitude,
+    //     geoLong: location.coords.longitude,
+    //   });
+    // }
   };
 }

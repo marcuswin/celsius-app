@@ -228,8 +228,8 @@ class MultistepModal extends Component {
                           <View style={style.modalContent}>{s}</View>
                         </ScrollView>
                       ) : (
-                        <View style={style.modalContent}>{s}</View>
-                      )}
+                          <View style={style.modalContent}>{s}</View>
+                        )}
                     </Animated.View>
                   </View>
                 ))}
@@ -240,14 +240,13 @@ class MultistepModal extends Component {
             tint={"dark"}
             intensity={100}
             style={StyleSheet.absoluteFill}
-          >
-            <TouchableOpacity
-              style={style.outsideCloseModal}
-              onPress={() => {
-                actions.closeModal();
-              }}
-            />
-          </BlurView>
+          />
+          <TouchableOpacity
+            style={style.outsideCloseModal}
+            onPress={() => {
+              actions.closeModal();
+            }}
+          />
         </View>
       </Modal>
     );

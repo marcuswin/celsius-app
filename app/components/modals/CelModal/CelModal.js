@@ -97,14 +97,13 @@ class CelModal extends Component {
             tint={"dark"}
             intensity={100}
             style={StyleSheet.absoluteFill}
-          >
-            <TouchableOpacity
-              style={style.outsideCloseModal}
-              onPress={() => {
-                actions.closeModal();
-              }}
-            />
-          </BlurView>
+          />
+          <TouchableOpacity
+            style={style.outsideCloseModal}
+            onPress={() => {
+              actions.closeModal();
+            }}
+          />
         </View>
       </Modal>
     );

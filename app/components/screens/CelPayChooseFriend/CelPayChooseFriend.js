@@ -112,20 +112,20 @@ class CelPayChooseFriend extends Component {
       ];
 
       await actions.getConnectedContacts();
-      const permission = await requestForPermission(Permissions.CONTACTS, {
-        goToSettings: false,
-      });
-      const hasFriends = this.hasFriends();
+      // const permission = await requestForPermission(Permissions.CONTACTS, {
+      //   goToSettings: false,
+      // });
+      // const hasFriends = this.hasFriends();
 
-      navigation.setParams({
-        title: permission && hasFriends ? "Choose a friend" : "Import Contacts",
-        right: permission && hasFriends ? "search" : "profile",
-      });
+      // navigation.setParams({
+      //   title: permission && hasFriends ? "Choose a friend" : "Import Contacts",
+      //   right: permission && hasFriends ? "search" : "profile",
+      // });
 
-      this.setState({
-        hasContactPermission: permission,
-        isLoading: false,
-      });
+      // this.setState({
+      //   hasContactPermission: permission,
+      //   isLoading: false,
+      // });
     } catch (err) {
       logger.log({ err });
       this.setState({

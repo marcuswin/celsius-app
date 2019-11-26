@@ -135,9 +135,9 @@ async function cacheImages(images) {
  */
 // Fonts are preloaded using Expo.Font.loadAsync(font).
 async function cacheFonts(fonts) {
-  for (let i = 0; i < fonts.length; i++) {
-    await Font.loadAsync(fonts[i]);
-  }
+  // for (let i = 0; i < fonts.length; i++) {
+  //   await Font.loadAsync(fonts[i]);
+  // }
 }
 
 /**

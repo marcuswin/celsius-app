@@ -346,39 +346,38 @@ class CelModal extends Component {
                 {childrenWithProps}
               </View>
             ) : (
-              <View>
-                <ScrollView
-                  style={[
-                    scrollWrapper,
-                    {
-                      marginTop: header
-                        ? heightPercentageToDP("15.3%")
-                        : heightPercentageToDP("2%"),
-                    },
-                    paddingStyle,
-                  ]}
-                  showsVerticalScrollIndicator={false}
-                  contentContainerStyle={{ flexGrow: 1 }}
-                >
-                  {!!modalInfo && this.renderModalContent()}
-                  {childrenWithProps}
-                </ScrollView>
-              </View>
-            )}
+                <View>
+                  <ScrollView
+                    style={[
+                      scrollWrapper,
+                      {
+                        marginTop: header
+                          ? heightPercentageToDP("15.3%")
+                          : heightPercentageToDP("2%"),
+                      },
+                      paddingStyle,
+                    ]}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                  >
+                    {!!modalInfo && this.renderModalContent()}
+                    {childrenWithProps}
+                  </ScrollView>
+                </View>
+              )}
           </View>
           <BlurView
             tint={"dark"}
             intensity={100}
             style={StyleSheet.absoluteFill}
-          >
-            <TouchableOpacity
-              style={style.outsideCloseModal}
-              onPress={() => {
-                actions.closeModal();
-                if (onClose) onClose();
-              }}
-            />
-          </BlurView>
+          />
+          <TouchableOpacity
+            style={style.outsideCloseModal}
+            onPress={() => {
+              actions.closeModal();
+              if (onClose) onClose();
+            }}
+          />
         </View>
       </Modal>
     );
