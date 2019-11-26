@@ -9,7 +9,6 @@ import * as appActions from "../../../redux/actions";
 import { MODALS } from "../../../constants/UI";
 import CelModalStyle from "./CelModal.styles";
 import Icon from "../../atoms/Icon/Icon";
-import { heightPercentageToDP } from "../../../utils/styles-util";
 
 @connect(
   state => ({
@@ -26,13 +25,12 @@ class CelModal extends Component {
       PropTypes.number,
     ]),
     pictureDimensions: PropTypes.instanceOf(Object),
-    maxHeight: PropTypes.string,
   };
   static defaultProps = {
     hasCloseButton: true,
     picture: null,
     pictureDimensions: {},
-    maxHeight: "60%",
+    onClose: PropTypes.func,
   };
 
   renderPicture = () => {
@@ -48,13 +46,14 @@ class CelModal extends Component {
   };
 
   renderClose = () => {
-    const { actions } = this.props;
+    const { actions, onClose } = this.props;
     const style = CelModalStyle();
 
     return (
       <TouchableOpacity
         style={style.closeBtn}
         onPress={() => {
+          if (onClose) onClose();
           actions.closeModal();
         }}
       >
@@ -78,7 +77,7 @@ class CelModal extends Component {
       children,
       picture,
       hasCloseButton,
-      maxHeight,
+      onClose,
     } = this.props;
     const style = CelModalStyle();
 
@@ -90,12 +89,7 @@ class CelModal extends Component {
         visible={openedModal === name}
       >
         <View style={style.wrapper}>
-          <View
-            style={[
-              style.modal,
-              { maxHeight: heightPercentageToDP(maxHeight) },
-            ]}
-          >
+          <View style={style.modal}>
             <View style={{ height: picture || hasCloseButton ? 50 : 0 }}>
               {!!hasCloseButton && this.renderClose()}
               {!!picture && this.renderPicture()}
@@ -110,6 +104,7 @@ class CelModal extends Component {
             <TouchableOpacity
               style={style.outsideCloseModal}
               onPress={() => {
+                if (onClose) onClose();
                 actions.closeModal();
               }}
             />

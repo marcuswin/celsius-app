@@ -86,14 +86,6 @@ class SecuritySettings extends Component {
       });
     }
   };
-  removeTwoFactor = async () => {
-    const { actions } = this.props;
-    await actions.closeModal();
-
-    actions.navigateTo("VerifyProfile", {
-      onSuccess: actions.disableTwoFactor,
-    });
-  };
 
   render() {
     const { actions, is2FAEnabled, user, kycStatus } = this.props;

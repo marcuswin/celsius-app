@@ -77,12 +77,14 @@ class BorrowLanding extends Component {
   }
 
   async componentDidMount() {
-    const { actions, loanCompliance } = this.props;
+    const { actions, loanCompliance, formData } = this.props;
+    if (formData.prepayLoanId) {
+      actions.openModal(MODALS.PREPAYMENT_SUCCESSFUL_MODAL);
+    }
 
     if (loanCompliance.allowed) {
       await actions.getAllLoans();
     }
-
     this.setState({ isLoading: false });
   }
 

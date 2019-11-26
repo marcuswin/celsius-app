@@ -24,7 +24,19 @@ import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal
 import LoanApplicationSuccessModal from "./LoanApplicationSuccessModal/LoanApplicationSuccessModal";
 import CancelLoanModal from "./CancelLoanModal/CancelLoanModal";
 import BecomeCelMemberModal from "./BecomeCelMemberModal/BecomeCelMemberModal";
+import CreateNewAccountModal from "./CreateNewAccountModal/CreateNewAccountModal";
+import PrepaymentSuccessfulModal from "./PrepaymentSuccessfulModal/PrepaymentSuccessfulModal";
+import LoanAlertsPayoutPrincipalModal from "./LoanAlertsModals/LoanAlertsPayoutPrincipalModal/LoanAlertsPayoutPrincipalModal";
+import LoanAlertsMarginCallDepositCoinsModal from "./LoanAlertsModals/LoanAlertsMarginCallDepositCoinsModal/LoanAlertsMarginCallDepositCoinsModal";
+import LoanAlertsDepositCoinsModal from "./LoanAlertsModals/LoanAlertsDepositCoinsModal/LoanAlertsDepositCoinsModal";
+import LoanAlertsMarginCallLockCoinModal from "./LoanAlertsModals/LoanAlertsMarginCallLockCoinModal/LoanAlertsMarginCallLockCoinModal";
 import DepositInfoModal from "./DepositInfoModal/DepositInfoModal";
+import RemoveAuthAppModal from "./RemoveAuthAppModal/RemoveAuthAppModal";
+import LoseTierModal from "./LoseTierModal/LoseTierModal";
+import LoseMembershipModal from "./LoseMembershipModal/LoseMembershipModal";
+import MemoIdModal from "./MemoIdModal/MemoIdModal";
+import ApiKeyRevokeModal from "./ApiKeyRevokeModal/ApiKeyRevokeModal";
+import CalculateLoayltyLevelModal from "./CalculateLoayltyLevelModal/CalculateLoayltyLevelModal";
 
 let type = "";
 
@@ -189,6 +201,82 @@ storiesOf("Modals", module)
       <BecomeCelMemberModal />
     </View>
   ))
+  .add("CreateNewAccountModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() =>
+          store.dispatch(openModal(MODALS.CREATE_NEW_ACCOUNT_MODAL))
+        }
+      >
+        Open CreateNewAccountModal
+      </CelButton>
+      <CreateNewAccountModal />
+    </View>
+  ))
+  .add("LoanAlertsPayoutPrincipalModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_ALERT_MODAL))}
+      >
+        Open LoanAlertsPayoutPrincipalModal
+      </CelButton>
+      <LoanAlertsPayoutPrincipalModal />
+    </View>
+  ))
+  .add("LoanAlertsDepositCoinsModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_ALERT_MODAL))}
+      >
+        Open LoanAlertsDepositCoinsModal
+      </CelButton>
+      <LoanAlertsDepositCoinsModal />
+    </View>
+  ))
+  .add("LoanAlertsMarginCallDepositCoinsModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_ALERT_MODAL))}
+      >
+        Open LoanAlertsMarginCallDepositCoinsModal
+      </CelButton>
+      <LoanAlertsMarginCallDepositCoinsModal yesCopy={"Deposit coins"} />
+    </View>
+  ))
+  .add("LoanAlertsMarginCallLockCoinModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOAN_ALERT_MODAL))}
+      >
+        Open LoanAlertsMarginCallLockCoinModal
+      </CelButton>
+      <LoanAlertsMarginCallLockCoinModal />
+    </View>
+  ))
+  .add("BecomeCelMemberModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() =>
+          store.dispatch(openModal(MODALS.BECAME_CEL_MEMBER_MODAL))
+        }
+      >
+        Open BecomeCelMemberModal
+      </CelButton>
+      <BecomeCelMemberModal />
+    </View>
+  ))
+  .add("PrepaymentSuccesfulModalStyle", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() =>
+          store.dispatch(openModal(MODALS.PREPAYMENT_SUCCESSFUL_MODAL))
+        }
+      >
+        Open PrepaymentSuccesfulModalStyle
+      </CelButton>
+      <PrepaymentSuccessfulModal />
+    </View>
+  ))
   .add("DepositInfoModal", () => (
     <View style={{ marginBottom: 30 }}>
       <CelButton
@@ -209,5 +297,67 @@ storiesOf("Modals", module)
         Open Info DepositInfoModal
       </CelButton>
       <DepositInfoModal onPressConfirm={action("onPressConfirm")} type={type} />
+    </View>
+  ))
+  .add("RemoveAuthAppModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.REMOVE_AUTHAPP_MODAL))}
+      >
+        Open RemoveAuthAppModal
+      </CelButton>
+      <RemoveAuthAppModal />
+    </View>
+  ))
+  .add("LoseTierModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOSE_TIER_MODAL))}
+      >
+        Open LoseTierModal
+      </CelButton>
+      <LoseTierModal tierTitle={"PLATINUM"} />
+    </View>
+  ))
+  .add("LoseMembershipModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.LOSE_MEMBERSHIP_MODAL))}
+      >
+        Open LoseMembershipModal
+      </CelButton>
+      <LoseMembershipModal />
+    </View>
+  ))
+  .add("MemoIdModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.MEMO_ID_MODAL))}
+      >
+        Open MemoIdModal
+      </CelButton>
+      <MemoIdModal coin={"EOS"} />
+    </View>
+  ))
+  .add("ApiKeyRevokeModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() => store.dispatch(openModal(MODALS.API_KEY_REVOKE_MODAL))}
+      >
+        Open ApiKeyRevokeModal
+      </CelButton>
+      <ApiKeyRevokeModal apiKey={"fake-api-key"} />
+    </View>
+  ))
+  .add("CalculateLoayltyLevelModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() =>
+          store.dispatch(openModal(MODALS.MY_CEL_LOYALTY_CALCULATOR_MODAL))
+        }
+      >
+        Open CalculateLoayltyLevelModal
+      </CelButton>
+      <CalculateLoayltyLevelModal />
     </View>
   ));

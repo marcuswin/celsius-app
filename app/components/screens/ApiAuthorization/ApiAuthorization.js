@@ -42,6 +42,11 @@ class ApiAuthorization extends Component {
     actions.getAllAPIKeys();
   }
 
+  closeModal = () => {
+    const { actions } = this.props;
+    actions.closeModal();
+  };
+
   render() {
     // const style = ApiAuthorizationStyle();
     const { apiKeys, actions } = this.props;

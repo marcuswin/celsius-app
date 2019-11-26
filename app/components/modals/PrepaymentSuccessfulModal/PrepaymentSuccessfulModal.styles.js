@@ -10,7 +10,6 @@ const base = {
     justifyContent: "space-between",
   },
   buttonsWrapper: {
-    flexDirection: "row",
     justifyContent: "flex-end",
     marginTop: 20,
     height: 50,
@@ -25,6 +24,6 @@ const themed = {
   celsius: {},
 };
 
-const WithdrawalInfoStyle = () => getThemedStyle(base, themed);
+const PrepaymentSuccesfulModalStyle = () => getThemedStyle(base, themed);
 
-export default WithdrawalInfoStyle;
+export default PrepaymentSuccesfulModalStyle;

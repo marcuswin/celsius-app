@@ -15,6 +15,8 @@ const InfoModal = props => {
     pictureDimensions,
     heading,
     paragraphs,
+    yesButtonPosition,
+    noButtonPosition,
     yesButtonStyle,
     onYes,
     yesCopy,
@@ -59,13 +61,21 @@ const InfoModal = props => {
 
         <View style={style.buttonWrapper}>
           {yesCopy ? (
-            <CelModalButton buttonStyle={yesButtonStyle} onPress={onYes}>
+            <CelModalButton
+              buttonStyle={yesButtonStyle}
+              onPress={onYes}
+              position={yesButtonPosition}
+            >
               {yesCopy}
             </CelModalButton>
           ) : null}
 
           {noCopy ? (
-            <CelModalButton buttonStyle={noButtonStyle} onPress={onNo}>
+            <CelModalButton
+              buttonStyle={noButtonStyle}
+              onPress={onNo}
+              position={noButtonPosition}
+            >
               {noCopy}
             </CelModalButton>
           ) : null}

@@ -24,6 +24,7 @@ import WalletLandingStyle from "./WalletLanding.styles";
 import LoanAlertsModal from "../../organisms/LoanAlertsModal/LoanAlertsModal";
 import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger";
 import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
+// import LoanAlertsModalWrapper from "../../modals/LoanAlertsModals/LoanAlertsModalWrapper";
 
 @connect(
   state => {
@@ -265,6 +266,7 @@ class WalletLanding extends Component {
           title={"Congrats! You have earned 1 CEL token!"}
         />
         <EarnInterestCelModal />
+        {/* <LoanAlertsModalWrapper />*/}
         <LoanAlertsModal />
       </RegularLayout>
     );
