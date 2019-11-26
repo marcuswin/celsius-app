@@ -1,49 +1,49 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import DeviceInfo from 'react-native-device-info';
-import {View, TouchableOpacity, TextInput} from 'react-native';
-import {withNavigationFocus} from 'react-navigation';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import DeviceInfo from "react-native-device-info";
+import { View, TouchableOpacity, TextInput } from "react-native";
+import { withNavigationFocus } from "react-navigation";
 
-import CelNumpadStyle from './CelNumpad.styles';
-import CelText from '../../atoms/CelText/CelText';
+import CelNumpadStyle from "./CelNumpad.styles";
+import CelText from "../../atoms/CelText/CelText";
 import {
   KEYBOARD_TYPE,
   KEYPAD_PURPOSES,
   PHONES_WITH_CUSTOM_KEYPAD,
-} from '../../../constants/UI';
-import Icon from '../../atoms/Icon/Icon';
-import STYLES from '../../../constants/STYLES';
+} from "../../../constants/UI";
+import Icon from "../../atoms/Icon/Icon";
+import STYLES from "../../../constants/STYLES";
 
 const BUTTONS = {
   [KEYPAD_PURPOSES.WITHDRAW]: [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9'],
-    ['.', '0', '<'],
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    [".", "0", "<"],
   ],
   [KEYPAD_PURPOSES.CELPAY]: [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9'],
-    ['.', '0', '<'],
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    [".", "0", "<"],
   ],
   [KEYPAD_PURPOSES.VERIFICATION]: [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9'],
-    ['', '0', '<'],
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    ["", "0", "<"],
   ],
   [KEYPAD_PURPOSES.AMOUNT]: [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9'],
-    ['.', '0', '<'],
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    [".", "0", "<"],
   ],
   [KEYPAD_PURPOSES.BORROW]: [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9'],
-    ['', '0', '<'],
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    ["", "0", "<"],
   ],
 };
 
@@ -73,11 +73,11 @@ class CelNumpad extends Component {
 
   static defaultProps = {
     autofocus: true,
-    value: '',
+    value: "",
   };
 
   componentDidMount = () => {
-    const {autofocus, toggleKeypad, setKeypadInput, field} = this.props;
+    const { autofocus, toggleKeypad, setKeypadInput, field } = this.props;
     if (this.inputRef) {
       setKeypadInput(this.inputRef, field);
       if (autofocus) toggleKeypad();
@@ -85,7 +85,7 @@ class CelNumpad extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    const {isFocused, setKeypadInput, field} = this.props;
+    const { isFocused, setKeypadInput, field } = this.props;
 
     if (prevProps.isFocused === true && isFocused === false) {
       setKeypadInput(false, field);
@@ -96,18 +96,18 @@ class CelNumpad extends Component {
   }
 
   componentWillUnmount = () => {
-    const {setKeypadInput, field} = this.props;
+    const { setKeypadInput, field } = this.props;
     setKeypadInput(false, field);
   };
 
   changeInputText = text => {
-    const {value, onPress, updateFormField, field} = this.props;
+    const { value, onPress, updateFormField, field } = this.props;
 
     let newValue;
-    if (text.includes('.') && text.includes(',')) {
+    if (text.includes(".") && text.includes(",")) {
       newValue = value;
     } else {
-      newValue = text.replace(',', '.');
+      newValue = text.replace(",", ".");
     }
 
     if (onPress) {
@@ -118,16 +118,16 @@ class CelNumpad extends Component {
   };
 
   pressButton(button) {
-    const {updateFormField, onPress, field, value} = this.props;
+    const { updateFormField, onPress, field, value } = this.props;
 
     let newValue = value;
 
-    if (button === '<') {
+    if (button === "<") {
       newValue = value.toString().slice(0, -1);
-    } else if (button === '.') {
+    } else if (button === ".") {
       if (!value) {
-        newValue = '.';
-      } else if (!value.toString().includes('.')) {
+        newValue = ".";
+      } else if (!value.toString().includes(".")) {
         newValue = `${value}${button}`;
       } else {
         newValue = value;
@@ -149,7 +149,7 @@ class CelNumpad extends Component {
   }
 
   render() {
-    const {purpose, value, isFocused} = this.props;
+    const { purpose, value, isFocused } = this.props;
     const style = CelNumpadStyle();
     const buttons = BUTTONS[purpose];
 
@@ -168,13 +168,14 @@ class CelNumpad extends Component {
                   <TouchableOpacity
                     key={btn}
                     style={style.button}
-                    onPress={() => this.pressButton(btn)}>
-                    {btn === '<' ? (
+                    onPress={() => this.pressButton(btn)}
+                  >
+                    {btn === "<" ? (
                       <Icon
                         name="Backspace"
                         fill={STYLES.COLORS.DARK_GRAY}
                         width="32"
-                        style={{marginTop: 10}}
+                        style={{ marginTop: 10 }}
                       />
                     ) : (
                       <CelText type="H0">{btn}</CelText>
@@ -190,8 +191,8 @@ class CelNumpad extends Component {
 
     return (
       <TextInput
-        style={{opacity: 0, position: 'absolute'}}
-        value={value || ''}
+        style={{ opacity: 0, position: "absolute" }}
+        value={value || ""}
         onChangeText={this.changeInputText}
         keyboardType={KEYBOARDS[purpose]}
         ref={input => {

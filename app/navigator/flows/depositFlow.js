@@ -1,9 +1,12 @@
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from "react-navigation-stack";
 
-import {defaultNavigationOptions, transitionConfig} from '../navigationConfig';
-import Deposit from '../../components/screens/Deposit/Deposit';
-import SelectCoin from '../../components/screens/SelectCoin/SelectCoin';
-import {profileFlow} from './profileFlow';
+import {
+  defaultNavigationOptions,
+  transitionConfig,
+} from "../navigationConfig";
+import Deposit from "../../components/screens/Deposit/Deposit";
+import SelectCoin from "../../components/screens/SelectCoin/SelectCoin";
+import { profileFlow } from "./profileFlow";
 
 export const depositFlow = {
   screens: {
@@ -12,7 +15,7 @@ export const depositFlow = {
     ...profileFlow.screens,
   },
   props: {
-    initialRouteName: 'Deposit',
+    initialRouteName: "Deposit",
     defaultNavigationOptions,
     transitionConfig,
   },
@@ -20,5 +23,5 @@ export const depositFlow = {
 
 export const depositNavigator = createStackNavigator(
   depositFlow.screens,
-  depositFlow.props,
+  depositFlow.props
 );

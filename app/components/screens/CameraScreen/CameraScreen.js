@@ -1,30 +1,30 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   View,
   TouchableOpacity,
   Image,
   SafeAreaView,
   Dimensions,
-} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+} from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 // TODO(sb): RN update dependencies fixes
 // import * as ImagePicker from "expo-image-picker";
 // import * as ImageManipulator from "expo-image-manipulator";
 // import * as Permissions from "expo-permissions";
 // import { Camera } from "expo-camera";
 
-import * as appActions from '../../../redux/actions';
-import CameraScreenStyle from './CameraScreen.styles';
-import Icon from '../../atoms/Icon/Icon';
-import STYLES from '../../../constants/STYLES';
-import API from '../../../constants/API';
-import CelText from '../../atoms/CelText/CelText';
-import loggerUtil from '../../../utils/logger-util';
-import ThemedImage from '../../atoms/ThemedImage/ThemedImage';
+import * as appActions from "../../../redux/actions";
+import CameraScreenStyle from "./CameraScreen.styles";
+import Icon from "../../atoms/Icon/Icon";
+import STYLES from "../../../constants/STYLES";
+import API from "../../../constants/API";
+import CelText from "../../atoms/CelText/CelText";
+import loggerUtil from "../../../utils/logger-util";
+import ThemedImage from "../../atoms/ThemedImage/ThemedImage";
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get("window");
 
 @connect(
   state => ({
@@ -36,26 +36,26 @@ const {height, width} = Dimensions.get('window');
     cameraCopy: state.camera.cameraCopy,
     mask: state.camera.mask,
   }),
-  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class CameraScreen extends Component {
   static propTypes = {
     cameraField: PropTypes.string,
     cameraHeading: PropTypes.string,
     cameraCopy: PropTypes.string,
-    cameraType: PropTypes.oneOf(['front', 'back']),
+    cameraType: PropTypes.oneOf(["front", "back"]),
     photo: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.instanceOf(Object),
     ]),
-    mask: PropTypes.oneOf(['circle', 'document']),
+    mask: PropTypes.oneOf(["circle", "document"]),
     onSave: PropTypes.func,
   };
 
   static defaultProps = {
-    cameraField: 'lastPhoto',
-    cameraHeading: 'Take Photo',
-    mask: 'circle',
+    cameraField: "lastPhoto",
+    cameraHeading: "Take Photo",
+    mask: "circle",
   };
 
   static navigationOptions = () => ({
@@ -64,8 +64,8 @@ class CameraScreen extends Component {
   });
 
   static defaultProps = {
-    cameraField: 'lastPhoto',
-    cameraHeading: 'Take Photo',
+    cameraField: "lastPhoto",
+    cameraHeading: "Take Photo",
   };
 
   constructor(props) {
@@ -83,14 +83,14 @@ class CameraScreen extends Component {
   }
 
   async componentWillMount() {
-    const {actions} = this.props;
-    actions.setFabType('hide');
+    const { actions } = this.props;
+    actions.setFabType("hide");
     await this.getCameraPermissions();
     await this.getCameraRollPermissions();
   }
 
   getCameraPermissions = async () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     // let perm = await Permissions.getAsync(Permissions.CAMERA);
 
     // if (perm.status !== "granted") {
@@ -109,7 +109,7 @@ class CameraScreen extends Component {
   };
 
   getCameraRollPermissions = async () => {
-    const {actions, cameraRollLastPhoto} = this.props;
+    // const { actions, cameraRollLastPhoto } = this.props;
     // let perm = await Permissions.getAsync(Permissions.CAMERA_ROLL);
 
     // if (perm.status !== "granted") {
@@ -129,34 +129,34 @@ class CameraScreen extends Component {
 
   getMaskImage = mask => {
     switch (mask) {
-      case 'document':
+      case "document":
         return {
-          lightSource: require('../../../../assets/images/mask/card-mask-transparent.png'),
-          darkSource: require('../../../../assets/images/mask/dark-card-mask-transparent.png'),
+          lightSource: require("../../../../assets/images/mask/card-mask-transparent.png"),
+          darkSource: require("../../../../assets/images/mask/dark-card-mask-transparent.png"),
         };
-      case 'circle':
+      case "circle":
       default:
         return {
-          lightSource: require('../../../../assets/images/mask/circle-mask.png'),
-          darkSource: require('../../../../assets/images/mask/dark-circle-mask.png'),
+          lightSource: require("../../../../assets/images/mask/circle-mask.png"),
+          darkSource: require("../../../../assets/images/mask/dark-circle-mask.png"),
         };
     }
   };
 
   pickImage = async () => {
-    const {actions, mask, navigation} = this.props;
-    // const result = await ImagePicker.launchImageLibraryAsync({
-    //   allowsEditing: true,
-    //   aspect: [
-    //     STYLES.CAMERA_MASK_SIZES[mask].width,
-    //     STYLES.CAMERA_MASK_SIZES[mask].height,
-    //   ],
-    // });
+    const { actions, mask, navigation } = this.props;
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [
+        STYLES.CAMERA_MASK_SIZES[mask].width,
+        STYLES.CAMERA_MASK_SIZES[mask].height,
+      ],
+    });
     if (result.cancelled) {
       return;
     }
-    actions.navigateTo('ConfirmCamera', {
-      onSave: navigation.getParam('onSave'),
+    actions.navigateTo("ConfirmCamera", {
+      onSave: navigation.getParam("onSave"),
     });
     actions.takeCameraPhoto(result);
   };
@@ -164,18 +164,18 @@ class CameraScreen extends Component {
   takePhoto = async () => {
     if (!this.camera) return;
 
-    const {actions, mask, navigation, cameraType} = this.props;
+    const { actions, mask, navigation, cameraType } = this.props;
     try {
       if (!this.state.hasCameraPermission) {
         return await this.getCameraPermissions();
       }
 
       actions.startApiCall(API.TAKE_CAMERA_PHOTO);
-      await actions.navigateTo('ConfirmCamera', {
-        onSave: navigation.getParam('onSave'),
+      await actions.navigateTo("ConfirmCamera", {
+        onSave: navigation.getParam("onSave"),
       });
       const photo = await this.camera.takePictureAsync();
-      const {size} = this.state;
+      const { size } = this.state;
       let cropWidth;
 
       if (photo.width / photo.height > size.width / size.height) {
@@ -195,7 +195,7 @@ class CameraScreen extends Component {
 
       const imageManipulations = [
         {
-          resize: {...photo},
+          resize: { ...photo },
         },
         {
           crop: {
@@ -207,9 +207,9 @@ class CameraScreen extends Component {
         },
       ];
 
-      if (cameraType === 'front') {
+      if (cameraType === "front") {
         imageManipulations.push({
-          flip: 'horizontal',
+          flip: "horizontal",
         });
       }
 
@@ -219,44 +219,47 @@ class CameraScreen extends Component {
       //   { compress: 0.95, format: "jpeg" }
       // );
 
-      actions.takeCameraPhoto(resizedPhoto);
+      // actions.takeCameraPhoto(resizedPhoto);
     } catch (err) {
       loggerUtil.err(err);
     }
   };
 
   renderMask = () => {
-    const {mask, cameraHeading} = this.props;
+    const { mask, cameraHeading } = this.props;
     const imageSource = this.getMaskImage(mask);
     const style = CameraScreenStyle();
     return (
       <View
         style={{
-          alignSelf: 'center',
+          alignSelf: "center",
           flex: 1,
-          justifyContent: 'center',
-          width: '100%',
-        }}>
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <View style={[style.mask, style.maskOverlayColor]}>
           <SafeAreaView
-            style={{flex: 1, flexDirection: 'row', marginBottom: 20}}>
+            style={{ flex: 1, flexDirection: "row", marginBottom: 20 }}
+          >
             <CelText
               weight="700"
               type="H1"
               align="center"
-              style={{alignSelf: 'flex-end', flex: 1}}>
+              style={{ alignSelf: "flex-end", flex: 1 }}
+            >
               {cameraHeading}
             </CelText>
           </SafeAreaView>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: "row" }}>
           <View style={[style.mask, style.maskOverlayColor]} />
           <ThemedImage
             {...imageSource}
             style={{
               width: STYLES.CAMERA_MASK_SIZES[mask].width,
               height: STYLES.CAMERA_MASK_SIZES[mask].height,
-              alignSelf: 'center',
+              alignSelf: "center",
             }}
           />
           <View style={[style.mask, style.maskOverlayColor]} />
@@ -265,7 +268,7 @@ class CameraScreen extends Component {
           <View
             style={{
               width: STYLES.CAMERA_MASK_SIZES[mask].width,
-              alignSelf: 'center',
+              alignSelf: "center",
               marginTop: 20,
             }}
           />
@@ -275,7 +278,7 @@ class CameraScreen extends Component {
   };
 
   render() {
-    const {cameraType, actions, cameraRollLastPhoto} = this.props;
+    const { cameraType, actions, cameraRollLastPhoto } = this.props;
     const style = CameraScreenStyle();
     const Mask = this.renderMask;
 
@@ -285,24 +288,25 @@ class CameraScreen extends Component {
           this.camera = ref;
         }}
         onLayout={event => {
-          this.setState({size: event.nativeEvent.layout});
+          this.setState({ size: event.nativeEvent.layout });
         }}
         style={style.camera}
-        type={Camera.Constants.Type[cameraType]}>
+        type={Camera.Constants.Type[cameraType]}
+      >
         <Mask />
         <SafeAreaView style={style.bottomView}>
           <View style={style.actionBar}>
-            <TouchableOpacity style={{flex: 1}} onPress={this.pickImage}>
+            <TouchableOpacity style={{ flex: 1 }} onPress={this.pickImage}>
               {cameraRollLastPhoto && (
                 <Image
-                  source={{uri: cameraRollLastPhoto.node.image.uri}}
+                  source={{ uri: cameraRollLastPhoto.node.image.uri }}
                   resizeMode="cover"
-                  style={{width: 50, height: 50}}
+                  style={{ width: 50, height: 50 }}
                 />
               )}
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flex: 1}} onPress={this.takePhoto}>
+            <TouchableOpacity style={{ flex: 1 }} onPress={this.takePhoto}>
               <Icon
                 name="Shutter"
                 fill={STYLES.COLORS.CELSIUS_BLUE}
@@ -311,15 +315,16 @@ class CameraScreen extends Component {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={{flex: 1}}
+              style={{ flex: 1 }}
               onPress={() => {
-                this.setState({ratio: '4:3'}, actions.flipCamera);
-              }}>
+                this.setState({ ratio: "4:3" }, actions.flipCamera);
+              }}
+            >
               <Icon
-                style={{alignSelf: 'flex-end'}}
+                style={{ alignSelf: "flex-end" }}
                 name="Swap"
                 width="35"
-                fill={'#3D4853'}
+                fill={"#3D4853"}
               />
             </TouchableOpacity>
           </View>

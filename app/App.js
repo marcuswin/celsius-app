@@ -5,20 +5,22 @@
 
 // TODO(fj): create offline and no internet screens or a static screen with type?
 
-import React, {Component} from 'react';
-import {Provider} from 'react-redux';
-import {AppState, BackHandler, StyleSheet} from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
-import codePush from 'react-native-code-push';
-import * as Font from 'expo-font';
+import React, { Component } from "react";
+// import { AppLoading } from "expo";
+import { Provider } from "react-redux";
+import { AppState, BackHandler, StyleSheet } from "react-native";
+import SplashScreen from "react-native-splash-screen";
+import codePush from "react-native-code-push";
+import * as Font from "expo-font";
 
-import store from './redux/store';
-import * as actions from './redux/actions';
-import appUtil from './utils/app-util';
-import AppNavigation from './navigator/Navigator';
-import FabMenu from './components/organisms/FabMenu/FabMenu';
-import Message from './components/molecules/Message/Message';
-import ErrorBoundary from './ErrorBoundary';
+import store from "./redux/store";
+import * as actions from "./redux/actions";
+import appUtil from "./utils/app-util";
+import AppNavigation from "./navigator/Navigator";
+import FabMenu from "./components/organisms/FabMenu/FabMenu";
+import Message from "./components/molecules/Message/Message";
+// import captureException from './utils/errorhandling-util'
+import ErrorBoundary from "./ErrorBoundary";
 
 function getActiveRouteName(navigationState) {
   if (!navigationState) {
@@ -37,25 +39,25 @@ export default class App extends Component {
   async componentDidMount() {
     appUtil.initializeThirdPartyServices();
 
-    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       store.dispatch(actions.navigateBack());
       return true;
     });
-    AppState.addEventListener('change', nextState => {
+    AppState.addEventListener("change", nextState => {
       store.dispatch(actions.handleAppStateChange(nextState));
     });
 
     await this.initApp();
     StyleSheet.setStyleAttributePreprocessor(
-      'fontFamily',
-      Font.processFontFamily,
+      "fontFamily",
+      Font.processFontFamily
     );
     SplashScreen.hide();
   }
 
   componentWillUnmount() {
     this.backHandler.remove();
-    AppState.removeEventListener('change', nextState => {
+    AppState.removeEventListener("change", nextState => {
       store.dispatch(actions.handleAppStateChange(nextState));
     });
   }

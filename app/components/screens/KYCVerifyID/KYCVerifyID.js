@@ -1,23 +1,24 @@
-import React, {Component} from 'react';
-import {View} from 'react-native';
+import React, { Component } from "react";
+import { View } from "react-native";
+
 // TODO(sb): RN update dependencies fixes
 // import * as Permissions from "expo-permissions";
 // import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import * as appActions from '../../../redux/actions';
-import Card from '../../atoms/Card/Card';
-import CelText from '../../atoms/CelText/CelText';
-import Icon from '../../atoms/Icon/Icon';
-import Separator from '../../atoms/Separator/Separator';
-import STYLES from '../../../constants/STYLES';
-import CelButton from '../../atoms/CelButton/CelButton';
-import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
-import API from '../../../constants/API';
-import apiUtil from '../../../utils/api-util';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import LoadingScreen from '../LoadingScreen/LoadingScreen';
+import * as appActions from "../../../redux/actions";
+import Card from "../../atoms/Card/Card";
+import CelText from "../../atoms/CelText/CelText";
+import Icon from "../../atoms/Icon/Icon";
+import Separator from "../../atoms/Separator/Separator";
+import STYLES from "../../../constants/STYLES";
+import CelButton from "../../atoms/CelButton/CelButton";
+import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
+import API from "../../../constants/API";
+import apiUtil from "../../../utils/api-util";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 @connect(
   state => ({
@@ -29,27 +30,28 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen';
     kycDocTypes: state.generalData.kycDocTypes,
     user: state.user.profile,
   }),
-  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class KYCVerifyID extends Component {
   static propTypes = {};
   static defaultProps = {};
 
   static navigationOptions = () => ({
-    title: 'Verify ID',
+    title: "Verify ID",
     customCenterComponent: <ProgressBar steps={4} currentStep={4} />,
     headerSameColor: true,
   });
 
   componentDidMount() {
-    const {actions} = this.props;
+    const { actions } = this.props;
     actions.getKYCDocTypes();
     actions.getKYCDocuments();
-    this.selectDocumentType('passport');
+    this.selectDocumentType("passport");
   }
 
   getCameraPermissions = async () => {
     // let perm = await Permissions.getAsync(Permissions.CAMERA);
+
     // if (perm.status !== "granted") {
     //   perm = await Permissions.askAsync(Permissions.CAMERA);
     // }
@@ -57,66 +59,67 @@ class KYCVerifyID extends Component {
 
   getCameraRollPermissions = async () => {
     // let perm = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+
     // if (perm.status !== "granted") {
     //   perm = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     // }
   };
 
   saveFrontImage = photo => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
-    actions.updateFormField('front', photo);
-    actions.navigateTo('KYCVerifyID');
+    actions.updateFormField("front", photo);
+    actions.navigateTo("KYCVerifyID");
   };
 
   goToFrontCamera = async () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     actions.activateCamera({
-      cameraField: 'front',
-      cameraHeading: 'Front side photo',
-      cameraType: 'back',
-      mask: 'document',
+      cameraField: "front",
+      cameraHeading: "Front side photo",
+      cameraType: "back",
+      mask: "document",
     });
 
     await this.getCameraPermissions();
     await this.getCameraRollPermissions();
-    actions.navigateTo('CameraScreen', {onSave: this.saveFrontImage});
+    actions.navigateTo("CameraScreen", { onSave: this.saveFrontImage });
   };
 
   saveBackImage = photo => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
-    actions.updateFormField('back', photo);
-    actions.navigateTo('KYCVerifyID');
+    actions.updateFormField("back", photo);
+    actions.navigateTo("KYCVerifyID");
   };
 
   goToBackCamera = async () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     actions.activateCamera({
-      cameraField: 'back',
-      cameraHeading: 'Back side photo',
-      cameraType: 'back',
-      mask: 'document',
+      cameraField: "back",
+      cameraHeading: "Back side photo",
+      cameraType: "back",
+      mask: "document",
     });
 
     await this.getCameraPermissions();
     await this.getCameraRollPermissions();
-    actions.navigateTo('CameraScreen', {onSave: this.saveBackImage});
+    actions.navigateTo("CameraScreen", { onSave: this.saveBackImage });
   };
 
   isFormValid = () => {
-    const {actions, formData} = this.props;
+    const { actions, formData } = this.props;
 
     let error;
-    if (formData.documentType !== 'passport' && !formData.back)
-      error = 'Back image of document is required!';
-    if (!formData.front) error = 'Front image of document is required!';
-    if (!formData.documentType) error = 'Please select a document type!';
+    if (formData.documentType !== "passport" && !formData.back)
+      error = "Back image of document is required!";
+    if (!formData.front) error = "Front image of document is required!";
+    if (!formData.documentType) error = "Please select a document type!";
 
     if (error) {
-      actions.showMessage('error', error);
+      actions.showMessage("error", error);
       return false;
     }
 
@@ -124,7 +127,7 @@ class KYCVerifyID extends Component {
   };
 
   submit = () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     if (this.isFormValid()) {
       actions.verifyKYCDocs();
@@ -132,11 +135,11 @@ class KYCVerifyID extends Component {
   };
 
   selectDocumentType = async type => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     actions.updateFormFields({
       documentType: type,
-      front: '',
-      back: '',
+      front: "",
+      back: "",
     });
   };
 
@@ -162,15 +165,15 @@ class KYCVerifyID extends Component {
   };
 
   renderFrontCameraInput = () => {
-    const {formData} = this.props;
+    const { formData } = this.props;
     return (
       <Card onPress={this.goToFrontCamera}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           {this.renderInputState(
             formData.front,
             // (kycDocuments && !!kycDocuments.front) || formData.front,
-            'Front side photo',
-            'Front side photo taken',
+            "Front side photo",
+            "Front side photo taken"
           )}
         </View>
       </Card>
@@ -178,15 +181,15 @@ class KYCVerifyID extends Component {
   };
 
   renderBackCameraInput = () => {
-    const {formData} = this.props;
+    const { formData } = this.props;
     return (
       <Card onPress={this.goToBackCamera}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           {this.renderInputState(
             formData.back,
             // (kycDocuments && !!kycDocuments.back) || formData.back,
-            'Back side photo',
-            'Back side photo taken',
+            "Back side photo",
+            "Back side photo taken"
           )}
         </View>
       </Card>
@@ -194,13 +197,19 @@ class KYCVerifyID extends Component {
   };
 
   render() {
-    const {kycDocTypes, user, formData, callsInProgress, actions} = this.props;
+    const {
+      kycDocTypes,
+      user,
+      formData,
+      callsInProgress,
+      actions,
+    } = this.props;
 
     if (!kycDocTypes) return <LoadingScreen />;
 
     const isLoading = apiUtil.areCallsInProgress(
       [API.CREATE_KYC_DOCUMENTS],
-      callsInProgress,
+      callsInProgress
     );
     const docs = mapDocs(kycDocTypes[user.citizenship]);
     const docType = formData.documentType || docs[0].value;
@@ -210,7 +219,7 @@ class KYCVerifyID extends Component {
 
     return (
       <RegularLayout>
-        <View style={{width: '100%', alignItems: 'center'}}>
+        <View style={{ width: "100%", alignItems: "center" }}>
           <CelText type="H2" weight="700">
             Verify your ID
           </CelText>
@@ -220,17 +229,19 @@ class KYCVerifyID extends Component {
           {docs && (
             <View
               style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-              }}>
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "space-around",
+              }}
+            >
               {docs.map(document =>
                 docType === document.value ? (
                   <Card
                     key={document.value}
                     size="third"
                     onPress={() => this.selectDocumentType(document.value)}
-                    styles={{height: 100, justifyContent: 'flex-start'}}>
+                    styles={{ height: 100, justifyContent: "flex-start" }}
+                  >
                     <Icon
                       height="24"
                       fill={STYLES.COLORS.CELSIUS_BLUE}
@@ -240,7 +251,8 @@ class KYCVerifyID extends Component {
                       color={STYLES.COLORS.CELSIUS_BLUE}
                       margin="10 0 0 0"
                       align="center"
-                      type="H6">
+                      type="H6"
+                    >
                       {document.label}
                     </CelText>
                   </Card>
@@ -249,7 +261,8 @@ class KYCVerifyID extends Component {
                     key={document.value}
                     size="third"
                     onPress={() => this.selectDocumentType(document.value)}
-                    styles={{height: 100, justifyContent: 'flex-start'}}>
+                    styles={{ height: 100, justifyContent: "flex-start" }}
+                  >
                     <Icon
                       height="24"
                       name={document.icon}
@@ -259,28 +272,31 @@ class KYCVerifyID extends Component {
                       color={STYLES.COLORS.GRAY}
                       margin="10 0 0 0"
                       align="center"
-                      type="H6">
+                      type="H6"
+                    >
                       {document.label}
                     </CelText>
                   </Card>
-                ),
+                )
               )}
             </View>
           )}
           <Separator text="Take photos" margin="20 0 20 0" />
           <FrontCamera />
-          {docType !== 'passport' && <BackCamera />}
+          {docType !== "passport" && <BackCamera />}
           <CelButton
             loading={isLoading}
             disabled={isLoading}
             margin="20 0 0 0"
-            onPress={this.submit}>
+            onPress={this.submit}
+          >
             Submit
           </CelButton>
           <CelButton
-            onPress={() => actions.navigateTo('WalletFab')}
+            onPress={() => actions.navigateTo("WalletFab")}
             basic
-            margin={'20 0 20 0'}>
+            margin={"20 0 20 0"}
+          >
             Do it later
           </CelButton>
         </View>
@@ -295,31 +311,31 @@ function mapDocs(docs) {
   if (!docs) {
     return [
       {
-        value: 'passport',
-        label: 'Passport',
-        icon: 'Passport',
+        value: "passport",
+        label: "Passport",
+        icon: "Passport",
       },
     ];
   }
   if (docs.identity_card) {
     kycDocs.push({
-      value: 'identity_card',
-      label: 'National ID card',
-      icon: 'IDcard',
+      value: "identity_card",
+      label: "National ID card",
+      icon: "IDcard",
     });
   }
   if (docs.passport) {
     kycDocs.push({
-      value: 'passport',
-      label: 'Passport',
-      icon: 'Passport',
+      value: "passport",
+      label: "Passport",
+      icon: "Passport",
     });
   }
   if (docs.driving_licence) {
     kycDocs.push({
-      value: 'driving_licence',
+      value: "driving_licence",
       label: "Driver's license",
-      icon: 'DrivingLicense',
+      icon: "DrivingLicense",
     });
   }
 

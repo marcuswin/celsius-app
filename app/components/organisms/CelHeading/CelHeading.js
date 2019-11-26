@@ -1,23 +1,23 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from "react";
 import {
   Image,
   View,
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
-} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+} from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import * as appActions from '../../../redux/actions';
-import CelHeadingStyle from './CelHeading.styles';
-import {getPadding} from '../../../utils/styles-util';
-import CelButton from '../../atoms/CelButton/CelButton';
-import {THEMES} from '../../../constants/UI';
-import CelInput from '../../atoms/CelInput/CelInput';
-import CelText from '../../atoms/CelText/CelText';
-import STYLES from '../../../constants/STYLES';
-import Icon from '../../atoms/Icon/Icon';
+import * as appActions from "../../../redux/actions";
+import CelHeadingStyle from "./CelHeading.styles";
+import { getPadding } from "../../../utils/styles-util";
+import CelButton from "../../atoms/CelButton/CelButton";
+import { THEMES } from "../../../constants/UI";
+import CelInput from "../../atoms/CelInput/CelInput";
+import CelText from "../../atoms/CelText/CelText";
+import STYLES from "../../../constants/STYLES";
+import Icon from "../../atoms/Icon/Icon";
 
 @connect(
   state => ({
@@ -26,7 +26,7 @@ import Icon from '../../atoms/Icon/Icon';
     formData: state.forms.formData,
     theme: state.user.appSettings.theme,
   }),
-  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class CelHeading extends Component {
   /**
@@ -60,19 +60,19 @@ class CelHeading extends Component {
   }
 
   getLeftContent = sceneProps => {
-    const {hideBack, right} = sceneProps;
-    const {actions, scenes, formData} = this.props;
+    const { hideBack, right } = sceneProps;
+    const { actions, scenes, formData } = this.props;
     const backScreenName = scenes[this.props.index - 1]
       ? scenes[this.props.index - 1].route.routeName
-      : '';
+      : "";
 
     // if search is active and right part of header is type of search
-    if (right === 'search' && formData.activeSearch)
+    if (right === "search" && formData.activeSearch)
       return (
         <CelButton
           basic
           onPress={() => {
-            actions.updateFormField('activeSearch', true);
+            actions.updateFormField("activeSearch", true);
           }}
           iconRight="Search"
         />
@@ -92,11 +92,11 @@ class CelHeading extends Component {
   };
 
   getRightContent = sceneProps => {
-    const {right, onInfo} = sceneProps;
-    const {profilePicture, formData, actions} = this.props;
+    const { right, onInfo } = sceneProps;
+    const { profilePicture, formData, actions } = this.props;
     const scene = this.props.scene.descriptor;
 
-    const rightType = formData.activeSearch ? 'cancel' : right;
+    const rightType = formData.activeSearch ? "cancel" : right;
     const style = CelHeadingStyle();
 
     return {
@@ -109,8 +109,9 @@ class CelHeading extends Component {
         <CelButton
           basic
           onPress={() => {
-            this.props.actions.navigateTo('RegisterInitial');
-          }}>
+            this.props.actions.navigateTo("RegisterInitial");
+          }}
+        >
           Sign up
         </CelButton>
       ),
@@ -118,16 +119,18 @@ class CelHeading extends Component {
         <CelButton
           basic
           onPress={() => {
-            this.props.actions.navigateTo('Login');
-          }}>
+            this.props.actions.navigateTo("Login");
+          }}
+        >
           Log in
         </CelButton>
       ),
       settings: (
         <TouchableOpacity
           onPress={() => {
-            this.props.actions.navigateTo('Settings');
-          }}>
+            this.props.actions.navigateTo("Settings");
+          }}
+        >
           <Icon fill="primary" name="Settings" width="32" />
         </TouchableOpacity>
       ),
@@ -140,7 +143,7 @@ class CelHeading extends Component {
         <CelButton
           basic
           onPress={() => {
-            actions.updateFormField('activeSearch', true);
+            actions.updateFormField("activeSearch", true);
           }}
           iconRight="Search"
         />
@@ -148,8 +151,9 @@ class CelHeading extends Component {
       profile: (
         <TouchableOpacity
           onPress={() => {
-            this.props.actions.navigateTo('Profile');
-          }}>
+            this.props.actions.navigateTo("Profile");
+          }}
+        >
           {profilePicture ? (
             <Image
               style={style.profilePicture}
@@ -163,7 +167,7 @@ class CelHeading extends Component {
           ) : (
             <Image
               style={style.profilePicture}
-              source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+              source={require("../../../../assets/images/empty-profile/empty-profile.png")}
               resizeMethod="resize"
               resizeMode="cover"
             />
@@ -180,17 +184,19 @@ class CelHeading extends Component {
           basic
           onPress={() => {
             this.props.actions.navigateBack();
-          }}>
+          }}
+        >
           Close
         </CelButton>
       ), // TODO(sb):
-      cancel: scene.state.routeName !== 'VerifyProfile' && (
+      cancel: scene.state.routeName !== "VerifyProfile" && (
         <CelButton
           basic
           onPress={() => {
-            actions.updateFormField('activeSearch', false);
-            this.props.actions.updateFormField('search', '');
-          }}>
+            actions.updateFormField("activeSearch", false);
+            this.props.actions.updateFormField("search", "");
+          }}
+        >
           Cancel
         </CelButton>
       ),
@@ -198,24 +204,24 @@ class CelHeading extends Component {
   };
 
   getStatusBarTextColor = theme => {
-    const {message} = this.props;
+    const { message } = this.props;
 
-    if (message && message.text) return 'light-content';
+    if (message && message.text) return "light-content";
 
     switch (theme) {
       case THEMES.LIGHT:
-        return 'dark-content';
+        return "dark-content";
       case THEMES.DARK:
-        return 'light-content';
+        return "light-content";
       case THEMES.CELSIUS:
-        return 'light-content';
+        return "light-content";
       default:
-        return 'light-content';
+        return "light-content";
     }
   };
 
   getCenterContent = sceneProps => {
-    const {title, customCenterComponent} = sceneProps;
+    const { title, customCenterComponent } = sceneProps;
     const style = CelHeadingStyle();
 
     return (
@@ -227,8 +233,9 @@ class CelHeading extends Component {
             style={style.headerTitle}
             align="center"
             weight="medium"
-            type="H3">
-            {title || ''}
+            type="H3"
+          >
+            {title || ""}
           </CelText>
         )}
       </View>
@@ -236,28 +243,29 @@ class CelHeading extends Component {
   };
 
   getContent = () => {
-    const {formData} = this.props;
+    const { formData } = this.props;
     const scene = this.props.scene.descriptor;
     const style = CelHeadingStyle();
-    const paddings = getPadding('15 20 15 20');
+    const paddings = getPadding("15 20 15 20");
     const leftStyle = formData.activeSearch
-      ? [style.left, {flexDirection: 'row', flex: 2}]
+      ? [style.left, { flexDirection: "row", flex: 2 }]
       : style.left;
     return (
       <View style={[style.content, paddings]}>
         <View style={leftStyle}>
           {this.getLeftContent(scene.options)}
-          {formData.activeSearch && scene.state.routeName !== 'VerifyProfile' && (
+          {formData.activeSearch && scene.state.routeName !== "VerifyProfile" && (
             <View
               style={[
                 {
-                  width: '100%',
-                  justifyContent: 'center',
+                  width: "100%",
+                  justifyContent: "center",
                   paddingTop: 20,
-                  alignSelf: 'center',
+                  alignSelf: "center",
                   marginLeft: 12,
                 },
-              ]}>
+              ]}
+            >
               <CelInput
                 debounce
                 autoFocus={formData.activeSearch}
@@ -265,9 +273,9 @@ class CelHeading extends Component {
                 margin="0 0 0 0"
                 field="search"
                 placeholder={
-                  scene.state.routeName === 'SelectCoin'
-                    ? 'Select a coin'
-                    : 'Dialing code, country…'
+                  scene.state.routeName === "SelectCoin"
+                    ? "Select a coin"
+                    : "Dialing code, country…"
                 }
                 type="text"
                 value={this.props.formData.search}
@@ -284,8 +292,8 @@ class CelHeading extends Component {
   render() {
     let containerStyle;
     const scene = this.props.scene.descriptor;
-    const {headerSameColor, transparent} = scene.options;
-    const {theme} = this.props;
+    const { headerSameColor, transparent } = scene.options;
+    const { theme } = this.props;
     const style = CelHeadingStyle();
     const statusBarColor = this.getStatusBarTextColor(theme);
 

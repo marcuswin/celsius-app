@@ -1,29 +1,34 @@
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import React, {Component} from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import React, { Component } from "react";
+// import Constants from 'expo-constants';
+import {
+  Image,
+  Linking,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import * as appActions from "../../../redux/actions";
 
-import {Image, Linking, TouchableOpacity, View} from 'react-native';
-import * as appActions from '../../../redux/actions';
-
-import CelText from '../../atoms/CelText/CelText';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import STYLES from '../../../constants/STYLES';
-import Separator from '../../atoms/Separator/Separator';
-import IconButton from '../../organisms/IconButton/IconButton';
-import {MODALS, THEMES} from '../../../constants/UI';
-import ReferralSendModal from '../../organisms/ReferralSendModal/ReferralSendModal';
-import RegisterPromoCodeModal from '../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal';
-import CelButton from '../../atoms/CelButton/CelButton';
-import MissingInfoCard from '../../atoms/MissingInfoCard/MissingInfoCard';
-import appUtil from '../../../utils/app-util';
-import {KYC_STATUSES} from '../../../constants/DATA';
-import KYCandPromotionsTrigger from '../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger';
-import ExpandableItem from '../../molecules/ExpandableItem/ExpandableItem';
-import {hasPassedKYC} from '../../../utils/user-util';
-import ProfileStyle from './Profile.styles';
-import Icon from '../../atoms/Icon/Icon';
-import {getTheme} from '../../../utils/styles-util';
-import Constants from '../../../../constants';
+import CelText from "../../atoms/CelText/CelText";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import STYLES from "../../../constants/STYLES";
+import Separator from "../../atoms/Separator/Separator";
+import IconButton from "../../organisms/IconButton/IconButton";
+import { MODALS, THEMES } from "../../../constants/UI";
+import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
+import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
+import CelButton from "../../atoms/CelButton/CelButton";
+import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
+import appUtil from "../../../utils/app-util";
+import { KYC_STATUSES } from "../../../constants/DATA";
+import KYCandPromotionsTrigger from "../../molecules/KYCandPromotionsTrigger/KYCandPromotionsTrigger";
+import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
+import { hasPassedKYC } from "../../../utils/user-util";
+import ProfileStyle from "./Profile.styles";
+import Icon from "../../atoms/Icon/Icon";
+import { getTheme } from "../../../utils/styles-util";
+import Constants from "../../../../constants";
 
 @connect(
   state => ({
@@ -35,7 +40,7 @@ import Constants from '../../../../constants';
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
   }),
-  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class Profile extends Component {
   static propTypes = {
@@ -44,30 +49,30 @@ class Profile extends Component {
   static defaultProps = {};
 
   static navigationOptions = () => ({
-    right: 'logout',
-    title: 'Your profile',
+    right: "logout",
+    title: "Your profile",
   });
 
   constructor(props) {
     super(props);
     this.state = {
       updatingTaxInfo: false,
-      revisionId: '',
+      revisionId: "",
     };
   }
 
   async componentDidMount() {
-    const {user, actions} = this.props;
+    const { user, actions } = this.props;
     actions.profileTaxpayerInfo();
     actions.getUserAppSettings();
     this.initForm(user);
 
     const appVersion = await appUtil.getRevisionId();
-    this.setState({revisionId: appVersion.revisionId});
+    this.setState({ revisionId: appVersion.revisionId });
   }
 
   componentDidUpdate(prevProps) {
-    const {user, actions} = this.props;
+    const { user, actions } = this.props;
     if (prevProps.user.cellphone_verified !== user.cellphone_verified) {
       actions.updateFormFields({
         cellphone: user.cellphone,
@@ -76,7 +81,7 @@ class Profile extends Component {
   }
 
   initForm = user => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     if (user) {
       actions.updateFormFields({
         ssn: user.ssn,
@@ -86,21 +91,21 @@ class Profile extends Component {
   };
 
   logoutUser = async () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     await actions.logoutUser();
   };
 
   openReferralSendModal = () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     actions.openModal(MODALS.REFERRAL_SEND_MODAL);
   };
 
   render() {
-    const {profilePicture, user, actions, kycStatus} = this.props;
-    const {revisionId} = this.state;
+    const { profilePicture, user, actions, kycStatus } = this.props;
+    const { revisionId } = this.state;
     const style = ProfileStyle();
     const theme = getTheme();
-    const {ENV} = Constants;
+    const { ENV } = Constants;
 
     return (
       <RegularLayout>
@@ -108,7 +113,7 @@ class Profile extends Component {
         <MissingInfoCard user={user} navigateTo={actions.navigateTo} />
 
         <View>
-          <View style={{flexDirection: 'row', alignSelf: 'flex-start'}}>
+          <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
             {profilePicture ? (
               <Image
                 style={{
@@ -133,11 +138,11 @@ class Profile extends Component {
                   borderWidth: 4,
                   borderColor: STYLES.COLORS.WHITE,
                 }}
-                source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+                source={require("../../../../assets/images/empty-profile/empty-profile.png")}
                 resizeMethod="resize"
               />
             )}
-            <View style={{marginLeft: 20}}>
+            <View style={{ marginLeft: 20 }}>
               <CelText weight="600" type="H2">
                 {user.first_name}
               </CelText>
@@ -145,7 +150,8 @@ class Profile extends Component {
                 {user.last_name}
               </CelText>
               <TouchableOpacity
-                onPress={() => actions.navigateTo('ChangeAvatar')}>
+                onPress={() => actions.navigateTo("ChangeAvatar")}
+              >
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">
                   Change photo
                 </CelText>
@@ -156,137 +162,150 @@ class Profile extends Component {
           <IconButton
             onPress={this.openReferralSendModal}
             icon="Refer"
-            color="blue">
+            color="blue"
+          >
             Refer your friends
           </IconButton>
           <IconButton
             onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
             margin="0 0 20 0"
-            icon="Present">
+            icon="Present"
+          >
             Enter a promo code
           </IconButton>
 
           <Separator />
 
           <IconButton
-            icon={'Couple'}
-            onPress={() => actions.navigateTo('PersonalInformation')}>
+            icon={"Couple"}
+            onPress={() => actions.navigateTo("PersonalInformation")}
+          >
             Personal Information
           </IconButton>
 
-          <ExpandableItem heading={'SETTINGS'} isExpanded margin={'0 0 10 0'}>
+          <ExpandableItem heading={"SETTINGS"} isExpanded margin={"0 0 10 0"}>
             <IconButton
-              onPress={() => actions.navigateTo('SecuritySettings')}
+              onPress={() => actions.navigateTo("SecuritySettings")}
               margin="20 0 20 0"
-              icon="Security">
+              icon="Security"
+            >
               Security
             </IconButton>
             {hasPassedKYC() && (
               <IconButton
-                onPress={() => actions.navigateTo('WalletSettings')}
+                onPress={() => actions.navigateTo("WalletSettings")}
                 margin="0 0 20 0"
-                icon="WalletSettings">
+                icon="WalletSettings"
+              >
                 Wallet
               </IconButton>
             )}
             {hasPassedKYC() && (
               <IconButton
-                onPress={() => actions.navigateTo('ApiAuthorization')}
+                onPress={() => actions.navigateTo("ApiAuthorization")}
                 margin="0 0 20 0"
-                icon="Api">
+                icon="Api"
+              >
                 API
               </IconButton>
             )}
             <IconButton
-              onPress={() => actions.navigateTo('Appearance')}
+              onPress={() => actions.navigateTo("Appearance")}
               margin="0 0 20 0"
-              icon="Appearance">
+              icon="Appearance"
+            >
               Appearance
             </IconButton>
           </ExpandableItem>
-          <Separator margin={'0 0 20 0'} text={'FOLLOW US'} />
+          <Separator margin={"0 0 20 0"} text={"FOLLOW US"} />
 
           <View style={style.socialIcons}>
             <TouchableOpacity
               onPress={() =>
-                Linking.openURL('https://twitter.com/CelsiusNetwork')
-              }>
+                Linking.openURL("https://twitter.com/CelsiusNetwork")
+              }
+            >
               <Icon
-                name={'Twitter'}
-                width={45}
-                height={45}
+                name={"Twitter"}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
                     : STYLES.COLORS.WHITE_OPACITY5
                 }
               />
-              <CelText type={'H6'} margin={'5 0 0 0'}>
+              <CelText type={"H6"} margin={"5 0 0 0"}>
                 Twitter
               </CelText>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                Linking.openURL('https://www.facebook.com/CelsiusNetwork/')
-              }>
+                Linking.openURL("https://www.facebook.com/CelsiusNetwork/")
+              }
+            >
               <Icon
-                name={'Facebook'}
-                width={45}
-                height={45}
+                name={"Facebook"}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
                     : STYLES.COLORS.WHITE_OPACITY5
                 }
               />
-              <CelText type={'H6'} margin={'5 0 0 0'}>
+              <CelText type={"H6"} margin={"5 0 0 0"}>
                 Facebook
               </CelText>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                Linking.openURL('https://www.reddit.com/r/CelsiusNetwork/')
-              }>
+                Linking.openURL("https://www.reddit.com/r/CelsiusNetwork/")
+              }
+            >
               <Icon
-                name={'Reddit'}
-                width={45}
-                height={45}
+                name={"Reddit"}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
                     : STYLES.COLORS.WHITE_OPACITY5
                 }
               />
-              <CelText type={'H6'} margin={'5 0 0 0'}>
+              <CelText type={"H6"} margin={"5 0 0 0"}>
                 Reddit
               </CelText>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => Linking.openURL('https://t.me/celsiusnetwork')}>
+              onPress={() => Linking.openURL("https://t.me/celsiusnetwork")}
+            >
               <Icon
-                name={'Telegram'}
-                width={45}
-                height={45}
+                name={"Telegram"}
+                width={35}
+                height={35}
                 fill={
                   theme === THEMES.LIGHT
                     ? STYLES.COLORS.DARK_GRAY3
                     : STYLES.COLORS.WHITE_OPACITY5
                 }
               />
-              <CelText type={'H6'} margin={'5 0 0 0'}>
+              <CelText type={"H6"} margin={"5 0 0 0"}>
                 Telegram
               </CelText>
             </TouchableOpacity>
           </View>
-          <Separator margin={'20 0 0 0'} />
+          <Separator margin={"20 0 0 0"} />
 
           <View style={style.bottomSegment}>
             <CelButton
+              textSize="H6"
               basic
               onPress={() => {
-                actions.navigateTo('TermsOfUse');
+                actions.navigateTo("TermsOfUse");
               }}
-              textColor={STYLES.COLORS.CELSIUS_BLUE}>
+              textColor={STYLES.COLORS.CELSIUS_BLUE}
+            >
               See Terms of Use
             </CelButton>
             <CelText weight="light" align="center" type="H7">
@@ -294,18 +313,19 @@ class Profile extends Component {
             </CelText>
           </View>
 
-          {ENV === 'STAGING' ? (
+          {ENV === "STAGING" ? (
             <CelButton
               margin="10 0 0 0"
               basic
-              onPress={() => actions.navigateTo('Storybook')}>
+              onPress={() => actions.navigateTo("Storybook")}
+            >
               Open Storybook
             </CelButton>
           ) : null}
         </View>
 
         <ReferralSendModal />
-        <RegisterPromoCodeModal type={'celsius'} />
+        <RegisterPromoCodeModal type={"celsius"} />
       </RegularLayout>
     );
   }

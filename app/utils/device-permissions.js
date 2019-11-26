@@ -1,8 +1,8 @@
 // TODO(sb): RN update dependencies fixes
 // import * as Permissions from "expo-permissions";
-import {Linking, Platform} from 'react-native';
+import { Linking, Platform } from "react-native";
 
-export {hasPermission, requestForPermission};
+export { hasPermission, requestForPermission };
 
 /**
  * Checks if a user has allowed some permission

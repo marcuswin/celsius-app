@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from "react";
 import {
   View,
   StyleSheet,
@@ -6,22 +6,22 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
-} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {BlurView} from '@react-native-community/blur';
-import * as appActions from '../../../redux/actions';
+} from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { BlurView } from "@react-native-community/blur";
+import * as appActions from "../../../redux/actions";
 
-import FabMenuStyle from './FabMenu.styles';
-import Fab from '../../molecules/Fab/Fab';
-import CircleButton from '../../atoms/CircleButton/CircleButton';
-import {THEMES} from '../../../constants/UI';
-import {KYC_STATUSES} from '../../../constants/DATA';
-import {hasPassedKYC, isKYCRejectedForever} from '../../../utils/user-util';
-import CelText from '../../atoms/CelText/CelText';
-import Card from '../../atoms/Card/Card';
-import Icon from '../../atoms/Icon/Icon';
-import STYLES from '../../../constants/STYLES';
+import FabMenuStyle from "./FabMenu.styles";
+import Fab from "../../molecules/Fab/Fab";
+import CircleButton from "../../atoms/CircleButton/CircleButton";
+import { THEMES } from "../../../constants/UI";
+import { KYC_STATUSES } from "../../../constants/DATA";
+import { hasPassedKYC, isKYCRejectedForever } from "../../../utils/user-util";
+import CelText from "../../atoms/CelText/CelText";
+import Card from "../../atoms/Card/Card";
+import Icon from "../../atoms/Icon/Icon";
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -38,7 +38,7 @@ import STYLES from '../../../constants/STYLES';
     withdrawCompliance: state.compliance.withdraw,
     user: state.user.profile,
   }),
-  dispatch => ({actions: bindActionCreators(appActions, dispatch)}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class FabMenu extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class FabMenu extends Component {
   }
 
   componentDidMount = () => {
-    const {fabType} = this.props;
+    const { fabType } = this.props;
     this.setState({
       menuItems: this.getMenuItems(fabType),
     });
@@ -75,7 +75,7 @@ class FabMenu extends Component {
   componentDidUpdate = prevProps => {
     if (
       (prevProps.fabType !== this.props.fabType &&
-        this.props.fabType !== 'hide') ||
+        this.props.fabType !== "hide") ||
       prevProps.kycStatus !== this.props.kycStatus
     ) {
       this.setState({
@@ -94,46 +94,46 @@ class FabMenu extends Component {
       kycStatus,
     } = this.props;
     const main = [
-      [{iconName: 'Wallet', label: 'Wallet', screen: 'WalletLanding'}],
+      [{ iconName: "Wallet", label: "Wallet", screen: "WalletLanding" }],
       [],
-      [{iconName: 'Community', label: 'Community', screen: 'Community'}],
+      [{ iconName: "Community", label: "Community", screen: "Community" }],
     ];
     if (depositCompliance.allowed)
       main[0].push({
-        iconName: 'Deposit',
-        label: 'Deposit',
-        screen: 'Deposit',
+        iconName: "Deposit",
+        label: "Deposit",
+        screen: "Deposit",
       });
     if (kycStatus && hasPassedKYC() && withdrawCompliance.allowed)
       main[0].push({
-        iconName: 'Withdraw',
-        label: 'Withdraw',
-        screen: 'WithdrawEnterAmount',
+        iconName: "Withdraw",
+        label: "Withdraw",
+        screen: "WithdrawEnterAmount",
       });
     if (celpayCompliance.allowed)
       main[1].push({
-        iconName: 'CelPay',
-        label: 'CelPay',
-        screen: 'CelPayChooseFriend',
+        iconName: "CelPay",
+        label: "CelPay",
+        screen: "CelPayChooseFriend",
       });
     if (loanCompliance.allowed)
       main[1].push({
-        iconName: 'Borrow',
-        label: 'Borrow',
-        screen: 'BorrowLanding',
+        iconName: "Borrow",
+        label: "Borrow",
+        screen: "BorrowLanding",
       });
     if (user)
       main[1].push({
-        iconName: 'Profile',
-        label: 'Profile',
-        screen: 'Profile',
+        iconName: "Profile",
+        label: "Profile",
+        screen: "Profile",
       });
     // TODO change borrow landing to new screen
     if (kycStatus && hasPassedKYC())
       main[2].splice(1, 0, {
-        iconName: 'MyCel',
-        label: 'My CEL',
-        screen: 'MyCel',
+        iconName: "MyCel",
+        label: "My CEL",
+        screen: "MyCel",
       });
 
     return {
@@ -143,7 +143,7 @@ class FabMenu extends Component {
   }
 
   getTintColor = () => {
-    const {theme} = this.props;
+    const { theme } = this.props;
 
     switch (theme) {
       case THEMES.DARK:
@@ -197,9 +197,9 @@ class FabMenu extends Component {
   }
 
   fabAction = () => {
-    const {fabType} = this.props;
+    const { fabType } = this.props;
     switch (fabType) {
-      case 'main':
+      case "main":
         this.toggleMenu();
         break;
 
@@ -209,7 +209,7 @@ class FabMenu extends Component {
   };
 
   toggleMenu = () => {
-    const {fabMenuOpen, actions} = this.props;
+    const { fabMenuOpen, actions } = this.props;
     if (fabMenuOpen) {
       actions.closeFabMenu();
     } else {
@@ -219,15 +219,15 @@ class FabMenu extends Component {
 
   iconSize = label => {
     switch (label) {
-      case 'Community':
+      case "Community":
         return 35;
-      case 'Wallet':
+      case "Wallet":
         return 30;
-      case 'Withdraw':
+      case "Withdraw":
         return 30;
-      case 'Profile':
+      case "Profile":
         return 30;
-      case 'MyCel':
+      case "MyCel":
         return 30;
       default:
         return 33;
@@ -235,7 +235,7 @@ class FabMenu extends Component {
   };
 
   renderMenuItem = item => {
-    const {theme, actions} = this.props;
+    const { theme, actions } = this.props;
     return (
       <CircleButton
         key={item.label}
@@ -263,67 +263,69 @@ class FabMenu extends Component {
 
   renderFabMenu = () => {
     const style = FabMenuStyle();
-    const {menuItems} = this.state;
-    const {actions, theme} = this.props;
+    const { menuItems } = this.state;
+    const { actions, theme } = this.props;
     const tintColor = this.getTintColor();
 
-    if (Platform.OS !== 'android') {
+    if (Platform.OS !== "android") {
       return (
-        <>
-          <BlurView
-            style={StyleSheet.absoluteFill}
-            blurType={tintColor}
-            blurAmount={100}
-          />
+        <BlurView
+          tint={tintColor}
+          intensity={100}
+          style={[StyleSheet.absoluteFill]}
+        >
           <Card
             styles={style.helpCard}
-            size={'half'}
+            size={"half"}
             onPress={() => {
-              actions.navigateTo('Support');
+              actions.navigateTo("Support");
               actions.closeFabMenu();
-            }}>
+            }}
+          >
             <Icon
-              name={'QuestionCircle'}
+              name={"QuestionCircle"}
               width={25}
               height={25}
               fill={
-                theme === 'dark'
+                theme === "dark"
                   ? STYLES.COLORS.WHITE_OPACITY5
                   : STYLES.COLORS.DARK_GRAY
               }
             />
-            <CelText weight={'300'} type={'H5'}>
+            <CelText weight={"300"} type={"H5"}>
               Need help?
             </CelText>
           </Card>
           <View style={style.menuContainer}>
             {menuItems.map(this.renderMenuRow)}
           </View>
-        </>
+        </BlurView>
       );
     }
     return (
       <TouchableOpacity
         style={[StyleSheet.absoluteFill, style.background]}
-        onPress={() => actions.closeFabMenu()}>
+        onPress={() => actions.closeFabMenu()}
+      >
         <Card
           styles={style.helpCard}
-          size={'half'}
+          size={"half"}
           onPress={() => {
-            actions.navigateTo('Support');
+            actions.navigateTo("Support");
             actions.closeFabMenu();
-          }}>
+          }}
+        >
           <Icon
-            name={'QuestionCircle'}
+            name={"QuestionCircle"}
             width={25}
             height={25}
             fill={
-              theme === 'dark'
+              theme === "dark"
                 ? STYLES.COLORS.WHITE_OPACITY5
                 : STYLES.COLORS.DARK_GRAY
             }
           />
-          <CelText weight={'300'} type={'H5'}>
+          <CelText weight={"300"} type={"H5"}>
             Need help?
           </CelText>
         </Card>
@@ -336,7 +338,7 @@ class FabMenu extends Component {
 
   renderFab = () => {
     const style = FabMenuStyle();
-    const {fabType} = this.props;
+    const { fabType } = this.props;
     return (
       <Fragment>
         <Animated.View
@@ -344,13 +346,17 @@ class FabMenu extends Component {
             style.fabButton,
             style.opacityCircle,
             {
-              transform: [{scale: this.pulseValue}],
+              transform: [{ scale: this.pulseValue }],
               opacity: this.opacityValue,
             },
           ]}
         />
         <Animated.View
-          style={[style.fabButton, {transform: [{scale: this.springValue}]}]}>
+          style={[
+            style.fabButton,
+            { transform: [{ scale: this.springValue }] },
+          ]}
+        >
           <Fab onPress={this.fabAction} type={fabType} />
         </Animated.View>
       </Fragment>
@@ -359,12 +365,12 @@ class FabMenu extends Component {
 
   render() {
     const style = FabMenuStyle();
-    const {fabMenuOpen, fabType} = this.props;
+    const { fabMenuOpen, fabType } = this.props;
 
     if (isKYCRejectedForever()) return null;
 
     // if (!appInitialized) return null; // Too many bugs with this one line of code :D
-    if (fabType === 'hide') return null;
+    if (fabType === "hide") return null;
 
     const FabMenuCmp = this.renderFabMenu;
     const FabButton = this.renderFab;
