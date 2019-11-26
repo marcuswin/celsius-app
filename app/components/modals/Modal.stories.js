@@ -24,6 +24,7 @@ import WithdrawInfoModal from "../modals/WithdrawalInfoModal/WithdrawalInfoModal
 import LoanApplicationSuccessModal from "./LoanApplicationSuccessModal/LoanApplicationSuccessModal";
 import CancelLoanModal from "./CancelLoanModal/CancelLoanModal";
 import BecomeCelMemberModal from "./BecomeCelMemberModal/BecomeCelMemberModal";
+import CreateNewAccountModal from "./CreateNewAccountModal/CreateNewAccountModal";
 import PrepaymentSuccessfulModal from "./PrepaymentSuccessfulModal/PrepaymentSuccessfulModal";
 import LoanAlertsPayoutPrincipalModal from "./LoanAlertsModals/LoanAlertsPayoutPrincipalModal/LoanAlertsPayoutPrincipalModal";
 import LoanAlertsMarginCallDepositCoinsModal from "./LoanAlertsModals/LoanAlertsMarginCallDepositCoinsModal/LoanAlertsMarginCallDepositCoinsModal";
@@ -198,6 +199,18 @@ storiesOf("Modals", module)
         Open BecomeCelMemberModal
       </CelButton>
       <BecomeCelMemberModal />
+    </View>
+  ))
+  .add("CreateNewAccountModal", () => (
+    <View style={{ marginBottom: 30 }}>
+      <CelButton
+        onPress={() =>
+          store.dispatch(openModal(MODALS.CREATE_NEW_ACCOUNT_MODAL))
+        }
+      >
+        Open CreateNewAccountModal
+      </CelButton>
+      <CreateNewAccountModal />
     </View>
   ))
   .add("LoanAlertsPayoutPrincipalModal", () => (
