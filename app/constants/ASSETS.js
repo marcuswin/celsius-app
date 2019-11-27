@@ -18,7 +18,9 @@ const FONTS = [
     "Barlow-LightItalic": require("../../assets/fonts/Barlow/Barlow-LightItalic.ttf"),
   },
   { "Barlow-Regular": require("../../assets/fonts/Barlow/Barlow-Regular.ttf") },
-  { "Barlow-Italic": require("../../assets/fonts/Barlow/Barlow-Italic.ttf") },
+  {
+    "Barlow-RegularItalic": require("../../assets/fonts/Barlow/Barlow-RegularItalic.ttf"),
+  },
   { "Barlow-Medium": require("../../assets/fonts/Barlow/Barlow-Medium.ttf") },
   {
     "Barlow-MediumItalic": require("../../assets/fonts/Barlow/Barlow-MediumItalic.ttf"),
@@ -85,6 +87,8 @@ const CACHE_IMAGES = [
   require("../../assets/images/mask/square-mask-01.png"),
   require("../../assets/images/mask/dark-qrcode-mask3x.png"),
   require("../../assets/images/mask/dark-card-mask-transparent.png"),
+  require("../../assets/images/mask/bill-mask-markers-dark.png"),
+  require("../../assets/images/mask/bill-mask-markers-light.png"),
   require("../../assets/images/splashScreen-celsius-new.png"),
   require("../../assets/images/victory-bear3x.png"),
   require("../../assets/images/loyaltyIcons/star-bg3x.png"),
