@@ -13,39 +13,69 @@ import Separator from "../../atoms/Separator/Separator";
 import { widthPercentageToDP } from "../../../utils/styles-util";
 import formatter from "../../../utils/formatter";
 import TransactionsFilterItem from "../../atoms/TransactionsFilterItem/TransactionsFilterItem";
+import CelModalButton from "../../atoms/CelModalButton/CelModalButton";
 
-// TODO: move to cosntant24s
-const DATE_OPTIONS = [
-  "Anytime",
-  "Last Day",
-  "Last Week",
-  "Last Month",
-  "Last Year",
+// TODO: move to constants
+const TRANSACTION_FILTER_DATE = [
+  {
+    title: "Anytime",
+    value: null,
+  },
+  {
+    title: "Last Day",
+    value: "day",
+  },
+  {
+    title: "Last Week",
+    value: "week",
+  },
+  {
+    title: "Last Month",
+    value: "month",
+  },
+  {
+    title: "threeMonths",
+    value: "Last Three Months",
+  },
+  {
+    title: "Last Six Months",
+    value: "sixMonths",
+  },
+  {
+    title: "Last Year",
+    value: "lastYear",
+  },
 ];
 
-const TRANSACTION_TYPE = [
+const TRANSACTION_FILTER_TYPE = [
   {
-    name: "All Transactions",
+    title: "All Transactions",
+    value: null,
     icon: "CircleCheckIcon",
   },
   {
-    name: "Interest",
+    title: "Interest",
+    value: "interest",
     icon: "TransactionInterest",
   },
   {
-    name: "Deposits",
+    title: "Deposits",
+    value: "deposits",
     icon: "TransactionReceived",
   },
   {
-    name: "CelPay",
+    title: "CelPay",
+    value: "celPay",
     icon: "TransactionCelpay",
   },
   {
-    name: "Loans",
+    title: "Loans",
+    value: "loans",
     icon: "TransactionLoan",
   },
   {
-    name: "Withdrawals",
+    title: "Withdrawals",
+    value: "withdrawals",
     icon: "TransactionSent",
   },
 ];
@@ -59,49 +89,97 @@ const TRANSACTION_TYPE = [
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class TransactionFilterModal extends Component {
-  static propTypes = {
-    // text: PropTypes.string
-  };
+  static propTypes = {};
   static defaultProps = {};
 
   constructor(props) {
     super(props);
+    const { coins, depositCompliance } = props;
 
-    const coinsList = this.handleCoinsList();
-
-    this.state = {
-      dateFilter: DATE_OPTIONS[0],
-      transactionTypeFilter: TRANSACTION_TYPE[0].name,
-      coinsFilter: coinsList[0],
-    };
-  }
-
-  handleCoinsList = () => {
-    const { coins, depositCompliance } = this.props;
-
-    // const filteredCoins = coins.filter(({coin}) => !coin.short.includes("BTC"))
     const coinSelectItems = coins.filter(c =>
       depositCompliance.coins.includes(c.short)
     );
 
     const coinsList = coinSelectItems.map(c => ({
-      ...c,
+      value: c.short,
       icon: `Icon${c.short}`,
-      name: formatter.capitalize(c.name),
+      title: `${formatter.capitalize(c.name)} (${c.short})`,
     }));
 
     coinsList.unshift({
-      name: "All Transactions",
+      title: "All Transactions",
+      value: null,
       icon: "CircleCheckIcon",
     });
 
-    return coinsList;
+    this.state = {
+      coinsList,
+    };
+  }
+
+  componentDidMount() {
+    const { actions, formData } = this.props;
+
+    actions.initForm({
+      filterTransactionsDate: formData.filterTransactionsDate || null,
+      filterTransactionsType: formData.filterTransactionsType || [],
+      filterTransactionsCoins: formData.filterTransactionsCoins || [],
+    });
+  }
+
+  selectDateItem = item => {
+    const { actions } = this.props;
+    actions.updateFormField("filterTransactionsDate", item.value);
+  };
+
+  selectTypeItem = item => {
+    const { actions, formData } = this.props;
+    const { filterTransactionsType } = formData;
+
+    if (item.value) {
+      if (filterTransactionsType) {
+        if (filterTransactionsType.includes(item.value)) {
+          const newFilter = filterTransactionsType;
+          newFilter.splice(newFilter.indexOf(item.value), 1);
+          actions.updateFormField("filterTransactionsType", newFilter);
+        } else {
+          actions.updateFormField("filterTransactionsType", [
+            ...filterTransactionsType,
+            item.value,
+          ]);
+        }
+      }
+    } else {
+      actions.updateFormField("filterTransactionsType", []);
+    }
+  };
+
+  selectCoinItem = item => {
+    const { actions, formData } = this.props;
+    const { filterTransactionsCoins } = formData;
+
+    if (item.value) {
+      if (filterTransactionsCoins) {
+        if (filterTransactionsCoins.includes(item.value)) {
+          const newFilter = filterTransactionsCoins;
+          newFilter.splice(newFilter.indexOf(item.value), 1);
+          actions.updateFormField("filterTransactionsCoins", newFilter);
+        } else {
+          actions.updateFormField("filterTransactionsCoins", [
+            ...filterTransactionsCoins,
+            item.value,
+          ]);
+        }
+      }
+    } else {
+      actions.updateFormField("filterTransactionsCoins", []);
+    }
   };
 
   renderDateList = () => {
+    const { formData } = this.props;
+    const { filterTransactionsDate } = formData;
     const style = TransactionFilterModalStyle();
-
-    // TODO: add selection to state
 
     return (
       <View style={style.allFiltersContainer}>
@@ -112,17 +190,19 @@ class TransactionFilterModal extends Component {
           childrenStyle={{ marginTop: 20, marginBottom: 20 }}
         >
           <FlatList
-            data={DATE_OPTIONS}
-            renderItem={({ item, index }) => (
-              <TransactionsFilterItem
-                item={item}
-                onChange={() => {
-                  this.setState({
-                    dateFilter: DATE_OPTIONS[index],
-                  });
-                }}
-              />
-            )}
+            data={TRANSACTION_FILTER_DATE}
+            extraData={formData}
+            renderItem={({ item }) => {
+              let isActive = filterTransactionsDate === item.value;
+              isActive = isActive || (!item.value && !filterTransactionsDate);
+              return (
+                <TransactionsFilterItem
+                  item={item}
+                  onPress={this.selectDateItem}
+                  isActive={isActive}
+                />
+              );
+            }}
           />
         </ExpandableItem>
       </View>
@@ -130,10 +210,9 @@ class TransactionFilterModal extends Component {
   };
 
   renderTransactionTypeList = () => {
+    const { formData } = this.props;
+    const { filterTransactionsType } = formData;
     const style = TransactionFilterModalStyle();
-
-    // TODO: add selection to state
-
     return (
       <View style={style.allFiltersContainer}>
         <ExpandableItem
@@ -143,18 +222,25 @@ class TransactionFilterModal extends Component {
           childrenStyle={{ marginTop: 20, marginBottom: 20 }}
         >
           <FlatList
-            data={TRANSACTION_TYPE}
-            // renderItem={({item}) => <TransactionsFilterItem item={item} />}
-            renderItem={({ item, index }) => (
-              <TransactionsFilterItem
-                item={item}
-                onChange={() => {
-                  this.setState({
-                    dateFilter: TRANSACTION_TYPE[index],
-                  });
-                }}
-              />
-            )}
+            data={TRANSACTION_FILTER_TYPE}
+            extraData={formData}
+            renderItem={({ item }) => {
+              let isActive =
+                filterTransactionsType &&
+                filterTransactionsType.includes(item.value);
+              const areAllTypesSelected =
+                !item.value &&
+                ((filterTransactionsType && !filterTransactionsType.length) ||
+                  !filterTransactionsType);
+              isActive = isActive || areAllTypesSelected;
+              return (
+                <TransactionsFilterItem
+                  item={item}
+                  onPress={this.selectTypeItem}
+                  isActive={isActive}
+                />
+              );
+            }}
           />
         </ExpandableItem>
       </View>
@@ -163,9 +249,9 @@ class TransactionFilterModal extends Component {
 
   renderCoinsList = () => {
     const style = TransactionFilterModalStyle();
-    const coinsList = this.handleCoinsList();
-
-    // TODO: add selection to state
+    const { coinsList } = this.state;
+    const { formData } = this.props;
+    const { filterTransactionsCoins } = formData;
 
     return (
       <View style={style.allFiltersContainer}>
@@ -179,17 +265,25 @@ class TransactionFilterModal extends Component {
         </View>
         <FlatList
           data={coinsList}
-          renderItem={({ item, index }) => (
-            <TransactionsFilterItem
-              activeCoin={"coin"}
-              item={item}
-              onChange={() => {
-                this.setState({
-                  dateFilter: coinsList[index],
-                });
-              }}
-            />
-          )}
+          extraData={formData}
+          renderItem={({ item }) => {
+            let isActive =
+              filterTransactionsCoins &&
+              filterTransactionsCoins.includes(item.value);
+            const areAllCoinsSelected =
+              !item.value &&
+              ((filterTransactionsCoins && !filterTransactionsCoins.length) ||
+                !filterTransactionsCoins);
+            isActive = isActive || areAllCoinsSelected;
+
+            return (
+              <TransactionsFilterItem
+                item={item}
+                onPress={this.selectCoinItem}
+                isActive={isActive}
+              />
+            );
+          }}
         />
       </View>
     );
@@ -197,7 +291,7 @@ class TransactionFilterModal extends Component {
 
   render() {
     const style = TransactionFilterModalStyle();
-
+    const { actions } = this.props;
     return (
       <CelModal
         style={style.container}
@@ -205,15 +299,15 @@ class TransactionFilterModal extends Component {
         maxHeight={"92%"}
       >
         <ScrollView>
-          {/* TODO: handle radio buttons selection*/}
           {this.renderDateList()}
-
-          {/* TODO: handle radio buttons selection*/}
           {this.renderTransactionTypeList()}
-
-          {/* TODO: handle checkbox selection*/}
           {this.renderCoinsList()}
         </ScrollView>
+        <View style={style.buttonsWrapper}>
+          <CelModalButton onPress={() => actions.closeModal()}>
+            Apply
+          </CelModalButton>
+        </View>
       </CelModal>
     );
   }

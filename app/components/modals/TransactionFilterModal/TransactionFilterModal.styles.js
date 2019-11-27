@@ -10,6 +10,11 @@ const base = {
     justifyContent: "center",
     marginBottom: 10,
   },
+  buttonsWrapper: {
+    justifyContent: "flex-end",
+    marginTop: 20,
+    height: 50,
+  },
 };
 
 const themed = {
