@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import { View, TouchableOpacity, Keyboard } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-// TODO(sb): RN update dependencies fixes
-// import * as Permissions from "expo-permissions";
 
 import cryptoUtil from "../../../utils/crypto-util";
-
 import { MODALS } from "../../../constants/UI";
 import addressUtil from "../../../utils/address-util";
 import * as appActions from "../../../redux/actions";
@@ -22,6 +19,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import WithdrawWarningModal from "../../organisms/WithdrawWarningModal/WithdrawWarningModal";
 import MemoIdModal from "../../organisms/MemoIdModal/MemoIdModal";
 import DestinationTagModal from "../../organisms/DestinationTagModal/DestinationTagModal";
+import { getPermissionStatus, ALL_PERMISSIONS, requestForPermission } from "../../../utils/device-permissions";
 
 @connect(
   state => ({
@@ -53,11 +51,12 @@ class WithdrawCreateAddress extends Component {
   }
 
   getCameraPermissions = async () => {
-    // let perm = await Permissions.getAsync(Permissions.CAMERA);
-    // if (perm.status !== "granted") {
-    //   perm = await Permissions.askAsync(Permissions.CAMERA);
-    // }
-    // return perm;
+    let perm = await getPermissionStatus(ALL_PERMISSIONS.CAMERA)
+
+    if (perm !== RESULTS.GRANTED) {
+      perm = await requestForPermission(ALL_PERMISSIONS.CAMERA)
+    }
+    return perm;
   };
 
   handleScan = code => {
@@ -70,7 +69,7 @@ class WithdrawCreateAddress extends Component {
   handleScanClick = async () => {
     const { actions } = this.props;
     const perm = await this.getCameraPermissions();
-    if (perm.status === "granted") {
+    if (perm.status === RESULTS.GRANTED) {
       actions.navigateTo("QRScanner", {
         onScan: this.handleScan,
       });

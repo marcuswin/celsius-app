@@ -3,9 +3,6 @@ import { TouchableOpacity } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-// TODO(sb): RN update dependencies fixes
-// import * as Permissions from "expo-permissions";
-
 import * as appActions from "../../../redux/actions";
 import WithdrawalNewAddressSetupStyle from "./WithdrawNewAddressSetup.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -14,6 +11,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 // import UI from "../../../constants/STYLES";
 import addressUtil from "../../../utils/address-util";
 import CelButton from "../../atoms/CelButton/CelButton";
+import { getPermissionStatus, ALL_PERMISSIONS, requestForPermission } from "../../../utils/device-permissions";
 
 @connect(
   state => ({
@@ -43,11 +41,12 @@ class WithdrawNewAddressSetup extends Component {
   };
 
   getCameraPermissions = async () => {
-    // let perm = await Permissions.getAsync(Permissions.CAMERA);
-    // if (perm.status !== "granted") {
-    //   perm = await Permissions.askAsync(Permissions.CAMERA);
-    // }
-    // return perm;
+    let perm = await getPermissionStatus(ALL_PERMISSIONS.CAMERA)
+
+    if (perm !== RESULTS.GRANTED) {
+      perm = await requestForPermission(ALL_PERMISSIONS.CAMERA)
+    }
+    return perm
   };
 
   handleScan = code => {
@@ -60,7 +59,7 @@ class WithdrawNewAddressSetup extends Component {
   handleScanClick = async () => {
     const { actions } = this.props;
     const perm = await this.getCameraPermissions();
-    if (perm.status === "granted") {
+    if (perm === RESULTS.GRANTED) {
       actions.navigateTo("QRScanner", {
         onScan: this.handleScan,
       });

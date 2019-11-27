@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, SafeAreaView } from "react-native";
 // TODO(sb): RN update dependencies fixes
-// import * as Permissions from "expo-permissions";
 // import { BarCodeScanner } from "expo-barcode-scanner";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -12,6 +11,7 @@ import QRScannerStyle from "./QRScanner.styles";
 
 import CelText from "../../atoms/CelText/CelText";
 import ThemedImage from "../../atoms/ThemedImage/ThemedImage";
+import { getPermissionStatus, ALL_PERMISSIONS, requestForPermission } from "../../../utils/device-permissions";
 
 @connect(
   () => ({}),
@@ -40,18 +40,18 @@ class QRScannerScreen extends Component {
   }
 
   async componentDidMount() {
-    // const { actions } = this.props;
-    // let permission = await Permissions.getAsync(Permissions.CAMERA);
+    const { actions } = this.props;
+    let perm = await getPermissionStatus(ALL_PERMISSIONS.CAMERA)
 
-    // if (permission.status !== "granted") {
-    //   permission = await Permissions.askAsync(Permissions.CAMERA);
-    // }
-    // actions.setFabType("hide");
+    if (perm !== RESULTS.GRANTED) {
+      perm = await requestForPermission(ALL_PERMISSIONS.CAMERA)
+    }
+    actions.setFabType("hide");
 
-    // await this.setState({
-    //   hasCameraPermission: permission.status === "granted",
-    //   handleBarCodeRead: this.handleBarCodeRead,
-    // });
+    await this.setState({
+      hasCameraPermission: perm === RESULTS.GRANTED,
+      handleBarCodeRead: this.handleBarCodeRead,
+    });
   }
 
   handleBarCodeRead = async ({ data }) => {

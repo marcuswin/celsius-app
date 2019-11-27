@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { View, Image, ScrollView, TouchableOpacity } from "react-native";
-// TODO(sb): RN update dependencies fixes
-// import * as Permissions from "expo-permissions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -15,6 +13,7 @@ import Separator from "../../atoms/Separator/Separator";
 import Spinner from "../../atoms/Spinner/Spinner";
 import STYLES from "../../../constants/STYLES";
 import ChangeAvatarStyle from "./ChangeAvatar.styles";
+import { ALL_PERMISSIONS, getPermissionStatus, requestForPermission } from "../../../utils/device-permissions";
 
 const { API_URL } = Constants;
 
@@ -142,19 +141,19 @@ class ChangeAvatar extends Component {
   // }
 
   getCameraPermissions = async () => {
-    // let perm = await Permissions.getAsync(Permissions.CAMERA);
+    let perm = await getPermissionStatus(ALL_PERMISSIONS.CAMERA)
 
-    // if (perm.status !== "granted") {
-    //   perm = await Permissions.askAsync(Permissions.CAMERA);
-    // }
+    if (perm !== RESULTS.GRANTED) {
+      perm = await requestForPermission(ALL_PERMISSIONS.CAMERA)
+    }
   };
 
   getCameraRollPermissions = async () => {
-    // let perm = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    let perm = await getPermissionStatus(ALL_PERMISSIONS.LIBRARY)
 
-    // if (perm.status !== "granted") {
-    //   perm = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    // }
+    if (perm !== RESULTS.GRANTED) {
+      perm = await requestForPermission(ALL_PERMISSIONS.LIBRARY);
+    }
   };
 
   updateProfilePicture = imgSrc => {

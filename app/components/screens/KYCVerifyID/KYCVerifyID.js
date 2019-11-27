@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-
-// TODO(sb): RN update dependencies fixes
-// import * as Permissions from "expo-permissions";
-// import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -19,6 +15,7 @@ import API from "../../../constants/API";
 import apiUtil from "../../../utils/api-util";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import { getPermissionStatus, ALL_PERMISSIONS, requestForPermission } from "../../../utils/device-permissions";
 
 @connect(
   state => ({
@@ -50,19 +47,19 @@ class KYCVerifyID extends Component {
   }
 
   getCameraPermissions = async () => {
-    // let perm = await Permissions.getAsync(Permissions.CAMERA);
+    let perm = await getPermissionStatus(ALL_PERMISSIONS.CAMERA)
 
-    // if (perm.status !== "granted") {
-    //   perm = await Permissions.askAsync(Permissions.CAMERA);
-    // }
+    if (perm !== RESULTS.GRANTED) {
+      perm = await requestForPermission(ALL_PERMISSIONS.CAMERA)
+    }
   };
 
   getCameraRollPermissions = async () => {
-    // let perm = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    let perm = await getPermissionStatus(ALL_PERMISSIONS.LIBRARY)
 
-    // if (perm.status !== "granted") {
-    //   perm = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    // }
+    if (perm !== RESULTS.GRANTED) {
+      perm = await requestForPermission(ALL_PERMISSIONS.LIBRARY);
+    }
   };
 
   saveFrontImage = photo => {
