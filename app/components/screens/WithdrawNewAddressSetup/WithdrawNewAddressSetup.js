@@ -12,6 +12,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import addressUtil from "../../../utils/address-util";
 import CelButton from "../../atoms/CelButton/CelButton";
 import { getPermissionStatus, ALL_PERMISSIONS, requestForPermission } from "../../../utils/device-permissions";
+import { RESULTS } from "react-native-permissions";
 
 @connect(
   state => ({

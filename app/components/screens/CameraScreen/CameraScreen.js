@@ -22,7 +22,7 @@ import API from "../../../constants/API";
 import CelText from "../../atoms/CelText/CelText";
 import loggerUtil from "../../../utils/logger-util";
 import ThemedImage from "../../atoms/ThemedImage/ThemedImage";
-import { hasPermission, ALL_PERMISSIONS, requestForPermission, getPermissionStatus } from "../../../utils/device-permissions";
+import { ALL_PERMISSIONS, requestForPermission, getPermissionStatus } from "../../../utils/device-permissions";
 import { RESULTS } from "react-native-permissions";
 
 const { height, width } = Dimensions.get("window");
@@ -93,6 +93,9 @@ class CameraScreen extends Component {
   getCameraPermissions = async () => {
     const { actions } = this.props;
     let perm = await getPermissionStatus(ALL_PERMISSIONS.CAMERA)
+    console.log(perm)
+    console.log(RESULTS.GRANTED)
+
 
     if (perm !== RESULTS.GRANTED) {
       perm = await requestForPermission(ALL_PERMISSIONS.CAMERA)

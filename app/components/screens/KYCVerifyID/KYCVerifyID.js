@@ -16,6 +16,7 @@ import apiUtil from "../../../utils/api-util";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { getPermissionStatus, ALL_PERMISSIONS, requestForPermission } from "../../../utils/device-permissions";
+import { RESULTS } from "react-native-permissions";
 
 @connect(
   state => ({

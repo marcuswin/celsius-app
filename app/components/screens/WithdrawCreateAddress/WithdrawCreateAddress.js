@@ -20,6 +20,7 @@ import WithdrawWarningModal from "../../organisms/WithdrawWarningModal/WithdrawW
 import MemoIdModal from "../../organisms/MemoIdModal/MemoIdModal";
 import DestinationTagModal from "../../organisms/DestinationTagModal/DestinationTagModal";
 import { getPermissionStatus, ALL_PERMISSIONS, requestForPermission } from "../../../utils/device-permissions";
+import { RESULTS } from "react-native-permissions";
 
 @connect(
   state => ({

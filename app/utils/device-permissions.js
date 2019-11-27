@@ -26,7 +26,6 @@ function getPermissionName(permission) {
         android: PERMISSIONS.ANDROID.CAMERA,
         ios: PERMISSIONS.IOS.CAMERA,
       })
-      console.log(platformPermission)
       break;
 
     case ALL_PERMISSIONS.CONTACTS:
@@ -34,7 +33,6 @@ function getPermissionName(permission) {
         android: PERMISSIONS.ANDROID.READ_CONTACTS,
         ios: PERMISSIONS.IOS.CONTACTS,
       })
-      console.log(platformPermission)
       break;
 
     case ALL_PERMISSIONS.LOCATION:
@@ -42,7 +40,6 @@ function getPermissionName(permission) {
         android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
         ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
       })
-      console.log(platformPermission)
       break;
 
     case ALL_PERMISSIONS.LIBRARY:
@@ -50,13 +47,11 @@ function getPermissionName(permission) {
         android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
         ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
       })
-      console.log(platformPermission)
       break;
 
     default:
       break;
   }
-  console.log(platformPermission)
   return platformPermission
 }
 
