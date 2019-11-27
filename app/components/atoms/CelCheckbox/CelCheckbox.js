@@ -24,22 +24,24 @@ const CelCheckbox = props => {
         checkedImage={props.checkedImage}
         unCheckedImage={props.unChecked}
       />
-      <CelText
-        type="H4"
-        weight={props.textWeight}
-        color={props.fillColor}
-        style={{ marginRight: 30 }}
-        theme={props.theme}
-      >
-        {props.rightText}
-      </CelText>
+      { props.rightText && (
+        <CelText
+          type="H4"
+          weight={props.textWeight}
+          color={props.fillColor}
+          style={{ marginRight: 30 }}
+          theme={props.theme}
+        >
+          {props.rightText}
+        </CelText>
+      )}
     </TouchableOpacity>
   );
 };
 
 CelCheckbox.propTypes = {
   field: PropTypes.string.isRequired,
-  updateFormField: PropTypes.func,
+  updateFormField: PropTypes.func.isRequired,
   onChange: PropTypes.func,
   value: PropTypes.bool,
   rightText: PropTypes.string,

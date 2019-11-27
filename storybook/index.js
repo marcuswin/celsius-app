@@ -7,6 +7,8 @@ import "./rn-addons";
 configure(() => {
   // require('./stories');
   require("../app/components/atoms/CelButton/CelButton.stories");
+  require("../app/components/molecules/RegisterPromoCodeCard/RegisterPromoCodeCard.stories");
+  require("../app/components/molecules/RegisterToUCard/RegisterToUCard.stories");
   require("../app/components/modals/Modal.stories");
 }, module);
 
