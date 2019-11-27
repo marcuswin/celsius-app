@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 // import PropTypes from 'prop-types';
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, ScrollView, View } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -14,13 +8,11 @@ import TransactionFilterModalStyle from "./TransactionFilterModal.styles";
 import CelModal from "../CelModal/CelModal.js";
 import { MODALS } from "../../../constants/UI";
 import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
-import Icon from "../../atoms/Icon/Icon";
-import CelText from "../../atoms/CelText/CelText";
-import STYLES from "../../../constants/STYLES";
 import * as appActions from "../../../redux/actions";
 import Separator from "../../atoms/Separator/Separator";
 import { widthPercentageToDP } from "../../../utils/styles-util";
 import formatter from "../../../utils/formatter";
+import TransactionsFilterItem from "../../atoms/TransactionsFilterItem/TransactionsFilterItem";
 
 // TODO: move to cosntant24s
 const DATE_OPTIONS = [
@@ -58,53 +50,11 @@ const TRANSACTION_TYPE = [
   },
 ];
 
-// TODO: move to atom
-const TransactionsFilterItem = ({
-  item,
-  activeCoin,
-  customStyles,
-  onPressIcon,
-}) => {
-  const style = TransactionFilterModalStyle();
-  return (
-    <View style={style.itemStyle}>
-      <TouchableOpacity style={style.optionPickerWrapper} onpress={onPressIcon}>
-        <View
-          style={[
-            style.iconWrapper,
-            customStyles,
-            { backgroundColor: STYLES.COLORS.LIGHT_GRAY },
-          ]}
-        >
-          {activeCoin === "coin" ? ( // TODO: handle icon/image style depending on selection
-            <Image source={{ uri: item.image_url }} style={style.iconWrapper} />
-          ) : (
-            <Icon
-              name={item.icon || "CloseCircle"}
-              fill={STYLES.COLORS.DARK_GRAY3}
-              height={"12"}
-              width={"12"}
-            />
-          )}
-        </View>
-
-        <CelText weight={"300"}>{item.name || item}</CelText>
-      </TouchableOpacity>
-      <TouchableOpacity style={style.clearSelectWrapper}>
-        <Icon
-          name={"Close"}
-          fill={STYLES.COLORS.DARK_GRAY3}
-          height={"16"}
-          width={"16"}
-        />
-      </TouchableOpacity>
-    </View>
-  );
-};
-
 @connect(
   state => ({
     coins: state.currencies.rates,
+    formData: state.forms.formData,
+    depositCompliance: state.compliance.deposit,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -127,9 +77,14 @@ class TransactionFilterModal extends Component {
   }
 
   handleCoinsList = () => {
-    const { coins } = this.props;
+    const { coins, depositCompliance } = this.props;
 
-    const coinsList = coins.map(c => ({
+    // const filteredCoins = coins.filter(({coin}) => !coin.short.includes("BTC"))
+    const coinSelectItems = coins.filter(c =>
+      depositCompliance.coins.includes(c.short)
+    );
+
+    const coinsList = coinSelectItems.map(c => ({
       ...c,
       icon: `Icon${c.short}`,
       name: formatter.capitalize(c.name),
@@ -161,7 +116,7 @@ class TransactionFilterModal extends Component {
             renderItem={({ item, index }) => (
               <TransactionsFilterItem
                 item={item}
-                onPressIcon={() => {
+                onChange={() => {
                   this.setState({
                     dateFilter: DATE_OPTIONS[index],
                   });
@@ -189,7 +144,17 @@ class TransactionFilterModal extends Component {
         >
           <FlatList
             data={TRANSACTION_TYPE}
-            renderItem={({ item }) => <TransactionsFilterItem item={item} />}
+            // renderItem={({item}) => <TransactionsFilterItem item={item} />}
+            renderItem={({ item, index }) => (
+              <TransactionsFilterItem
+                item={item}
+                onChange={() => {
+                  this.setState({
+                    dateFilter: TRANSACTION_TYPE[index],
+                  });
+                }}
+              />
+            )}
           />
         </ExpandableItem>
       </View>
@@ -214,8 +179,16 @@ class TransactionFilterModal extends Component {
         </View>
         <FlatList
           data={coinsList}
-          renderItem={({ item }) => (
-            <TransactionsFilterItem activeCoin={"coin"} item={item} />
+          renderItem={({ item, index }) => (
+            <TransactionsFilterItem
+              activeCoin={"coin"}
+              item={item}
+              onChange={() => {
+                this.setState({
+                  dateFilter: coinsList[index],
+                });
+              }}
+            />
           )}
         />
       </View>
