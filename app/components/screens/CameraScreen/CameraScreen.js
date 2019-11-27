@@ -93,9 +93,6 @@ class CameraScreen extends Component {
   getCameraPermissions = async () => {
     const { actions } = this.props;
     let perm = await getPermissionStatus(ALL_PERMISSIONS.CAMERA)
-    console.log(perm)
-    console.log(RESULTS.GRANTED)
-
 
     if (perm !== RESULTS.GRANTED) {
       perm = await requestForPermission(ALL_PERMISSIONS.CAMERA)
